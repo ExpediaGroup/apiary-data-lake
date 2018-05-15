@@ -19,33 +19,14 @@ resource "aws_cloudwatch_dashboard" "apiary" {
                 [
                    "AWS/RDS",
                    "CPUUtilization",
-                   "DBInstanceIdentifier",
-                   "${aws_db_instance.apiarydb.id}"
+                   "DBClusterIdentifier",
+                   "${aws_rds_cluster.apiary_cluster.id}"
                 ]
              ],
              "period":300,
              "stat":"Average",
              "region":"${var.aws_region}",
              "title":"Apiary DB CPU"
-          }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/RDS",
-                   "FreeStorageSpace",
-                   "DBInstanceIdentifier",
-                   "${aws_db_instance.apiarydb.id}"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary DB Free Space"
           }
        },
        {
@@ -245,17 +226,6 @@ locals {
       threshold = "70"
     },
     {
-      alarm_name = "apiary-db-diskfree"
-
-      namespace = "AWS/RDS"
-
-      metric_name = "FreeStorageSpace"
-
-      threshold = "${var.apiary_db_alarm_threshold}"
-
-      comparison_operator = "LessThanOrEqualToThreshold"
-    },
-    {
       alarm_name = "apiary-s3-usage"
 
       namespace = "AWS/S3"
@@ -278,10 +248,7 @@ locals {
       ClusterName = "${aws_ecs_cluster.apiary.name}"
     },
     {
-      DBInstanceIdentifier = "${aws_db_instance.apiarydb.id}"
-    },
-    {
-      DBInstanceIdentifier = "${aws_db_instance.apiarydb.id}"
+      DBClusterIdentifier  = "${aws_rds_cluster.apiary_cluster.id}"
     },
     {
       StorageType = "StandardStorage"

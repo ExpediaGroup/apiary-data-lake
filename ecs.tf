@@ -110,7 +110,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_security_group" "ecs_cluster" {
-  name   = "sg-apiary-ecs-cluster"
+  name   = "apiary-ecs-cluster"
   vpc_id = "${var.vpc_id}"
   tags   = "${var.apiary_tags}"
 
