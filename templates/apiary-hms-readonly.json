@@ -1,0 +1,55 @@
+[
+  {
+    "name": "apiary-hms-readonly",
+    "image": "${hms_docker_image}:${hms_docker_version}",
+    "cpu": 0,
+    "memory": ${hms_heapsize},
+    "essential": true,
+    "ulimits": [
+      {
+        "softLimit": ${nofile_ulimit},
+        "hardLimit": ${nofile_ulimit},
+        "name": "nofile"
+      }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${loggroup}",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "/"
+        }
+    },
+    "portMappings": [
+      {
+        "containerPort": 9083
+      }
+    ],
+    "environment":[
+     {
+        "name": "dbhost",
+        "value": "${db_host}"
+     },
+     {
+        "name": "dbname",
+        "value": "${db_name}"
+     },
+     {
+        "name": "HADOOP_HEAPSIZE",
+        "value": "${hms_heapsize}"
+     },
+     {
+        "name": "VAULT_ADDR",
+        "value": "${vault_addr}"
+     },
+     {
+        "name": "vault_path",
+        "value": "${vault_path}"
+     },
+     {
+        "name": "loglevel",
+        "value": "${log_level}"
+     }
+    ]
+  }
+]
