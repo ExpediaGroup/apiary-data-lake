@@ -1,4 +1,4 @@
-# Eclipse files
+# Eclipse
 .classpath
 .settings
 .project
@@ -17,15 +17,35 @@
 .idea/
 *.iml
 *.iws
+atlassian-ide-plugin.xml
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+dependency-reduced-pom.xml
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Chef/Vagrant
+*.vagrant
+*.lock
+TODO
+*~
+
+.terraform/
+terraform.tfstate.backup
+*.tfstate.*.backup
+*.swp
 
 # Netbeans files
 nbactions.xml
-
-# Maven target folder
-target/
-
-# MAC stuff
-.DS_Store
 
 # AWS credentials
 *.pem
