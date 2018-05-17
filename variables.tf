@@ -105,13 +105,13 @@ variable "db_backup_retention" {
 }
 
 variable "db_backup_window" {
-  description = "preferred backup window for rds metastore database."
+  description = "preferred backup window for rds metastore database in UTC."
   type        = "string"
   default     = "02:00-03:00"
 }
 
 variable "db_maintenance_window" {
-  description = "preferred maintenance window for rds metastore database."
+  description = "preferred maintenance window for rds metastore database in UTC."
   type        = "string"
   default     = "wed:03:00-wed:04:00"
 }
