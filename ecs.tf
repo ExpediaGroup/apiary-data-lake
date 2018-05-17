@@ -161,7 +161,7 @@ resource "aws_launch_configuration" "ecs_cluster" {
 
 resource "aws_autoscaling_group" "ecs_cluster" {
   name                 = "apiary-ecs-cluster"
-  vpc_zone_identifier  = [ "${var.private_subnets}" ]
+  vpc_zone_identifier  = ["${var.private_subnets}"]
   min_size             = 0
   max_size             = "${var.ecs_asg_max_size}"
   desired_capacity     = "${max(var.hms_readwrite_instance_count,var.hms_readonly_instance_count)+1}"

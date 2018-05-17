@@ -24,21 +24,21 @@ data "vault_generic_secret" "qubole_dbuser" {
 }
 
 resource "mysql_user" "hiverw" {
-  user       = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
-  plaintext_password   = "${data.vault_generic_secret.hive_rwuser.data["password"]}"
-  host       = "%"
+  user               = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
+  plaintext_password = "${data.vault_generic_secret.hive_rwuser.data["password"]}"
+  host               = "%"
 }
 
 resource "mysql_user" "hivero" {
-  user       = "${data.vault_generic_secret.hive_rouser.data["username"]}"
-  plaintext_password   = "${data.vault_generic_secret.hive_rouser.data["password"]}"
-  host       = "%"
+  user               = "${data.vault_generic_secret.hive_rouser.data["username"]}"
+  plaintext_password = "${data.vault_generic_secret.hive_rouser.data["password"]}"
+  host               = "%"
 }
 
 resource "mysql_user" "qubole" {
-  user       = "${data.vault_generic_secret.qubole_dbuser.data["username"]}"
-  plaintext_password   = "${data.vault_generic_secret.qubole_dbuser.data["password"]}"
-  host       = "%"
+  user               = "${data.vault_generic_secret.qubole_dbuser.data["username"]}"
+  plaintext_password = "${data.vault_generic_secret.qubole_dbuser.data["password"]}"
+  host               = "%"
 }
 
 resource "mysql_grant" "hiverw" {

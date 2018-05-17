@@ -248,7 +248,7 @@ locals {
       ClusterName = "${aws_ecs_cluster.apiary.name}"
     },
     {
-      DBClusterIdentifier  = "${aws_rds_cluster.apiary_cluster.id}"
+      DBClusterIdentifier = "${aws_rds_cluster.apiary_cluster.id}"
     },
     {
       StorageType = "StandardStorage"

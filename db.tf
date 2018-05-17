@@ -6,7 +6,7 @@
 
 resource "aws_db_subnet_group" "apiarydbsg" {
   name        = "apiarydbsg"
-  subnet_ids  = [ "${var.private_subnets}" ]
+  subnet_ids  = ["${var.private_subnets}"]
   description = "Apiary DB Subnet Group"
 
   tags = "${merge(map("Name","Apiary DB Subnet Group"),var.apiary_tags)}"
@@ -46,38 +46,35 @@ resource "aws_security_group" "db_sg" {
 }
 
 resource "aws_rds_cluster" "apiary_cluster" {
+  cluster_identifier           = "apiary-cluster"
+  database_name                = "apiary"
+  master_username              = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
+  master_password              = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
+  backup_retention_period      = "${var.db_backup_retention}"
+  preferred_backup_window      = "${var.db_backup_window}"
+  preferred_maintenance_window = "${var.db_maintenance_window}"
+  db_subnet_group_name         = "${aws_db_subnet_group.apiarydbsg.name}"
+  vpc_security_group_ids       = ["${aws_security_group.db_sg.id}"]
+  tags                         = "${var.apiary_tags}"
+  final_snapshot_identifier    = "apiary-cluster-final"
 
-    cluster_identifier            = "apiary-cluster"
-    database_name                 = "apiary"
-    master_username               = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
-    master_password               = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
-    backup_retention_period       = "${var.db_backup_retention}"
-    preferred_backup_window       = "${var.db_backup_window}"
-    preferred_maintenance_window  = "${var.db_maintenance_window}"
-    db_subnet_group_name          = "${aws_db_subnet_group.apiarydbsg.name}"
-    vpc_security_group_ids        = ["${aws_security_group.db_sg.id}"]
-    tags                          = "${var.apiary_tags}"
-    final_snapshot_identifier     = "apiary-cluster-final"
-
-    lifecycle {
-        create_before_destroy = true
-    }
-
-
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
-    count                   = "${length(var.private_subnets)}"
-    identifier              = "apiary-instance-${count.index}"
-    cluster_identifier      = "${aws_rds_cluster.apiary_cluster.id}"
-    instance_class          = "${var.db_instance_class}"
-    db_subnet_group_name    = "${aws_db_subnet_group.apiarydbsg.name}"
-    publicly_accessible     = false
-    tags                    = "${var.apiary_tags}"
+  count                = "${length(var.private_subnets)}"
+  identifier           = "apiary-instance-${count.index}"
+  cluster_identifier   = "${aws_rds_cluster.apiary_cluster.id}"
+  instance_class       = "${var.db_instance_class}"
+  db_subnet_group_name = "${aws_db_subnet_group.apiarydbsg.name}"
+  publicly_accessible  = false
+  tags                 = "${var.apiary_tags}"
 
-    lifecycle {
-        create_before_destroy = true
-    }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route53_record" "apiarydb_alias" {

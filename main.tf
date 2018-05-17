@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
 resource "aws_lb" "apiary_hms_readwrite_lb" {
   name               = "apiary-hms-readwrite-lb"
   load_balancer_type = "network"
-  subnets            = [ "${var.private_subnets}" ]
+  subnets            = ["${var.private_subnets}"]
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"
@@ -133,7 +133,7 @@ resource "aws_route53_record" "hms_readwrite_alias" {
 resource "aws_lb" "apiary_hms_readonly_lb" {
   name               = "apiary-hms-readonly-lb"
   load_balancer_type = "network"
-  subnets            = [ "${var.private_subnets}" ]
+  subnets            = ["${var.private_subnets}"]
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"
@@ -146,9 +146,9 @@ resource "null_resource" "hms_readonly_endpoint_svc" {
     customers_accounts = "${join(",", var.apiary_customer_accounts)}"
   }
 
-#  provisioner "local-exec" {
-#    command = "./scripts/enable-private-link.sh ${aws_lb.apiary_hms_readonly_lb.arn} ${join(",", var.apiary_customer_accounts)}"
-#  }
+  #  provisioner "local-exec" {
+  #    command = "./scripts/enable-private-link.sh ${aws_lb.apiary_hms_readonly_lb.arn} ${join(",", var.apiary_customer_accounts)}"
+  #  }
 }
 
 resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
