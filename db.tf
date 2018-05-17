@@ -52,8 +52,8 @@ resource "aws_rds_cluster" "apiary_cluster" {
     master_username               = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
     master_password               = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
     backup_retention_period       = "${var.db_backup_retention}"
-    preferred_backup_window       = "02:00-03:00"
-    preferred_maintenance_window  = "wed:03:00-wed:04:00"
+    preferred_backup_window       = "${var.db_backup_window}"
+    preferred_maintenance_window  = "${var.db_maintenance_window}"
     db_subnet_group_name          = "${aws_db_subnet_group.apiarydbsg.name}"
     vpc_security_group_ids        = ["${aws_security_group.db_sg.id}"]
     tags                          = "${var.apiary_tags}"

@@ -104,6 +104,18 @@ variable "db_backup_retention" {
   type        = "string"
 }
 
+variable "db_backup_window" {
+  description = "preferred backup window for rds metastore database."
+  type        = "string"
+  default     = "02:00-03:00"
+}
+
+variable "db_maintenance_window" {
+  description = "preferred maintenance window for rds metastore database."
+  type        = "string"
+  default     = "wed:03:00-wed:04:00"
+}
+
 variable "hms_log_level" {
   description = "log level for the hive metastore"
   type        = "string"
