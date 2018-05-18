@@ -5,7 +5,7 @@
  */
 
 resource "aws_iam_role" "apiary_elb" {
-  name = "apiary_elb"
+  name = "${local.instance_alias}-elb-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy_attachment" "apiary_elb" {
 }
 
 resource "aws_cloudwatch_log_group" "apiary_ecs" {
-  name = "apiary-ecs"
+  name = "${local.instance_alias}-ecs"
   tags = "${var.apiary_tags}"
 }
 
@@ -72,17 +72,17 @@ data "template_file" "hms_readonly" {
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
-  family                = "apiary_hms_readwrite"
+  family                = "${local.instance_alias}-hms-readwrite"
   container_definitions = "${data.template_file.hms_readwrite.rendered}"
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readonly" {
-  family                = "apiary_hms_readonly"
+  family                = "${local.instance_alias}-hms-readonly"
   container_definitions = "${data.template_file.hms_readonly.rendered}"
 }
 
 resource "aws_lb" "apiary_hms_readwrite_lb" {
-  name               = "apiary-hms-readwrite-lb"
+  name               = "${local.instance_alias}-hms-readwrite-lb"
   load_balancer_type = "network"
   subnets            = ["${var.private_subnets}"]
   internal           = true
@@ -91,13 +91,13 @@ resource "aws_lb" "apiary_hms_readwrite_lb" {
 }
 
 resource "aws_route53_zone" "apiary_zone" {
-  name   = "${var.apiary_domain_name}"
+  name   = "${local.apiary_domain_name}"
   vpc_id = "${var.vpc_id}"
   tags   = "${var.apiary_tags}"
 }
 
 resource "aws_lb_target_group" "apiary_hms_readwrite_tg" {
-  name     = "apiary-hms-readwrite-tg"
+  name     = "${local.instance_alias}-hms-readwrite-tg"
   port     = 9083
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
@@ -131,7 +131,7 @@ resource "aws_route53_record" "hms_readwrite_alias" {
 }
 
 resource "aws_lb" "apiary_hms_readonly_lb" {
-  name               = "apiary-hms-readonly-lb"
+  name               = "${local.instance_alias}-hms-readonly-lb"
   load_balancer_type = "network"
   subnets            = ["${var.private_subnets}"]
   internal           = true
@@ -152,7 +152,7 @@ resource "null_resource" "hms_readonly_endpoint_svc" {
 }
 
 resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
-  name     = "apiary-hms-readonly-tg"
+  name     = "${local.instance_alias}-hms-readonly-tg"
   port     = 9083
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
@@ -186,7 +186,7 @@ resource "aws_route53_record" "hms_readonly_alias" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
-  name            = "apiary-hms-readwrite-service"
+  name            = "${local.instance_alias}-hms-readwrite-service"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readwrite.arn}"
   desired_count   = "${var.hms_readwrite_instance_count}"
@@ -201,7 +201,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
-  name            = "apiary-hms-readonly-service"
+  name            = "${local.instance_alias}-hms-readonly-service"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readonly.arn}"
   desired_count   = "${var.hms_readonly_instance_count}"

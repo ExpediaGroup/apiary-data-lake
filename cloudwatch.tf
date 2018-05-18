@@ -5,7 +5,7 @@
  */
 
 resource "aws_cloudwatch_dashboard" "apiary" {
-  dashboard_name = "Apiary"
+  dashboard_name = "${local.instance_alias}-${var.aws_region}"
 
   dashboard_body = <<EOF
  {
@@ -199,7 +199,7 @@ resource "aws_cloudwatch_dashboard" "apiary" {
 locals {
   alerts = [
     {
-      alarm_name = "apiary-ecs-cpu"
+      alarm_name = "${local.instance_alias}-ecs-cpu"
 
       namespace = "AWS/EC2"
 
@@ -208,7 +208,7 @@ locals {
       threshold = "80"
     },
     {
-      alarm_name = "apiary-ecs-memory"
+      alarm_name = "${local.instance_alias}-ecs-memory"
 
       namespace = "AWS/ECS"
 
@@ -217,7 +217,7 @@ locals {
       threshold = "70"
     },
     {
-      alarm_name = "apiary-db-cpu"
+      alarm_name = "${local.instance_alias}-db-cpu"
 
       namespace = "AWS/RDS"
 
@@ -226,7 +226,7 @@ locals {
       threshold = "70"
     },
     {
-      alarm_name = "apiary-s3-usage"
+      alarm_name = "${local.instance_alias}-s3-usage"
 
       namespace = "AWS/S3"
 
