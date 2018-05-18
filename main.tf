@@ -38,8 +38,8 @@ data "template_file" "hms_readwrite" {
   template = "${file("${path.module}/templates/apiary-hms-readwrite.json")}"
 
   vars {
-    db_host            = "${aws_db_instance.apiarydb.address}"
-    db_name            = "${aws_db_instance.apiarydb.name}"
+    db_host            = "${aws_rds_cluster.apiary_cluster.endpoint}"
+    db_name            = "${aws_rds_cluster.apiary_cluster.database_name}"
     instance_type      = "readwrite"
     hms_heapsize       = "${var.hms_rw_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
@@ -57,8 +57,8 @@ data "template_file" "hms_readonly" {
   template = "${file("${path.module}/templates/apiary-hms-readonly.json")}"
 
   vars {
-    db_host            = "${aws_db_instance.apiarydb.address}"
-    db_name            = "${aws_db_instance.apiarydb.name}"
+    db_host            = "${aws_rds_cluster.apiary_cluster.reader_endpoint}"
+    db_name            = "${aws_rds_cluster.apiary_cluster.database_name}"
     hms_heapsize       = "${var.hms_ro_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
     hms_docker_version = "${var.hms_docker_version}"
@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
 resource "aws_lb" "apiary_hms_readwrite_lb" {
   name               = "apiary-hms-readwrite-lb"
   load_balancer_type = "network"
-  subnets            = [ "${var.private_subnets}" ]
+  subnets            = ["${var.private_subnets}"]
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"
@@ -133,7 +133,7 @@ resource "aws_route53_record" "hms_readwrite_alias" {
 resource "aws_lb" "apiary_hms_readonly_lb" {
   name               = "apiary-hms-readonly-lb"
   load_balancer_type = "network"
-  subnets            = [ "${var.private_subnets}" ]
+  subnets            = ["${var.private_subnets}"]
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"
@@ -146,9 +146,9 @@ resource "null_resource" "hms_readonly_endpoint_svc" {
     customers_accounts = "${join(",", var.apiary_customer_accounts)}"
   }
 
-  provisioner "local-exec" {
-    command = "./scripts/enable-private-link.sh ${aws_lb.apiary_hms_readonly_lb.arn} ${join(",", var.apiary_customer_accounts)}"
-  }
+  #  provisioner "local-exec" {
+  #    command = "./scripts/enable-private-link.sh ${aws_lb.apiary_hms_readonly_lb.arn} ${join(",", var.apiary_customer_accounts)}"
+  #  }
 }
 
 resource "aws_lb_target_group" "apiary_hms_readonly_tg" {

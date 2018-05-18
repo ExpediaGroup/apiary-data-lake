@@ -94,13 +94,8 @@ variable "apiary_customer_accounts" {
   type        = "list"
 }
 
-variable "db_type" {
+variable "db_instance_class" {
   description = "instance type for the rds metastore"
-  type        = "string"
-}
-
-variable "db_size" {
-  description = "allocated storage for the rds metastore, in GB"
   type        = "string"
 }
 
@@ -109,9 +104,16 @@ variable "db_backup_retention" {
   type        = "string"
 }
 
-variable "db_storage_type" {
-  description = "The storage type for the rds metastore. gp2, io1, or standard, at time if writing."
+variable "db_backup_window" {
+  description = "preferred backup window for rds metastore database in UTC."
   type        = "string"
+  default     = "02:00-03:00"
+}
+
+variable "db_maintenance_window" {
+  description = "preferred maintenance window for rds metastore database in UTC."
+  type        = "string"
+  default     = "wed:03:00-wed:04:00"
 }
 
 variable "hms_log_level" {
