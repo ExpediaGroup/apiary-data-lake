@@ -9,11 +9,11 @@ data "aws_vpc" "apiary_vpc" {
 }
 
 resource "aws_ecs_cluster" "apiary" {
-  name = "apiary"
+  name = "${local.instance_alias}"
 }
 
 resource "aws_iam_role" "apiary_ecs" {
-  name = "apiary-ecs"
+  name = "${local.instance_alias}-ecs-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -97,7 +97,7 @@ resource "aws_iam_role_policy_attachment" "ecs_for_ec2" {
 }
 
 resource "aws_iam_instance_profile" "apiary_ecs" {
-  name = "apiary-ecs"
+  name = "${local.instance_alias}-ecs-${var.aws_region}"
   role = "${aws_iam_role.apiary_ecs.name}"
 }
 
@@ -105,12 +105,12 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data")}"
 
   vars {
-    cluster_name = "apiary"
+    cluster_name = "${local.instance_alias}"
   }
 }
 
 resource "aws_security_group" "ecs_cluster" {
-  name   = "apiary-ecs-cluster"
+  name   = "${local.instance_alias}-ecs-cluster"
   vpc_id = "${var.vpc_id}"
   tags   = "${var.apiary_tags}"
 
@@ -160,14 +160,14 @@ resource "aws_launch_configuration" "ecs_cluster" {
 }
 
 resource "aws_autoscaling_group" "ecs_cluster" {
-  name                 = "apiary-ecs-cluster"
+  name                 = "${local.instance_alias}-ecs-cluster"
   vpc_zone_identifier  = ["${var.private_subnets}"]
   min_size             = 0
   max_size             = "${var.ecs_asg_max_size}"
   desired_capacity     = "${max(var.hms_readwrite_instance_count,var.hms_readonly_instance_count)+1}"
   launch_configuration = "${aws_launch_configuration.ecs_cluster.name}"
   health_check_type    = "EC2"
-  tags                 = "${concat(list(map("key", "Name", "value", "apiary_ecs", "propagate_at_launch", true)),var.apiary_asg_tags)}"
+  tags                 = "${concat(list(map("key", "Name", "value", "${local.instance_alias}-ecs", "propagate_at_launch", true)),var.apiary_asg_tags)}"
 
   lifecycle {
     create_before_destroy = true

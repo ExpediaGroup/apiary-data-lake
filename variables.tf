@@ -4,16 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-variable "amznlinux_ami" {
-  description = "Amazon Linux AMI id"
-  type        = "map"
-
-  default = {
-    us-east-1 = "ami-8c1be5f6"
-    us-east-2 = "ami-c5062ba0"
-    us-west-1 = "ami-02eada62"
-    us-west-2 = "ami-e689729e"
-  }
+variable "instance_name" {
+  description = "Apiary instance name to identify resources in multi instance deployments"
+  type        = "string"
+  default     = ""
 }
 
 variable "apiary_tags" {
@@ -39,13 +33,13 @@ variable "vault_internal_addr" {
 variable "vault_path" {
   description = "Path to apiary secrets in vault"
   type        = "string"
-  default     = "secret/apiary"
+  default     = ""
 }
 
 variable "apiary_domain_name" {
   description = "Apiary domain name for route 53"
   type        = "string"
-  default     = "apiary.lcl"
+  default     = ""
 }
 
 variable "vpc_id" {
@@ -55,11 +49,6 @@ variable "vpc_id" {
 
 variable "private_subnets" {
   description = "private subnets"
-  type        = "list"
-}
-
-variable "dmz_subnets" {
-  description = "dmz subnets"
   type        = "list"
 }
 
@@ -186,11 +175,6 @@ variable elb_timeout {
   description = "idle timeout for apiary ELB"
   type        = "string"
   default     = "1800"
-}
-
-variable "dns_cidr" {
-  description = "cidr for dns traffic"
-  type        = "string"
 }
 
 variable "ingress_cidr" {

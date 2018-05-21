@@ -5,9 +5,9 @@
  */
 
 resource "aws_sns_topic" "apiary_ops_sns" {
-  name = "apiary-operational-events"
+  name = "${local.instance_alias}-operational-events"
 }
 
 resource "aws_sns_topic" "apiary_metadata_updates" {
-  name = "apiary-metadata-updates"
+  name = "${local.instance_alias}-metadata-updates"
 }
