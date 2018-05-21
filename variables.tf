@@ -33,7 +33,7 @@ variable "vault_internal_addr" {
 variable "vault_path" {
   description = "Path to apiary secrets in vault"
   type        = "string"
-  default     = "secret/apiary"
+  default     = ""
 }
 
 variable "apiary_domain_name" {

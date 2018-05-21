@@ -13,7 +13,7 @@ resource "aws_db_subnet_group" "apiarydbsg" {
 }
 
 data "vault_generic_secret" "apiarydb_master_user" {
-  path = "${var.vault_path}/db_master_user"
+  path = "${local.vault_path}/db_master_user"
 }
 
 resource "aws_security_group" "db_sg" {

@@ -47,7 +47,7 @@ data "template_file" "hms_readwrite" {
     region             = "${var.aws_region}"
     loggroup           = "${aws_cloudwatch_log_group.apiary_ecs.name}"
     vault_addr         = "${var.vault_internal_addr}"
-    vault_path         = "${var.vault_path}"
+    vault_path         = "${local.vault_path}"
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
   }
@@ -65,7 +65,7 @@ data "template_file" "hms_readonly" {
     region             = "${var.aws_region}"
     loggroup           = "${aws_cloudwatch_log_group.apiary_ecs.name}"
     vault_addr         = "${var.vault_internal_addr}"
-    vault_path         = "${var.vault_path}"
+    vault_path         = "${local.vault_path}"
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
   }

@@ -12,15 +12,15 @@ provider "mysql" {
 
 #manage rw,ro username&password
 data "vault_generic_secret" "hive_rwuser" {
-  path = "${var.vault_path}/hive_rwuser"
+  path = "${local.vault_path}/hive_rwuser"
 }
 
 data "vault_generic_secret" "hive_rouser" {
-  path = "${var.vault_path}/hive_rouser"
+  path = "${local.vault_path}/hive_rouser"
 }
 
 data "vault_generic_secret" "qubole_dbuser" {
-  path = "${var.vault_path}/qubole_dbuser"
+  path = "${local.vault_path}/qubole_dbuser"
 }
 
 resource "mysql_user" "hiverw" {
