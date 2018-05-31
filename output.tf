@@ -20,10 +20,6 @@ output "apiary_data_buckets" {
   value = "${var.apiary_data_buckets}"
 }
 
-output "apiary_data_bucket_arn" {
-  value = "${aws_s3_bucket.apiary_data_bucket.*.arn[0]}"
-}
-
 output "apiary_metadata_updates_sns" {
   value = "${aws_sns_topic.apiary_metadata_updates.arn}"
 }
