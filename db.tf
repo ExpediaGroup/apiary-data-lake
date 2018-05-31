@@ -45,6 +45,10 @@ resource "aws_security_group" "db_sg" {
   }
 }
 
+resource "random_id" "snapshot_id" {
+  byte_length = 8
+}
+
 resource "aws_rds_cluster" "apiary_cluster" {
   cluster_identifier           = "${local.instance_alias}-cluster"
   database_name                = "apiary"
@@ -56,7 +60,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   db_subnet_group_name         = "${aws_db_subnet_group.apiarydbsg.name}"
   vpc_security_group_ids       = ["${aws_security_group.db_sg.id}"]
   tags                         = "${var.apiary_tags}"
-  final_snapshot_identifier    = "${local.instance_alias}-cluster-final"
+  final_snapshot_identifier    = "${local.instance_alias}-cluster-final-${random_id.snapshot_id.hex}"
 
   lifecycle {
     create_before_destroy = true
