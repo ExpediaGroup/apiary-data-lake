@@ -76,6 +76,13 @@ variable "apiary_log_prefix" {
 variable "apiary_data_buckets" {
   description = "buckets that apiary can serve data from"
   type        = "list"
+  default     = []
+}
+
+variable "external_data_buckets" {
+  description = "buckets that are not managed by apiary,but added to hive metastore IAM role access"
+  type        = "list"
+  default     = []
 }
 
 variable "apiary_customer_accounts" {

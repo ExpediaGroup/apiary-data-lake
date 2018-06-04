@@ -4,12 +4,99 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+data "template_file" "s3_widgets" {
+  count    = "${length(var.apiary_data_buckets)}"
+  template = <<EOF
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [
+                   "AWS/S3",
+                   "BucketSizeBytes",
+                   "StorageType",
+                   "StandardStorage",
+                   "BucketName",
+                   "$${bucket_name}"
+                ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary S3 Usage($${bucket_name})"
+          }
+       },
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [
+                   "AWS/S3",
+                   "NumberOfObjects",
+                   "StorageType",
+                   "AllStorageTypes",
+                   "BucketName",
+                   "$${bucket_name}"
+                ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary No of Objects($${bucket_name})"
+          }
+       },
+       {
+           "type": "metric",
+           "width": 12,
+           "height": 6,
+           "properties": {
+               "view": "timeSeries",
+               "stacked": false,
+               "region": "us-west-2",
+               "metrics": [
+                    [ "AWS/S3", "AllRequests", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ],
+                    [ "AWS/S3", "GetRequests", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ],
+                    [ "AWS/S3", "PutRequests", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ]
+               ],
+               "period": 300,
+               "region":"${var.aws_region}",
+               "title":"Apiary S3 Requests($${bucket_name})"
+           }
+       },
+       {
+           "type": "metric",
+           "width": 12,
+           "height": 6,
+           "properties": {
+               "view": "timeSeries",
+               "stacked": false,
+               "metrics": [
+                    [ "AWS/S3", "BytesDownloaded", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ],
+                    [ "AWS/S3", "BytesUploaded", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ]
+               ],
+               "period": 300,
+               "region":"${var.aws_region}",
+               "title":"Apiary S3 Data Transfer($${bucket_name})"
+           }
+       },
+EOF
+
+  vars {
+    bucket_name        = "${var.apiary_data_buckets[count.index]}"
+  }
+}
+
 resource "aws_cloudwatch_dashboard" "apiary" {
   dashboard_name = "${local.instance_alias}-${var.aws_region}"
 
   dashboard_body = <<EOF
  {
    "widgets": [
+${join("", data.template_file.s3_widgets.*.rendered)}
        {
           "type":"metric",
           "width":12,
@@ -28,80 +115,6 @@ resource "aws_cloudwatch_dashboard" "apiary" {
              "region":"${var.aws_region}",
              "title":"Apiary DB CPU"
           }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/S3",
-                   "BucketSizeBytes",
-                   "StorageType",
-                   "StandardStorage",
-                   "BucketName",
-                   "${var.apiary_data_buckets[0]}"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary S3 Usage"
-          }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/S3",
-                   "NumberOfObjects",
-                   "StorageType",
-                   "AllStorageTypes",
-                   "BucketName",
-                   "${var.apiary_data_buckets[0]}"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary No of Objects"
-          }
-       },
-       {
-           "type": "metric",
-           "width": 12,
-           "height": 6,
-           "properties": {
-               "view": "timeSeries",
-               "stacked": false,
-               "region": "us-west-2",
-               "metrics": [
-                    [ "AWS/S3", "AllRequests", "FilterId", "EntireBucket", "BucketName", "${var.apiary_data_buckets[0]}" ],
-                    [ "AWS/S3", "GetRequests", "FilterId", "EntireBucket", "BucketName", "${var.apiary_data_buckets[0]}" ],
-                    [ "AWS/S3", "PutRequests", "FilterId", "EntireBucket", "BucketName", "${var.apiary_data_buckets[0]}" ]
-               ],
-               "period": 300,
-               "region":"${var.aws_region}"
-           }
-       },
-       {
-           "type": "metric",
-           "width": 12,
-           "height": 6,
-           "properties": {
-               "view": "timeSeries",
-               "stacked": false,
-               "metrics": [
-                    [ "AWS/S3", "BytesDownloaded", "FilterId", "EntireBucket", "BucketName", "${var.apiary_data_buckets[0]}" ],
-                    [ "AWS/S3", "BytesUploaded", "FilterId", "EntireBucket", "BucketName", "${var.apiary_data_buckets[0]}" ]
-               ],
-               "period": 300,
-               "region":"${var.aws_region}"
-           }
        },
        {
           "type":"metric",
@@ -225,19 +238,6 @@ locals {
 
       threshold = "70"
     },
-    {
-      alarm_name = "${local.instance_alias}-s3-usage"
-
-      namespace = "AWS/S3"
-
-      metric_name = "BucketSizeBytes"
-
-      threshold = "${var.apiary_s3_alarm_threshold}"
-
-      period = "86400"
-
-      evaluation_periods = "1"
-    },
   ]
 
   dimensions = [
@@ -249,11 +249,6 @@ locals {
     },
     {
       DBClusterIdentifier = "${aws_rds_cluster.apiary_cluster.id}"
-    },
-    {
-      StorageType = "StandardStorage"
-
-      BucketName = "${var.apiary_data_buckets[0]}"
     },
   ]
 }

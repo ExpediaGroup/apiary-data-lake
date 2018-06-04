@@ -91,6 +91,41 @@ resource "aws_iam_role_policy" "s3_data_for_ec2" {
 EOF
 }
 
+resource "aws_iam_role_policy" "external_s3_data_for_ec2" {
+  count = "${length(var.external_data_buckets)}"
+  name  = "external-s3-data-for-ec2-${count.index}"
+  role  = "${aws_iam_role.apiary_ecs.id}"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:DeleteObject",
+                              "s3:DeleteObjectVersion",
+                              "s3:Get*",
+                              "s3:List*",
+                              "s3:PutBucketLogging",
+                              "s3:PutBucketNotification",
+                              "s3:PutBucketVersioning",
+                              "s3:PutObject",
+                              "s3:PutObjectAcl",
+                              "s3:PutObjectTagging",
+                              "s3:PutObjectVersionAcl",
+                              "s3:PutObjectVersionTagging"
+                            ],
+                  "Resource": [
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "ecs_for_ec2" {
   role       = "${aws_iam_role.apiary_ecs.id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
