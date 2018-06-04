@@ -51,7 +51,7 @@ resource "random_id" "snapshot_id" {
 
 resource "aws_rds_cluster" "apiary_cluster" {
   cluster_identifier           = "${local.instance_alias}-cluster"
-  database_name                = "apiary"
+  database_name                = "${var.apiary_database_name}"
   master_username              = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
   master_password              = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
   backup_retention_period      = "${var.db_backup_retention}"

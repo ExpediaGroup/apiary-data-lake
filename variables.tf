@@ -83,6 +83,12 @@ variable "apiary_customer_accounts" {
   type        = "list"
 }
 
+variable "apiary_database_name" {
+  description = "Database name to create in RDS for Apiary"
+  type        = "string"
+  default     = "apiary"
+}
+
 variable "db_instance_class" {
   description = "instance type for the rds metastore"
   type        = "string"
