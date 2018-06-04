@@ -5,15 +5,15 @@
  */
 
 output "hms_readonly_dns" {
-  value = "${aws_route53_record.hms_readonly_alias.fqdn}"
+  value = "${aws_lb.apiary_hms_readonly_lb.dns_name}"
 }
 
 output "hms_readwrite_dns" {
-  value = "${aws_route53_record.hms_readwrite_alias.fqdn}"
+  value = "${aws_lb.apiary_hms_readwrite_lb.dns_name}"
 }
 
 output "mysql_db_dns" {
-  value = "${aws_route53_record.apiarydb_alias.fqdn}"
+  value = "${aws_rds_cluster.apiary_cluster.endpoint}"
 }
 
 output "apiary_data_buckets" {

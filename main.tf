@@ -4,18 +4,21 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_iam_role" "apiary_elb" {
-  name = "${local.instance_alias}-elb-${var.aws_region}"
+resource "aws_ecs_cluster" "apiary" {
+  name = "${local.instance_alias}"
+}
 
+resource "aws_iam_role" "apiary_task_exec" {
+  name = "${local.instance_alias}-ecs-task-exec-${var.aws_region}"
   assume_role_policy = <<EOF
 {
-  "Version": "2008-10-17",
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "Service": "ecs.amazonaws.com"
+        "Service": "ecs-tasks.amazonaws.com"
       },
       "Action": "sts:AssumeRole"
     }
@@ -24,9 +27,163 @@ resource "aws_iam_role" "apiary_elb" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "apiary_elb" {
-  role       = "${aws_iam_role.apiary_elb.id}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+resource "aws_iam_role_policy_attachment" "task_exec_managed" {
+  role       = "${aws_iam_role.apiary_task_exec.id}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role" "apiary_task_readonly" {
+  name = "${local.instance_alias}-ecs-task-readonly-${var.aws_region}"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role" "apiary_task_readwrite" {
+  name = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
+  count = "${length(var.apiary_data_buckets)}"
+  name  = "s3-data-${count.index}"
+  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:DeleteObject",
+                              "s3:DeleteObjectVersion",
+                              "s3:Get*",
+                              "s3:List*",
+                              "s3:PutBucketLogging",
+                              "s3:PutBucketNotification",
+                              "s3:PutBucketVersioning",
+                              "s3:PutObject",
+                              "s3:PutObjectAcl",
+                              "s3:PutObjectTagging",
+                              "s3:PutObjectVersionAcl",
+                              "s3:PutObjectVersionTagging"
+                            ],
+                  "Resource": [
+                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readwrite" {
+  count = "${length(var.external_data_buckets)}"
+  name  = "external-s3-data-${count.index}"
+  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:DeleteObject",
+                              "s3:DeleteObjectVersion",
+                              "s3:Get*",
+                              "s3:List*",
+                              "s3:PutBucketLogging",
+                              "s3:PutBucketNotification",
+                              "s3:PutBucketVersioning",
+                              "s3:PutObject",
+                              "s3:PutObjectAcl",
+                              "s3:PutObjectTagging",
+                              "s3:PutObjectVersionAcl",
+                              "s3:PutObjectVersionTagging"
+                            ],
+                  "Resource": [
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
+  count = "${length(var.apiary_data_buckets)}"
+  name  = "s3-data-${count.index}"
+  role  = "${aws_iam_role.apiary_task_readonly.id}"
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readonly" {
+  count = "${length(var.external_data_buckets)}"
+  name  = "external-s3-data-${count.index}"
+  role  = "${aws_iam_role.apiary_task_readonly.id}"
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}"
+                              ]
+                }
+              ]
+}
+EOF
 }
 
 resource "aws_cloudwatch_log_group" "apiary_ecs" {
@@ -71,13 +228,26 @@ data "template_file" "hms_readonly" {
   }
 }
 
+#todo: use variables for memory and cpu
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   family                = "${local.instance_alias}-hms-readwrite"
+  task_role_arn         = "${aws_iam_role.apiary_task_readwrite.arn}"
+  execution_role_arn         = "${aws_iam_role.apiary_task_exec.arn}"
+  network_mode          = "awsvpc"
+  memory                = "${var.hms_rw_heapsize}"
+  cpu                   = "512"
+  requires_compatibilities = [ "EC2", "FARGATE" ]
   container_definitions = "${data.template_file.hms_readwrite.rendered}"
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   family                = "${local.instance_alias}-hms-readonly"
+  task_role_arn         = "${aws_iam_role.apiary_task_readonly.arn}"
+  execution_role_arn         = "${aws_iam_role.apiary_task_exec.arn}"
+  network_mode          = "awsvpc"
+  memory                = "${var.hms_ro_heapsize}"
+  cpu                   = "512"
+  requires_compatibilities = [ "EC2", "FARGATE" ]
   container_definitions = "${data.template_file.hms_readonly.rendered}"
 }
 
@@ -90,17 +260,12 @@ resource "aws_lb" "apiary_hms_readwrite_lb" {
   tags               = "${var.apiary_tags}"
 }
 
-resource "aws_route53_zone" "apiary_zone" {
-  name   = "${local.apiary_domain_name}"
-  vpc_id = "${var.vpc_id}"
-  tags   = "${var.apiary_tags}"
-}
-
 resource "aws_lb_target_group" "apiary_hms_readwrite_tg" {
   name     = "${local.instance_alias}-hms-readwrite-tg"
   port     = 9083
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
+  target_type = "ip"
 
   health_check {
     protocol = "TCP"
@@ -119,8 +284,9 @@ resource "aws_lb_listener" "hms_readwrite_listener" {
 }
 
 resource "aws_route53_record" "hms_readwrite_alias" {
-  zone_id = "${aws_route53_zone.apiary_zone.zone_id}"
-  name    = "hms-readwrite"
+  count   = "${local.enable_route53_records}"
+  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
+  name    = "${local.instance_alias}-hms-readwrite"
   type    = "A"
 
   alias {
@@ -156,6 +322,7 @@ resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
   port     = 9083
   protocol = "TCP"
   vpc_id   = "${var.vpc_id}"
+  target_type = "ip"
 
   health_check {
     protocol = "TCP"
@@ -174,8 +341,9 @@ resource "aws_lb_listener" "test_listener" {
 }
 
 resource "aws_route53_record" "hms_readonly_alias" {
-  zone_id = "${aws_route53_zone.apiary_zone.zone_id}"
-  name    = "hms-readonly"
+  count   = "${local.enable_route53_records}"
+  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
+  name    = "${local.instance_alias}-hms-readonly"
   type    = "A"
 
   alias {
@@ -185,32 +353,108 @@ resource "aws_route53_record" "hms_readonly_alias" {
   }
 }
 
+resource "aws_security_group" "hms_sg" {
+  name   = "${local.instance_alias}-hms"
+  vpc_id = "${var.vpc_id}"
+  tags   = "${var.apiary_tags}"
+
+  ingress {
+    from_port   = 9083
+    to_port     = 9083
+    protocol    = "tcp"
+    cidr_blocks = "${var.ingress_cidr}"
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${data.aws_vpc.apiary_vpc.cidr_block}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
   name            = "${local.instance_alias}-hms-readwrite-service"
+  launch_type = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readwrite.arn}"
   desired_count   = "${var.hms_readwrite_instance_count}"
-  iam_role        = "${aws_iam_role.apiary_elb.arn}"
-  depends_on      = ["aws_iam_role_policy_attachment.apiary_elb"]
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.apiary_hms_readwrite_tg.arn}"
     container_name   = "apiary-hms-readwrite"
     container_port   = 9083
   }
+  network_configuration {
+    security_groups = [ "${aws_security_group.hms_sg.id}" ]
+    subnets         = [ "${var.private_subnets}" ]
+  }
+  service_registries {
+    registry_arn = "${aws_service_discovery_service.hms_readwrite.arn}"
+  }
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
   name            = "${local.instance_alias}-hms-readonly-service"
+  launch_type = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readonly.arn}"
   desired_count   = "${var.hms_readonly_instance_count}"
-  iam_role        = "${aws_iam_role.apiary_elb.arn}"
-  depends_on      = ["aws_iam_role_policy_attachment.apiary_elb"]
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.apiary_hms_readonly_tg.arn}"
     container_name   = "apiary-hms-readonly"
     container_port   = 9083
+  }
+  network_configuration {
+    security_groups = [ "${aws_security_group.hms_sg.id}" ]
+    subnets         = [ "${var.private_subnets}" ]
+  }
+  service_registries {
+    registry_arn = "${aws_service_discovery_service.hms_readonly.arn}"
+  }
+}
+
+resource "aws_service_discovery_private_dns_namespace" "apiary" {
+  name = "${local.instance_alias}-${var.aws_region}.lcl"
+  vpc = "${var.vpc_id}"
+}
+
+resource "aws_service_discovery_service" "hms_readwrite" {
+  name = "hms-readwrite"
+  dns_config {
+    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary.id}"
+    dns_records {
+      ttl = 10
+      type = "A"
+    }
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
+resource "aws_service_discovery_service" "hms_readonly" {
+  name = "hms-readonly"
+  dns_config {
+    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary.id}"
+    dns_records {
+      ttl = 10
+      type = "A"
+    }
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
   }
 }

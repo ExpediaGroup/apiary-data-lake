@@ -2,8 +2,6 @@
   {
     "name": "apiary-hms-readonly",
     "image": "${hms_docker_image}:${hms_docker_version}",
-    "cpu": 0,
-    "memory": ${hms_heapsize},
     "essential": true,
     "ulimits": [
       {
@@ -22,7 +20,8 @@
     },
     "portMappings": [
       {
-        "containerPort": 9083
+        "containerPort": 9083,
+        "hostPort": 9083
       }
     ],
     "environment":[

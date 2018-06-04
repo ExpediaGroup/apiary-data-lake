@@ -82,7 +82,8 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
 }
 
 resource "aws_route53_record" "apiarydb_alias" {
-  zone_id = "${aws_route53_zone.apiary_zone.zone_id}"
+  count   = "${local.enable_route53_records}"
+  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
   name    = "${local.instance_alias}-metastore-db"
   type    = "A"
 
@@ -94,7 +95,8 @@ resource "aws_route53_record" "apiarydb_alias" {
 }
 
 resource "aws_route53_record" "apiarydb_ro_alias" {
-  zone_id = "${aws_route53_zone.apiary_zone.zone_id}"
+  count   = "${local.enable_route53_records}"
+  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
   name    = "${local.instance_alias}-metastore-db-reader"
   type    = "A"
 
