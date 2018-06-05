@@ -212,40 +212,53 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
 locals {
   alerts = [
     {
-      alarm_name = "${local.instance_alias}-ecs-cpu"
-
-      namespace = "AWS/EC2"
-
+      alarm_name = "${local.instance_alias}-hms-readwrite-cpu"
+      namespace = "AWS/ECS"
       metric_name = "CPUUtilization"
-
       threshold = "80"
     },
     {
-      alarm_name = "${local.instance_alias}-ecs-memory"
-
+      alarm_name = "${local.instance_alias}-hms-readonly-cpu"
       namespace = "AWS/ECS"
-
+      metric_name = "CPUUtilization"
+      threshold = "80"
+    },
+    {
+      alarm_name = "${local.instance_alias}-hms-readwrite-memory"
+      namespace = "AWS/ECS"
       metric_name = "MemoryUtilization"
-
+      threshold = "70"
+    },
+    {
+      alarm_name = "${local.instance_alias}-hms-readonly-memory"
+      namespace = "AWS/ECS"
+      metric_name = "MemoryUtilization"
       threshold = "70"
     },
     {
       alarm_name = "${local.instance_alias}-db-cpu"
-
       namespace = "AWS/RDS"
-
       metric_name = "CPUUtilization"
-
       threshold = "70"
     },
   ]
 
   dimensions = [
     {
-      AutoScalingGroupName = "${aws_autoscaling_group.ecs_cluster.name}"
+      ClusterName = "${aws_ecs_cluster.apiary.name}"
+      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readwrite-service"
     },
     {
       ClusterName = "${aws_ecs_cluster.apiary.name}"
+      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readonly-service"
+    },
+    {
+      ClusterName = "${aws_ecs_cluster.apiary.name}"
+      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readwrite-service"
+    },
+    {
+      ClusterName = "${aws_ecs_cluster.apiary.name}"
+      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readonly-service"
     },
     {
       DBClusterIdentifier = "${aws_rds_cluster.apiary_cluster.id}"
