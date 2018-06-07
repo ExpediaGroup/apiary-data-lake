@@ -5,7 +5,8 @@
  */
 
 data "template_file" "s3_widgets" {
-  count    = "${length(var.apiary_data_buckets)}"
+  count = "${length(var.apiary_data_buckets)}"
+
   template = <<EOF
        {
           "type":"metric",
@@ -86,7 +87,7 @@ data "template_file" "s3_widgets" {
 EOF
 
   vars {
-    bucket_name        = "${var.apiary_data_buckets[count.index]}"
+    bucket_name = "${var.apiary_data_buckets[count.index]}"
   }
 }
 
@@ -212,34 +213,34 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
 locals {
   alerts = [
     {
-      alarm_name = "${local.instance_alias}-hms-readwrite-cpu"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readwrite-cpu"
+      namespace   = "AWS/ECS"
       metric_name = "CPUUtilization"
-      threshold = "80"
+      threshold   = "80"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readonly-cpu"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readonly-cpu"
+      namespace   = "AWS/ECS"
       metric_name = "CPUUtilization"
-      threshold = "80"
+      threshold   = "80"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readwrite-memory"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readwrite-memory"
+      namespace   = "AWS/ECS"
       metric_name = "MemoryUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readonly-memory"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readonly-memory"
+      namespace   = "AWS/ECS"
       metric_name = "MemoryUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
     {
-      alarm_name = "${local.instance_alias}-db-cpu"
-      namespace = "AWS/RDS"
+      alarm_name  = "${local.instance_alias}-db-cpu"
+      namespace   = "AWS/RDS"
       metric_name = "CPUUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
   ]
 

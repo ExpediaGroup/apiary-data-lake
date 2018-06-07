@@ -90,6 +90,12 @@ variable "apiary_customer_accounts" {
   type        = "list"
 }
 
+variable "apiary_rds_additional_sg" {
+  description = "Comma-seperated string for additional security groups to attach to RDS"
+  type        = "list"
+  default     = []
+}
+
 variable "apiary_database_name" {
   description = "Database name to create in RDS for Apiary"
   type        = "string"
