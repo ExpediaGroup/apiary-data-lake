@@ -61,6 +61,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   vpc_security_group_ids       = ["${compact(concat(list(aws_security_group.db_sg.id), var.apiary_rds_additional_sg))}"]
   tags                         = "${var.apiary_tags}"
   final_snapshot_identifier    = "${local.instance_alias}-cluster-final-${random_id.snapshot_id.hex}"
+  iam_database_authentication_enabled = true
 
   lifecycle {
     create_before_destroy = true
@@ -80,6 +81,15 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
     create_before_destroy = true
   }
 }
+
+resource "null_resource" "db_iam_auth" {
+  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+
+    provisioner "local-exec" {
+      command = "${path.module}/scripts/db-iam-auth.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} ${aws_rds_cluster.apiary_cluster.master_password}"
+    }
+}
+
 
 resource "aws_route53_record" "apiarydb_alias" {
   count   = "${local.enable_route53_records}"

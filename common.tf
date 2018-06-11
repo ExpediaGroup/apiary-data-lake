@@ -13,3 +13,5 @@ data "aws_route53_zone" "apiary_zone" {
   name   = "${var.apiary_domain_name}"
   vpc_id = "${var.vpc_id}"
 }
+
+data "aws_caller_identity" "current" {}
