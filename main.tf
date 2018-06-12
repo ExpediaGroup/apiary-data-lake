@@ -112,7 +112,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
-  count = "${length(var.apiary_data_buckets)}"
+  count = "${length(local.apiary_data_buckets)}"
   name  = "s3-data-${count.index}"
   role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
@@ -137,8 +137,8 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
                               "s3:PutObjectVersionTagging"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}"
+                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}"
                               ]
                 }
               ]
@@ -182,7 +182,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
-  count = "${length(var.apiary_data_buckets)}"
+  count = "${length(local.apiary_data_buckets)}"
   name  = "s3-data-${count.index}"
   role  = "${aws_iam_role.apiary_task_readonly.id}"
 
@@ -197,8 +197,8 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(var.apiary_data_buckets, count.index)}"
+                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}/*",
+                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}"
                               ]
                 }
               ]
@@ -252,6 +252,8 @@ data "template_file" "hms_readwrite" {
     vault_path         = "${local.vault_path}"
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
+    managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
+    instance_name      = "${local.instance_alias}"
   }
 }
 

@@ -46,6 +46,14 @@
         "value": "${region}"
      },
      {
+        "name": "HIVE_DBS",
+        "value": "${managed_schemas}"
+     },
+     {
+        "name": "INSTANCE_NAME",
+        "value": "${instance_name}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },

@@ -5,7 +5,7 @@
  */
 
 data "template_file" "s3_widgets" {
-  count = "${length(var.apiary_data_buckets)}"
+  count = "${length(local.apiary_data_buckets)}"
 
   template = <<EOF
        {
@@ -87,7 +87,7 @@ data "template_file" "s3_widgets" {
 EOF
 
   vars {
-    bucket_name = "${var.apiary_data_buckets[count.index]}"
+    bucket_name = "${local.apiary_data_buckets[count.index]}"
   }
 }
 
