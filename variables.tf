@@ -73,8 +73,8 @@ variable "apiary_log_prefix" {
   default     = ""
 }
 
-variable "apiary_data_buckets" {
-  description = "buckets that apiary can serve data from"
+variable "apiary_managed_schemas" {
+  description = "schema names from which s3 bucket names will be derived,corresponding s3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name"
   type        = "list"
   default     = []
 }

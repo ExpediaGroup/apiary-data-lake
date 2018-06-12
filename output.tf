@@ -17,7 +17,7 @@ output "mysql_db_dns" {
 }
 
 output "apiary_data_buckets" {
-  value = "${var.apiary_data_buckets}"
+  value = "${local.apiary_data_buckets}"
 }
 
 output "apiary_metadata_updates_sns" {
