@@ -38,6 +38,10 @@
         "value": "${hms_heapsize}"
      },
      {
+        "name": "AWS_REGION",
+        "value": "${region}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },
