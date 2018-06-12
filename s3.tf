@@ -14,6 +14,7 @@ data "template_file" "bucket_policy" {
   vars {
     customer_principal = "${join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts))}"
     bucket_name        = "${local.apiary_data_buckets[count.index]}"
+    producer_iamroles  = "${replace(lookup(var.apiary_producer_iamroles,var.apiary_managed_schemas[count.index],"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
   }
 }
 

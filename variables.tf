@@ -90,6 +90,12 @@ variable "apiary_customer_accounts" {
   type        = "list"
 }
 
+variable "apiary_producer_iamroles" {
+  description = "aws iam roles allowed write access to managed apiary s3 buckets"
+  type = "map"
+  default = { }
+}
+
 variable "apiary_rds_additional_sg" {
   description = "Comma-seperated string for additional security groups to attach to RDS"
   type        = "list"
