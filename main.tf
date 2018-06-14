@@ -254,6 +254,7 @@ data "template_file" "hms_readwrite" {
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
+    sns_arn            = "${aws_sns_topic.apiary_metadata_updates.arn}"
   }
 }
 
