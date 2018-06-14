@@ -54,6 +54,10 @@
         "value": "${instance_name}"
      },
      {
+        "name": "SNS_ARN",
+        "value": "${sns_arn}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },

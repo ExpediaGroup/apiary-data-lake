@@ -254,6 +254,7 @@ data "template_file" "hms_readwrite" {
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
+    sns_arn            = "${aws_sns_topic.apiary_metadata_updates.arn}"
   }
 }
 
@@ -352,16 +353,29 @@ resource "aws_lb" "apiary_hms_readonly_lb" {
   tags               = "${var.apiary_tags}"
 }
 
-resource "null_resource" "hms_readonly_endpoint_svc" {
-  depends_on = ["aws_lb.apiary_hms_readonly_lb"]
 
-  triggers {
-    customers_accounts = "${join(",", var.apiary_customer_accounts)}"
-  }
+resource "aws_vpc_endpoint_service" "hms_readonly" {
+  network_load_balancer_arns = ["${aws_lb.apiary_hms_readonly_lb.arn}"]
+  acceptance_required = false
+  allowed_principals = [ "${formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)}" ]
+}
 
-  #  provisioner "local-exec" {
-  #    command = "./scripts/enable-private-link.sh ${aws_lb.apiary_hms_readonly_lb.arn} ${join(",", var.apiary_customer_accounts)}"
-  #  }
+resource "aws_vpc_endpoint_connection_notification" "hms_readonly" {
+  vpc_endpoint_service_id = "${aws_vpc_endpoint_service.hms_readonly.id}"
+  connection_notification_arn = "${aws_sns_topic.apiary_ops_sns.arn}"
+  connection_events = ["Connect","Accept", "Reject","Delete"]
+}
+
+resource "aws_vpc_endpoint_service" "hms_readwrite" {
+  network_load_balancer_arns = ["${aws_lb.apiary_hms_readwrite_lb.arn}"]
+  acceptance_required = false
+  allowed_principals = "${distinct(split(",",join(",",values(var.apiary_producer_iamroles))))}"
+}
+
+resource "aws_vpc_endpoint_connection_notification" "hms_readwrite" {
+  vpc_endpoint_service_id = "${aws_vpc_endpoint_service.hms_readwrite.id}"
+  connection_notification_arn = "${aws_sns_topic.apiary_ops_sns.arn}"
+  connection_events = ["Connect","Accept", "Reject","Delete"]
 }
 
 resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
