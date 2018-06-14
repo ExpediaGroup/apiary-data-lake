@@ -15,11 +15,6 @@ variable "apiary_tags" {
   type        = "map"
 }
 
-variable "apiary_asg_tags" {
-  description = "Tags that are added to the ecs autoscaling group."
-  type        = "list"
-}
-
 variable "vault_addr" {
   description = "Address of vault server for secrets"
   type        = "string"
@@ -54,11 +49,6 @@ variable "private_subnets" {
 
 variable "aws_region" {
   description = "aws region"
-  type        = "string"
-}
-
-variable "aws_keyname" {
-  description = "aws keypair name for logging into ec2 instances and ecs clusters"
   type        = "string"
 }
 
@@ -162,18 +152,6 @@ variable "hms_docker_version" {
   type        = "string"
 }
 
-variable "ecs_instance_type" {
-  description = "instance type for the ecs cluster"
-  type        = "string"
-  default     = "t2.large"
-}
-
-variable "ecs_asg_max_size" {
-  description = "max size of the ecs cluster"
-  type        = "string"
-  default     = "5"
-}
-
 variable "hms_readwrite_instance_count" {
   description = "desired count of the RW hive metastore service"
   type        = "string"
@@ -190,13 +168,7 @@ variable "apiary_s3_alarm_threshold" {
   default     = "10000000000000"
 }
 
-variable "apiary_db_alarm_threshold" {
-  description = "will trigger cloudwatch alarm if db free space is less than, default 10G"
-  type        = "string"
-  default     = "10000000000"
-}
-
-variable elb_timeout {
+variable "elb_timeout" {
   description = "idle timeout for apiary ELB"
   type        = "string"
   default     = "1800"
