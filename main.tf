@@ -111,6 +111,25 @@ resource "aws_iam_role_policy" "rds_for_ecs_task_readwrite" {
 EOF
 }
 
+resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
+  name = "sns"
+  role = "${aws_iam_role.apiary_task_readwrite.id}"
+
+  policy = <<EOF
+{
+  "Version" : "2012-10-17",
+  "Statement" :
+  [
+    {
+      "Effect" : "Allow",
+      "Action" : ["SNS:Publish"],
+      "Resource" : ["${aws_sns_topic.apiary_metadata_updates.arn}"]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
   count = "${length(local.apiary_data_buckets)}"
   name  = "s3-data-${count.index}"
