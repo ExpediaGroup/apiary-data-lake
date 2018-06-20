@@ -69,7 +69,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
-  count                = "${length(var.private_subnets)}"
+  count                = "${var.db_instance_count}"
   identifier           = "${local.instance_alias}-instance-${count.index}"
   cluster_identifier   = "${aws_rds_cluster.apiary_cluster.id}"
   instance_class       = "${var.db_instance_class}"

@@ -103,6 +103,12 @@ variable "db_instance_class" {
   type        = "string"
 }
 
+variable "db_instance_count" {
+  description = "desired count of database cluster instances"
+  type        = "string"
+  default     = "2"
+}
+
 variable "db_backup_retention" {
   description = "The days to retain backups for, for the rds metastore."
   type        = "string"
@@ -155,11 +161,13 @@ variable "hms_docker_version" {
 variable "hms_readwrite_instance_count" {
   description = "desired count of the RW hive metastore service"
   type        = "string"
+  default     = "2"
 }
 
 variable "hms_readonly_instance_count" {
   description = "desired count of the RO hive metastore service"
   type        = "string"
+  default     = "2"
 }
 
 variable "apiary_s3_alarm_threshold" {
