@@ -3,6 +3,7 @@ locals {
   vault_path             = "${ var.vault_path == "" ? format("secret/%s-%s",local.instance_alias,var.aws_region) : var.vault_path }"
   enable_route53_records = "${ var.apiary_domain_name == "" ? "0" : "1" }"
   apiary_data_buckets           = "${ formatlist("%s-%s-%s-%s",local.instance_alias,data.aws_caller_identity.current.account_id,var.aws_region,var.apiary_managed_schemas) }"
+  gluedb_prefix          = "${ var.instance_name == "" ? "" : "${var.instance_name}_" }"
 }
 
 data "aws_vpc" "apiary_vpc" {

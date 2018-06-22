@@ -186,3 +186,9 @@ variable "ingress_cidr" {
   description = "Generally allowed ingress cidr list"
   type        = "list"
 }
+
+variable "enable_gluesync" {
+  description = "enable metadata sync from hive to glue catalog"
+  type        = "string"
+  default     = ""
+}

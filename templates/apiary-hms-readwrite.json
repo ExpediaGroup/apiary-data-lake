@@ -58,6 +58,14 @@
         "value": "${sns_arn}"
      },
      {
+        "name": "ENABLE_GLUESYNC",
+        "value": "${enable_gluesync}"
+     },
+     {
+        "name": "GLUEDB_PREFIX",
+        "value": "${gluedb_prefix}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },

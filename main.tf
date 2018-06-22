@@ -130,6 +130,26 @@ resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
 EOF
 }
 
+resource "aws_iam_role_policy" "glue_for_ecs_task_readwrite" {
+  count = "${ var.enable_gluesync == "" ? 0 : 1 }"
+  name = "glue"
+  role = "${aws_iam_role.apiary_task_readwrite.id}"
+
+  policy = <<EOF
+{
+  "Version" : "2012-10-17",
+  "Statement" :
+  [
+    {
+      "Effect" : "Allow",
+      "Action" : ["glue:*"],
+      "Resource" : ["*"]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
   count = "${length(local.apiary_data_buckets)}"
   name  = "s3-data-${count.index}"
@@ -274,6 +294,8 @@ data "template_file" "hms_readwrite" {
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
     sns_arn            = "${aws_sns_topic.apiary_metadata_updates.arn}"
+    enable_gluesync    = "${var.enable_gluesync}"
+    gluedb_prefix      = "${local.gluedb_prefix}"
   }
 }
 
