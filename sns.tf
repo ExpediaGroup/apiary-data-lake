@@ -10,6 +10,7 @@ resource "aws_sns_topic" "apiary_ops_sns" {
 
 resource "aws_sns_topic" "apiary_metadata_updates" {
   name = "${local.instance_alias}-metadata-updates"
+
   policy = <<POLICY
 {
     "Version":"2012-10-17",

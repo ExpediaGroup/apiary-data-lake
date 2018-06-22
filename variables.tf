@@ -82,8 +82,8 @@ variable "apiary_customer_accounts" {
 
 variable "apiary_producer_iamroles" {
   description = "aws iam roles allowed write access to managed apiary s3 buckets"
-  type = "map"
-  default = { }
+  type        = "map"
+  default     = {}
 }
 
 variable "apiary_rds_additional_sg" {
