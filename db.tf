@@ -50,17 +50,17 @@ resource "random_id" "snapshot_id" {
 }
 
 resource "aws_rds_cluster" "apiary_cluster" {
-  cluster_identifier           = "${local.instance_alias}-cluster"
-  database_name                = "${var.apiary_database_name}"
-  master_username              = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
-  master_password              = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
-  backup_retention_period      = "${var.db_backup_retention}"
-  preferred_backup_window      = "${var.db_backup_window}"
-  preferred_maintenance_window = "${var.db_maintenance_window}"
-  db_subnet_group_name         = "${aws_db_subnet_group.apiarydbsg.name}"
-  vpc_security_group_ids       = ["${compact(concat(list(aws_security_group.db_sg.id), var.apiary_rds_additional_sg))}"]
-  tags                         = "${var.apiary_tags}"
-  final_snapshot_identifier    = "${local.instance_alias}-cluster-final-${random_id.snapshot_id.hex}"
+  cluster_identifier                  = "${local.instance_alias}-cluster"
+  database_name                       = "${var.apiary_database_name}"
+  master_username                     = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
+  master_password                     = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
+  backup_retention_period             = "${var.db_backup_retention}"
+  preferred_backup_window             = "${var.db_backup_window}"
+  preferred_maintenance_window        = "${var.db_maintenance_window}"
+  db_subnet_group_name                = "${aws_db_subnet_group.apiarydbsg.name}"
+  vpc_security_group_ids              = ["${compact(concat(list(aws_security_group.db_sg.id), var.apiary_rds_additional_sg))}"]
+  tags                                = "${var.apiary_tags}"
+  final_snapshot_identifier           = "${local.instance_alias}-cluster-final-${random_id.snapshot_id.hex}"
   iam_database_authentication_enabled = true
 
   lifecycle {
@@ -85,11 +85,10 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
 resource "null_resource" "db_iam_auth" {
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
 
-    provisioner "local-exec" {
-      command = "${path.module}/scripts/db-iam-auth.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} ${aws_rds_cluster.apiary_cluster.master_password}"
-    }
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/db-iam-auth.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} ${aws_rds_cluster.apiary_cluster.master_password}"
+  }
 }
-
 
 resource "aws_route53_record" "apiarydb_alias" {
   count   = "${local.enable_route53_records}"

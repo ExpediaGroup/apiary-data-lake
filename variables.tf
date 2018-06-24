@@ -82,8 +82,8 @@ variable "apiary_customer_accounts" {
 
 variable "apiary_producer_iamroles" {
   description = "aws iam roles allowed write access to managed apiary s3 buckets"
-  type = "map"
-  default = { }
+  type        = "map"
+  default     = {}
 }
 
 variable "apiary_rds_additional_sg" {
@@ -185,4 +185,10 @@ variable "elb_timeout" {
 variable "ingress_cidr" {
   description = "Generally allowed ingress cidr list"
   type        = "list"
+}
+
+variable "enable_gluesync" {
+  description = "enable metadata sync from hive to glue catalog"
+  type        = "string"
+  default     = ""
 }
