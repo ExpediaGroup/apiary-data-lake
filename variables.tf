@@ -192,3 +192,9 @@ variable "enable_gluesync" {
   type        = "string"
   default     = ""
 }
+
+variable "enable_data_events" {
+  description = "enable managed buckets s3 event notifications"
+  type        = "string"
+  default     = ""
+}
