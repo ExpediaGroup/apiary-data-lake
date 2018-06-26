@@ -62,7 +62,7 @@
         "value": "${enable_gluesync}"
      },
      {
-        "name": "GLUEDB_PREFIX",
+        "name": "GLUE_PREFIX",
         "value": "${gluedb_prefix}"
      },
      {
