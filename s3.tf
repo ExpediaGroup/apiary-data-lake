@@ -34,3 +34,13 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     target_prefix = "${var.apiary_log_prefix}${local.apiary_data_buckets[count.index]}/"
   }
 }
+
+resource "aws_s3_bucket_notification" "data_events" {
+  count  = "${ var.enable_data_events == "" ? 0 : length(local.apiary_data_buckets) }"
+  bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
+
+  topic {
+    topic_arn     = "${aws_sns_topic.apiary_data_events.*.arn[count.index]}"
+    events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+  }
+}
