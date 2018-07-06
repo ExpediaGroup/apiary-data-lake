@@ -112,6 +112,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
+  count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
   name = "sns"
   role = "${aws_iam_role.apiary_task_readwrite.id}"
 
@@ -123,7 +124,7 @@ resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
     {
       "Effect" : "Allow",
       "Action" : ["SNS:Publish"],
-      "Resource" : ["${aws_sns_topic.apiary_metadata_updates.arn}"]
+      "Resource" : ["${aws_sns_topic.apiary_metadata_events.arn}"]
     }
   ]
 }
@@ -293,8 +294,9 @@ data "template_file" "hms_readwrite" {
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
-    sns_arn            = "${aws_sns_topic.apiary_metadata_updates.arn}"
+    sns_arn            = "${ var.enable_metadata_events == "" ? "" : aws_sns_topic.apiary_metadata_events.arn }"
     enable_gluesync    = "${var.enable_gluesync}"
+    disable_dbmgmt     = "${var.disable_database_management}"
     gluedb_prefix      = "${local.gluedb_prefix}"
   }
 }

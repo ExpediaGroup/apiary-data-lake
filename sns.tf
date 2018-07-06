@@ -8,8 +8,8 @@ resource "aws_sns_topic" "apiary_ops_sns" {
   name = "${local.instance_alias}-operational-events"
 }
 
-resource "aws_sns_topic" "apiary_metadata_updates" {
-  name = "${local.instance_alias}-metadata-updates"
+resource "aws_sns_topic" "apiary_metadata_events" {
+  name = "${local.instance_alias}-metadata-events"
 
   policy = <<POLICY
 {
@@ -20,7 +20,7 @@ resource "aws_sns_topic" "apiary_metadata_updates" {
             "AWS": [ "${join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts))}" ]
         },
         "Action": [ "SNS:Subscribe", "SNS:Receive" ],
-        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-metadata-updates"
+        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-metadata-events"
     }]
 }
 POLICY

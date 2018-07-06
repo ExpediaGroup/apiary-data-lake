@@ -193,8 +193,20 @@ variable "enable_gluesync" {
   default     = ""
 }
 
+variable "enable_metadata_events" {
+  description = "enable hive metastore sns listener"
+  type        = "string"
+  default     = ""
+}
+
 variable "enable_data_events" {
   description = "enable managed buckets s3 event notifications"
+  type        = "string"
+  default     = ""
+}
+
+variable "disable_database_management" {
+  description = "disable creating and dropping databases from hive cli"
   type        = "string"
   default     = ""
 }

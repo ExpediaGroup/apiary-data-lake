@@ -62,6 +62,10 @@
         "value": "${enable_gluesync}"
      },
      {
+        "name": "DISABLE_DBMGMT",
+        "value": "${disable_dbmgmt}"
+     },
+     {
         "name": "GLUE_PREFIX",
         "value": "${gluedb_prefix}"
      },
