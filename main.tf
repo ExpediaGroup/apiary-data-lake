@@ -73,6 +73,50 @@ resource "aws_iam_role" "apiary_task_readwrite" {
 EOF
 }
 
+resource "aws_iam_role_policy" "cloudwatch_for_ecs_readonly" {
+  name = "cloudwatch"
+  role = "${aws_iam_role.apiary_task_readonly.id}"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "ec2:DescribeTags"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "cloudwatch_for_ecs_readwrite" {
+  name = "cloudwatch"
+  role = "${aws_iam_role.apiary_task_readwrite.id}"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "ec2:DescribeTags"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy" "rds_for_ecs_readonly" {
   name = "rds"
   role = "${aws_iam_role.apiary_task_readonly.id}"
