@@ -70,6 +70,26 @@
         "value": "${gluedb_prefix}"
      },
      {
+        "name": "RANGER_SERVICE_NAME",
+        "value": "${ranger_service_name}"
+     },
+     {
+        "name": "POLICY_MGR_URL",
+        "value": "${ranger_policy_mgr_url}"
+     },
+     {
+        "name": "AUDIT_SOLR_URL",
+        "value": "${ranger_audit_solr_url}"
+     },
+     {
+        "name": "LDAP_URL",
+        "value": "${ldap_url}"
+     },
+     {
+        "name": "LDAP_BASE",
+        "value": "${ldap_base}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },
