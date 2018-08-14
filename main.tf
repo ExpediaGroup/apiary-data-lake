@@ -346,6 +346,7 @@ data "template_file" "hms_readwrite" {
     ranger_service_name   = "${local.instance_alias}-metastore"
     ranger_policy_mgr_url = "${replace(var.ranger_policy_mgr_url,"/","\\\\/")}"
     ranger_audit_solr_url = "${replace(var.ranger_audit_solr_url,"/","\\\\/")}"
+    ranger_audit_db_url   = "${replace(var.ranger_audit_db_url,"/","\\\\/")}"
     ldap_url              = "${replace(var.ldap_url,"/","\\\\/")}"
     ldap_base             = "${var.ldap_base}"
   }

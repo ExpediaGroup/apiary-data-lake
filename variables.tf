@@ -223,6 +223,12 @@ variable "ranger_audit_solr_url" {
   default     = ""
 }
 
+variable "ranger_audit_db_url" {
+  description = "ranger db audit provider configuration"
+  type        = "string"
+  default     = ""
+}
+
 variable "ldap_url" {
   description = "active directory ldap url to configure hadoop LDAP group mapping"
   type        = "string"

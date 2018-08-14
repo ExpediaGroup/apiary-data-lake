@@ -82,6 +82,10 @@
         "value": "${ranger_audit_solr_url}"
      },
      {
+        "name": "AUDIT_DB_URL",
+        "value": "${ranger_audit_db_url}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
      },
