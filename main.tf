@@ -365,7 +365,6 @@ data "template_file" "hms_readonly" {
   }
 }
 
-#todo: use variables for memory and cpu
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   family                   = "${local.instance_alias}-hms-readwrite"
   task_role_arn            = "${aws_iam_role.apiary_task_readwrite.arn}"
