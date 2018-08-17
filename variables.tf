@@ -133,13 +133,43 @@ variable "hms_log_level" {
 }
 
 variable "hms_ro_heapsize" {
-  description = "heapsize for the RO hive metastore."
-  type        = "string"
+  description = <<EOF
+heapsize for the RO hive metastore.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type = "string"
 }
 
 variable "hms_rw_heapsize" {
-  description = "heapsize for the RW hive metastore."
-  type        = "string"
+  description = <<EOF
+heapsize for the RW hive metastore.
+Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type = "string"
+}
+
+variable "hms_ro_cpu" {
+  description = <<EOF
+CPU for the RO hive metastore ECS task.
+Valid values cane be 256, 512, 1024, 2048 and 4096.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = "string"
+  default = "512"
+}
+
+variable "hms_rw_cpu" {
+  description = <<EOF
+CPU for the RW hive metastore ECS task.
+Valid values cane be 256, 512, 1024, 2048 and 4096.
+Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
+EOF
+
+  type    = "string"
+  default = "512"
 }
 
 variable "hms_nofile_ulimit" {

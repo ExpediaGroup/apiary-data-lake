@@ -40,7 +40,7 @@ resource "aws_s3_bucket_notification" "data_events" {
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
 
   topic {
-    topic_arn     = "${aws_sns_topic.apiary_data_events.*.arn[count.index]}"
-    events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    topic_arn = "${aws_sns_topic.apiary_data_events.*.arn[count.index]}"
+    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }
