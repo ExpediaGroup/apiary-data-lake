@@ -76,6 +76,7 @@ EOF
 resource "aws_iam_role_policy" "cloudwatch_for_ecs_readonly" {
   name = "cloudwatch"
   role = "${aws_iam_role.apiary_task_readonly.id}"
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -98,6 +99,7 @@ EOF
 resource "aws_iam_role_policy" "cloudwatch_for_ecs_readwrite" {
   name = "cloudwatch"
   role = "${aws_iam_role.apiary_task_readwrite.id}"
+
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -157,8 +159,8 @@ EOF
 
 resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
   count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
-  name = "sns"
-  role = "${aws_iam_role.apiary_task_readwrite.id}"
+  name  = "sns"
+  role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
   policy = <<EOF
 {
@@ -370,7 +372,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
   network_mode             = "awsvpc"
   memory                   = "${var.hms_rw_heapsize}"
-  cpu                      = "512"
+  cpu                      = "${var.hms_rw_cpu}"
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = "${data.template_file.hms_readwrite.rendered}"
 }
@@ -381,7 +383,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
   network_mode             = "awsvpc"
   memory                   = "${var.hms_ro_heapsize}"
-  cpu                      = "512"
+  cpu                      = "${var.hms_ro_cpu}"
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = "${data.template_file.hms_readonly.rendered}"
 }
