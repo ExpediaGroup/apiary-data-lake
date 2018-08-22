@@ -397,6 +397,7 @@ resource "aws_lb" "apiary_hms_readwrite_lb" {
 }
 
 resource "aws_lb_target_group" "apiary_hms_readwrite_tg" {
+  depends_on  = ["aws_lb.apiary_hms_readwrite_lb"]
   name        = "${local.instance_alias}-hms-readwrite-tg"
   port        = 9083
   protocol    = "TCP"
@@ -466,6 +467,7 @@ resource "aws_vpc_endpoint_connection_notification" "hms_readwrite" {
 }
 
 resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
+  depends_on  = ["aws_lb.apiary_hms_readonly_lb"]
   name        = "${local.instance_alias}-hms-readonly-tg"
   port        = 9083
   protocol    = "TCP"
@@ -529,6 +531,7 @@ resource "aws_security_group" "hms_sg" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
+  depends_on      = ["aws_lb_target_group.apiary_hms_readwrite_tg"]
   name            = "${local.instance_alias}-hms-readwrite-service"
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
@@ -552,6 +555,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
+  depends_on      = ["aws_lb_target_group.apiary_hms_readonly_tg"]
   name            = "${local.instance_alias}-hms-readonly-service"
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
