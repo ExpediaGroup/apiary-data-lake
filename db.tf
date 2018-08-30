@@ -4,16 +4,24 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+data "vault_generic_secret" "apiarydb_master_user" {
+  path = "${local.vault_path}/db_master_user"
+}
+
+data "vault_generic_secret" "hive_rwuser" {
+  path = "${local.vault_path}/hive_rwuser"
+}
+
+data "vault_generic_secret" "hive_rouser" {
+  path = "${local.vault_path}/hive_rouser"
+}
+
 resource "aws_db_subnet_group" "apiarydbsg" {
   name        = "${local.instance_alias}-dbsg"
   subnet_ids  = ["${var.private_subnets}"]
   description = "Apiary DB Subnet Group"
 
   tags = "${merge(map("Name","Apiary DB Subnet Group"),var.apiary_tags)}"
-}
-
-data "vault_generic_secret" "apiarydb_master_user" {
-  path = "${local.vault_path}/db_master_user"
 }
 
 resource "aws_security_group" "db_sg" {
@@ -90,28 +98,26 @@ resource "null_resource" "db_iam_auth" {
   }
 }
 
-resource "aws_route53_record" "apiarydb_alias" {
-  count   = "${local.enable_route53_records}"
-  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
-  name    = "${local.instance_alias}-metastore-db"
-  type    = "A"
+resource "null_resource" "mysql_rw_user" {
+  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+  triggers {
+    username = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
+    password_md5 = "${md5(data.vault_generic_secret.hive_rwuser.data["password"])}"
+  }
 
-  alias {
-    name                   = "${aws_rds_cluster.apiary_cluster.endpoint}"
-    zone_id                = "${aws_rds_cluster.apiary_cluster.hosted_zone_id}"
-    evaluate_target_health = true
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} '${aws_rds_cluster.apiary_cluster.master_password}' ALL ${var.apiary_database_name} ${data.vault_generic_secret.hive_rwuser.data["username"]} '${data.vault_generic_secret.hive_rwuser.data["password"]}'"
   }
 }
 
-resource "aws_route53_record" "apiarydb_ro_alias" {
-  count   = "${local.enable_route53_records}"
-  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
-  name    = "${local.instance_alias}-metastore-db-reader"
-  type    = "A"
+resource "null_resource" "mysql_ro_user" {
+  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+  triggers {
+    username = "${data.vault_generic_secret.hive_rouser.data["username"]}"
+    password_md5 = "${md5(data.vault_generic_secret.hive_rouser.data["password"])}"
+  }
 
-  alias {
-    name                   = "${aws_rds_cluster.apiary_cluster.reader_endpoint}"
-    zone_id                = "${aws_rds_cluster.apiary_cluster.hosted_zone_id}"
-    evaluate_target_health = true
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} '${aws_rds_cluster.apiary_cluster.master_password}' SELECT ${var.apiary_database_name} ${data.vault_generic_secret.hive_rouser.data["username"]} '${data.vault_generic_secret.hive_rouser.data["password"]}'"
   }
 }
