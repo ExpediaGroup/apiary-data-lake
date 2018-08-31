@@ -6,8 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased]
 
 ### Changed
-- fixes https://github.com/ExpediaInc/apiary-metastore/issues/48
-- option to use external mysql database, to support legacy installations
+- Use MySQL script instead of Terraform provider to solve Terraform first run issue.
 
-### Changed
-- use mysql script instead of terraform provider to solve terraform first run issue.
+### Added
+- Option to use external MySQL database (to support legacy installations) - see [#48](https://github.com/ExpediaInc/apiary-metastore/issues/48).
