@@ -5,18 +5,22 @@
  */
 
 data "vault_generic_secret" "apiarydb_master_user" {
-  path = "${local.vault_path}/db_master_user"
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  path  = "${local.vault_path}/db_master_user"
 }
 
 data "vault_generic_secret" "hive_rwuser" {
-  path = "${local.vault_path}/hive_rwuser"
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  path  = "${local.vault_path}/hive_rwuser"
 }
 
 data "vault_generic_secret" "hive_rouser" {
-  path = "${local.vault_path}/hive_rouser"
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  path  = "${local.vault_path}/hive_rouser"
 }
 
 resource "aws_db_subnet_group" "apiarydbsg" {
+  count       = "${ var.external_database_host == "" ? 1 : 0 }"
   name        = "${local.instance_alias}-dbsg"
   subnet_ids  = ["${var.private_subnets}"]
   description = "Apiary DB Subnet Group"
@@ -25,6 +29,7 @@ resource "aws_db_subnet_group" "apiarydbsg" {
 }
 
 resource "aws_security_group" "db_sg" {
+  count  = "${ var.external_database_host == "" ? 1 : 0 }"
   name   = "${local.instance_alias}-db"
   vpc_id = "${var.vpc_id}"
   tags   = "${var.apiary_tags}"
@@ -54,10 +59,12 @@ resource "aws_security_group" "db_sg" {
 }
 
 resource "random_id" "snapshot_id" {
+  count       = "${ var.external_database_host == "" ? 1 : 0 }"
   byte_length = 8
 }
 
 resource "aws_rds_cluster" "apiary_cluster" {
+  count                               = "${ var.external_database_host == "" ? 1 : 0 }"
   cluster_identifier                  = "${local.instance_alias}-cluster"
   database_name                       = "${var.apiary_database_name}"
   master_username                     = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
@@ -77,7 +84,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
-  count                = "${var.db_instance_count}"
+  count                = "${ var.external_database_host == "" ? var.db_instance_count : 0 }"
   identifier           = "${local.instance_alias}-instance-${count.index}"
   cluster_identifier   = "${aws_rds_cluster.apiary_cluster.id}"
   instance_class       = "${var.db_instance_class}"
@@ -91,6 +98,7 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
 }
 
 resource "null_resource" "db_iam_auth" {
+  count      = "${ var.external_database_host == "" ? 1 : 0 }"
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
 
   provisioner "local-exec" {
@@ -99,9 +107,11 @@ resource "null_resource" "db_iam_auth" {
 }
 
 resource "null_resource" "mysql_rw_user" {
+  count      = "${ var.external_database_host == "" ? 1 : 0 }"
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+
   triggers {
-    username = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
+    username     = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
     password_md5 = "${md5(data.vault_generic_secret.hive_rwuser.data["password"])}"
   }
 
@@ -111,9 +121,11 @@ resource "null_resource" "mysql_rw_user" {
 }
 
 resource "null_resource" "mysql_ro_user" {
+  count      = "${ var.external_database_host == "" ? 1 : 0 }"
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+
   triggers {
-    username = "${data.vault_generic_secret.hive_rouser.data["username"]}"
+    username     = "${data.vault_generic_secret.hive_rouser.data["username"]}"
     password_md5 = "${md5(data.vault_generic_secret.hive_rouser.data["password"])}"
   }
 
