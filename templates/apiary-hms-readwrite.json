@@ -104,6 +104,10 @@
      {
         "name": "loglevel",
         "value": "${log_level}"
+     },
+     {
+        "name": "EXTERNAL_DATABASE",
+        "value": "${external_database}"
      }
     ]
   }

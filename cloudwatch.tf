@@ -108,7 +108,7 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
                    "AWS/RDS",
                    "CPUUtilization",
                    "DBClusterIdentifier",
-                   "${aws_rds_cluster.apiary_cluster.id}"
+                   "${local.instance_alias}-cluster"
                 ]
              ],
              "period":300,
@@ -262,7 +262,7 @@ locals {
       ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readonly-service"
     },
     {
-      DBClusterIdentifier = "${aws_rds_cluster.apiary_cluster.id}"
+      DBClusterIdentifier = "${local.instance_alias}-cluster"
     },
   ]
 }
