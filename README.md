@@ -9,11 +9,11 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ![Datalake  architecture](docs/apiary_datalake_3d.jpg)
 
 ## Key Features
-  * Higly Available(HA) metastore service - packaged as docker container and running on ECS Fargate Cluster.
-  * PrivateLinks - Network load balancers and VPC endpoints to enable fedrated access to readonly and readwrite metastores.
+  * Highly Available(HA) metastore service - packaged as docker container and running on ECS Fargate Cluster.
+  * PrivateLinks - Network load balancers and VPC endpoints to enable federated access to readonly and readwrite metastores.
   * Managed schemas - integrated way of managing hive schemas, S3 buckets and bucket policies.
   * SNS Listener - A hive metastore event listener to publish all metadata updates to a SNS topic, check [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
-  * Gluesync  - A metastore event listener to replay hive metadata events in glue catalag.
+  * Gluesync  - A metastore event listener to replay hive metadata events in glue catalog.
   * Metastore authorization - A metastore pre event listener to handle authorization using ranger.
 
 ## Usage
