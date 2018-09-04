@@ -9,12 +9,12 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ![Datalake  architecture](docs/apiary_datalake_3d.jpg)
 
 ## Key Features
-    Higly-Available metastore service - packaged as docker container and running on ECS Fargate Cluster.
-    PrivateLinks - Network load balancers and VPC endpoints to enable fedrated access to readonly and readwrite metastores.
-    Managed schemas - integrated way of managing hive schemas, S3 buckets and bucket policies.
-    SNS Listener - A hive metastore event listener to publish all metadata updates to a SNS topic, check [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
-    Gluesync  - A metastore event listener to replay hive metadata events in glue catalag.
-    Metastore authorization - A metastore pre event listener to handle authorization using ranger.
+  * Higly Available(HA) metastore service - packaged as docker container and running on ECS Fargate Cluster.
+  * PrivateLinks - Network load balancers and VPC endpoints to enable fedrated access to readonly and readwrite metastores.
+  * Managed schemas - integrated way of managing hive schemas, S3 buckets and bucket policies.
+  * SNS Listener - A hive metastore event listener to publish all metadata updates to a SNS topic, check [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
+  * Gluesync  - A metastore event listener to replay hive metadata events in glue catalag.
+  * Metastore authorization - A metastore pre event listener to handle authorization using ranger.
 
 ## Usage
 
@@ -32,7 +32,7 @@ module "apiary" {
   vault_addr          = "https://vault.internal.domain"
   vault_internal_addr = "https://vault.service.consul:8200"
 
-  hms_docker_image             = "${aws_Account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
+  hms_docker_image             = "${aws_account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
   hms_docker_version           = "1.0.0"
   hms_ro_heapsize              = "8192"
   hms_rw_heapsize              = "8192"
