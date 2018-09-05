@@ -120,8 +120,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "rds_for_ecs_readonly" {
-  name = "rds"
-  role = "${aws_iam_role.apiary_task_readonly.id}"
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  name  = "rds"
+  role  = "${aws_iam_role.apiary_task_readonly.id}"
 
   policy = <<EOF
 {
@@ -139,8 +140,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "rds_for_ecs_task_readwrite" {
-  name = "rds"
-  role = "${aws_iam_role.apiary_task_readwrite.id}"
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  name  = "rds"
+  role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
   policy = <<EOF
 {
@@ -326,8 +328,8 @@ data "template_file" "hms_readwrite" {
   template = "${file("${path.module}/templates/apiary-hms-readwrite.json")}"
 
   vars {
-    db_host            = "${aws_rds_cluster.apiary_cluster.endpoint}"
-    db_name            = "${aws_rds_cluster.apiary_cluster.database_name}"
+    db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host }"
+    db_name            = "${var.apiary_database_name}"
     instance_type      = "readwrite"
     hms_heapsize       = "${var.hms_rw_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
@@ -351,15 +353,19 @@ data "template_file" "hms_readwrite" {
     ranger_audit_db_url   = "${replace(var.ranger_audit_db_url,"/","\\\\/")}"
     ldap_url              = "${replace(var.ldap_url,"/","\\\\/")}"
     ldap_base             = "${var.ldap_base}"
+
+    #to instruct docker to turn off upgrading hive db schema when using external database
+    external_database = "${var.external_database_host == "" ? "" : "1" }"
   }
+  depends_on  = ["aws_sns_topic.apiary_metadata_events"]
 }
 
 data "template_file" "hms_readonly" {
   template = "${file("${path.module}/templates/apiary-hms-readonly.json")}"
 
   vars {
-    db_host            = "${aws_rds_cluster.apiary_cluster.reader_endpoint}"
-    db_name            = "${aws_rds_cluster.apiary_cluster.database_name}"
+    db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host }"
+    db_name            = "${var.apiary_database_name}"
     hms_heapsize       = "${var.hms_ro_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
     hms_docker_version = "${var.hms_docker_version}"

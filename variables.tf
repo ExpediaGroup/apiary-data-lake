@@ -75,6 +75,12 @@ variable "external_data_buckets" {
   default     = []
 }
 
+variable "external_database_host" {
+  description = "external metastore database host to support legacy installations, mysql database won't be created by apiary when this option is specified"
+  type        = "string"
+  default     = ""
+}
+
 variable "apiary_customer_accounts" {
   description = "aws account ids for clients of this metastore"
   type        = "list"
