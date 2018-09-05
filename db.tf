@@ -116,7 +116,7 @@ resource "null_resource" "mysql_rw_user" {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} '${aws_rds_cluster.apiary_cluster.master_password}' ALL ${var.apiary_database_name} ${data.vault_generic_secret.hive_rwuser.data["username"]} '${data.vault_generic_secret.hive_rwuser.data["password"]}'"
+    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${var.apiary_database_name} ${local.vault_path} RW"
   }
 }
 
@@ -130,6 +130,6 @@ resource "null_resource" "mysql_ro_user" {
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${aws_rds_cluster.apiary_cluster.master_username} '${aws_rds_cluster.apiary_cluster.master_password}' SELECT ${var.apiary_database_name} ${data.vault_generic_secret.hive_rouser.data["username"]} '${data.vault_generic_secret.hive_rouser.data["password"]}'"
+    command = "${path.module}/scripts/mysql-user.sh ${aws_rds_cluster.apiary_cluster.endpoint} ${var.apiary_database_name} ${local.vault_path} RO"
   }
 }
