@@ -9,6 +9,7 @@ resource "aws_sns_topic" "apiary_ops_sns" {
 }
 
 resource "aws_sns_topic" "apiary_metadata_events" {
+  count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
   name = "${local.instance_alias}-metadata-events"
 
   policy = <<POLICY

@@ -342,7 +342,7 @@ data "template_file" "hms_readwrite" {
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
-    sns_arn            = "${ var.enable_metadata_events == "" ? "" : aws_sns_topic.apiary_metadata_events.arn }"
+    sns_arn            = "${ var.enable_metadata_events == "" ? "" : join("",aws_sns_topic.apiary_metadata_events.*.arn) }"
     enable_gluesync    = "${var.enable_gluesync}"
     disable_dbmgmt     = "${var.disable_database_management}"
     gluedb_prefix      = "${local.gluedb_prefix}"
