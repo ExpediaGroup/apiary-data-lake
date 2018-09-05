@@ -1,5 +1,5 @@
 #!/bin/sh
-MYSQL_OPTIONS="-h $1 --user=$2 --password=$3"
+MYSQL_OPTIONS="-h $MYSQL_HOST --user=$MASTER_USER --password=$MASTER_PASSWORD"
 RWUSER="iamrw"
 ROUSER="iamro"
 
