@@ -105,8 +105,8 @@ resource "null_resource" "db_iam_auth" {
     command = "${path.module}/scripts/db-iam-auth.sh"
     environment {
         MYSQL_HOST="${aws_rds_cluster.apiary_cluster.endpoint}"
-        MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
-        MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
+        MYSQL_MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
+        MYSQL_MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
     }
   }
 }
@@ -124,8 +124,8 @@ resource "null_resource" "mysql_rw_user" {
     command = "${path.module}/scripts/mysql-user.sh"
     environment {
         MYSQL_HOST="${aws_rds_cluster.apiary_cluster.endpoint}"
-        MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
-        MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
+        MYSQL_MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
+        MYSQL_MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
         MYSQL_DB="${var.apiary_database_name}"
         MYSQL_USER="${data.vault_generic_secret.hive_rwuser.data["username"]}"
         MYSQL_PASSWORD="${data.vault_generic_secret.hive_rwuser.data["password"]}"
@@ -147,8 +147,8 @@ resource "null_resource" "mysql_ro_user" {
     command = "${path.module}/scripts/mysql-user.sh"
     environment {
         MYSQL_HOST="${aws_rds_cluster.apiary_cluster.endpoint}"
-        MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
-        MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
+        MYSQL_MASTER_USER="${aws_rds_cluster.apiary_cluster.master_username}"
+        MYSQL_MASTER_PASSWORD="${aws_rds_cluster.apiary_cluster.master_password}"
         MYSQL_DB="${var.apiary_database_name}"
         MYSQL_USER="${data.vault_generic_secret.hive_rouser.data["username"]}"
         MYSQL_PASSWORD="${data.vault_generic_secret.hive_rouser.data["password"]}"
