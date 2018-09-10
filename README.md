@@ -1,7 +1,6 @@
 # Overview
 
- This repo contains a terraform module to deploy datalake component in Apiary project, module deploys various stateful components in a typical hadoop compatible datalake in AWS.
-
+ This repo contains a Terraform module to deploy the Apiary data lake component. The module deploys various stateful components in a typical Hadoop-compatible data lake in AWS.
 
 For more information please refer to the main [Apiary](https://github.com/ExpediaInc/apiary) project page.
 
@@ -9,16 +8,16 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
 ![Datalake  architecture](docs/apiary_datalake_3d.jpg)
 
 ## Key Features
-  * Highly Available(HA) metastore service - packaged as docker container and running on ECS Fargate Cluster.
-  * PrivateLinks - Network load balancers and VPC endpoints to enable federated access to readonly and readwrite metastores.
-  * Managed schemas - integrated way of managing hive schemas, S3 buckets and bucket policies.
-  * SNS Listener - A hive metastore event listener to publish all metadata updates to a SNS topic, check [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
-  * Gluesync  - A metastore event listener to replay hive metadata events in glue catalog.
-  * Metastore authorization - A metastore pre event listener to handle authorization using ranger.
+  * Highly Available(HA) metastore service - packaged as Docker container and running on an ECS Fargate Cluster.
+  * PrivateLinks - Network load balancers and VPC endpoints to enable federated access to read-only and read/write metastores.
+  * Managed schemas - integrated way of managing Hive schemas, S3 buckets and bucket policies.
+  * SNS Listener - A Hive metastore event listener to publish all metadata updates to a SNS topic, see [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
+  * Gluesync  - A metastore event listener to replay Hive metadata events in a Glue catalog.
+  * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
 
 ## Usage
 
-   example module invocation
+Example module invocation:
 ```
 module "apiary" {
   source        = "git::https://github.com/ExpediaInc/apiary-metastore.git?ref=v1.0.0"
@@ -47,12 +46,12 @@ module "apiary" {
 }
 
 ```
-  check [variables.tf](variables.tf) for different options and usage
+  Refer to [variables.tf](variables.tf) for different options and usage.
 
 ## Notes
-  apiary metastore docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaInc/apiary-metastore-docker) and publish to ECR.
+  The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaInc/apiary-metastore-docker) and then publish it to your own ECR.
 
-  terraform module and docker container reads various vault secrets, you can create using following commands.
+  The Terraform module and Docker container read various Vault secrets, you can create these using the following commands:
   ```
   vault write secret/apiary-test-us-west-2/db_master_user username=apiary password=xxxxxxxxxxxxxxxxxx
   vault write secret/apiary-test-us-west-2/hive_rouser username=hivero password=xxxxxxxxxxxxxxxxxx
