@@ -43,6 +43,8 @@ TODO
 terraform.tfstate.backup
 *.tfstate.*.backup
 *.swp
+*.plan
+terraform.tfstate
 
 # Netbeans files
 nbactions.xml
