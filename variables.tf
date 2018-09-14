@@ -31,6 +31,16 @@ variable "vault_path" {
   default     = ""
 }
 
+variable "vault_login_path" {
+  description = <<EOF
+Remote path in Vault where the auth method is enabled."
+More details: https://www.vaultproject.io/docs/commands/login.html
+EOF
+
+  type    = "string"
+  default = ""
+}
+
 variable "apiary_domain_name" {
   description = "Apiary domain name for route 53"
   type        = "string"
