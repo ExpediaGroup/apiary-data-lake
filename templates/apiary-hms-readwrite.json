@@ -102,6 +102,10 @@
         "value": "${vault_path}"
      },
      {
+        "name": "VAULT_LOGIN_PATH",
+        "value": "${vault_login_path}"
+     },
+     {
         "name": "loglevel",
         "value": "${log_level}"
      },
