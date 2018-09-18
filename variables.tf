@@ -47,6 +47,12 @@ variable "apiary_domain_name" {
   default     = ""
 }
 
+variable "ecs_domain_name" {
+  description = "Domain name to use for hosted zone created by ECS service discovery"
+  type        = "string"
+  default     = "lcl"
+}
+
 variable "vpc_id" {
   description = "VPC id"
   type        = "string"
