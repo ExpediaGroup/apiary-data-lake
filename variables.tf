@@ -26,7 +26,7 @@ variable "vault_internal_addr" {
 }
 
 variable "vault_path" {
-  description = "Path to apiary secrets in vault"
+  description = "Path to Apiary secrets in Vault"
   type        = "string"
   default     = ""
 }
@@ -42,7 +42,7 @@ EOF
 }
 
 variable "apiary_domain_name" {
-  description = "Apiary domain name for route 53"
+  description = "Apiary domain name for Route53"
   type        = "string"
   default     = ""
 }
@@ -59,51 +59,51 @@ variable "vpc_id" {
 }
 
 variable "private_subnets" {
-  description = "private subnets"
+  description = "Private subnets"
   type        = "list"
 }
 
 variable "aws_region" {
-  description = "aws region"
+  description = "AWS region"
   type        = "string"
 }
 
 variable "apiary_log_bucket" {
-  description = "bucket for apiary logs"
+  description = "Bucket for Apiary logs"
   type        = "string"
 }
 
 variable "apiary_log_prefix" {
-  description = "prefix for apiary logs"
+  description = "Prefix for Apiary logs"
   type        = "string"
   default     = ""
 }
 
 variable "apiary_managed_schemas" {
-  description = "schema names from which s3 bucket names will be derived,corresponding s3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name"
+  description = "Schema names from which S3 bucket names will be derived,corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name"
   type        = "list"
   default     = []
 }
 
 variable "external_data_buckets" {
-  description = "buckets that are not managed by apiary,but added to hive metastore IAM role access"
+  description = "Buckets that are not managed by Apiary,but added to Hive Metastore IAM role access"
   type        = "list"
   default     = []
 }
 
 variable "external_database_host" {
-  description = "external metastore database host to support legacy installations, mysql database won't be created by apiary when this option is specified"
+  description = "External metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified"
   type        = "string"
   default     = ""
 }
 
 variable "apiary_customer_accounts" {
-  description = "aws account ids for clients of this metastore"
+  description = "AWS account ids for clients of this Metastore"
   type        = "list"
 }
 
 variable "apiary_producer_iamroles" {
-  description = "aws iam roles allowed write access to managed apiary s3 buckets"
+  description = "AWS IAM roles allowed write access to managed Apiary S3 buckets"
   type        = "map"
   default     = {}
 }
@@ -121,42 +121,42 @@ variable "apiary_database_name" {
 }
 
 variable "db_instance_class" {
-  description = "instance type for the rds metastore"
+  description = "Instance type for the RDS Metastore DB"
   type        = "string"
 }
 
 variable "db_instance_count" {
-  description = "desired count of database cluster instances"
+  description = "Desired count of database cluster instances"
   type        = "string"
   default     = "2"
 }
 
 variable "db_backup_retention" {
-  description = "The days to retain backups for, for the rds metastore."
+  description = "The days to retain backups for, for the RDS Metastore DB"
   type        = "string"
 }
 
 variable "db_backup_window" {
-  description = "preferred backup window for rds metastore database in UTC."
+  description = "Preferred backup window for rds Metastore DB in UTC."
   type        = "string"
   default     = "02:00-03:00"
 }
 
 variable "db_maintenance_window" {
-  description = "preferred maintenance window for rds metastore database in UTC."
+  description = "Preferred maintenance window for RDS Metastore DB in UTC."
   type        = "string"
   default     = "wed:03:00-wed:04:00"
 }
 
 variable "hms_log_level" {
-  description = "log level for the hive metastore"
+  description = "Log level for the Hive Metastore"
   type        = "string"
   default     = "INFO"
 }
 
 variable "hms_ro_heapsize" {
   description = <<EOF
-heapsize for the RO hive metastore.
+Heapsize for the RO Hive Metastore.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -165,7 +165,7 @@ EOF
 
 variable "hms_rw_heapsize" {
   description = <<EOF
-heapsize for the RW hive metastore.
+Heapsize for the RW Hive Metastore.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -174,8 +174,8 @@ EOF
 
 variable "hms_ro_cpu" {
   description = <<EOF
-CPU for the RO hive metastore ECS task.
-Valid values cane be 256, 512, 1024, 2048 and 4096.
+CPU for the RO Hive Metastore ECS task.
+Valid values can be 256, 512, 1024, 2048 and 4096.
 Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -185,8 +185,8 @@ EOF
 
 variable "hms_rw_cpu" {
   description = <<EOF
-CPU for the RW hive metastore ECS task.
-Valid values cane be 256, 512, 1024, 2048 and 4096.
+CPU for the RW Hive Metastore ECS task.
+Valid values can be 256, 512, 1024, 2048 and 4096.
 Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
@@ -195,100 +195,100 @@ EOF
 }
 
 variable "hms_nofile_ulimit" {
-  description = "ulimit for the metastore container"
+  description = "Ulimit for the Hive Metastore container"
   type        = "string"
   default     = "32768"
 }
 
 variable "hms_docker_image" {
-  description = "docker image id for the hive metastore"
+  description = "Docker image id for the Hive Metastore"
   type        = "string"
 }
 
 variable "hms_docker_version" {
-  description = "version of the docker image for the hive metastore"
+  description = "Version of the Docker image for the Hive Metastore"
   type        = "string"
 }
 
 variable "hms_readwrite_instance_count" {
-  description = "desired count of the RW hive metastore service"
+  description = "Desired count of the RW Hive Metastore service"
   type        = "string"
   default     = "2"
 }
 
 variable "hms_readonly_instance_count" {
-  description = "desired count of the RO hive metastore service"
+  description = "Desired count of the RO Hive Metastore service"
   type        = "string"
   default     = "2"
 }
 
 variable "apiary_s3_alarm_threshold" {
-  description = "will trigger cloudwatch alarm if s3 is greater than this, default 1TB"
+  description = "Will trigger Cloudwatch alarm if S3 is greater than this, default 1TB"
   type        = "string"
   default     = "10000000000000"
 }
 
 variable "elb_timeout" {
-  description = "idle timeout for apiary ELB"
+  description = "Idle timeout for Apiary ELB"
   type        = "string"
   default     = "1800"
 }
 
 variable "ingress_cidr" {
-  description = "Generally allowed ingress cidr list"
+  description = "Generally allowed ingress CIDR list"
   type        = "list"
 }
 
 variable "enable_gluesync" {
-  description = "enable metadata sync from hive to glue catalog"
+  description = "Enable metadata sync from Hive to Glue catalog"
   type        = "string"
   default     = ""
 }
 
 variable "enable_metadata_events" {
-  description = "enable hive metastore sns listener"
+  description = "Enable Hive Metastore SNS listener"
   type        = "string"
   default     = ""
 }
 
 variable "enable_data_events" {
-  description = "enable managed buckets s3 event notifications"
+  description = "Enable managed buckets S3 event notifications"
   type        = "string"
   default     = ""
 }
 
 variable "disable_database_management" {
-  description = "disable creating and dropping databases from hive cli"
+  description = "Disable creating and dropping databases from Hive CLI"
   type        = "string"
   default     = ""
 }
 
 variable "ranger_policy_mgr_url" {
-  description = "ranger admin url to synchronize policies"
+  description = "Ranger admin url to synchronize policies"
   type        = "string"
   default     = ""
 }
 
 variable "ranger_audit_solr_url" {
-  description = "ranger solr audit provider configuration"
+  description = "Ranger solr audit provider configuration"
   type        = "string"
   default     = ""
 }
 
 variable "ranger_audit_db_url" {
-  description = "ranger db audit provider configuration"
+  description = "Ranger db audit provider configuration"
   type        = "string"
   default     = ""
 }
 
 variable "ldap_url" {
-  description = "active directory ldap url to configure hadoop LDAP group mapping"
+  description = "Active directory LDAP url to configure Hadoop LDAP group mapping"
   type        = "string"
   default     = ""
 }
 
 variable "ldap_base" {
-  description = "active directory ldap base dn to search users and groups"
+  description = "Active directory LDAP base DN to search users and groups"
   type        = "string"
   default     = ""
 }
