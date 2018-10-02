@@ -222,12 +222,6 @@ variable "hms_readonly_instance_count" {
   default     = "2"
 }
 
-variable "apiary_s3_alarm_threshold" {
-  description = "Will trigger Cloudwatch alarm if S3 is greater than this, default 1TB"
-  type        = "string"
-  default     = "10000000000000"
-}
-
 variable "elb_timeout" {
   description = "Idle timeout for Apiary ELB"
   type        = "string"
