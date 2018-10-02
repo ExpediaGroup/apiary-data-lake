@@ -33,7 +33,7 @@ variable "vault_path" {
 
 variable "vault_login_path" {
   description = <<EOF
-Remote path in Vault where the auth method is enabled."
+Remote path in Vault where the auth method is enabled.
 More details: https://www.vaultproject.io/docs/commands/login.html
 EOF
 

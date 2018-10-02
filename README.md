@@ -16,7 +16,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
 
 ## Variables
-Please refer [VARIABLES.md](VARIABLES.md).
+Please refer to [VARIABLES.md](VARIABLES.md).
 
 ## Usage
 
