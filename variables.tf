@@ -292,3 +292,9 @@ variable "ldap_base" {
   type        = "string"
   default     = ""
 }
+
+variable "secondary_vpcs" {
+  description = "List of VPCs to associate with Service Discovery namespace"
+  type        = "list"
+  default     = []
+}
