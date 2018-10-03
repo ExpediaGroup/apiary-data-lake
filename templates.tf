@@ -38,8 +38,6 @@ data "template_file" "hms_readwrite" {
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1" }"
   }
-
-  depends_on = ["aws_sns_topic.apiary_metadata_events"]
 }
 
 data "template_file" "hms_readonly" {
