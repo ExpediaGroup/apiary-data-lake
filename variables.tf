@@ -79,8 +79,8 @@ variable "apiary_log_prefix" {
   default     = ""
 }
 
-variable "enable_metrics" {
-  description = "Enable sending metastore metrics to CloudWatch."
+variable "enable_metastore_metrics" {
+  description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = "string"
   default     = ""
 }
