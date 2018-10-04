@@ -79,6 +79,12 @@ variable "apiary_log_prefix" {
   default     = ""
 }
 
+variable "enable_metrics" {
+  description = "Enable sending metastore metrics to CloudWatch."
+  type        = "string"
+  default     = ""
+}
+
 variable "apiary_managed_schemas" {
   description = "Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name."
   type        = "list"

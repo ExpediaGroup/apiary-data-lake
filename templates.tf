@@ -21,6 +21,7 @@ data "template_file" "hms_readwrite" {
     vault_login_path   = "${var.vault_login_path}"
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
+    enable_metrics     = "${var.enable_metrics}"
     managed_schemas    = "${join(",",var.apiary_managed_schemas)}"
     instance_name      = "${local.instance_alias}"
     sns_arn            = "${ var.enable_metadata_events == "" ? "" : join("",aws_sns_topic.apiary_metadata_events.*.arn) }"
@@ -56,5 +57,6 @@ data "template_file" "hms_readonly" {
     vault_login_path   = "${var.vault_login_path}"
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
+    enable_metrics     = "${var.enable_metrics}"
   }
 }

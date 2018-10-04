@@ -56,6 +56,10 @@
      {
         "name": "loglevel",
         "value": "${log_level}"
+     },
+     {
+        "name": "ENABLE_METRICS",
+        "value": "${enable_metrics}"
      }
     ]
   }
