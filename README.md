@@ -15,6 +15,9 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * Gluesync  - A metastore event listener to replay Hive metadata events in a Glue catalog.
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
 
+## Variables
+Please refer to [VARIABLES.md](VARIABLES.md).
+
 ## Usage
 
 Example module invocation:
@@ -46,7 +49,6 @@ module "apiary" {
 }
 
 ```
-  Refer to [variables.tf](variables.tf) for different options and usage.
 
 ## Notes
   The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaInc/apiary-metastore-docker) and then publish it to your own ECR.
