@@ -46,3 +46,10 @@ resource "aws_service_discovery_service" "hms_readonly" {
     failure_threshold = 1
   }
 }
+
+resource "aws_route53_zone_association" "secondary" {
+  count      = "${length(var.secondary_vpcs)}"
+  zone_id    = "${aws_service_discovery_private_dns_namespace.apiary.hosted_zone}"
+  vpc_id     = "${element(var.secondary_vpcs,count.index)}"
+  vpc_region = "${var.aws_region}"
+}
