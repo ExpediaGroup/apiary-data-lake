@@ -112,6 +112,10 @@
      {
         "name": "EXTERNAL_DATABASE",
         "value": "${external_database}"
+     },
+     {
+        "name": "ENABLE_METRICS",
+        "value": "${enable_metrics}"
      }
     ]
   }

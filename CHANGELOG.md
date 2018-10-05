@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Use MySQL script instead of Terraform provider to solve Terraform first run issue.
 
 ### Added
+- Option to send Hive Metastore metrics to CloudWatch - see [#4](https://github.com/ExpediaInc/apiary-metastore-docker/issues/4).
 - Option to use external MySQL database (to support legacy installations) - see [#48](https://github.com/ExpediaInc/apiary-metastore/issues/48).
 - Option to associate multiple VPCs to Service Discovery namespace - see
 [#66](https://github.com/ExpediaInc/apiary-metastore/issues/66)
