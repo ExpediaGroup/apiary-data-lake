@@ -42,6 +42,10 @@
         "value": "${region}"
      },
      {
+        "name": "INSTANCE_NAME",
+        "value": "${instance_name}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },

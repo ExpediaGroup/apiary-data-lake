@@ -58,5 +58,6 @@ data "template_file" "hms_readonly" {
     log_level          = "${var.hms_log_level}"
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     enable_metrics     = "${var.enable_metastore_metrics}"
+    instance_name      = "${local.instance_alias}"
   }
 }
