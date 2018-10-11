@@ -257,13 +257,7 @@ variable "enable_data_events" {
   default     = ""
 }
 
-variable "disable_database_management" {
-  description = "Disable creating and dropping databases from Hive CLI."
-  type        = "string"
-  default     = ""
-}
-
-variable "ranger_policy_mgr_url" {
+variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = "string"
   default     = ""

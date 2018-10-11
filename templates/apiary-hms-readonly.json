@@ -26,11 +26,11 @@
     ],
     "environment":[
      {
-        "name": "dbhost",
+        "name": "MYSQL_DB_HOST",
         "value": "${db_host}"
      },
      {
-        "name": "dbname",
+        "name": "MYSQL_DB_NAME",
         "value": "${db_name}"
      },
      {
@@ -46,11 +46,35 @@
         "value": "${instance_name}"
      },
      {
+        "name": "RANGER_SERVICE_NAME",
+        "value": "${ranger_service_name}"
+     },
+     {
+        "name": "RANGER_POLICY_MANAGER_URL",
+        "value": "${ranger_policy_manager_url}"
+     },
+     {
+        "name": "RANGER_AUDIT_SOLR_URL",
+        "value": "${ranger_audit_solr_url}"
+     },
+     {
+        "name": "RANGER_AUDIT_DB_URL",
+        "value": "${ranger_audit_db_url}"
+     },
+     {
+        "name": "LDAP_URL",
+        "value": "${ldap_url}"
+     },
+     {
+        "name": "LDAP_BASE",
+        "value": "${ldap_base}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },
      {
-        "name": "vault_path",
+        "name": "VAULT_PATH",
         "value": "${vault_path}"
      },
      {
@@ -58,7 +82,7 @@
         "value": "${vault_login_path}"
      },
      {
-        "name": "loglevel",
+        "name": "HIVE_METASTORE_LOG_LEVEL",
         "value": "${log_level}"
      },
      {

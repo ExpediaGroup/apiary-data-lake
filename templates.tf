@@ -10,7 +10,7 @@ data "template_file" "hms_readwrite" {
   vars {
     db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host }"
     db_name            = "${var.apiary_database_name}"
-    instance_type      = "readwrite"
+    hive_metastore_access_mode = "readwrite"
     hms_heapsize       = "${var.hms_rw_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
     hms_docker_version = "${var.hms_docker_version}"
@@ -26,14 +26,13 @@ data "template_file" "hms_readwrite" {
     instance_name      = "${local.instance_alias}"
     sns_arn            = "${ var.enable_metadata_events == "" ? "" : join("",aws_sns_topic.apiary_metadata_events.*.arn) }"
     enable_gluesync    = "${var.enable_gluesync}"
-    disable_dbmgmt     = "${var.disable_database_management}"
     gluedb_prefix      = "${local.gluedb_prefix}"
 
     ranger_service_name   = "${local.instance_alias}-metastore"
-    ranger_policy_mgr_url = "${replace(var.ranger_policy_mgr_url,"/","\\\\/")}"
-    ranger_audit_solr_url = "${replace(var.ranger_audit_solr_url,"/","\\\\/")}"
-    ranger_audit_db_url   = "${replace(var.ranger_audit_db_url,"/","\\\\/")}"
-    ldap_url              = "${replace(var.ldap_url,"/","\\\\/")}"
+    ranger_policy_manager_url = "${var.ranger_policy_manager_url}"
+    ranger_audit_solr_url = "${var.ranger_audit_solr_url}"
+    ranger_audit_db_url   = "${var.ranger_audit_db_url}"
+    ldap_url              = "${var.ldap_url}"
     ldap_base             = "${var.ldap_base}"
 
     #to instruct docker to turn off upgrading hive db schema when using external database
@@ -59,5 +58,12 @@ data "template_file" "hms_readonly" {
     nofile_ulimit      = "${var.hms_nofile_ulimit}"
     enable_metrics     = "${var.enable_hive_metastore_metrics}"
     instance_name      = "${local.instance_alias}"
+
+    ranger_service_name   = "${local.instance_alias}-metastore"
+    ranger_policy_manager_url = "${var.ranger_policy_manager_url}"
+    ranger_audit_solr_url = "${var.ranger_audit_solr_url}"
+    ranger_audit_db_url   = "${var.ranger_audit_db_url}"
+    ldap_url              = "${var.ldap_url}"
+    ldap_base             = "${var.ldap_base}"
   }
 }
