@@ -27,11 +27,11 @@
     "environment":[
      {
         "name": "MYSQL_DB_HOST",
-        "value": "${db_host}"
+        "value": "${mysql_db_host}"
      },
      {
         "name": "MYSQL_DB_NAME",
-        "value": "${db_name}"
+        "value": "${mysql_db_name}"
      },
      {
         "name": "HIVE_METASTORE_ACCESS_MODE",
