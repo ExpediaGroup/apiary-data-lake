@@ -8,8 +8,8 @@ data "template_file" "hms_readwrite" {
   template = "${file("${path.module}/templates/apiary-hms-readwrite.json")}"
 
   vars {
-    db_host                    = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host }"
-    db_name                    = "${var.apiary_database_name}"
+    mysql_db_host                    = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host }"
+    mysql_db_name                    = "${var.apiary_database_name}"
     hive_metastore_access_mode = "readwrite"
     hms_heapsize               = "${var.hms_rw_heapsize}"
     hms_docker_image           = "${var.hms_docker_image}"
@@ -44,8 +44,8 @@ data "template_file" "hms_readonly" {
   template = "${file("${path.module}/templates/apiary-hms-readonly.json")}"
 
   vars {
-    db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host }"
-    db_name            = "${var.apiary_database_name}"
+    mysql_db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host }"
+    mysql_db_name            = "${var.apiary_database_name}"
     hms_heapsize       = "${var.hms_ro_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
     hms_docker_version = "${var.hms_docker_version}"
