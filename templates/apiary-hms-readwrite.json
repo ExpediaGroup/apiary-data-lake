@@ -26,16 +26,16 @@
     ],
     "environment":[
      {
-        "name": "dbhost",
-        "value": "${db_host}"
+        "name": "MYSQL_DB_HOST",
+        "value": "${mysql_db_host}"
      },
      {
-        "name": "dbname",
-        "value": "${db_name}"
+        "name": "MYSQL_DB_NAME",
+        "value": "${mysql_db_name}"
      },
      {
-        "name": "instance_type",
-        "value": "${instance_type}"
+        "name": "HIVE_METASTORE_ACCESS_MODE",
+        "value": "${hive_metastore_access_mode}"
      },
      {
         "name": "HADOOP_HEAPSIZE",
@@ -46,7 +46,7 @@
         "value": "${region}"
      },
      {
-        "name": "HIVE_DBS",
+        "name": "HIVE_DB_NAMES",
         "value": "${managed_schemas}"
      },
      {
@@ -62,10 +62,6 @@
         "value": "${enable_gluesync}"
      },
      {
-        "name": "DISABLE_DBMGMT",
-        "value": "${disable_dbmgmt}"
-     },
-     {
         "name": "GLUE_PREFIX",
         "value": "${gluedb_prefix}"
      },
@@ -74,15 +70,15 @@
         "value": "${ranger_service_name}"
      },
      {
-        "name": "POLICY_MGR_URL",
-        "value": "${ranger_policy_mgr_url}"
+        "name": "RANGER_POLICY_MANAGER_URL",
+        "value": "${ranger_policy_manager_url}"
      },
      {
-        "name": "AUDIT_SOLR_URL",
+        "name": "RANGER_AUDIT_SOLR_URL",
         "value": "${ranger_audit_solr_url}"
      },
      {
-        "name": "AUDIT_DB_URL",
+        "name": "RANGER_AUDIT_DB_URL",
         "value": "${ranger_audit_db_url}"
      },
      {
@@ -98,7 +94,7 @@
         "value": "${vault_addr}"
      },
      {
-        "name": "vault_path",
+        "name": "VAULT_PATH",
         "value": "${vault_path}"
      },
      {
@@ -106,8 +102,8 @@
         "value": "${vault_login_path}"
      },
      {
-        "name": "loglevel",
-        "value": "${log_level}"
+        "name": "HIVE_METASTORE_LOG_LEVEL",
+        "value": "${hive_metastore_log_level}"
      },
      {
         "name": "EXTERNAL_DATABASE",
