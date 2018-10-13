@@ -293,6 +293,12 @@ variable "ranger_audit_db_url" {
   default     = ""
 }
 
+variable "ranger_audit_secret_name" {
+  description = "Ranger DB audit secret name."
+  type        = "string"
+  default     = ""
+}
+
 variable "ldap_url" {
   description = "Active directory LDAP URL to configure Hadoop LDAP group mapping."
   type        = "string"

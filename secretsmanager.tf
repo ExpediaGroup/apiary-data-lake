@@ -29,3 +29,13 @@ data "aws_secretsmanager_secret_version" "ldap_user" {
   count = "${ var.ldap_url == "" ? 0 : 1 }"
   secret_id     = "${data.aws_secretsmanager_secret.ldap_user.id}"
 }
+
+data "aws_secretsmanager_secret" "ranger_audit" {
+  count = "${ var.ranger_audit_db_url == "" ? 0 : 1 }"
+  name = "${ var.ranger_audit_secret_name == "" ? format("%s-ranger-audit",local.instance_alias): var.ranger_audit_secret_name }"
+}
+
+data "aws_secretsmanager_secret_version" "ranger_audit" {
+  count = "${ var.ranger_audit_db_url == "" ? 0 : 1 }"
+  secret_id     = "${data.aws_secretsmanager_secret.ranger_audit.id}"
+}

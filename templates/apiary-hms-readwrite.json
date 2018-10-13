@@ -86,6 +86,10 @@
         "value": "${ranger_audit_db_url}"
      },
      {
+        "name": "RANGER_AUDIT_SECRET_ARN",
+        "value": "${ranger_audit_secret_arn}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
      },

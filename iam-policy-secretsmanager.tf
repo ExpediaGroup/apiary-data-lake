@@ -14,7 +14,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_readonly" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_ro_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn))}" ]
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_ro_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn,data.aws_secretsmanager_secret.ranger_audit.*.arn))}" ]
     }
 }
 EOF
@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_readwrite" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_rw_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn))}" ]
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_rw_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn,data.aws_secretsmanager_secret.ranger_audit.*.arn))}" ]
     }
 }
 EOF
