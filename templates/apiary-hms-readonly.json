@@ -86,18 +86,6 @@
         "value": "${ldap_secret_arn}"
      },
      {
-        "name": "VAULT_ADDR",
-        "value": "${vault_addr}"
-     },
-     {
-        "name": "VAULT_PATH",
-        "value": "${vault_path}"
-     },
-     {
-        "name": "VAULT_LOGIN_PATH",
-        "value": "${vault_login_path}"
-     },
-     {
         "name": "HIVE_METASTORE_LOG_LEVEL",
         "value": "${hive_metastore_log_level}"
      },

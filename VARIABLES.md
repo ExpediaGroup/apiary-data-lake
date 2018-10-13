@@ -45,8 +45,4 @@
 | ranger_audit_db_url | Ranger DB audit provider configuration. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| vault_addr | Address of Vault server for secrets. | string | - | yes |
-| vault_internal_addr | Internal address of Vault server for secrets. | string | - | yes |
-| vault_login_path | Remote path in Vault where the auth method is enabled. More details: https://www.vaultproject.io/docs/commands/login.html | string | `` | no |
-| vault_path | Path to Apiary secrets in Vault. | string | `` | no |
 | vpc_id | VPC ID. | string | - | yes |
