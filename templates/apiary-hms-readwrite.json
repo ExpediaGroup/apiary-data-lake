@@ -90,6 +90,10 @@
         "value": "${ldap_url}"
      },
      {
+        "name": "LDAP_CA_CERT",
+        "value": "${ldap_ca_cert}"
+     },
+     {
         "name": "LDAP_BASE",
         "value": "${ldap_base}"
      },

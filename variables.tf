@@ -299,6 +299,12 @@ variable "ldap_url" {
   default     = ""
 }
 
+variable "ldap_ca_cert" {
+  description = "Base64 encoded Certificate Authority bundle to validate LDAPS connections."
+  type        = "string"
+  default     = ""
+}
+
 variable "ldap_base" {
   description = "Active directory LDAP base DN to search users and groups."
   type        = "string"
