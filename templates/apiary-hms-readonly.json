@@ -34,6 +34,10 @@
         "value": "${mysql_db_name}"
      },
      {
+        "name": "MYSQL_SECRET_ARN",
+        "value": "${mysql_secret_arn}"
+     },
+     {
         "name": "HADOOP_HEAPSIZE",
         "value": "${hms_heapsize}"
      },

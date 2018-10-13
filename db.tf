@@ -4,21 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-data "vault_generic_secret" "apiarydb_master_user" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
-  path  = "${local.vault_path}/db_master_user"
-}
-
-data "vault_generic_secret" "hive_rwuser" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
-  path  = "${local.vault_path}/hive_rwuser"
-}
-
-data "vault_generic_secret" "hive_rouser" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
-  path  = "${local.vault_path}/hive_rouser"
-}
-
 resource "aws_db_subnet_group" "apiarydbsg" {
   count       = "${ var.external_database_host == "" ? 1 : 0 }"
   name        = "${local.instance_alias}-dbsg"
@@ -63,12 +48,18 @@ resource "random_id" "snapshot_id" {
   byte_length = 8
 }
 
+resource "random_string" "db_master_password" {
+  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  length  = 16
+  special = false
+}
+
 resource "aws_rds_cluster" "apiary_cluster" {
   count                               = "${ var.external_database_host == "" ? 1 : 0 }"
   cluster_identifier                  = "${local.instance_alias}-cluster"
   database_name                       = "${var.apiary_database_name}"
-  master_username                     = "${data.vault_generic_secret.apiarydb_master_user.data["username"]}"
-  master_password                     = "${data.vault_generic_secret.apiarydb_master_user.data["password"]}"
+  master_username                     = "${var.db_master_username}"
+  master_password                     = "${random_string.db_master_password.result}"
   backup_retention_period             = "${var.db_backup_retention}"
   preferred_backup_window             = "${var.db_backup_window}"
   preferred_maintenance_window        = "${var.db_maintenance_window}"
@@ -117,8 +108,7 @@ resource "null_resource" "mysql_rw_user" {
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
 
   triggers {
-    username     = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
-    password_md5 = "${md5(data.vault_generic_secret.hive_rwuser.data["password"])}"
+    secret_string = "${md5(data.aws_secretsmanager_secret_version.db_rw_user.secret_string)}"
   }
 
   provisioner "local-exec" {
@@ -129,8 +119,7 @@ resource "null_resource" "mysql_rw_user" {
       MYSQL_MASTER_USER     = "${aws_rds_cluster.apiary_cluster.master_username}"
       MYSQL_MASTER_PASSWORD = "${aws_rds_cluster.apiary_cluster.master_password}"
       MYSQL_DB              = "${var.apiary_database_name}"
-      MYSQL_USER            = "${data.vault_generic_secret.hive_rwuser.data["username"]}"
-      MYSQL_PASSWORD        = "${data.vault_generic_secret.hive_rwuser.data["password"]}"
+      MYSQL_SECRET_ARN      = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
       MYSQL_PERMISSIONS     = "ALL"
     }
   }
@@ -141,8 +130,7 @@ resource "null_resource" "mysql_ro_user" {
   depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
 
   triggers {
-    username     = "${data.vault_generic_secret.hive_rouser.data["username"]}"
-    password_md5 = "${md5(data.vault_generic_secret.hive_rouser.data["password"])}"
+    secret_string = "${md5(data.aws_secretsmanager_secret_version.db_ro_user.secret_string)}"
   }
 
   provisioner "local-exec" {
@@ -153,8 +141,7 @@ resource "null_resource" "mysql_ro_user" {
       MYSQL_MASTER_USER     = "${aws_rds_cluster.apiary_cluster.master_username}"
       MYSQL_MASTER_PASSWORD = "${aws_rds_cluster.apiary_cluster.master_password}"
       MYSQL_DB              = "${var.apiary_database_name}"
-      MYSQL_USER            = "${data.vault_generic_secret.hive_rouser.data["username"]}"
-      MYSQL_PASSWORD        = "${data.vault_generic_secret.hive_rouser.data["password"]}"
+      MYSQL_SECRET_ARN      = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
       MYSQL_PERMISSIONS     = "SELECT"
     }
   }

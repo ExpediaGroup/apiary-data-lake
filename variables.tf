@@ -126,6 +126,24 @@ variable "apiary_database_name" {
   default     = "apiary"
 }
 
+variable "db_master_username" {
+  description = "Aurora cluster MySQL master user name"
+  type        = "string"
+  default     = "apiary"
+}
+
+variable "db_rw_secret_name" {
+  description = "Aurora cluster MySQL read/write user SecretsManager secret name"
+  type        = "string"
+  default     = ""
+}
+
+variable "db_ro_secret_name" {
+  description = "Aurora cluster MySQL read-only user SecretsManger secret name"
+  type        = "string"
+  default     = ""
+}
+
 variable "db_instance_class" {
   description = "Instance type for the RDS Metastore DB."
   type        = "string"

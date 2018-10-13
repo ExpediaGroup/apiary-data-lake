@@ -10,6 +10,7 @@ data "template_file" "hms_readwrite" {
   vars {
     mysql_db_host                    = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host }"
     mysql_db_name                    = "${var.apiary_database_name}"
+    mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     hive_metastore_access_mode = "readwrite"
     hms_heapsize               = "${var.hms_rw_heapsize}"
     hms_docker_image           = "${var.hms_docker_image}"
@@ -46,6 +47,7 @@ data "template_file" "hms_readonly" {
   vars {
     mysql_db_host            = "${var.external_database_host == "" ? join("",aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host }"
     mysql_db_name            = "${var.apiary_database_name}"
+    mysql_secret_arn         = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     hms_heapsize       = "${var.hms_ro_heapsize}"
     hms_docker_image   = "${var.hms_docker_image}"
     hms_docker_version = "${var.hms_docker_version}"
