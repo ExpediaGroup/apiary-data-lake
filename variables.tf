@@ -305,6 +305,12 @@ variable "ldap_base" {
   default     = ""
 }
 
+variable "ldap_secret_name" {
+  description = "Active directory LDAP bind DN SecretsManager secret name."
+  type        = "string"
+  default     = ""
+}
+
 variable "secondary_vpcs" {
   description = "List of VPCs to associate with Service Discovery namespace"
   type        = "list"

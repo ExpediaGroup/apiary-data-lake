@@ -5,7 +5,6 @@
  */
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_readonly" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
   name  = "secretsmanager"
   role  = "${aws_iam_role.apiary_task_readonly.id}"
 
@@ -15,14 +14,13 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_readonly" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": "${data.aws_secretsmanager_secret.db_ro_user.arn}"
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_ro_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn))}" ]
     }
 }
 EOF
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_readwrite" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
   name  = "secretsmanager"
   role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
@@ -32,7 +30,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_readwrite" {
     "Statement": {
         "Effect": "Allow",
         "Action": "secretsmanager:GetSecretValue",
-        "Resource": "${data.aws_secretsmanager_secret.db_rw_user.arn}"
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.db_rw_user.*.arn,data.aws_secretsmanager_secret.ldap_user.*.arn))}" ]
     }
 }
 EOF

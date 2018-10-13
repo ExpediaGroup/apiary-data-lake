@@ -74,6 +74,10 @@
         "value": "${ldap_base}"
      },
      {
+        "name": "LDAP_SECRET_ARN",
+        "value": "${ldap_secret_arn}"
+     },
+     {
         "name": "VAULT_ADDR",
         "value": "${vault_addr}"
      },

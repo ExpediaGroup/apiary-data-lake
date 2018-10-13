@@ -35,6 +35,7 @@ data "template_file" "hms_readwrite" {
     ranger_audit_db_url       = "${var.ranger_audit_db_url}"
     ldap_url                  = "${var.ldap_url}"
     ldap_base                 = "${var.ldap_base}"
+    ldap_secret_arn           = "${var.ldap_url == "" ? "" : join("",data.aws_secretsmanager_secret.ldap_user.*.arn)}"
 
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1" }"
@@ -67,5 +68,6 @@ data "template_file" "hms_readonly" {
     ranger_audit_db_url       = "${var.ranger_audit_db_url}"
     ldap_url                  = "${var.ldap_url}"
     ldap_base                 = "${var.ldap_base}"
+    ldap_secret_arn           = "${var.ldap_url == "" ? "" : join("",data.aws_secretsmanager_secret.ldap_user.*.arn)}"
   }
 }

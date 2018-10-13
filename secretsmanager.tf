@@ -19,3 +19,13 @@ data "aws_secretsmanager_secret_version" "db_rw_user" {
 data "aws_secretsmanager_secret_version" "db_ro_user" {
   secret_id     = "${data.aws_secretsmanager_secret.db_ro_user.id}"
 }
+
+data "aws_secretsmanager_secret" "ldap_user" {
+  count = "${ var.ldap_url == "" ? 0 : 1 }"
+  name = "${ var.ldap_secret_name == "" ? format("%s-ldap-user",local.instance_alias): var.ldap_secret_name }"
+}
+
+data "aws_secretsmanager_secret_version" "ldap_user" {
+  count = "${ var.ldap_url == "" ? 0 : 1 }"
+  secret_id     = "${data.aws_secretsmanager_secret.ldap_user.id}"
+}
