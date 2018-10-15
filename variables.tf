@@ -101,19 +101,19 @@ variable "apiary_database_name" {
 }
 
 variable "db_master_username" {
-  description = "Aurora cluster MySQL master user name"
+  description = "Aurora cluster MySQL master user name."
   type        = "string"
   default     = "apiary"
 }
 
 variable "db_rw_secret_name" {
-  description = "Aurora cluster MySQL read/write user SecretsManager secret name"
+  description = "Aurora cluster MySQL read/write user SecretsManager secret name."
   type        = "string"
   default     = ""
 }
 
 variable "db_ro_secret_name" {
-  description = "Aurora cluster MySQL read-only user SecretsManger secret name"
+  description = "Aurora cluster MySQL read-only user SecretsManger secret name."
   type        = "string"
   default     = ""
 }

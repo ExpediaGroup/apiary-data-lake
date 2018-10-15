@@ -19,6 +19,9 @@
 | db_instance_class | Instance type for the RDS Metastore DB. | string | - | yes |
 | db_instance_count | Desired count of database cluster instances. | string | `2` | no |
 | db_maintenance_window | Preferred maintenance window for the RDS Metastore DB in UTC. | string | `wed:03:00-wed:04:00` | no |
+| db_master_username | Aurora cluster MySQL master user name. | string | `apiary` | no |
+| db_rw_secret_name | Aurora cluster MySQL read/write user SecretsManager secret name. | string | `` | no |
+| db_ro_secret_name | Aurora cluster MySQL read-only user SecretsManager secret name. | string | `` | no |
 | ecs_domain_name | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
