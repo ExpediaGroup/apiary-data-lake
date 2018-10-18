@@ -34,6 +34,10 @@
         "value": "${mysql_db_name}"
      },
      {
+        "name": "MYSQL_SECRET_ARN",
+        "value": "${mysql_secret_arn}"
+     },
+     {
         "name": "HIVE_METASTORE_ACCESS_MODE",
         "value": "${hive_metastore_access_mode}"
      },
@@ -82,24 +86,24 @@
         "value": "${ranger_audit_db_url}"
      },
      {
+        "name": "RANGER_AUDIT_SECRET_ARN",
+        "value": "${ranger_audit_secret_arn}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
+     },
+     {
+        "name": "LDAP_CA_CERT",
+        "value": "${ldap_ca_cert}"
      },
      {
         "name": "LDAP_BASE",
         "value": "${ldap_base}"
      },
      {
-        "name": "VAULT_ADDR",
-        "value": "${vault_addr}"
-     },
-     {
-        "name": "VAULT_PATH",
-        "value": "${vault_path}"
-     },
-     {
-        "name": "VAULT_LOGIN_PATH",
-        "value": "${vault_login_path}"
+        "name": "LDAP_SECRET_ARN",
+        "value": "${ldap_secret_arn}"
      },
      {
         "name": "HIVE_METASTORE_LOG_LEVEL",

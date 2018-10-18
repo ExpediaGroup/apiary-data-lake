@@ -31,9 +31,6 @@ module "apiary" {
   private_subnets = [ "subnet1, "subnet2", "subnet3" ]
   vpc_id          = "vpc-123456"
 
-  vault_addr          = "https://vault.internal.domain"
-  vault_internal_addr = "https://vault.service.consul:8200"
-
   hms_docker_image             = "${aws_account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
   hms_docker_version           = "1.0.0"
   hms_ro_heapsize              = "8192"
@@ -52,13 +49,6 @@ module "apiary" {
 
 ## Notes
   The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaInc/apiary-metastore-docker) and then publish it to your own ECR.
-
-  The Terraform module and Docker container read various Vault secrets, you can create these using the following commands:
-  ```
-  vault write secret/apiary-test-us-west-2/db_master_user username=apiary password=xxxxxxxxxxxxxxxxxx
-  vault write secret/apiary-test-us-west-2/hive_rouser username=hivero password=xxxxxxxxxxxxxxxxxx
-  vault write secret/apiary-test-us-west-2/hive_rwuser username=hiverw password=xxxxxxxxxxxxxxxxxx
-  ```
 
 # Contact
 

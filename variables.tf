@@ -15,32 +15,6 @@ variable "apiary_tags" {
   type        = "map"
 }
 
-variable "vault_addr" {
-  description = "Address of Vault server for secrets."
-  type        = "string"
-}
-
-variable "vault_internal_addr" {
-  description = "Internal address of Vault server for secrets."
-  type        = "string"
-}
-
-variable "vault_path" {
-  description = "Path to Apiary secrets in Vault."
-  type        = "string"
-  default     = ""
-}
-
-variable "vault_login_path" {
-  description = <<EOF
-Remote path in Vault where the auth method is enabled.
-More details: https://www.vaultproject.io/docs/commands/login.html
-EOF
-
-  type    = "string"
-  default = ""
-}
-
 variable "apiary_domain_name" {
   description = "Apiary domain name for Route 53."
   type        = "string"
@@ -124,6 +98,24 @@ variable "apiary_database_name" {
   description = "Database name to create in RDS for Apiary."
   type        = "string"
   default     = "apiary"
+}
+
+variable "db_master_username" {
+  description = "Aurora cluster MySQL master user name."
+  type        = "string"
+  default     = "apiary"
+}
+
+variable "db_rw_secret_name" {
+  description = "Aurora cluster MySQL read/write user SecretsManager secret name."
+  type        = "string"
+  default     = ""
+}
+
+variable "db_ro_secret_name" {
+  description = "Aurora cluster MySQL read-only user SecretsManger secret name."
+  type        = "string"
+  default     = ""
 }
 
 variable "db_instance_class" {
@@ -275,14 +267,32 @@ variable "ranger_audit_db_url" {
   default     = ""
 }
 
+variable "ranger_audit_secret_name" {
+  description = "Ranger DB audit secret name."
+  type        = "string"
+  default     = ""
+}
+
 variable "ldap_url" {
   description = "Active directory LDAP URL to configure Hadoop LDAP group mapping."
   type        = "string"
   default     = ""
 }
 
+variable "ldap_ca_cert" {
+  description = "Base64 encoded Certificate Authority bundle to validate LDAPS connections."
+  type        = "string"
+  default     = ""
+}
+
 variable "ldap_base" {
   description = "Active directory LDAP base DN to search users and groups."
+  type        = "string"
+  default     = ""
+}
+
+variable "ldap_secret_name" {
+  description = "Active directory LDAP bind DN SecretsManager secret name."
   type        = "string"
   default     = ""
 }

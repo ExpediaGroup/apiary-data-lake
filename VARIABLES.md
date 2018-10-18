@@ -19,6 +19,9 @@
 | db_instance_class | Instance type for the RDS Metastore DB. | string | - | yes |
 | db_instance_count | Desired count of database cluster instances. | string | `2` | no |
 | db_maintenance_window | Preferred maintenance window for the RDS Metastore DB in UTC. | string | `wed:03:00-wed:04:00` | no |
+| db_master_username | Aurora cluster MySQL master user name. | string | `apiary` | no |
+| db_rw_secret_name | Aurora cluster MySQL read/write user SecretsManager secret name. | string | `` | no |
+| db_ro_secret_name | Aurora cluster MySQL read-only user SecretsManager secret name. | string | `` | no |
 | ecs_domain_name | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
@@ -45,8 +48,4 @@
 | ranger_audit_db_url | Ranger DB audit provider configuration. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| vault_addr | Address of Vault server for secrets. | string | - | yes |
-| vault_internal_addr | Internal address of Vault server for secrets. | string | - | yes |
-| vault_login_path | Remote path in Vault where the auth method is enabled. More details: https://www.vaultproject.io/docs/commands/login.html | string | `` | no |
-| vault_path | Path to Apiary secrets in Vault. | string | `` | no |
 | vpc_id | VPC ID. | string | - | yes |
