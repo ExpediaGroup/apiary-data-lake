@@ -24,6 +24,7 @@
 | db_ro_secret_name | Aurora cluster MySQL read-only user SecretsManager secret name. | string | `` | no |
 | ecs_domain_name | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
+| enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | string | `` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | string | `` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | string | `` | no |
