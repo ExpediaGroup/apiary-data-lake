@@ -5,7 +5,7 @@
  */
 
 resource "aws_service_discovery_private_dns_namespace" "apiary" {
-  name = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_name}"
+  name = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
   vpc  = "${var.vpc_id}"
 }
 

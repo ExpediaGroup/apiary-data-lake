@@ -41,7 +41,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readwrite.arn}"
-  desired_count   = "${var.hms_readwrite_instance_count}"
+  desired_count   = "${var.hms_rw_ecs_task_count}"
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.apiary_hms_readwrite_tg.arn}"
@@ -65,7 +65,7 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
   task_definition = "${aws_ecs_task_definition.apiary_hms_readonly.arn}"
-  desired_count   = "${var.hms_readonly_instance_count}"
+  desired_count   = "${var.hms_ro_ecs_task_count}"
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.apiary_hms_readonly_tg.arn}"
