@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Use MySQL script instead of Terraform provider to solve Terraform first run issue.
 - Refactor ECS task definition Environment variable names.
 - Migrate secrets from Hashicorp Vault to AWS SecretsManager.
+- Renamed following variables:
+  * `ecs_domain_name` to `ecs_domain_extension`
+  * `hms_readonly_instance_count` to `hms_ro_ecs_task_count`
+  * `hms_readwrite_instance_count` to `hms_rw_ecs_task_count`
 
 ### Added
 - Option to send Hive Metastore metrics to CloudWatch - see [#4](https://github.com/ExpediaInc/apiary-metastore-docker/issues/4).
