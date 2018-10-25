@@ -21,7 +21,7 @@ variable "apiary_domain_name" {
   default     = ""
 }
 
-variable "ecs_domain_name" {
+variable "ecs_domain_extension" {
   description = "Domain name to use for hosted zone created by ECS service discovery."
   type        = "string"
   default     = "lcl"
@@ -208,14 +208,14 @@ variable "hms_docker_version" {
   type        = "string"
 }
 
-variable "hms_readwrite_instance_count" {
-  description = "Desired instance count of the read/write Hive Metastore service."
+variable "hms_rw_ecs_task_count" {
+  description = "Desired ECS task count of the read/write Hive Metastore service."
   type        = "string"
   default     = "2"
 }
 
-variable "hms_readonly_instance_count" {
-  description = "Desired instance count of the read only Hive Metastore service."
+variable "hms_ro_ecs_task_count" {
+  description = "Desired ECS task count of the read only Hive Metastore service."
   type        = "string"
   default     = "2"
 }

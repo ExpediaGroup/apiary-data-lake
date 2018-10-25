@@ -23,28 +23,25 @@ Please refer to [VARIABLES.md](VARIABLES.md).
 Example module invocation:
 ```
 module "apiary" {
-  source        = "git::https://github.com/ExpediaInc/apiary-metastore.git?ref=v1.0.0"
-  aws_region    = "us-west-2"
-  instance_name = "test"
-  apiary_tags   = "${var.tags}"
-
-  private_subnets = [ "subnet1, "subnet2", "subnet3" ]
-  vpc_id          = "vpc-123456"
-
-  hms_docker_image             = "${aws_account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
-  hms_docker_version           = "1.0.0"
-  hms_ro_heapsize              = "8192"
-  hms_rw_heapsize              = "8192"
-
-  apiary_log_bucket   = "s3-logs-bucket"
-  db_instance_class   = "db.t2.medium"
-  db_backup_retention = "7"
-
-  apiary_managed_schemas   = [ "db1", "db2", "dm" ]
-  apiary_customer_accounts = [ "aws_account_no_1", "aws_account_no_2"]
+  source                   = "git::https://github.com/ExpediaInc/apiary-data-lake.git"
+  aws_region               = "us-west-2"
+  instance_name            = "test"
+  apiary_tags              = "${var.tags}"
+  private_subnets          = ["subnet1", "subnet2", "subnet3"]
+  vpc_id                   = "vpc-123456"
+  hms_docker_image         = "${aws_account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
+  hms_docker_version       = "1.0.0"
+  hms_ro_cpu               = "2048"
+  hms_rw_cpu               = "2048"
+  hms_ro_heapsize          = "8192"
+  hms_rw_heapsize          = "8192"
+  apiary_log_bucket        = "s3-logs-bucket"
+  db_instance_class        = "db.t2.medium"
+  db_backup_retention      = "7"
+  apiary_managed_schemas   = ["db1", "db2", "dm"]
+  apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
   ingress_cidr             = ["10.0.0.0/8"]
 }
-
 ```
 
 ## Notes
