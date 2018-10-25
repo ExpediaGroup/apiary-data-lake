@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Use MySQL script instead of Terraform provider to solve Terraform first run issue.
 - Refactor ECS task definition Environment variable names.
 - Migrate secrets from Hashicorp Vault to AWS SecretsManager.
+- Option to enable managed S3 buckets request and data transfer metrics.
 - Renamed following variables:
   * `ecs_domain_name` to `ecs_domain_extension`
   * `hms_readonly_instance_count` to `hms_ro_ecs_task_count`

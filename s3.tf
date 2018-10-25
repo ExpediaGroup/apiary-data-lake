@@ -44,3 +44,9 @@ resource "aws_s3_bucket_notification" "data_events" {
     events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }
+
+resource "aws_s3_bucket_metric" "paid_metrics" {
+  count  = "${ var.enable_s3_paid_metrics == "" ? 0 : length(local.apiary_data_buckets) }"
+  bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
+  name   = "EntireBucket"
+}

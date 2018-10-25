@@ -249,6 +249,12 @@ variable "enable_data_events" {
   default     = ""
 }
 
+variable "enable_s3_paid_metrics" {
+  description = "Enable managed S3 buckets request and data transfer metrics."
+  type        = "string"
+  default     = ""
+}
+
 variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = "string"
