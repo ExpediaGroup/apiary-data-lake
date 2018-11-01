@@ -49,7 +49,7 @@ resource "random_id" "snapshot_id" {
 }
 
 resource "random_string" "db_master_password" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
+  count   = "${ var.external_database_host == "" ? 1 : 0 }"
   length  = 16
   special = false
 }

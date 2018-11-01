@@ -5,8 +5,8 @@
  */
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_readonly" {
-  name  = "secretsmanager"
-  role  = "${aws_iam_role.apiary_task_readonly.id}"
+  name = "secretsmanager"
+  role = "${aws_iam_role.apiary_task_readonly.id}"
 
   policy = <<EOF
 {
@@ -21,8 +21,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_readwrite" {
-  name  = "secretsmanager"
-  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  name = "secretsmanager"
+  role = "${aws_iam_role.apiary_task_readwrite.id}"
 
   policy = <<EOF
 {
