@@ -5,8 +5,8 @@
  */
 
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
-  count = "${length(local.apiary_data_buckets)}"
-  name  = "s3-data-${count.index}"
+  count = "${ length(var.apiary_managed_schemas) == 0 ? 0 : 1 }"
+  name  = "s3"
   role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
   policy = <<EOF
@@ -30,8 +30,8 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
                               "s3:PutObjectVersionTagging"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s",local.apiary_data_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*",local.apiary_data_buckets))}"
                               ]
                 }
               ]
@@ -40,8 +40,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
-  count = "${length(local.apiary_data_buckets)}"
-  name  = "s3-data-${count.index}"
+  count = "${ length(var.apiary_managed_schemas) == 0 ? 0 : 1 }"
+  name  = "s3"
   role  = "${aws_iam_role.apiary_task_readonly.id}"
 
   policy = <<EOF
@@ -55,8 +55,8 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(local.apiary_data_buckets, count.index)}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s",local.apiary_data_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*",local.apiary_data_buckets))}"
                               ]
                 }
               ]
@@ -65,8 +65,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readwrite" {
-  count = "${length(var.external_data_buckets)}"
-  name  = "external-s3-data-${count.index}"
+  count = "${ length(var.external_data_buckets) == 0 ? 0 : 1 }"
+  name  = "external-s3"
   role  = "${aws_iam_role.apiary_task_readwrite.id}"
 
   policy = <<EOF
@@ -90,8 +90,8 @@ resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readwrite" {
                               "s3:PutObjectVersionTagging"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s",var.external_data_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*",var.external_data_buckets))}"
                               ]
                 }
               ]
@@ -100,8 +100,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readonly" {
-  count = "${length(var.external_data_buckets)}"
-  name  = "external-s3-data-${count.index}"
+  count = "${ length(var.external_data_buckets) == 0 ? 0 : 1 }"
+  name  = "external-s3"
   role  = "${aws_iam_role.apiary_task_readonly.id}"
 
   policy = <<EOF
@@ -115,8 +115,8 @@ resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}/*",
-                                "arn:aws:s3:::${element(var.external_data_buckets, count.index)}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s",var.external_data_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*",var.external_data_buckets))}"
                               ]
                 }
               ]
