@@ -165,13 +165,13 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
                    "AWS/NetworkELB",
                    "NetFlowCount",
                    "LoadBalancer",
-                   "${aws_lb.apiary_hms_readwrite_lb.arn_suffix}"
+                   "${aws_lb.apiary_hms_rw_lb.arn_suffix}"
                 ],
                 [
                    "AWS/NetworkELB",
                    "NetFlowCount",
                    "LoadBalancer",
-                   "${aws_lb.apiary_hms_readonly_lb.arn_suffix}"
+                   "${aws_lb.apiary_hms_ro_lb.arn_suffix}"
                 ]
              ],
              "period":300,
@@ -190,13 +190,13 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
                    "AWS/NetworkELB",
                    "ProcessedBytes",
                    "LoadBalancer",
-                   "${aws_lb.apiary_hms_readwrite_lb.arn_suffix}"
+                   "${aws_lb.apiary_hms_rw_lb.arn_suffix}"
                 ],
                 [
                    "AWS/NetworkELB",
                    "ProcessedBytes",
                    "LoadBalancer",
-                   "${aws_lb.apiary_hms_readonly_lb.arn_suffix}"
+                   "${aws_lb.apiary_hms_ro_lb.arn_suffix}"
                 ]
              ],
              "period":300,

@@ -11,8 +11,8 @@ resource "aws_route53_record" "hms_readwrite_alias" {
   type    = "A"
 
   alias {
-    name                   = "${aws_lb.apiary_hms_readwrite_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_readwrite_lb.zone_id}"
+    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
     evaluate_target_health = true
   }
 }
@@ -24,8 +24,8 @@ resource "aws_route53_record" "hms_readonly_alias" {
   type    = "A"
 
   alias {
-    name                   = "${aws_lb.apiary_hms_readonly_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_readonly_lb.zone_id}"
+    name                   = "${aws_lb.apiary_hms_ro_lb.dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_ro_lb.zone_id}"
     evaluate_target_health = true
   }
 }

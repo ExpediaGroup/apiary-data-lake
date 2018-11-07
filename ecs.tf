@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
-  depends_on      = ["aws_lb_target_group.apiary_hms_readwrite_tg"]
+  depends_on      = ["aws_lb_target_group.apiary_hms_rw_tg"]
   name            = "${local.instance_alias}-hms-readwrite-service"
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
@@ -44,7 +44,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
   desired_count   = "${var.hms_rw_ecs_task_count}"
 
   load_balancer {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_readwrite_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg.arn}"
     container_name   = "apiary-hms-readwrite"
     container_port   = 9083
   }
@@ -60,7 +60,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
-  depends_on      = ["aws_lb_target_group.apiary_hms_readonly_tg"]
+  depends_on      = ["aws_lb_target_group.apiary_hms_ro_tg"]
   name            = "${local.instance_alias}-hms-readonly-service"
   launch_type     = "FARGATE"
   cluster         = "${aws_ecs_cluster.apiary.id}"
@@ -68,7 +68,7 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
   desired_count   = "${var.hms_ro_ecs_task_count}"
 
   load_balancer {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_readonly_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg.arn}"
     container_name   = "apiary-hms-readonly"
     container_port   = 9083
   }
