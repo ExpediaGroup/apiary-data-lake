@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_lb" "apiary_hms_readwrite_lb" {
-  name               = "${local.instance_alias}-hms-readwrite-lb"
+resource "aws_lb" "apiary_hms_rw_lb" {
+  name               = "${local.instance_alias}-hms-rw-lb"
   load_balancer_type = "network"
   subnets            = ["${var.private_subnets}"]
   internal           = true
@@ -13,9 +13,9 @@ resource "aws_lb" "apiary_hms_readwrite_lb" {
   tags               = "${var.apiary_tags}"
 }
 
-resource "aws_lb_target_group" "apiary_hms_readwrite_tg" {
-  depends_on  = ["aws_lb.apiary_hms_readwrite_lb"]
-  name        = "${local.instance_alias}-hms-readwrite-tg"
+resource "aws_lb_target_group" "apiary_hms_rw_tg" {
+  depends_on  = ["aws_lb.apiary_hms_rw_lb"]
+  name        = "${local.instance_alias}-hms-rw-tg"
   port        = 9083
   protocol    = "TCP"
   vpc_id      = "${var.vpc_id}"
@@ -26,19 +26,19 @@ resource "aws_lb_target_group" "apiary_hms_readwrite_tg" {
   }
 }
 
-resource "aws_lb_listener" "hms_readwrite_listener" {
-  load_balancer_arn = "${aws_lb.apiary_hms_readwrite_lb.arn}"
+resource "aws_lb_listener" "hms_rw_listener" {
+  load_balancer_arn = "${aws_lb.apiary_hms_rw_lb.arn}"
   port              = "9083"
   protocol          = "TCP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_readwrite_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg.arn}"
     type             = "forward"
   }
 }
 
-resource "aws_lb" "apiary_hms_readonly_lb" {
-  name               = "${local.instance_alias}-hms-readonly-lb"
+resource "aws_lb" "apiary_hms_ro_lb" {
+  name               = "${local.instance_alias}-hms-ro-lb"
   load_balancer_type = "network"
   subnets            = ["${var.private_subnets}"]
   internal           = true
@@ -46,9 +46,9 @@ resource "aws_lb" "apiary_hms_readonly_lb" {
   tags               = "${var.apiary_tags}"
 }
 
-resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
-  depends_on  = ["aws_lb.apiary_hms_readonly_lb"]
-  name        = "${local.instance_alias}-hms-readonly-tg"
+resource "aws_lb_target_group" "apiary_hms_ro_tg" {
+  depends_on  = ["aws_lb.apiary_hms_ro_lb"]
+  name        = "${local.instance_alias}-hms-ro-tg"
   port        = 9083
   protocol    = "TCP"
   vpc_id      = "${var.vpc_id}"
@@ -59,13 +59,13 @@ resource "aws_lb_target_group" "apiary_hms_readonly_tg" {
   }
 }
 
-resource "aws_lb_listener" "hms_readonly_listener" {
-  load_balancer_arn = "${aws_lb.apiary_hms_readonly_lb.arn}"
+resource "aws_lb_listener" "hms_ro_listener" {
+  load_balancer_arn = "${aws_lb.apiary_hms_ro_lb.arn}"
   port              = "9083"
   protocol          = "TCP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_readonly_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg.arn}"
     type             = "forward"
   }
 }
