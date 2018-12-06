@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased] 
 ### Changed
 - Shortened the name of NLB and Target Groups to allow more characters in the instance name - see [#65](https://github.com/ExpediaInc/apiary-data-lake/issues/65).
+- Fixed ECS widgets in CloudWatch dashboard - see [#89](https://github.com/ExpediaInc/apiary-data-lake/issues/89).
 
 ## [1.0.0] - 2018-10-31
 
