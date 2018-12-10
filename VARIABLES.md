@@ -10,6 +10,7 @@
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
 | apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name. | list | `<list>` | no |
+| apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_tags | Common tags that get put on all resources. | map | - | yes |

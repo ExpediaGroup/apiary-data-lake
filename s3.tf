@@ -12,7 +12,10 @@ data "template_file" "bucket_policy" {
   template = "${file("${path.module}/templates/apiary_bucket_policy.json")}"
 
   vars {
-    customer_principal = "${join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts))}"
+    #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
+    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas,var.apiary_managed_schemas[count.index]) ?
+                             join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)) :
+                             "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }"
     bucket_name        = "${local.apiary_data_buckets[count.index]}"
     producer_iamroles  = "${replace(lookup(var.apiary_producer_iamroles,element(concat(var.apiary_managed_schemas,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
   }
