@@ -56,7 +56,7 @@ data "template_file" "hms_readonly" {
     hive_metastore_log_level = "${var.hms_log_level}"
     nofile_ulimit            = "${var.hms_nofile_ulimit}"
     enable_metrics           = "${var.enable_hive_metastore_metrics}"
-    shared_schemas            = "${join(",",var.apiary_shared_schemas)}"
+    shared_schemas           = "${join(",",var.apiary_shared_schemas)}"
     instance_name            = "${local.instance_alias}"
   }
 }
