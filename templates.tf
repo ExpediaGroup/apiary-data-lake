@@ -56,16 +56,7 @@ data "template_file" "hms_readonly" {
     hive_metastore_log_level = "${var.hms_log_level}"
     nofile_ulimit            = "${var.hms_nofile_ulimit}"
     enable_metrics           = "${var.enable_hive_metastore_metrics}"
+    shared_schemas           = "${join(",",var.apiary_shared_schemas)}"
     instance_name            = "${local.instance_alias}"
-
-    ranger_service_name       = "${local.instance_alias}-metastore"
-    ranger_policy_manager_url = "${var.ranger_policy_manager_url}"
-    ranger_audit_solr_url     = "${var.ranger_audit_solr_url}"
-    ranger_audit_db_url       = "${var.ranger_audit_db_url}"
-    ranger_audit_secret_arn   = "${var.ranger_audit_db_url == "" ? "" : join("",data.aws_secretsmanager_secret.ranger_audit.*.arn)}"
-    ldap_url                  = "${var.ldap_url}"
-    ldap_ca_cert              = "${var.ldap_ca_cert}"
-    ldap_base                 = "${var.ldap_base}"
-    ldap_secret_arn           = "${var.ldap_url == "" ? "" : join("",data.aws_secretsmanager_secret.ldap_user.*.arn)}"
   }
 }

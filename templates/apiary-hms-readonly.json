@@ -46,44 +46,12 @@
         "value": "${region}"
      },
      {
+        "name": "SHARED_HIVE_DB_NAMES",
+        "value": "${shared_schemas}"
+     },
+     {
         "name": "INSTANCE_NAME",
         "value": "${instance_name}"
-     },
-     {
-        "name": "RANGER_SERVICE_NAME",
-        "value": "${ranger_service_name}"
-     },
-     {
-        "name": "RANGER_POLICY_MANAGER_URL",
-        "value": "${ranger_policy_manager_url}"
-     },
-     {
-        "name": "RANGER_AUDIT_SOLR_URL",
-        "value": "${ranger_audit_solr_url}"
-     },
-     {
-        "name": "RANGER_AUDIT_DB_URL",
-        "value": "${ranger_audit_db_url}"
-     },
-     {
-        "name": "RANGER_AUDIT_SECRET_ARN",
-        "value": "${ranger_audit_secret_arn}"
-     },
-     {
-        "name": "LDAP_URL",
-        "value": "${ldap_url}"
-     },
-     {
-        "name": "LDAP_CA_CERT",
-        "value": "${ldap_ca_cert}"
-     },
-     {
-        "name": "LDAP_BASE",
-        "value": "${ldap_base}"
-     },
-     {
-        "name": "LDAP_SECRET_ARN",
-        "value": "${ldap_secret_arn}"
      },
      {
         "name": "HIVE_METASTORE_LOG_LEVEL",

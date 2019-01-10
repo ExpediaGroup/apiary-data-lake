@@ -59,6 +59,12 @@ variable "enable_hive_metastore_metrics" {
   default     = ""
 }
 
+variable "apiary_shared_schemas" {
+  description = "Schema names which are accessible from read-only metastore, default is all schemas."
+  type        = "list"
+  default     = []
+}
+
 variable "apiary_managed_schemas" {
   description = "Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name."
   type        = "list"
