@@ -140,6 +140,12 @@ variable "db_backup_retention" {
   type        = "string"
 }
 
+variable "db_apply_immediately" {
+  description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window."
+  type        = "string"
+  default     = "false"
+}
+
 variable "db_backup_window" {
   description = "Preferred backup window for the RDS Metastore DB in UTC."
   type        = "string"

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+### Added
+- Add `db_apply_immediately` variable to fix [#94](https://github.com/ExpediaInc/apiary-data-lake/issues/94).
+
 ### Changed
 - Fixed ECS widgets in CloudWatch dashboard - see [#89](https://github.com/ExpediaInc/apiary-data-lake/issues/89).
 
