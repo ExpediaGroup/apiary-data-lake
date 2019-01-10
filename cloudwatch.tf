@@ -97,38 +97,14 @@ resource "aws_cloudwatch_dashboard" "apiary" {
   dashboard_body = <<EOF
  {
    "widgets": [
-${join("", data.template_file.s3_widgets.*.rendered)}
        {
           "type":"metric",
           "width":12,
           "height":6,
           "properties":{
              "metrics":[
-                [
-                   "AWS/RDS",
-                   "CPUUtilization",
-                   "DBClusterIdentifier",
-                   "${local.instance_alias}-cluster"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary DB CPU"
-          }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/ECS",
-                   "CPUUtilization",
-                   "ClusterName",
-                   "apiary"
-                ]
+                [ "AWS/ECS", "CPUUtilization", "ServiceName", "${local.instance_alias}-hms-readwrite-service", "ClusterName", "${local.instance_alias}" ],
+                [ "AWS/ECS", "CPUUtilization", "ServiceName", "${local.instance_alias}-hms-readonly-service", "ClusterName", "${local.instance_alias}" ]
              ],
              "period":300,
              "stat":"Average",
@@ -142,12 +118,8 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
           "height":6,
           "properties":{
              "metrics":[
-                [
-                   "AWS/ECS",
-                   "MemoryUtilization",
-                   "ClusterName",
-                   "apiary"
-                ]
+                [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${local.instance_alias}-hms-readwrite-service", "ClusterName", "${local.instance_alias}" ],
+                [ "AWS/ECS", "MemoryUtilization", "ServiceName", "${local.instance_alias}-hms-readonly-service", "ClusterName", "${local.instance_alias}" ]
              ],
              "period":300,
              "stat":"Average",
@@ -155,6 +127,35 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
              "title":"Apiary ECS Memory Utilization"
           }
        },
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary DB CPU"
+          }
+       },
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [ "AWS/RDS", "VolumeBytesUsed", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary DB Bytes Used"
+          }
+       },
+${join("", data.template_file.s3_widgets.*.rendered)}
        {
           "type":"metric",
           "width":12,
