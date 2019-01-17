@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Add `db_apply_immediately` variable to fix [#94](https://github.com/ExpediaInc/apiary-data-lake/issues/94).
+
+### Changed
+- Fixed ECS widgets in CloudWatch dashboard - see [#89](https://github.com/ExpediaInc/apiary-data-lake/issues/89).
+
 ## [1.0.2] - 2018-12-18
 
 ### Changed

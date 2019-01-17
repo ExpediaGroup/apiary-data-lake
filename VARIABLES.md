@@ -10,11 +10,12 @@
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
 | apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name. | list | `<list>` | no |
-| apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
+| apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
 | apiary_tags | Common tags that get put on all resources. | map | - | yes |
 | aws_region | AWS region. | string | - | yes |
+| db_apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window. | string | `false` | no |
 | db_backup_retention | The number of days to retain backups for the RDS Metastore DB. | string | - | yes |
 | db_backup_window | Preferred backup window for the RDS Metastore DB in UTC. | string | `02:00-03:00` | no |
 | db_instance_class | Instance type for the RDS Metastore DB. | string | - | yes |
@@ -25,11 +26,11 @@
 | db_rw_secret_name | Aurora cluster MySQL read/write user SecretsManager secret name. | string | `` | no |
 | ecs_domain_extension | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
-| enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | string | `` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | string | `` | no |
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | string | `` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | string | `` | no |
+| enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | string | `` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
 | hms_docker_image | Docker image ID for the Hive Metastore. | string | - | yes |
