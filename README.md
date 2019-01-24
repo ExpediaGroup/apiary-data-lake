@@ -38,7 +38,7 @@ module "apiary" {
   apiary_log_bucket        = "s3-logs-bucket"
   db_instance_class        = "db.t2.medium"
   db_backup_retention      = "7"
-  apiary_managed_schemas   = ["db1", "db2", "dm"]
+  apiary_managed_schemas   = ["db1", "db2", "dm", "team-A"]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
   ingress_cidr             = ["10.0.0.0/8"]
 }
