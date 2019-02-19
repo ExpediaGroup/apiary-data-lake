@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   cpu                      = "${var.hms_rw_cpu}"
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = "${data.template_file.hms_readwrite.rendered}"
-  tags = "${var.apiary_tags}"
+  tags                     = "${var.apiary_tags}"
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readonly" {
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   cpu                      = "${var.hms_ro_cpu}"
   requires_compatibilities = ["EC2", "FARGATE"]
   container_definitions    = "${data.template_file.hms_readonly.rendered}"
-  tags = "${var.apiary_tags}"
+  tags                     = "${var.apiary_tags}"
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
