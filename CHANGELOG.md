@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+### Added
+- tag resources that were not yet applying tags - see [#98](https://github.com/ExpediaInc/apiary-data-lake/issues/98).
+
 ### Changed
 - Updated read-only metastore whitelist environment variable name.
 
