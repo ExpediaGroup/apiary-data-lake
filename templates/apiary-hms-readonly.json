@@ -46,7 +46,7 @@
         "value": "${region}"
      },
      {
-        "name": "SHARED_HIVE_DB_NAMES",
+        "name": "HIVE_DB_WHITELIST",
         "value": "${shared_schemas}"
      },
      {
