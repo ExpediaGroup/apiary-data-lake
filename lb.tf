@@ -24,6 +24,9 @@ resource "aws_lb_target_group" "apiary_hms_rw_tg" {
   health_check {
     protocol = "TCP"
   }
+
+  tags = "${var.apiary_tags}"
+
 }
 
 resource "aws_lb_listener" "hms_rw_listener" {
@@ -57,6 +60,8 @@ resource "aws_lb_target_group" "apiary_hms_ro_tg" {
   health_check {
     protocol = "TCP"
   }
+
+  tags = "${var.apiary_tags}"
 }
 
 resource "aws_lb_listener" "hms_ro_listener" {
