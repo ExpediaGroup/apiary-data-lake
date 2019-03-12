@@ -22,6 +22,8 @@ resource "aws_iam_role" "apiary_task_exec" {
    ]
 }
 EOF
+
+  tags = "${var.apiary_tags}"
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
@@ -47,6 +49,8 @@ resource "aws_iam_role" "apiary_task_readonly" {
    ]
 }
 EOF
+
+  tags = "${var.apiary_tags}"
 }
 
 resource "aws_iam_role" "apiary_task_readwrite" {
@@ -67,4 +71,6 @@ resource "aws_iam_role" "apiary_task_readwrite" {
    ]
 }
 EOF
+
+  tags = "${var.apiary_tags}"
 }
