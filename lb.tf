@@ -26,7 +26,6 @@ resource "aws_lb_target_group" "apiary_hms_rw_tg" {
   }
 
   tags = "${var.apiary_tags}"
-
 }
 
 resource "aws_lb_listener" "hms_rw_listener" {
