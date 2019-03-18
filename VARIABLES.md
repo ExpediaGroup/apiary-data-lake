@@ -30,6 +30,7 @@
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | string | `` | no |
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | string | `` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | string | `` | no |
+| table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
 | enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | string | `` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
