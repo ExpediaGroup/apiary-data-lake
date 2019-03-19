@@ -2,6 +2,7 @@
   {
     "name": "apiary-hms-readonly",
     "image": "${hms_docker_image}:${hms_docker_version}",
+    ${docker_auth}
     "essential": true,
     "ulimits": [
       {

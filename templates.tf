@@ -38,6 +38,9 @@ data "template_file" "hms_readwrite" {
 
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1" }"
+
+    #to instruct ECS to use repositoryCredentials for private docker registry
+    docker_auth = "${ var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},",join("",data.aws_secretsmanager_secret.docker_registry.*.arn))}"
   }
 }
 
@@ -58,5 +61,8 @@ data "template_file" "hms_readonly" {
     enable_metrics           = "${var.enable_hive_metastore_metrics}"
     shared_schemas           = "${join(",",var.apiary_shared_schemas)}"
     instance_name            = "${local.instance_alias}"
+
+    #to instruct ECS to use repositoryCredentials for private docker registry
+    docker_auth = "${ var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},",join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
   }
 }
