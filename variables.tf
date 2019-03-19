@@ -255,6 +255,12 @@ variable "enable_metadata_events" {
   default     = ""
 }
 
+variable "table_param_filter" {
+  description = "A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected."
+  type        = "string"
+  default     = ""
+}
+
 variable "enable_data_events" {
   description = "Enable managed buckets S3 event notifications."
   type        = "string"

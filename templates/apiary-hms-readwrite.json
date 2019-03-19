@@ -62,6 +62,10 @@
         "value": "${sns_arn}"
      },
      {
+        "name": "TABLE_PARAM_FILTER",
+        "value": "${table_param_filter}"
+     },
+     {
         "name": "ENABLE_GLUESYNC",
         "value": "${enable_gluesync}"
      },
