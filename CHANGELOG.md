@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Added
 - Support for docker private registry.
+- A new variable to specify TABLE_PARAM_FILTER regex for Hive Metastore listener.
+
 
 ## [1.0.5] - 2019-03-12
 
