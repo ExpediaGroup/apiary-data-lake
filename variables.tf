@@ -322,7 +322,13 @@ variable "ldap_secret_name" {
 }
 
 variable "secondary_vpcs" {
-  description = "List of VPCs to associate with Service Discovery namespace"
+  description = "List of VPCs to associate with Service Discovery namespace."
   type        = "list"
   default     = []
+}
+
+variable "docker_registry_auth_secret_name" {
+  description = "Docker Registry authentication SecretManager secret name."
+  type        = "string"
+  default     = ""
 }

@@ -24,6 +24,7 @@
 | db_master_username | Aurora cluster MySQL master user name. | string | `apiary` | no |
 | db_ro_secret_name | Aurora cluster MySQL read-only user SecretsManger secret name. | string | `` | no |
 | db_rw_secret_name | Aurora cluster MySQL read/write user SecretsManager secret name. | string | `` | no |
+| docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | ecs_domain_extension | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
@@ -55,5 +56,5 @@
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| secondary_vpcs | List of VPCs to associate with Service Discovery namespace | list | `<list>` | no |
+| secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | vpc_id | VPC ID. | string | - | yes |

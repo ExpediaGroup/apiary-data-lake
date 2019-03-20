@@ -35,3 +35,20 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_readwrite" {
 }
 EOF
 }
+
+resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
+  count = "${var.docker_registry_auth_secret_name == "" ? 0 : 1}"
+  name  = "secretsmanager-exec"
+  role  = "${aws_iam_role.apiary_task_exec.id}"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "secretsmanager:GetSecretValue",
+        "Resource": [ "${join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn))}" ]
+    }
+}
+EOF
+}

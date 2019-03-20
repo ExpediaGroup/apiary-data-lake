@@ -29,3 +29,8 @@ data "aws_secretsmanager_secret" "ranger_audit" {
   count = "${ var.ranger_audit_db_url == "" ? 0 : 1 }"
   name  = "${ var.ranger_audit_secret_name == "" ? format("%s-ranger-audit",local.instance_alias): var.ranger_audit_secret_name }"
 }
+
+data "aws_secretsmanager_secret" "docker_registry" {
+  count = "${ var.docker_registry_auth_secret_name == "" ? 0 : 1 }"
+  name  = "${ var.docker_registry_auth_secret_name }"
+}
