@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.0.4] - 2019-02-22
 
 ### Added
-- tag resources that were not yet applying tags - see [#98](https://github.com/ExpediaInc/apiary-data-lake/issues/98).
+- tag resources that were not yet applying tags - see [#98](https://github.com/ExpediaGroup/apiary-data-lake/issues/98).
 
 ### Changed
 - Updated read-only metastore whitelist environment variable name.
@@ -26,15 +26,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.0.3] - 2019-02-08
 
 ### Added
-- Add `db_apply_immediately` variable to fix [#94](https://github.com/ExpediaInc/apiary-data-lake/issues/94).
+- Add `db_apply_immediately` variable to fix [#94](https://github.com/ExpediaGroup/apiary-data-lake/issues/94).
 
 ### Changed
-- Fixed ECS widgets in CloudWatch dashboard - see [#89](https://github.com/ExpediaInc/apiary-data-lake/issues/89).
+- Fixed ECS widgets in CloudWatch dashboard - see [#89](https://github.com/ExpediaGroup/apiary-data-lake/issues/89).
 
 ## [1.0.2] - 2018-12-18
 
 ### Changed
-- Fixes [#92](https://github.com/ExpediaInc/apiary-data-lake/issues/92).
+- Fixes [#92](https://github.com/ExpediaGroup/apiary-data-lake/issues/92).
 
 ## [1.0.1] - 2018-12-14
 
@@ -42,7 +42,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Option to configure shared hive databases
 
 ### Changed
-- Shortened the name of NLB and Target Groups to allow more characters in the instance name - see [#65](https://github.com/ExpediaInc/apiary-data-lake/issues/65).
+- Shortened the name of NLB and Target Groups to allow more characters in the instance name - see [#65](https://github.com/ExpediaGroup/apiary-data-lake/issues/65).
 
 ## [1.0.0] - 2018-10-31
 
@@ -58,7 +58,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Optimize ECS task S3 policy.
 
 ### Added
-- Option to send Hive Metastore metrics to CloudWatch - see [#4](https://github.com/ExpediaInc/apiary-metastore-docker/issues/4).
-- Option to use external MySQL database (to support legacy installations) - see [#48](https://github.com/ExpediaInc/apiary-metastore/issues/48).
+- Option to send Hive Metastore metrics to CloudWatch - see [#4](https://github.com/ExpediaGroup/apiary-metastore-docker/issues/4).
+- Option to use external MySQL database (to support legacy installations) - see [#48](https://github.com/ExpediaGroup/apiary-metastore/issues/48).
 - Option to associate multiple VPCs to Service Discovery namespace - see
-[#66](https://github.com/ExpediaInc/apiary-metastore/issues/66)
+[#66](https://github.com/ExpediaGroup/apiary-metastore/issues/66)
