@@ -2,7 +2,7 @@
 
  This repo contains a Terraform module to deploy the Apiary data lake component. The module deploys various stateful components in a typical Hadoop-compatible data lake in AWS.
 
-For more information please refer to the main [Apiary](https://github.com/ExpediaInc/apiary) project page.
+For more information please refer to the main [Apiary](https://github.com/ExpediaGroup/apiary) project page.
 
 ## Architecture
 ![Datalake  architecture](docs/apiary_datalake_3d.jpg)
@@ -11,7 +11,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * Highly Available(HA) metastore service - packaged as Docker container and running on an ECS Fargate Cluster.
   * PrivateLinks - Network load balancers and VPC endpoints to enable federated access to read-only and read/write metastores.
   * Managed schemas - integrated way of managing Hive schemas, S3 buckets and bucket policies.
-  * SNS Listener - A Hive metastore event listener to publish all metadata updates to a SNS topic, see [ApiarySNSListener](https://github.com/ExpediaInc/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
+  * SNS Listener - A Hive metastore event listener to publish all metadata updates to a SNS topic, see [ApiarySNSListener](https://github.com/ExpediaGroup/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
   * Gluesync  - A metastore event listener to replay Hive metadata events in a Glue catalog.
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
 
@@ -23,7 +23,7 @@ Please refer to [VARIABLES.md](VARIABLES.md).
 Example module invocation:
 ```
 module "apiary" {
-  source                   = "git::https://github.com/ExpediaInc/apiary-data-lake.git"
+  source                   = "git::https://github.com/ExpediaGroup/apiary-data-lake.git"
   aws_region               = "us-west-2"
   instance_name            = "test"
   apiary_tags              = "${var.tags}"
@@ -45,7 +45,7 @@ module "apiary" {
 ```
 
 ## Notes
-  The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaInc/apiary-metastore-docker) and then publish it to your own ECR.
+  The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaGroup/apiary-metastore-docker) and then publish it to your own ECR.
 
 # Contact
 
@@ -57,4 +57,4 @@ If you would like to ask any questions about or discuss Apiary please join our m
 # Legal
 This project is available under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-Copyright 2018 Expedia Inc.
+Copyright 2018-2019 Expedia, Inc.
