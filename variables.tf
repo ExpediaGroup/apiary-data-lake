@@ -332,3 +332,14 @@ variable "docker_registry_auth_secret_name" {
   type        = "string"
   default     = ""
 }
+
+variable "s3_storage_class" {
+  description = "S3 storage class after transition using lifecycle policy"
+  default     = "INTELLIGENT_TIERING"
+}
+
+variable "s3_lifecycle_policy_transition_period" {
+  description = "S3 Lifecycle Policy number of days for Transition rule"
+  default     = "30"
+}
+

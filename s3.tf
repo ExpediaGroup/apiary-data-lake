@@ -13,12 +13,12 @@ data "template_file" "bucket_policy" {
 
   vars {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
-    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(var.apiary_managed_schemas,list("")),count.index)) ?
+    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(local.apiary_managed_schema_name, element(concat(local.apiary_managed_schema_name,list("")),count.index)) ?
                              join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)) :
                              "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }"
 
     bucket_name       = "${local.apiary_data_buckets[count.index]}"
-    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles,element(concat(var.apiary_managed_schemas,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
+    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles,element(concat(local.apiary_managed_schema_name,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
   }
 }
 
@@ -36,6 +36,15 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   logging {
     target_bucket = "${var.apiary_log_bucket}"
     target_prefix = "${var.apiary_log_prefix}${local.apiary_data_buckets[count.index]}/"
+  }
+
+  lifecycle_rule {
+    id = "cost_optimization"
+    enabled = true
+    transition {
+      days          = "${lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)}"
+      storage_class = "${lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)}"
+    }
   }
 }
 
