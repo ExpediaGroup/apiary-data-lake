@@ -13,7 +13,7 @@ data "template_file" "bucket_policy" {
 
   vars {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
-    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(local.apiary_apiary_managed_schema_names, element(concat(local.apiary_apiary_managed_schema_names,list("")),count.index)) ?
+    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_apiary_managed_schema_names,list("")),count.index)) ?
                              join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)) :
                              "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }"
 
