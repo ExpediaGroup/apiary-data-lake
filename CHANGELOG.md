@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.1.0] - TBD
 
 ### Added
+- Option to configure s3 storage class for cost optimization
+
+### Added
 - Support for docker private registry.
 - A new variable to specify TABLE_PARAM_FILTER regex for Hive Metastore listener.
 - Support for `_` in `apiary_managed_schemas` variable. Fixes [#5] (https://github.com/ExpediaGroup/apiary/issues/5). Requires version greater than `v1.1.0` of https://github.com/ExpediaGroup/apiary-metastore-docker
