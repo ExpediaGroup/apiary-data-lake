@@ -13,12 +13,12 @@ data "template_file" "bucket_policy" {
 
   vars {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
-    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_managed_schema_names_replaced,list("")),count.index)) ?
+    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_managed_schema_names_original,list("")),count.index)) ?
                              join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)) :
                              "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }"
 
     bucket_name       = "${local.apiary_data_buckets[count.index]}"
-    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles,element(concat(local.apiary_managed_schema_names_replaced,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
+    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles,element(concat(local.apiary_managed_schema_names_original,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
   }
 }
 

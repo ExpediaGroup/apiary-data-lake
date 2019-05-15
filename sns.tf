@@ -29,7 +29,7 @@ POLICY
 
 resource "aws_sns_topic" "apiary_data_events" {
   count = "${ var.enable_data_events == "" ? 0 : length(var.apiary_managed_schemas) }"
-  name  = "${local.instance_alias}-${local.apiary_managed_schema_names_original[count.index]}-data-events"
+  name  = "${local.instance_alias}-${local.apiary_managed_schema_names_replaced[count.index]}-data-events"
 
   policy = <<POLICY
 {
@@ -38,7 +38,7 @@ resource "aws_sns_topic" "apiary_data_events" {
         "Effect": "Allow",
         "Principal": {"AWS":"*"},
         "Action": "SNS:Publish",
-        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${local.apiary_managed_schema_names_original[count.index]}-data-events",
+        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${local.apiary_managed_schema_names_replaced[count.index]}-data-events",
         "Condition":{
             "ArnLike":{"aws:SourceArn":"${aws_s3_bucket.apiary_data_bucket.*.arn[count.index]}"}
         }
