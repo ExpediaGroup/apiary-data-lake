@@ -34,3 +34,13 @@ data "template_file" "schema_names_replaced" {
   count    = "${length(var.apiary_managed_schemas)}"
   template = "${replace(lookup(var.apiary_managed_schemas[count.index], "schema_name"),"_","-")}"
 }
+
+data "template_file" "s3_lifecycle_policy_transition_period" {
+  count    = "${length(var.apiary_managed_schemas)}"
+  template = "${lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)}"
+}
+
+data "template_file" "s3_storage_class" {
+  count    = "${length(var.apiary_managed_schemas)}"
+  template = "${lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)}"
+}

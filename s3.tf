@@ -43,8 +43,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     enabled = true
 
     transition {
-      days          = "${lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)}"
-      storage_class = "${lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)}"
+      days          = "${data.template_file.s3_lifecycle_policy_transition_period.*.rendered[count.index]}"
+      storage_class = "${data.template_file.s3_storage_class.*.rendered[count.index]}"
     }
   }
 }
