@@ -20,7 +20,7 @@ data "template_file" "hms_readwrite" {
     hive_metastore_log_level   = "${var.hms_log_level}"
     nofile_ulimit              = "${var.hms_nofile_ulimit}"
     enable_metrics             = "${var.enable_hive_metastore_metrics}"
-    managed_schemas            = "${join(",",var.apiary_managed_schemas)}"
+    managed_schemas            = "${join(",",local.apiary_managed_schema_names_original)}"
     instance_name              = "${local.instance_alias}"
     sns_arn                    = "${ var.enable_metadata_events == "" ? "" : join("",aws_sns_topic.apiary_metadata_events.*.arn) }"
     table_param_filter         = "${ var.enable_metadata_events == "" ? "" : var.table_param_filter }"
