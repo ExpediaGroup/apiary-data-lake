@@ -145,6 +145,7 @@ resource "null_resource" "mysql_ro_user" {
       MYSQL_DB              = "${var.apiary_database_name}"
       MYSQL_SECRET_ARN      = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
       MYSQL_PERMISSIONS     = "SELECT"
+      AWS_REGION            = "${var.aws_region}"
     }
   }
 }
