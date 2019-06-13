@@ -57,7 +57,7 @@ data "template_file" "s3_widgets" {
            "properties": {
                "view": "timeSeries",
                "stacked": false,
-               "region": "us-west-2",
+               "region": "${var.aws_region}",
                "metrics": [
                     [ "AWS/S3", "AllRequests", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ],
                     [ "AWS/S3", "GetRequests", "FilterId", "EntireBucket", "BucketName", "$${bucket_name}" ],
