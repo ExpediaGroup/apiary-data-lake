@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [2.0.4] - TBD
 
 ### Changed
-- Replace hardcoded `us-west-2` as region from `cloudwatch.tf` to variable `${var.aws_region}` - see [#112](https://github.com/ExpediaGroup/apiary-data-lake/issues/112).
+- Replace hardcoded `us-west-2` as region to variable `${var.aws_region}` in `cloudwatch.tf` - see [#112](https://github.com/ExpediaGroup/apiary-data-lake/issues/112).
 
 ## [2.0.3] - 2019-06-07
 
