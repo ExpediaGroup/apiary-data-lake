@@ -5,16 +5,19 @@
  */
 
 resource "aws_ecs_cluster" "apiary" {
-  name = "${local.instance_alias}"
-  tags = "${var.apiary_tags}"
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  name  = "${local.instance_alias}"
+  tags  = "${var.apiary_tags}"
 }
 
 resource "aws_cloudwatch_log_group" "apiary_ecs" {
-  name = "${local.instance_alias}-ecs"
-  tags = "${var.apiary_tags}"
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  name  = "${local.instance_alias}-ecs"
+  tags  = "${var.apiary_tags}"
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
+  count                    = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   family                   = "${local.instance_alias}-hms-readwrite"
   task_role_arn            = "${aws_iam_role.apiary_task_readwrite.arn}"
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
@@ -27,6 +30,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readonly" {
+  count                    = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   family                   = "${local.instance_alias}-hms-readonly"
   task_role_arn            = "${aws_iam_role.apiary_task_readonly.arn}"
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
@@ -39,6 +43,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
+  count           = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   depends_on      = ["aws_lb_target_group.apiary_hms_rw_tg"]
   name            = "${local.instance_alias}-hms-readwrite-service"
   launch_type     = "FARGATE"
@@ -63,6 +68,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
+  count           = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   depends_on      = ["aws_lb_target_group.apiary_hms_ro_tg"]
   name            = "${local.instance_alias}-hms-readonly-service"
   launch_type     = "FARGATE"

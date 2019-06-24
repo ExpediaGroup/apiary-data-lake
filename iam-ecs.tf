@@ -5,7 +5,8 @@
  */
 
 resource "aws_iam_role" "apiary_task_exec" {
-  name = "${local.instance_alias}-ecs-task-exec-${var.aws_region}"
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  name  = "${local.instance_alias}-ecs-task-exec-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -27,7 +28,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
-  role       = "${aws_iam_role.apiary_task_exec.id}"
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  role = "${aws_iam_role.apiary_task_exec.id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 

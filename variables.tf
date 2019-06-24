@@ -158,6 +158,11 @@ variable "db_maintenance_window" {
   default     = "wed:03:00-wed:04:00"
 }
 
+variable "hms_instance_type" {
+  description = "hive metastore instance type, possible values: ecs,ec2"
+  type        = "string"
+  default     = "ecs"
+}
 variable "hms_log_level" {
   description = "Log level for the Hive Metastore."
   type        = "string"
@@ -189,7 +194,7 @@ Valid values can be 256, 512, 1024, 2048 and 4096.
 Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
-  type    = "string"
+  type = "string"
   default = "512"
 }
 
