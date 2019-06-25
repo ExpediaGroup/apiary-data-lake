@@ -53,3 +53,5 @@ nbactions.xml
 *.pem
 
 test/*
+*.zip
+archive/
