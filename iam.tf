@@ -77,6 +77,18 @@ EOF
   tags = "${var.apiary_tags}"
 }
 
+resource "aws_iam_role_policy_attachment" "apiary_readwrite_ssm_policy" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  role = "${aws_iam_role.apiary_task_readwrite.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+}
+
+resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  role = "${aws_iam_role.apiary_task_readonly.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+}
+
 resource "aws_iam_instance_profile" "apiary_task_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"

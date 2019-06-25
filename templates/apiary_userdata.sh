@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -e /usr/bin/ansible ]; then
+    yum -y --enablerepo=epel install ansible
+fi
+
 cat > /etc/yum.repos.d/emr-apps.repo <<EOF
 [emr-applications]
 name = EMR Applications Repository
@@ -52,101 +56,3 @@ ZcKnv216VkD9YtctmZcZRr/C/maBdRjqRDGdHrV4E6pPnT2M459HBsc=
 =h7Pp
 -----END PGP PUBLIC KEY BLOCK-----
 EOF
-
-yum -y install java-1.8.0-openjdk \
-    java-1.8.0-openjdk-devel.x86_64 \
-    hive-metastore \
-    mariadb-connector-java \
-    mysql \
-    wget \
-    unzip \
-    jq
-
-
-cat > /etc/hadoop/conf/core-site.xml << EOF
-<configuration>
-<property>
-  <name>fs.s3.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
-</property>
-<property>
-  <name>fs.s3n.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
-</property>
-<property>
-  <name>fs.s3a.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
-</property>
-<property>
-  <name>fs.AbstractFileSystem.s3.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3A</value>
-</property>
-<property>
-  <name>fs.AbstractFileSystem.s3n.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3A</value>
-</property>
-<property>
-  <name>fs.AbstractFileSystem.s3a.impl</name>
-  <value>org.apache.hadoop.fs.s3a.S3A</value>
-</property>
-<property>
-  <name>fs.s3a.connection.ssl.enabled</name>
-  <value>true</value>
-</property>
-<property>
-  <name>fs.s3a.server-side-encryption-algorithm</name>
-  <value>AES256</value>
-</property>
-<property>
-  <name>fs.s3a.aws.credentials.provider</name>
-  <value>com.amazonaws.auth.InstanceProfileCredentialsProvider</value>
-</property>
-</configuration>
-EOF
-
-cat > /etc/hive/conf/hive-site.xml << EOF
-<configuration>
-<property>
-    <name>javax.jdo.option.ConnectionDriverName</name>
-    <value>org.mariadb.jdbc.Driver</value>
-</property>
-<property>
-    <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://${mysql_db_host}:3306/${mysql_db_name}</value>
-</property>
-<property>
-    <name>javax.jdo.option.ConnectionUserName</name>
-    <value>${mysql_db_username}</value>
-</property>
-<property>
-    <name>javax.jdo.option.ConnectionPassword</name>
-    <value>${mysql_db_password}</value>
-</property>
-<property>
-    <name>datanucleus.fixedDatastore</name>
-    <value>true</value>
-</property>
-<property>
-    <name>hive.metastore.uris</name>
-    <value>thrift://localhost:9083</value>
-</property>
-</configuration>
-EOF
-
-cat > /etc/hive/conf/hive-env.sh << EOF
-export HADOOP_HEAPSIZE=$(cat /proc/meminfo|grep MemTotal|awk '{ printf "%d", $2/1024 * 0.80}')
-export HIVE_AUX_JARS_PATH=/usr/share/java/mariadb-connector-java.jar
-EOF
-
-#check if database is initialized, test only from rw instances and only if DB is managed by apiary
-if [ x"${external_database}" == x"" ] && [ x"${metastore_mode}" == x"readwrite" ]; then
-MYSQL_OPTIONS="-h${mysql_db_host} -u${mysql_db_username} -p${mysql_db_password} ${mysql_db_name} -N"
-schema_version=`echo "select SCHEMA_VERSION from VERSION"|mysql $MYSQL_OPTIONS`
-if [ x"$schema_version" != x"2.3.0" ]; then
-    cd /usr/lib/hive/scripts/metastore/upgrade/mysql
-    cat hive-schema-2.3.0.mysql.sql|mysql $MYSQL_OPTIONS
-    cd /
-fi
-fi
-
-/sbin/start hive-metastore

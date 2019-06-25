@@ -1,0 +1,146 @@
+- hosts: all
+  become: true
+
+  vars:
+    managed_schemas: [ ${managed_schemas} ]
+    apiary_data_buckets: [ ${apiary_data_buckets} ]
+    metastore_mode: ${metastore_mode}
+
+  tasks:
+
+  - name: install binaries
+    yum:
+      name:
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+        - hive-metastore
+        - mariadb-connector-java
+        - mysql
+        - wget
+        - unzip
+        - jq
+        - htop
+      state: present
+
+  - name: core-site.xml
+    copy:
+      dest: /etc/hadoop/conf/core-site.xml
+      content: |
+        <configuration>
+        <property>
+          <name>fs.s3.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+        </property>
+        <property>
+          <name>fs.s3n.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+        </property>
+        <property>
+          <name>fs.s3a.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+        </property>
+        <property>
+          <name>fs.AbstractFileSystem.s3.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3A</value>
+        </property>
+        <property>
+          <name>fs.AbstractFileSystem.s3n.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3A</value>
+        </property>
+        <property>
+          <name>fs.AbstractFileSystem.s3a.impl</name>
+          <value>org.apache.hadoop.fs.s3a.S3A</value>
+        </property>
+        <property>
+          <name>fs.s3a.connection.ssl.enabled</name>
+          <value>true</value>
+        </property>
+        <property>
+          <name>fs.s3a.server-side-encryption-algorithm</name>
+          <value>AES256</value>
+        </property>
+        <property>
+          <name>fs.s3a.aws.credentials.provider</name>
+          <value>com.amazonaws.auth.InstanceProfileCredentialsProvider</value>
+        </property>
+        </configuration>
+
+  - name: hive-site.xml
+    copy:
+      dest: /etc/hive/conf/hive-site.xml
+      content: |
+        <configuration>
+        <property>
+            <name>javax.jdo.option.ConnectionDriverName</name>
+            <value>org.mariadb.jdbc.Driver</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionURL</name>
+            <value>jdbc:mysql://${mysql_db_host}:3306/${mysql_db_name}</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionUserName</name>
+            <value>${mysql_db_username}</value>
+        </property>
+        <property>
+            <name>javax.jdo.option.ConnectionPassword</name>
+            <value>${mysql_db_password}</value>
+        </property>
+        <property>
+            <name>datanucleus.fixedDatastore</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>hive.metastore.uris</name>
+            <value>thrift://localhost:9083</value>
+        </property>
+        </configuration>
+
+  - name: hive-env.sh
+    copy:
+      dest: /etc/hive/conf/hive-env.sh
+      content: |
+        export HADOOP_HEAPSIZE=$(cat /proc/meminfo|grep MemTotal|awk '\''{ printf "%d", $$2/1024 * 0.80}'\'')
+        export HIVE_AUX_JARS_PATH=/usr/share/java/mariadb-connector-java.jar
+
+  - name: update hive schema version
+    copy:
+      dest: /root/update_hive_dbs.sh
+      mode: 0755
+      content: |
+        #!/bin/bash
+        MYSQL_OPTIONS="-h${mysql_db_host} -u${mysql_db_username} -p${mysql_db_password} ${mysql_db_name} -N"
+        #check if database is initialized, test only from rw instances and only if DB is managed by apiary
+        if [ x"${external_database}" == x"" ] && [ x"${metastore_mode}" == x"readwrite" ]; then
+        schema_version=`echo "select SCHEMA_VERSION from VERSION"|mysql $$MYSQL_OPTIONS`
+        if [ x"$$schema_version" != x"2.3.0" ]; then
+            cd /usr/lib/hive/scripts/metastore/upgrade/mysql
+            cat hive-schema-2.3.0.mysql.sql|mysql $$MYSQL_OPTIONS
+            cd /
+        fi
+        fi
+
+  - command: /root/update_hive_dbs.sh
+
+  - name: update hive db locations
+    shell: |
+      MYSQL_OPTIONS="-h${mysql_db_host} -u${mysql_db_username} -p${mysql_db_password} ${mysql_db_name} -N"
+      DB_ID=`echo "select MAX(DB_ID)+1 from DBS"|mysql $$MYSQL_OPTIONS`
+      BUCKET_NAME={{ apiary_data_buckets[item.0] }}
+      HIVE_DB={{ item.1 }}
+      echo "insert into DBS(DB_ID,DB_LOCATION_URI,NAME,OWNER_NAME,OWNER_TYPE) values(\"$$DB_ID\",\"s3://$$BUCKET_NAME/\",\"$$HIVE_DB\",\"root\",\"USER\") on duplicate key update DB_LOCATION_URI=\"s3://$$BUCKET_NAME/\";"|mysql $$MYSQL_OPTIONS
+    with_indexed_items: "{{ managed_schemas }}"
+    when: "{{ metastore_mode == '\''readwrite'\'' }}"
+
+  - file:
+      path: /tmp/hive
+      state: directory
+      owner: hive
+      group: hive
+      mode: 0777
+
+  - name: start metastore
+    service:
+      name: hive-metastore
+      enabled: yes
+      state: started
