@@ -5,6 +5,9 @@
     managed_schemas: [ ${managed_schemas} ]
     apiary_data_buckets: [ ${apiary_data_buckets} ]
     metastore_mode: ${metastore_mode}
+    apiary_extentions_version: 4.0.0
+    sns_arn: "${sns_arn}"
+    metastore_listeners: ""
 
   tasks:
 
@@ -65,6 +68,10 @@
         </property>
         </configuration>
 
+  - set_fact:
+      metastore_listeners: "com.expediagroup.apiary.extensions.events.metastore.listener.ApiarySnsListener"
+    when: "{{ sns_arn != \"\" }}"
+
   - name: hive-site.xml
     copy:
       dest: /etc/hive/conf/hive-site.xml
@@ -94,6 +101,10 @@
             <name>hive.metastore.uris</name>
             <value>thrift://localhost:9083</value>
         </property>
+        <property>
+            <name>hive.metastore.event.listeners</name>
+            <value>{{ metastore_listeners }}</value>
+        </property>
         </configuration>
 
   - name: hive-env.sh
@@ -101,7 +112,8 @@
       dest: /etc/hive/conf/hive-env.sh
       content: |
         export HADOOP_HEAPSIZE=$(cat /proc/meminfo|grep MemTotal|awk '\''{ printf "%d", $$2/1024 * 0.80}'\'')
-        export HIVE_AUX_JARS_PATH=/usr/share/java/mariadb-connector-java.jar
+        export HIVE_AUX_JARS_PATH=/usr/share/java/mariadb-connector-java.jar,/usr/lib/apiary/*
+        export SNS_ARN="${sns_arn}"
 
   - name: update hive schema version
     copy:
@@ -138,6 +150,19 @@
       owner: hive
       group: hive
       mode: 0777
+
+  - file:
+      path: /usr/lib/apiary
+      state: directory
+
+  - name: download apiary extentions
+    get_url:
+      url: https://search.maven.org/remotecontent?filepath=com/expediagroup/apiary/{{ item }}/{{ apiary_extentions_version }}/{{ item }}-{{ apiary_extentions_version }}-all.jar
+      dest: /usr/lib/apiary/{{ item }}-{{ apiary_extentions_version }}-all.jar
+    with_items:
+      - apiary-metastore-listener
+      - apiary-metastore-metrics
+      - apiary-metastore-auth
 
   - name: start metastore
     service:
