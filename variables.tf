@@ -10,6 +10,36 @@ variable "instance_name" {
   default     = ""
 }
 
+variable "ami_id" {
+  description = "Amazon Linux AMI, when using ec2 instance type for metastore."
+  type        = "string"
+  default     = ""
+}
+
+variable "root_vol_type" {
+  description = "metastore root volume type."
+  type        = "string"
+  default     = "gp2"
+}
+
+variable "root_vol_size" {
+  description = "metastore root volume size."
+  type        = "string"
+  default     = "10"
+}
+
+variable "ec2_instance_type" {
+  description = "metastore EC2 instance type."
+  type        = "string"
+  default     = "m5.large"
+}
+
+variable "key_name" {
+  description = "EC2 key pair name."
+  type        = "string"
+  default     = "automation"
+}
+
 variable "apiary_tags" {
   description = "Common tags that get put on all resources."
   type        = "map"

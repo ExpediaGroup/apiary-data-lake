@@ -29,3 +29,32 @@ resource "aws_route53_record" "hms_readonly_alias" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53_zone" "apiary" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  name  = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
+  vpc = {
+    vpc_id = "${var.vpc_id}"
+  }
+}
+
+
+resource "aws_route53_record" "hms_readwrite" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  name  = "hms-readwrite"
+
+  zone_id = "${aws_route53_zone.apiary.id}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.hms_readwrite.*.private_ip}"]
+}
+
+resource "aws_route53_record" "hms_readonly" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  name  = "hms-readonly"
+
+  zone_id = "${aws_route53_zone.apiary.id}"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.hms_readonly.*.private_ip}"]
+}

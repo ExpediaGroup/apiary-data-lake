@@ -44,7 +44,7 @@ resource "aws_iam_role" "apiary_task_readonly" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
+         "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
        },
        "Action": "sts:AssumeRole"
      }
@@ -66,7 +66,7 @@ resource "aws_iam_role" "apiary_task_readwrite" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
+         "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
        },
        "Action": "sts:AssumeRole"
      }
