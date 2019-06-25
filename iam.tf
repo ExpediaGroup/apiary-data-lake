@@ -28,8 +28,8 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
-  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
-  role = "${aws_iam_role.apiary_task_exec.id}"
+  count      = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  role       = "${aws_iam_role.apiary_task_exec.id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -78,25 +78,25 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "apiary_readwrite_ssm_policy" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role = "${aws_iam_role.apiary_task_readwrite.name}"
+  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  role       = "${aws_iam_role.apiary_task_readwrite.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role = "${aws_iam_role.apiary_task_readonly.name}"
+  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  role       = "${aws_iam_role.apiary_task_readonly.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_instance_profile" "apiary_task_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"
-  role = "${aws_iam_role.apiary_task_readwrite.name}"
+  name  = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"
+  role  = "${aws_iam_role.apiary_task_readwrite.name}"
 }
 
 resource "aws_iam_instance_profile" "apiary_task_readonly" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name = "${local.instance_alias}-ecs-task-readonly-${var.aws_region}"
-  role = "${aws_iam_role.apiary_task_readonly.name}"
+  name  = "${local.instance_alias}-ecs-task-readonly-${var.aws_region}"
+  role  = "${aws_iam_role.apiary_task_readonly.name}"
 }

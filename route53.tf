@@ -33,11 +33,11 @@ resource "aws_route53_record" "hms_readonly_alias" {
 resource "aws_route53_zone" "apiary" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name  = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
+
   vpc = {
     vpc_id = "${var.vpc_id}"
   }
 }
-
 
 resource "aws_route53_record" "hms_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"

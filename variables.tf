@@ -193,6 +193,7 @@ variable "hms_instance_type" {
   type        = "string"
   default     = "ecs"
 }
+
 variable "hms_log_level" {
   description = "Log level for the Hive Metastore."
   type        = "string"
@@ -224,7 +225,7 @@ Valid values can be 256, 512, 1024, 2048 and 4096.
 Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
-  type = "string"
+  type    = "string"
   default = "512"
 }
 

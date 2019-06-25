@@ -28,7 +28,6 @@ resource "aws_service_discovery_service" "hms_readwrite" {
   health_check_custom_config {
     failure_threshold = 1
   }
-
 }
 
 resource "aws_service_discovery_service" "hms_readonly" {
@@ -49,7 +48,6 @@ resource "aws_service_discovery_service" "hms_readonly" {
   health_check_custom_config {
     failure_threshold = 1
   }
-
 }
 
 resource "aws_route53_zone_association" "secondary" {

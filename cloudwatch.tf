@@ -222,34 +222,34 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
 locals {
   alerts = [
     {
-      alarm_name = "${local.instance_alias}-hms-readwrite-cpu"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readwrite-cpu"
+      namespace   = "AWS/ECS"
       metric_name = "CPUUtilization"
-      threshold = "80"
+      threshold   = "80"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readonly-cpu"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readonly-cpu"
+      namespace   = "AWS/ECS"
       metric_name = "CPUUtilization"
-      threshold = "80"
+      threshold   = "80"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readwrite-memory"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readwrite-memory"
+      namespace   = "AWS/ECS"
       metric_name = "MemoryUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
     {
-      alarm_name = "${local.instance_alias}-hms-readonly-memory"
-      namespace = "AWS/ECS"
+      alarm_name  = "${local.instance_alias}-hms-readonly-memory"
+      namespace   = "AWS/ECS"
       metric_name = "MemoryUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
     {
-      alarm_name = "${local.instance_alias}-db-cpu"
-      namespace = "AWS/RDS"
+      alarm_name  = "${local.instance_alias}-db-cpu"
+      namespace   = "AWS/RDS"
       metric_name = "CPUUtilization"
-      threshold = "70"
+      threshold   = "70"
     },
   ]
 
@@ -279,18 +279,18 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
-  count = "${var.hms_instance_type == "ecs" ? length(local.alerts) : 0}"
-  alarm_name = "${lookup(local.alerts[count.index], "alarm_name")}"
+  count               = "${var.hms_instance_type == "ecs" ? length(local.alerts) : 0}"
+  alarm_name          = "${lookup(local.alerts[count.index], "alarm_name")}"
   comparison_operator = "${lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")}"
-  metric_name = "${lookup(local.alerts[count.index], "metric_name")}"
-  namespace = "${lookup(local.alerts[count.index], "namespace")}"
-  period = "${lookup(local.alerts[count.index], "period", "120")}"
-  evaluation_periods = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
-  statistic = "Average"
-  threshold = "${lookup(local.alerts[count.index], "threshold")}"
+  metric_name         = "${lookup(local.alerts[count.index], "metric_name")}"
+  namespace           = "${lookup(local.alerts[count.index], "namespace")}"
+  period              = "${lookup(local.alerts[count.index], "period", "120")}"
+  evaluation_periods  = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
+  statistic           = "Average"
+  threshold           = "${lookup(local.alerts[count.index], "threshold")}"
 
   #alarm_description         = "This metric monitors apiary ecs ec2 cpu utilization"
   insufficient_data_actions = []
-  dimensions = "${local.dimensions[count.index]}"
-  alarm_actions = ["${aws_sns_topic.apiary_ops_sns.arn}"]
+  dimensions                = "${local.dimensions[count.index]}"
+  alarm_actions             = ["${aws_sns_topic.apiary_ops_sns.arn}"]
 }

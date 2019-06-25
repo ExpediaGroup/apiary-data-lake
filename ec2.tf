@@ -25,6 +25,7 @@ data "aws_ami" "amzn" {
 
 data "template_file" "apiary_readwrite_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
+
   vars {
     mysql_db_host     = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name     = "${var.apiary_database_name}"
@@ -37,6 +38,7 @@ data "template_file" "apiary_readwrite_userdata" {
 
 data "template_file" "apiary_readonly_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
+
   vars {
     mysql_db_host     = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name     = "${var.apiary_database_name}"
@@ -57,7 +59,6 @@ resource "aws_instance" "hms_readwrite" {
   subnet_id              = "${var.private_subnets[count.index]}"
   iam_instance_profile   = "${aws_iam_instance_profile.apiary_task_readwrite.id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
-
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readwrite_userdata.rendered)}"
 
@@ -83,7 +84,6 @@ resource "aws_instance" "hms_readonly" {
   subnet_id              = "${var.private_subnets[count.index]}"
   iam_instance_profile   = "${aws_iam_instance_profile.apiary_task_readonly.id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
-
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readonly_userdata.rendered)}"
 
