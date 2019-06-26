@@ -62,7 +62,7 @@
 | vpc_id | VPC ID. | string | - | yes |
 | ami_id | Amazon Linux AMI. | string | - | no |
 | root_vol_type | Hive Metastore root EBS volume type. | string | gp2 | no |
-| root_vol_size | Hive Metastore root EBS voluem size(GB). | string | 10 | no |
+| root_vol_size | Hive Metastore root EBS volume size(GB). | string | 10 | no |
 | ec2_instance_type| Hive Metastore EC2 instance type. | string | m5.large | no |
-| key_name | Hive Metastore EC2 ssh key pair name. | string | m5.large | no |
-| hms_instance_type | Hiv Metastore instance type, possible values ecs, ec2. | string | ecs | no |
+| key_name | Hive Metastore EC2 ssh key pair name. | string | automation | no |
+| hms_instance_type | Hive Metastore instance type, possible values ecs, ec2. | string | ecs | no |

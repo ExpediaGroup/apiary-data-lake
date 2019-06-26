@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [3.0.0] - TBD
 ### Added
-- Support for running metastore in EC2 nodes.
+- Support for running Hive Metastore on EC2 nodes.
 
 ### Changed
 - Replace hardcoded `us-west-2` as region to variable `${var.aws_region}` in `cloudwatch.tf` - see [#112](https://github.com/ExpediaGroup/apiary-data-lake/issues/112).

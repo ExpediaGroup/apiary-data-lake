@@ -63,7 +63,7 @@ resource "aws_instance" "hms_readwrite" {
   ebs_optimized = true
 
   subnet_id              = "${var.private_subnets[count.index]}"
-  iam_instance_profile   = "${aws_iam_instance_profile.apiary_task_readwrite.id}"
+  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readwrite.id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readwrite_userdata.rendered)}"
@@ -88,7 +88,7 @@ resource "aws_instance" "hms_readonly" {
   ebs_optimized = true
 
   subnet_id              = "${var.private_subnets[count.index]}"
-  iam_instance_profile   = "${aws_iam_instance_profile.apiary_task_readonly.id}"
+  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readonly.id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readonly_userdata.rendered)}"

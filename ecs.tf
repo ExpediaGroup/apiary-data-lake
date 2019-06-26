@@ -19,7 +19,7 @@ resource "aws_cloudwatch_log_group" "apiary_ecs" {
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   count                    = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   family                   = "${local.instance_alias}-hms-readwrite"
-  task_role_arn            = "${aws_iam_role.apiary_task_readwrite.arn}"
+  task_role_arn            = "${aws_iam_role.apiary_hms_readwrite.arn}"
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
   network_mode             = "awsvpc"
   memory                   = "${var.hms_rw_heapsize}"
@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
 resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   count                    = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   family                   = "${local.instance_alias}-hms-readonly"
-  task_role_arn            = "${aws_iam_role.apiary_task_readonly.arn}"
+  task_role_arn            = "${aws_iam_role.apiary_hms_readonly.arn}"
   execution_role_arn       = "${aws_iam_role.apiary_task_exec.arn}"
   network_mode             = "awsvpc"
   memory                   = "${var.hms_ro_heapsize}"

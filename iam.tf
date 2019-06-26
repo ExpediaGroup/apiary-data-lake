@@ -33,8 +33,8 @@ resource "aws_iam_role_policy_attachment" "task_exec_managed" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_iam_role" "apiary_task_readonly" {
-  name = "${local.instance_alias}-ecs-task-readonly-${var.aws_region}"
+resource "aws_iam_role" "apiary_hms_readonly" {
+  name = "${local.instance_alias}-hms-readonly-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -53,10 +53,14 @@ resource "aws_iam_role" "apiary_task_readonly" {
 EOF
 
   tags = "${var.apiary_tags}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
-resource "aws_iam_role" "apiary_task_readwrite" {
-  name = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"
+resource "aws_iam_role" "apiary_hms_readwrite" {
+  name = "${local.instance_alias}-hms-readwrite-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -75,28 +79,32 @@ resource "aws_iam_role" "apiary_task_readwrite" {
 EOF
 
   tags = "${var.apiary_tags}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "apiary_readwrite_ssm_policy" {
   count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_task_readwrite.name}"
+  role       = "${aws_iam_role.apiary_hms_readwrite.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
   count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_task_readonly.name}"
+  role       = "${aws_iam_role.apiary_hms_readonly.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
-resource "aws_iam_instance_profile" "apiary_task_readwrite" {
+resource "aws_iam_instance_profile" "apiary_hms_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${local.instance_alias}-ecs-task-readwrite-${var.aws_region}"
-  role  = "${aws_iam_role.apiary_task_readwrite.name}"
+  name  = "${local.instance_alias}-hms-readwrite-${var.aws_region}"
+  role  = "${aws_iam_role.apiary_hms_readwrite.name}"
 }
 
-resource "aws_iam_instance_profile" "apiary_task_readonly" {
+resource "aws_iam_instance_profile" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${local.instance_alias}-ecs-task-readonly-${var.aws_region}"
-  role  = "${aws_iam_role.apiary_task_readonly.name}"
+  name  = "${local.instance_alias}-hms-readonly-${var.aws_region}"
+  role  = "${aws_iam_role.apiary_hms_readonly.name}"
 }

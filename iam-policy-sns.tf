@@ -5,9 +5,9 @@
  */
 
 resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
-  count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
+  count = "${var.enable_metadata_events == "" ? 0 : 1}"
   name  = "sns"
-  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
 {

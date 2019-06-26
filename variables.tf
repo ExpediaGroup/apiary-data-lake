@@ -189,7 +189,7 @@ variable "db_maintenance_window" {
 }
 
 variable "hms_instance_type" {
-  description = "hive metastore instance type, possible values: ecs,ec2"
+  description = "Hive Metastore instance type, possible values: ecs,ec2"
   type        = "string"
   default     = "ecs"
 }
