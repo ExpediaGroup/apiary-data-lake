@@ -17,19 +17,19 @@ variable "ami_id" {
 }
 
 variable "root_vol_type" {
-  description = "metastore root volume type."
+  description = "Hive Metastore root volume type."
   type        = "string"
   default     = "gp2"
 }
 
 variable "root_vol_size" {
-  description = "metastore root volume size."
+  description = "Hive Metastore root volume size."
   type        = "string"
   default     = "10"
 }
 
 variable "ec2_instance_type" {
-  description = "metastore EC2 instance type."
+  description = "Hive Metastore EC2 instance type."
   type        = "string"
   default     = "m5.large"
 }
@@ -189,7 +189,7 @@ variable "db_maintenance_window" {
 }
 
 variable "hms_instance_type" {
-  description = "Hive Metastore instance type, possible values: ecs,ec2"
+  description = "Hive Metastore instance type, possible values: ecs,ec2."
   type        = "string"
   default     = "ecs"
 }

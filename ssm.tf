@@ -8,10 +8,10 @@ data "template_file" "apiary_readwrite_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
   vars {
+    aws_region          = "${var.aws_region}"
     mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name       = "${var.apiary_database_name}"
-    mysql_db_username   = "${data.external.db_rw_user.result["username"]}"
-    mysql_db_password   = "${data.external.db_rw_user.result["password"]}"
+    mysql_secret_arn    = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     metastore_mode      = "readwrite"
     external_database   = "${var.external_database_host == "" ? "" : "1"}"
     managed_schemas     = "'${join("','", local.apiary_managed_schema_names_original)}'"
@@ -24,10 +24,10 @@ data "template_file" "apiary_readonly_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
   vars {
+    aws_region          = "${var.aws_region}"
     mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name       = "${var.apiary_database_name}"
-    mysql_db_username   = "${data.external.db_ro_user.result["username"]}"
-    mysql_db_password   = "${data.external.db_ro_user.result["password"]}"
+    mysql_secret_arn    = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     metastore_mode      = "readonly"
     external_database   = "${var.external_database_host == "" ? "" : "1"}"
     managed_schemas     = "'${join("','", local.apiary_managed_schema_names_original)}'"
@@ -38,6 +38,8 @@ data "template_file" "apiary_readonly_playbook" {
 
 #to delay ssm assiociation till ansible is installed
 resource "null_resource" "readwrite_delay" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+
   triggers = {
     apiary_instance_ids = "${join(",", aws_instance.hms_readwrite.*.id)}"
   }
@@ -48,6 +50,8 @@ resource "null_resource" "readwrite_delay" {
 }
 
 resource "null_resource" "readonly_delay" {
+  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+
   triggers = {
     apiary_instance_ids = "${join(",", aws_instance.hms_readonly.*.id)}"
   }
@@ -58,6 +62,7 @@ resource "null_resource" "readonly_delay" {
 }
 
 resource "aws_ssm_association" "apiary_readwrite_playbook" {
+  count            = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name             = "AWS-RunAnsiblePlaybook"
   association_name = "${local.instance_alias}-readwrite-playbook"
 
@@ -76,6 +81,7 @@ resource "aws_ssm_association" "apiary_readwrite_playbook" {
 }
 
 resource "aws_ssm_association" "apiary_readonly_playbook" {
+  count            = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name             = "AWS-RunAnsiblePlaybook"
   association_name = "${local.instance_alias}-readonly-playbook"
 
