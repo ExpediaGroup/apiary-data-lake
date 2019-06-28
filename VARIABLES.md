@@ -66,3 +66,4 @@
 | ec2_instance_type| Hive Metastore EC2 instance type. | string | m5.large | no |
 | key_name | Hive Metastore EC2 ssh key pair name. | string | automation | no |
 | hms_instance_type | Hive Metastore instance type, possible values ecs, ec2. | string | ecs | no |
+| iam_name_root | Name to identify Hive Metastore IAM roles. | string | hms | no |

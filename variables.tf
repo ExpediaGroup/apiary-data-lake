@@ -57,6 +57,12 @@ variable "ecs_domain_extension" {
   default     = "lcl"
 }
 
+variable "iam_name_root" {
+  description = "Name to identify Hive Metastore IAM roles."
+  type        = "string"
+  default     = "hms"
+}
+
 variable "vpc_id" {
   description = "VPC ID."
   type        = "string"

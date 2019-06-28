@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "task_exec_managed" {
 }
 
 resource "aws_iam_role" "apiary_hms_readonly" {
-  name = "${local.instance_alias}-hms-readonly-${var.aws_region}"
+  name = "${local.instance_alias}-${var.iam_name_root}-readonly-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -60,7 +60,7 @@ EOF
 }
 
 resource "aws_iam_role" "apiary_hms_readwrite" {
-  name = "${local.instance_alias}-hms-readwrite-${var.aws_region}"
+  name = "${local.instance_alias}-${var.iam_name_root}-readwrite-${var.aws_region}"
 
   assume_role_policy = <<EOF
 {
@@ -99,12 +99,12 @@ resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
 
 resource "aws_iam_instance_profile" "apiary_hms_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${local.instance_alias}-hms-readwrite-${var.aws_region}"
+  name  = "${aws_iam_role.apiary_hms_readwrite.name}"
   role  = "${aws_iam_role.apiary_hms_readwrite.name}"
 }
 
 resource "aws_iam_instance_profile" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${local.instance_alias}-hms-readonly-${var.aws_region}"
+  name  = "${aws_iam_role.apiary_hms_readonly.name}"
   role  = "${aws_iam_role.apiary_hms_readonly.name}"
 }
