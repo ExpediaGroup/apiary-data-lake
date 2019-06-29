@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
+resource "aws_iam_role_policy" "s3_data_for_hms_readwrite" {
   count = "${length(var.apiary_managed_schemas) == 0 ? 0 : 1}"
   name  = "s3"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readwrite" {
 EOF
 }
 
-resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
+resource "aws_iam_role_policy" "s3_data_for_hms_readonly" {
   count = "${length(var.apiary_managed_schemas) == 0 ? 0 : 1}"
   name  = "s3"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
@@ -64,7 +64,7 @@ resource "aws_iam_role_policy" "s3_data_for_ecs_task_readonly" {
 EOF
 }
 
-resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readwrite" {
+resource "aws_iam_role_policy" "external_s3_data_for_hms_readwrite" {
   count = "${length(var.external_data_buckets) == 0 ? 0 : 1}"
   name  = "external-s3"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
@@ -99,7 +99,7 @@ resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readwrite" {
 EOF
 }
 
-resource "aws_iam_role_policy" "external_s3_data_for_ecs_task_readonly" {
+resource "aws_iam_role_policy" "external_s3_data_for_hms_readonly" {
   count = "${length(var.external_data_buckets) == 0 ? 0 : 1}"
   name  = "external-s3"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
