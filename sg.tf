@@ -10,6 +10,13 @@ resource "aws_security_group" "hms_sg" {
   tags   = "${var.apiary_tags}"
 
   ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = "${var.ingress_cidr}"
+  }
+
+  ingress {
     from_port   = 9083
     to_port     = 9083
     protocol    = "tcp"

@@ -13,12 +13,12 @@ data "template_file" "bucket_policy" {
 
   vars {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
-    customer_principal = "${ length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_managed_schema_names_original,list("")),count.index)) ?
-                             join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts)) :
-                             "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }"
+    customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_managed_schema_names_original, list("")), count.index)) ?
+      join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) :
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"}"
 
     bucket_name       = "${local.apiary_data_buckets[count.index]}"
-    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles,element(concat(local.apiary_managed_schema_names_original,list("")),count.index),"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"),",","\",\"")}"
+    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles, element(concat(local.apiary_managed_schema_names_original, list("")), count.index), "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"), ",", "\",\"")}"
   }
 }
 
@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = "${data.template_file.bucket_policy.*.rendered[count.index]}"
-  tags          = "${var.apiary_tags}"
+  tags          = "${merge(map("Name", "${element(local.apiary_data_buckets, count.index)}"), "${var.apiary_tags}")}"
 
   logging {
     target_bucket = "${var.apiary_log_bucket}"
@@ -50,7 +50,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 }
 
 resource "aws_s3_bucket_notification" "data_events" {
-  count  = "${ var.enable_data_events == "" ? 0 : length(local.apiary_data_buckets) }"
+  count  = "${var.enable_data_events == "" ? 0 : length(local.apiary_data_buckets)}"
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
 
   topic {
@@ -60,7 +60,7 @@ resource "aws_s3_bucket_notification" "data_events" {
 }
 
 resource "aws_s3_bucket_metric" "paid_metrics" {
-  count  = "${ var.enable_s3_paid_metrics == "" ? 0 : length(local.apiary_data_buckets) }"
+  count  = "${var.enable_s3_paid_metrics == "" ? 0 : length(local.apiary_data_buckets)}"
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
   name   = "EntireBucket"
 }

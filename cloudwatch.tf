@@ -91,12 +91,10 @@ EOF
   }
 }
 
-resource "aws_cloudwatch_dashboard" "apiary" {
-  dashboard_name = "${local.instance_alias}-${var.aws_region}"
+data "template_file" "ecs_widgets" {
+  count = "${var.hms_instance_type == "ecs" ? length(local.apiary_data_buckets) : 0}"
 
-  dashboard_body = <<EOF
- {
-   "widgets": [
+  template = <<EOF
        {
           "type":"metric",
           "width":12,
@@ -127,6 +125,16 @@ resource "aws_cloudwatch_dashboard" "apiary" {
              "title":"Apiary ECS Memory Utilization"
           }
        },
+EOF
+}
+
+resource "aws_cloudwatch_dashboard" "apiary" {
+  dashboard_name = "${local.instance_alias}-${var.aws_region}"
+
+  dashboard_body = <<EOF
+ {
+   "widgets": [
+${join("", data.template_file.ecs_widgets.*.rendered)}
        {
           "type":"metric",
           "width":12,
@@ -245,22 +253,24 @@ locals {
     },
   ]
 
+  ecs_cluster_name = "${join("", aws_ecs_cluster.apiary.*.name)}"
+
   dimensions = [
     {
-      ClusterName = "${aws_ecs_cluster.apiary.name}"
-      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readwrite-service"
+      ClusterName = "${local.ecs_cluster_name}"
+      ServiceName = "${local.ecs_cluster_name}-hms-readwrite-service"
     },
     {
-      ClusterName = "${aws_ecs_cluster.apiary.name}"
-      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readonly-service"
+      ClusterName = "${local.ecs_cluster_name}"
+      ServiceName = "${local.ecs_cluster_name}-hms-readonly-service"
     },
     {
-      ClusterName = "${aws_ecs_cluster.apiary.name}"
-      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readwrite-service"
+      ClusterName = "${local.ecs_cluster_name}"
+      ServiceName = "${local.ecs_cluster_name}-hms-readwrite-service"
     },
     {
-      ClusterName = "${aws_ecs_cluster.apiary.name}"
-      ServiceName = "${aws_ecs_cluster.apiary.name}-hms-readonly-service"
+      ClusterName = "${local.ecs_cluster_name}"
+      ServiceName = "${local.ecs_cluster_name}-hms-readonly-service"
     },
     {
       DBClusterIdentifier = "${local.instance_alias}-cluster"
@@ -269,15 +279,15 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
-  count               = "${length(local.alerts)}"
-  alarm_name          = "${lookup(local.alerts[count.index],"alarm_name")}"
-  comparison_operator = "${lookup(local.alerts[count.index],"comparison_operator","GreaterThanOrEqualToThreshold")}"
-  metric_name         = "${lookup(local.alerts[count.index],"metric_name")}"
-  namespace           = "${lookup(local.alerts[count.index],"namespace")}"
-  period              = "${lookup(local.alerts[count.index],"period","120")}"
-  evaluation_periods  = "${lookup(local.alerts[count.index],"evaluation_periods","2")}"
+  count               = "${var.hms_instance_type == "ecs" ? length(local.alerts) : 0}"
+  alarm_name          = "${lookup(local.alerts[count.index], "alarm_name")}"
+  comparison_operator = "${lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")}"
+  metric_name         = "${lookup(local.alerts[count.index], "metric_name")}"
+  namespace           = "${lookup(local.alerts[count.index], "namespace")}"
+  period              = "${lookup(local.alerts[count.index], "period", "120")}"
+  evaluation_periods  = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
   statistic           = "Average"
-  threshold           = "${lookup(local.alerts[count.index],"threshold")}"
+  threshold           = "${lookup(local.alerts[count.index], "threshold")}"
 
   #alarm_description         = "This metric monitors apiary ecs ec2 cpu utilization"
   insufficient_data_actions = []

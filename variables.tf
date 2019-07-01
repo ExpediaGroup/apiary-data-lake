@@ -10,6 +10,36 @@ variable "instance_name" {
   default     = ""
 }
 
+variable "ami_id" {
+  description = "Amazon Linux AMI, when using ec2 instance type for metastore."
+  type        = "string"
+  default     = ""
+}
+
+variable "root_vol_type" {
+  description = "Hive Metastore root volume type."
+  type        = "string"
+  default     = "gp2"
+}
+
+variable "root_vol_size" {
+  description = "Hive Metastore root volume size."
+  type        = "string"
+  default     = "10"
+}
+
+variable "ec2_instance_type" {
+  description = "Hive Metastore EC2 instance type."
+  type        = "string"
+  default     = "m5.large"
+}
+
+variable "key_name" {
+  description = "EC2 key pair name."
+  type        = "string"
+  default     = "automation"
+}
+
 variable "apiary_tags" {
   description = "Common tags that get put on all resources."
   type        = "map"
@@ -25,6 +55,12 @@ variable "ecs_domain_extension" {
   description = "Domain name to use for hosted zone created by ECS service discovery."
   type        = "string"
   default     = "lcl"
+}
+
+variable "iam_name_root" {
+  description = "Name to identify Hive Metastore IAM roles."
+  type        = "string"
+  default     = "hms"
 }
 
 variable "vpc_id" {
@@ -156,6 +192,12 @@ variable "db_maintenance_window" {
   description = "Preferred maintenance window for the RDS Metastore DB in UTC."
   type        = "string"
   default     = "wed:03:00-wed:04:00"
+}
+
+variable "hms_instance_type" {
+  description = "Hive Metastore instance type, possible values: ecs,ec2."
+  type        = "string"
+  default     = "ecs"
 }
 
 variable "hms_log_level" {

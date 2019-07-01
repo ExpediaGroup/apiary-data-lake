@@ -4,10 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_iam_role_policy" "rds_for_ecs_readonly" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
+resource "aws_iam_role_policy" "rds_for_hms_readonly" {
+  count = "${var.external_database_host == "" ? 1 : 0}"
   name  = "rds"
-  role  = "${aws_iam_role.apiary_task_readonly.id}"
+  role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
   policy = <<EOF
 {
@@ -24,10 +24,10 @@ resource "aws_iam_role_policy" "rds_for_ecs_readonly" {
 EOF
 }
 
-resource "aws_iam_role_policy" "rds_for_ecs_task_readwrite" {
-  count = "${ var.external_database_host == "" ? 1 : 0 }"
+resource "aws_iam_role_policy" "rds_for_hms_readwrite" {
+  count = "${var.external_database_host == "" ? 1 : 0}"
   name  = "rds"
-  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
 {

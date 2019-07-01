@@ -4,10 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_iam_role_policy" "sns_for_ecs_task_readwrite" {
-  count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
+resource "aws_iam_role_policy" "sns_for_hms_readwrite" {
+  count = "${var.enable_metadata_events == "" ? 0 : 1}"
   name  = "sns"
-  role  = "${aws_iam_role.apiary_task_readwrite.id}"
+  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
 {

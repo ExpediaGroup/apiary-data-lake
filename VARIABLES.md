@@ -60,3 +60,10 @@
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | vpc_id | VPC ID. | string | - | yes |
+| ami_id | Amazon Linux AMI. | string | - | no |
+| root_vol_type | Hive Metastore root EBS volume type. | string | gp2 | no |
+| root_vol_size | Hive Metastore root EBS volume size(GB). | string | 10 | no |
+| ec2_instance_type| Hive Metastore EC2 instance type. | string | m5.large | no |
+| key_name | Hive Metastore EC2 ssh key pair name. | string | automation | no |
+| hms_instance_type | Hive Metastore instance type, possible values ecs, ec2. | string | ecs | no |
+| iam_name_root | Name to identify Hive Metastore IAM roles. | string | hms | no |

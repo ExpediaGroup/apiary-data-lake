@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_iam_role_policy" "cloudwatch_for_ecs_readonly" {
+resource "aws_iam_role_policy" "cloudwatch_for_hms_readonly" {
   name = "cloudwatch"
-  role = "${aws_iam_role.apiary_task_readonly.id}"
+  role = "${aws_iam_role.apiary_hms_readonly.id}"
 
   policy = <<EOF
 {
@@ -27,9 +27,9 @@ resource "aws_iam_role_policy" "cloudwatch_for_ecs_readonly" {
 EOF
 }
 
-resource "aws_iam_role_policy" "cloudwatch_for_ecs_readwrite" {
+resource "aws_iam_role_policy" "cloudwatch_for_hms_readwrite" {
   name = "cloudwatch"
-  role = "${aws_iam_role.apiary_task_readwrite.id}"
+  role = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
 {
