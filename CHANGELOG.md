@@ -5,8 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [3.0.1] - TBD
 ### Added
-- Support for running configuring read-only HMS with Ranger audit-only
-  mode.
+- Support for configuring read-only HMS with Ranger audit-only mode.
 
 ## [3.0.0] - 2019-07-01
 ### Added
