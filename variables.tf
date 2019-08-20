@@ -265,13 +265,13 @@ variable "hms_docker_version" {
 variable "hms_rw_ecs_task_count" {
   description = "Desired ECS task count of the read/write Hive Metastore service."
   type        = "string"
-  default     = "2"
+  default     = "3"
 }
 
 variable "hms_ro_ecs_task_count" {
   description = "Desired ECS task count of the read only Hive Metastore service."
   type        = "string"
-  default     = "2"
+  default     = "3"
 }
 
 variable "elb_timeout" {
