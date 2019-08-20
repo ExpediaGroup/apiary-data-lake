@@ -1,13 +1,9 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2019 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
 terraform {
-  required_version = "~> 0.11"
-
-  required_providers = {
-    aws = "~> 1.60.0"
-  }
+  required_version = "~> 0.12.0"
 }

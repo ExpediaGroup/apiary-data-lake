@@ -6,7 +6,7 @@
 
 resource "aws_route53_record" "hms_readwrite_alias" {
   count   = "${local.enable_route53_records}"
-  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
+  zone_id = "${data.aws_route53_zone.apiary_zone[0].zone_id}"
   name    = "${local.instance_alias}-hms-readwrite"
   type    = "A"
 
@@ -19,7 +19,7 @@ resource "aws_route53_record" "hms_readwrite_alias" {
 
 resource "aws_route53_record" "hms_readonly_alias" {
   count   = "${local.enable_route53_records}"
-  zone_id = "${data.aws_route53_zone.apiary_zone.zone_id}"
+  zone_id = "${data.aws_route53_zone.apiary_zone[0].zone_id}"
   name    = "${local.instance_alias}-hms-readonly"
   type    = "A"
 
@@ -34,7 +34,7 @@ resource "aws_route53_zone" "apiary" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name  = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
 
-  vpc = {
+  vpc {
     vpc_id = "${var.vpc_id}"
   }
 }
@@ -43,18 +43,18 @@ resource "aws_route53_record" "hms_readwrite" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name  = "hms-readwrite"
 
-  zone_id = "${aws_route53_zone.apiary.id}"
+  zone_id = "${aws_route53_zone.apiary[0].id}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.hms_readwrite.*.private_ip}"]
+  records = aws_instance.hms_readwrite.*.private_ip
 }
 
 resource "aws_route53_record" "hms_readonly" {
   count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
   name  = "hms-readonly"
 
-  zone_id = "${aws_route53_zone.apiary.id}"
+  zone_id = "${aws_route53_zone.apiary[0].id}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.hms_readonly.*.private_ip}"]
+  records = aws_instance.hms_readonly.*.private_ip
 }

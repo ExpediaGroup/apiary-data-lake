@@ -32,7 +32,7 @@ data "aws_ami" "amzn" {
 data "template_file" "apiary_readwrite_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
 
-  vars {
+  vars = {
     metastore_mode = "readwrite"
   }
 }
@@ -40,7 +40,7 @@ data "template_file" "apiary_readwrite_userdata" {
 data "template_file" "apiary_readonly_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
 
-  vars {
+  vars = {
     metastore_mode = "readonly"
   }
 }
@@ -53,7 +53,7 @@ resource "aws_instance" "hms_readwrite" {
   ebs_optimized = true
 
   subnet_id              = "${var.private_subnets[count.index]}"
-  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readwrite.id}"
+  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readwrite[0].id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readwrite_userdata.rendered)}"
@@ -78,7 +78,7 @@ resource "aws_instance" "hms_readonly" {
   ebs_optimized = true
 
   subnet_id              = "${var.private_subnets[count.index]}"
-  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readonly.id}"
+  iam_instance_profile   = "${aws_iam_instance_profile.apiary_hms_readonly[0].id}"
   vpc_security_group_ids = ["${aws_security_group.hms_sg.id}"]
 
   user_data_base64 = "${base64encode(data.template_file.apiary_readonly_userdata.rendered)}"
@@ -100,7 +100,7 @@ resource "aws_cloudwatch_metric_alarm" "hms_readwrite" {
 
   alarm_name = "Auto Reboot - ${aws_instance.hms_readwrite.*.id[count.index]}"
 
-  dimensions {
+  dimensions = {
     InstanceId = "${aws_instance.hms_readwrite.*.id[count.index]}"
   }
 
@@ -122,7 +122,7 @@ resource "aws_cloudwatch_metric_alarm" "hms_readonly" {
 
   alarm_name = "Auto Reboot - ${aws_instance.hms_readonly.*.id[count.index]}"
 
-  dimensions {
+  dimensions = {
     InstanceId = "${aws_instance.hms_readonly.*.id[count.index]}"
   }
 

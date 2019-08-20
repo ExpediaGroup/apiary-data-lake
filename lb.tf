@@ -7,7 +7,7 @@
 resource "aws_lb" "apiary_hms_rw_lb" {
   name               = "${local.instance_alias}-hms-rw-lb"
   load_balancer_type = "network"
-  subnets            = ["${var.private_subnets}"]
+  subnets            = var.private_subnets
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"
@@ -42,7 +42,7 @@ resource "aws_lb_listener" "hms_rw_listener" {
 resource "aws_lb" "apiary_hms_ro_lb" {
   name               = "${local.instance_alias}-hms-ro-lb"
   load_balancer_type = "network"
-  subnets            = ["${var.private_subnets}"]
+  subnets            = var.private_subnets
   internal           = true
   idle_timeout       = "${var.elb_timeout}"
   tags               = "${var.apiary_tags}"

@@ -7,7 +7,7 @@
 data "template_file" "apiary_readwrite_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
-  vars {
+  vars = {
     aws_region          = "${var.aws_region}"
     mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name       = "${var.apiary_database_name}"
@@ -23,7 +23,7 @@ data "template_file" "apiary_readwrite_playbook" {
 data "template_file" "apiary_readonly_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
-  vars {
+  vars = {
     aws_region          = "${var.aws_region}"
     mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name       = "${var.apiary_database_name}"
@@ -70,7 +70,7 @@ resource "aws_ssm_association" "apiary_readwrite_playbook" {
 
   targets {
     key    = "InstanceIds"
-    values = ["${aws_instance.hms_readwrite.*.id}"]
+    values = aws_instance.hms_readwrite.*.id
   }
 
   parameters = {
@@ -89,7 +89,7 @@ resource "aws_ssm_association" "apiary_readonly_playbook" {
 
   targets {
     key    = "InstanceIds"
-    values = ["${aws_instance.hms_readonly.*.id}"]
+    values = aws_instance.hms_readonly.*.id
   }
 
   parameters = {
