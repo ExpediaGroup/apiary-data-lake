@@ -27,6 +27,12 @@
         - nc
       state: present
 
+  - name: cleanup packages
+    yum:
+      name:
+        - java-1.7.0-openjdk
+      state: absent
+
   - name: core-site.xml
     copy:
       dest: /etc/hadoop/conf/core-site.xml

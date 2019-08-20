@@ -33,12 +33,7 @@ data "template_file" "apiary_readwrite_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
 
   vars {
-    mysql_db_host     = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
-    mysql_db_name     = "${var.apiary_database_name}"
-    mysql_db_username = "${data.external.db_rw_user.result["username"]}"
-    mysql_db_password = "${data.external.db_rw_user.result["password"]}"
-    metastore_mode    = "readwrite"
-    external_database = "${var.external_database_host == "" ? "" : "1"}"
+    metastore_mode = "readwrite"
   }
 }
 
@@ -46,12 +41,7 @@ data "template_file" "apiary_readonly_userdata" {
   template = "${file("${path.module}/templates/apiary_userdata.sh")}"
 
   vars {
-    mysql_db_host     = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
-    mysql_db_name     = "${var.apiary_database_name}"
-    mysql_db_username = "${data.external.db_ro_user.result["username"]}"
-    mysql_db_password = "${data.external.db_ro_user.result["password"]}"
-    metastore_mode    = "readonly"
-    external_database = "${var.external_database_host == "" ? "" : "1"}"
+    metastore_mode = "readonly"
   }
 }
 
