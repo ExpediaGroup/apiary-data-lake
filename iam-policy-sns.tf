@@ -17,7 +17,7 @@ resource "aws_iam_role_policy" "sns_for_hms_readwrite" {
      {
        "Effect" : "Allow",
        "Action" : ["SNS:Publish"],
-       "Resource" : ["${aws_sns_topic.apiary_metadata_events.arn}"]
+       "Resource" : ["${aws_sns_topic.apiary_metadata_events[0].arn}"]
      }
    ]
 }

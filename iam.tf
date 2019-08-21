@@ -29,7 +29,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "task_exec_managed" {
   count      = "${var.hms_instance_type == "ecs" ? 1 : 0}"
-  role       = "${aws_iam_role.apiary_task_exec.id}"
+  role       = "${aws_iam_role.apiary_task_exec[0].id}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 

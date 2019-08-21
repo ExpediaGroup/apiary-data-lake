@@ -17,7 +17,7 @@ resource "aws_iam_role_policy" "rds_for_hms_readonly" {
      {
        "Effect" : "Allow",
        "Action" : ["rds-db:connect"],
-       "Resource" : ["arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.apiary_cluster.cluster_resource_id}/iamro"]
+       "Resource" : ["arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.apiary_cluster[0].cluster_resource_id}/iamro"]
      }
    ]
 }
@@ -37,7 +37,7 @@ resource "aws_iam_role_policy" "rds_for_hms_readwrite" {
      {
        "Effect" : "Allow",
        "Action" : ["rds-db:connect"],
-       "Resource" : ["arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.apiary_cluster.cluster_resource_id}/iamrw"]
+       "Resource" : ["arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.apiary_cluster[0].cluster_resource_id}/iamrw"]
      }
    ]
 }

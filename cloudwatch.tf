@@ -86,7 +86,7 @@ data "template_file" "s3_widgets" {
        },
 EOF
 
-  vars {
+  vars = {
     bucket_name = "${local.apiary_data_buckets[count.index]}"
   }
 }

@@ -15,7 +15,7 @@ resource "aws_service_discovery_service" "hms_readwrite" {
   name  = "hms-readwrite"
 
   dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary.id}"
+    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary[0].id}"
 
     dns_records {
       ttl  = 10
@@ -35,7 +35,7 @@ resource "aws_service_discovery_service" "hms_readonly" {
   name  = "hms-readonly"
 
   dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary.id}"
+    namespace_id = "${aws_service_discovery_private_dns_namespace.apiary[0].id}"
 
     dns_records {
       ttl  = 10
@@ -52,7 +52,7 @@ resource "aws_service_discovery_service" "hms_readonly" {
 
 resource "aws_route53_zone_association" "secondary" {
   count      = "${var.hms_instance_type == "ecs" ? length(var.secondary_vpcs) : 0}"
-  zone_id    = "${aws_service_discovery_private_dns_namespace.apiary.hosted_zone}"
+  zone_id    = "${aws_service_discovery_private_dns_namespace.apiary[0].hosted_zone}"
   vpc_id     = "${element(var.secondary_vpcs, count.index)}"
   vpc_region = "${var.aws_region}"
 }

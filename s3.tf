@@ -11,7 +11,7 @@ data "template_file" "bucket_policy" {
   count    = "${length(local.apiary_data_buckets)}"
   template = "${file("${path.module}/templates/apiary_bucket_policy.json")}"
 
-  vars {
+  vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
     customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, element(concat(local.apiary_managed_schema_names_original, list("")), count.index)) ?
       join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) :
@@ -43,8 +43,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     enabled = true
 
     transition {
-      days          = "${data.template_file.s3_lifecycle_policy_transition_period.*.rendered[count.index]}"
-      storage_class = "${data.template_file.s3_storage_class.*.rendered[count.index]}"
+      days          = lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
+      storage_class = lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)
     }
   }
 }
