@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Upgrade to Terraform version 0.12
 
+## [3.0.1] - 2019-08-08
+### Added
+- Support for configuring read-only HMS with Ranger audit-only mode.
+
 ## [3.0.0] - 2019-07-01
 ### Added
 - Support for running Hive Metastore on EC2 nodes.
