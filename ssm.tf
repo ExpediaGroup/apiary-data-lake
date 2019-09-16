@@ -8,16 +8,16 @@ data "template_file" "apiary_readwrite_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
   vars = {
-    aws_region          = "${var.aws_region}"
-    mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
-    mysql_db_name       = "${var.apiary_database_name}"
-    mysql_secret_arn    = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
-    metastore_mode      = "readwrite"
+    aws_region                = "${var.aws_region}"
+    mysql_db_host             = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
+    mysql_db_name             = "${var.apiary_database_name}"
+    mysql_secret_arn          = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
+    metastore_mode            = "readwrite"
     apiary_extensions_version = "${var.apiary_extensions_version}"
-    external_database   = "${var.external_database_host == "" ? "" : "1"}"
-    managed_schemas     = "'${join("','", local.apiary_managed_schema_names_original)}'"
-    apiary_data_buckets = "'${join("','", local.apiary_data_buckets)}'"
-    sns_arn             = "${var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)}"
+    external_database         = "${var.external_database_host == "" ? "" : "1"}"
+    managed_schemas           = "'${join("','", local.apiary_managed_schema_names_original)}'"
+    apiary_data_buckets       = "'${join("','", local.apiary_data_buckets)}'"
+    sns_arn                   = "${var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)}"
   }
 }
 
@@ -25,15 +25,16 @@ data "template_file" "apiary_readonly_playbook" {
   template = "${file("${path.module}/templates/apiary_playbook.yml")}"
 
   vars = {
-    aws_region          = "${var.aws_region}"
-    mysql_db_host       = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
-    mysql_db_name       = "${var.apiary_database_name}"
-    mysql_secret_arn    = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
-    metastore_mode      = "readonly"
-    external_database   = "${var.external_database_host == "" ? "" : "1"}"
-    managed_schemas     = "'${join("','", local.apiary_managed_schema_names_original)}'"
-    apiary_data_buckets = "'${join("','", local.apiary_data_buckets)}'"
-    sns_arn             = ""
+    aws_region                = "${var.aws_region}"
+    mysql_db_host             = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
+    mysql_db_name             = "${var.apiary_database_name}"
+    mysql_secret_arn          = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
+    apiary_extensions_version = "${var.apiary_extensions_version}"
+    metastore_mode            = "readonly"
+    external_database         = "${var.external_database_host == "" ? "" : "1"}"
+    managed_schemas           = "'${join("','", local.apiary_managed_schema_names_original)}'"
+    apiary_data_buckets       = "'${join("','", local.apiary_data_buckets)}'"
+    sns_arn                   = ""
   }
 }
 
