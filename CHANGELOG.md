@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [4.0.0] - TBD
 
 ### Added
-- Upgrade to Terraform version 0.12
+- Upgrade to Terraform version 0.12.
+- Configuration variable for `apiary_extensions_version`.
 
 ## [3.0.1] - 2019-08-08
 ### Added

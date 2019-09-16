@@ -5,7 +5,7 @@
     managed_schemas: [ ${managed_schemas} ]
     apiary_data_buckets: [ ${apiary_data_buckets} ]
     metastore_mode: ${metastore_mode}
-    apiary_extentions_version: 4.0.0
+    apiary_extensions_version: ${apiary_extensions_version}
     sns_arn: "${sns_arn}"
     metastore_listeners: ""
 
@@ -170,8 +170,8 @@
 
   - name: download apiary extentions
     get_url:
-      url: https://search.maven.org/remotecontent?filepath=com/expediagroup/apiary/{{ item }}/{{ apiary_extentions_version }}/{{ item }}-{{ apiary_extentions_version }}-all.jar
-      dest: /usr/lib/apiary/{{ item }}-{{ apiary_extentions_version }}-all.jar
+      url: https://search.maven.org/remotecontent?filepath=com/expediagroup/apiary/{{ item }}/{{ apiary_extensions_version }}/{{ item }}-{{ apiary_extensions_version }}-all.jar
+      dest: /usr/lib/apiary/{{ item }}-{{ apiary_extensions_version }}-all.jar
     with_items:
       - apiary-metastore-listener
       - apiary-metastore-metrics
