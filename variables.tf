@@ -212,7 +212,8 @@ Heapsize for the read only Hive Metastore.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
-  type = "string"
+  type    = "string"
+  default = "2048"
 }
 
 variable "hms_rw_heapsize" {
@@ -221,7 +222,8 @@ Heapsize for the read/write Hive Metastore.
 Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 EOF
 
-  type = "string"
+  type    = "string"
+  default = "2048"
 }
 
 variable "hms_ro_cpu" {
