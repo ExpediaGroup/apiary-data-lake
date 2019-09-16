@@ -13,6 +13,7 @@ data "template_file" "apiary_readwrite_playbook" {
     mysql_db_name       = "${var.apiary_database_name}"
     mysql_secret_arn    = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     metastore_mode      = "readwrite"
+    apiary_extensions_version = "${var.apiary_extensions_version}"
     external_database   = "${var.external_database_host == "" ? "" : "1"}"
     managed_schemas     = "'${join("','", local.apiary_managed_schema_names_original)}'"
     apiary_data_buckets = "'${join("','", local.apiary_data_buckets)}'"

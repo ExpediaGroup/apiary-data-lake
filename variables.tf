@@ -386,3 +386,9 @@ variable "s3_lifecycle_policy_transition_period" {
   type        = "string"
   default     = "30"
 }
+
+variable "apiary_extensions_version" {
+  description = "Version of the Apiary-Extensions module. Only for deployment with Ansible Playbook."
+  type        = "string"
+  default     = "4.2.0"
+}
