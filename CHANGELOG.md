@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Configuration variable for `apiary_extensions_version`.
 
 ### Changed
-- `hms_readwrite` vpc endpoint whitelisted principals list now filters out empty elements
+- `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.
 
 ## [3.0.1] - 2019-08-08
 ### Added
