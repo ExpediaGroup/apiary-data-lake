@@ -19,7 +19,7 @@ resource "aws_vpc_endpoint_connection_notification" "hms_readonly" {
 resource "aws_vpc_endpoint_service" "hms_readwrite" {
   network_load_balancer_arns = ["${aws_lb.apiary_hms_rw_lb.arn}"]
   acceptance_required        = false
-  allowed_principals         = "${distinct(split(",", join(",", values(var.apiary_producer_iamroles))))}"
+  allowed_principals         = "${distinct(compact(split(",", join(",", values(var.apiary_producer_iamroles)))))}"
 }
 
 resource "aws_vpc_endpoint_connection_notification" "hms_readwrite" {

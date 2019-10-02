@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Upgrade to Terraform version 0.12.
 - Configuration variable for `apiary_extensions_version`.
 
+### Changed
+- `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.
+
 ## [3.0.1] - 2019-08-08
 ### Added
 - Support for configuring read-only HMS with Ranger audit-only mode.
