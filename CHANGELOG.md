@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Changed
 - `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.
+- Tag VPC endpoint services.
 
 ## [3.0.1] - 2019-08-08
 ### Added
