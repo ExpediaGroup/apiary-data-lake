@@ -20,7 +20,7 @@ resource "aws_vpc_endpoint_connection_notification" "hms_readonly" {
 resource "aws_vpc_endpoint_service" "hms_readwrite" {
   network_load_balancer_arns = ["${aws_lb.apiary_hms_rw_lb.arn}"]
   acceptance_required        = false
-  allowed_principals         = "${distinct(compact(split(",", join(",", values(var.apiary_producer_iamroles)))))}"
+  allowed_principals         = distinct(compact(concat(local.assume_allowed_principals, local.producer_allowed_principals)))
   tags                       = "${merge(map("Name", "${local.instance_alias}-hms-readwrite"), "${var.apiary_tags}")}"
 }
 
