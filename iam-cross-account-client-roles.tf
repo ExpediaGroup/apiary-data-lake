@@ -23,6 +23,7 @@ resource "aws_iam_role" "apiary_assume_role" {
   ]
 }
 EOF
+  tags               = "${var.apiary_tags}"
 }
 
 resource "aws_iam_role_policy" "apiary_assume_role_s3" {
