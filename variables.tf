@@ -124,15 +124,6 @@ variable "apiary_customer_accounts" {
   type        = "list"
 }
 
-#example:
-//[
-//  {
-//    name = "client_name"
-//    principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
-//    schema_names = [ "dm","lz","test_1" ]
-//    max_session_duration = "7200"
-//  }
-//]
 variable "apiary_assume_roles" {
   description = "Cross account AWS IAM roles allowed write access to managed Apiary S3 buckets using assume policy."
   type        = "list"

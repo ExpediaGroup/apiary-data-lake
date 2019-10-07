@@ -38,9 +38,26 @@ module "apiary" {
   apiary_log_bucket        = "s3-logs-bucket"
   db_instance_class        = "db.t2.medium"
   db_backup_retention      = "7"
-  apiary_managed_schemas   = ["db1", "db2", "dm"]
+  apiary_managed_schemas   = [
+    {
+        schema_name = "db1",
+        s3_lifecycle_policy_transition_period = "30"
+    },
+    {
+        schema_name = "db_2",
+        s3_storage_class = "INTELLIGENT_TIERING"
+    }
+  ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
   ingress_cidr             = ["10.0.0.0/8"]
+  apiary_assume_roles      = [
+    {
+        name = "client_name"
+        principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
+        schema_names = [ "dm","lz","test_1" ]
+        max_session_duration = "7200"
+    }
+  ]
 }
 ```
 
