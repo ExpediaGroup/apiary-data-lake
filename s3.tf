@@ -103,6 +103,14 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
 
 }
 
+resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
+  count  = var.block_s3_public_access == true ? "${length(local.apiary_data_buckets)}" : 0
+  bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
+
+  block_public_acls   = true
+  block_public_policy = true
+}
+
 resource "aws_s3_bucket_notification" "data_events" {
   count  = "${var.enable_data_events == "" ? 0 : length(local.apiary_data_buckets)}"
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"

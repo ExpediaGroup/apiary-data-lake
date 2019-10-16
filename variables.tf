@@ -329,6 +329,12 @@ variable "enable_s3_inventory" {
   default     = false
 }
 
+variable "block_s3_public_access" {
+  description = "Variable to enable Amazon S3 Block Public Access for Apiary managed S3 buckets."
+  type        = bool
+  default     = false
+}
+
 variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = "string"
