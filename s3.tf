@@ -96,11 +96,11 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
       format     = "ORC"
       bucket_arn = "${aws_s3_bucket.apiary_inventory_bucket[0].arn}"
     }
+    encryption {
+      sse_s3 {}
+    }
   }
 
-  encryption {
-    sse_s3 {}
-  }
 }
 
 resource "aws_s3_bucket_notification" "data_events" {
