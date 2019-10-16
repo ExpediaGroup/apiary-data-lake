@@ -323,6 +323,12 @@ variable "enable_s3_paid_metrics" {
   default     = ""
 }
 
+variable "enable_s3_inventory" {
+  description = "Enable S3 inventory for managed Apiary S3 buckets."
+  type        = bool
+  default     = false
+}
+
 variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = "string"

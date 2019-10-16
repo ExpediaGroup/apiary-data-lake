@@ -4,6 +4,13 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+resource "aws_s3_bucket" "apiary_inventory_bucket" {
+  count  = var.enable_s3_inventory == true ? 1 : 0
+  bucket = "${local.apiary_bucket_prefix}-s3-inventory"
+  acl    = "private"
+  tags   = "${merge(map("Name", "${local.apiary_bucket_prefix}-s3-inventory"), "${var.apiary_tags}")}"
+}
+
 ##
 ### Apiary S3 policy template
 ##
@@ -45,6 +52,26 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     transition {
       days          = lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
       storage_class = lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)
+    }
+  }
+}
+
+resource "aws_s3_bucket_inventory" "apiary_bucket" {
+  count  = var.enable_s3_inventory == true ? "${length(local.apiary_data_buckets)}" : 0
+  bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
+
+  name = "EntireBucketDaily"
+
+  included_object_versions = "All"
+
+  schedule {
+    frequency = "Daily"
+  }
+
+  destination {
+    bucket {
+      format     = "ORC"
+      bucket_arn = "${aws_s3_bucket.apiary_inventory_bucket[0].arn}"
     }
   }
 }
