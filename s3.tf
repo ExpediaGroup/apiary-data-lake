@@ -9,6 +9,29 @@ resource "aws_s3_bucket" "apiary_inventory_bucket" {
   bucket = "${local.apiary_bucket_prefix}-s3-inventory"
   acl    = "private"
   tags   = "${merge(map("Name", "${local.apiary_bucket_prefix}-s3-inventory"), "${var.apiary_tags}")}"
+  policy = <<EOF
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Sid":"InventoryAndAnalyticsExamplePolicy",
+      "Effect":"Allow",
+      "Principal": {"Service": "s3.amazonaws.com"},
+      "Action":["s3:PutObject"],
+      "Resource":["arn:aws:s3:::${local.apiary_bucket_prefix}-s3-inventory/*"],
+      "Condition": {
+          "ArnLike": {
+              "aws:SourceArn": "arn:aws:s3:::${local.apiary_bucket_prefix}-*"
+           },
+         "StringEquals": {
+             "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}",
+             "s3:x-amz-acl": "bucket-owner-full-control"
+          }
+       }
+    }
+  ]
+}
+EOF
 }
 
 ##
