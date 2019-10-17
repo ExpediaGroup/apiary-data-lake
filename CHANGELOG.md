@@ -9,8 +9,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Upgrade to Terraform version 0.12.
 - Configuration variable for `apiary_extensions_version`.
 - Variable to grant cross account AWS IAM roles write access to Apiary managed S3 buckets using assume policy.
-- Variable to enable S3 inventory configuration on Apiary managed S3 buckets.
-- Variable to enable S3 Block Public Access for Apiary managed S3 buckets.
+- Variable to enable S3 inventory configuration.
+- Variable to enable S3 Block Public Access.
 
 ### Changed
 - `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.

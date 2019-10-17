@@ -324,13 +324,13 @@ variable "enable_s3_paid_metrics" {
 }
 
 variable "enable_s3_inventory" {
-  description = "Enable S3 inventory for managed Apiary S3 buckets."
+  description = "Enable S3 inventory configuration."
   type        = bool
   default     = false
 }
 
 variable "block_s3_public_access" {
-  description = "Variable to enable Amazon S3 Block Public Access for Apiary managed S3 buckets."
+  description = "Variable to enable S3 Block Public Access."
   type        = bool
   default     = false
 }
