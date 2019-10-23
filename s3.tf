@@ -5,7 +5,7 @@
  */
 
 resource "aws_s3_bucket" "apiary_inventory_bucket" {
-  count  = var.enable_s3_inventory == true ? 1 : 0
+  count  = var.s3_enable_inventory == true ? 1 : 0
   bucket = "${local.apiary_bucket_prefix}-s3-inventory"
   acl    = "private"
   tags   = "${merge(map("Name", "${local.apiary_bucket_prefix}-s3-inventory"), "${var.apiary_tags}")}"
@@ -80,7 +80,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 }
 
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
-  count  = var.enable_s3_inventory == true ? "${length(local.apiary_data_buckets)}" : 0
+  count  = var.s3_enable_inventory == true ? "${length(local.apiary_data_buckets)}" : 0
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
 
   name = "EntireBucketDaily"
@@ -104,7 +104,7 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
-  count  = var.block_s3_public_access == true ? "${length(local.apiary_data_buckets)}" : 0
+  count  = var.s3_block_public_access == true ? "${length(local.apiary_data_buckets)}" : 0
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
 
   block_public_acls   = true

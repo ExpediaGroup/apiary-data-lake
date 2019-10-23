@@ -57,6 +57,8 @@
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
+| s3_block_public_access | Variable to enable S3 Block Public Access. | bool | false | no |
+| s3_enable_inventory | Enable S3 inventory configuration. | bool | false | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | vpc_id | VPC ID. | string | - | yes |
@@ -67,5 +69,3 @@
 | key_name | Hive Metastore EC2 ssh key pair name. | string | automation | no |
 | hms_instance_type | Hive Metastore instance type, possible values ecs, ec2. | string | ecs | no |
 | iam_name_root | Name to identify Hive Metastore IAM roles. | string | hms | no |
-| enable_s3_inventory | Enable S3 inventory configuration. | bool | false | no |
-| block_s3_public_access | Variable to enable S3 Block Public Access. | bool | false | no |

@@ -323,13 +323,13 @@ variable "enable_s3_paid_metrics" {
   default     = ""
 }
 
-variable "enable_s3_inventory" {
+variable "s3_enable_inventory" {
   description = "Enable S3 inventory configuration."
   type        = bool
   default     = false
 }
 
-variable "block_s3_public_access" {
+variable "s3_block_public_access" {
   description = "Variable to enable S3 Block Public Access."
   type        = bool
   default     = false
