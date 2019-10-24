@@ -323,6 +323,18 @@ variable "enable_s3_paid_metrics" {
   default     = ""
 }
 
+variable "s3_enable_inventory" {
+  description = "Enable S3 inventory configuration."
+  type        = bool
+  default     = false
+}
+
+variable "s3_block_public_access" {
+  description = "Variable to enable S3 Block Public Access."
+  type        = bool
+  default     = false
+}
+
 variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = "string"
