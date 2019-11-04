@@ -45,8 +45,12 @@ resource "aws_route53_record" "hms_readwrite" {
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
   type    = "A"
-  ttl     = "300"
-  records = aws_instance.hms_readwrite.*.private_ip
+
+  alias {
+    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
+    evaluate_target_health = true
+  }
 }
 
 resource "aws_route53_record" "hms_readonly" {
@@ -55,6 +59,10 @@ resource "aws_route53_record" "hms_readonly" {
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
   type    = "A"
-  ttl     = "300"
-  records = aws_instance.hms_readonly.*.private_ip
+
+  alias {
+    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
+    evaluate_target_health = true
+  }
 }
