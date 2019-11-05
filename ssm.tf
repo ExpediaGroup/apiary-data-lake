@@ -18,6 +18,7 @@ data "template_file" "apiary_readwrite_playbook" {
     managed_schemas           = "'${join("','", local.apiary_managed_schema_names_original)}'"
     apiary_data_buckets       = "'${join("','", local.apiary_data_buckets)}'"
     sns_arn                   = "${var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)}"
+    table_param_filter        = "${var.enable_metadata_events == "" ? "" : var.table_param_filter}"
   }
 }
 
@@ -35,6 +36,7 @@ data "template_file" "apiary_readonly_playbook" {
     managed_schemas           = "'${join("','", local.apiary_managed_schema_names_original)}'"
     apiary_data_buckets       = "'${join("','", local.apiary_data_buckets)}'"
     sns_arn                   = ""
+    table_param_filter        = ""
   }
 }
 
