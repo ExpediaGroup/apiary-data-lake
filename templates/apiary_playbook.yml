@@ -106,6 +106,8 @@
             <value>{{ metastore_listeners }}</value>
         </property>
         </configuration>
+    notify:
+      - restart-metastore
 
   - name: fix metastore.sh
     lineinfile:
@@ -124,6 +126,8 @@
         export HIVE_OPTS="$HIVE_OPTS --hiveconf javax.jdo.option.ConnectionUserName=$$MYSQL_DB_USERNAME --hiveconf javax.jdo.option.ConnectionPassword=$$MYSQL_DB_PASSWORD"
         export SNS_ARN="${sns_arn}"
         export TABLE_PARAM_FILTER="${table_param_filter}"
+    notify:
+      - restart-metastore
 
   - name: update hive schema version
     copy:
@@ -182,3 +186,10 @@
       name: hive-metastore
       enabled: yes
       state: started
+
+  handlers:
+
+  - name: restart-metastore
+    service:
+      name: hive-metastore
+      state: restarted
