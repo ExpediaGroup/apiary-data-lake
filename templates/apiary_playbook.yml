@@ -123,6 +123,7 @@
         export HIVE_AUX_JARS_PATH=/usr/share/java/mariadb-connector-java.jar,/usr/lib/apiary/*
         export HIVE_OPTS="$HIVE_OPTS --hiveconf javax.jdo.option.ConnectionUserName=$$MYSQL_DB_USERNAME --hiveconf javax.jdo.option.ConnectionPassword=$$MYSQL_DB_PASSWORD"
         export SNS_ARN="${sns_arn}"
+        export TABLE_PARAM_FILTER="${table_param_filter}"
 
   - name: update hive schema version
     copy:
