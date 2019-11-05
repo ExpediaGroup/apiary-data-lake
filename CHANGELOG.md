@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.
 - Tag VPC endpoint services.
+- Add ansible handler to restart hive metastore services on changes to hive-site.xml and hive-env.sh.
+- add TABLE_PARAM_FILTER environment variable to hive-env.sh on EC2 to fix beekeeper.
 
 ## [3.0.1] - 2019-08-08
 ### Added
