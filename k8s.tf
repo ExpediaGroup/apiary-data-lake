@@ -7,7 +7,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       name = "hms-readwrite"
     }
     annotations = {
-      "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.arn
+      "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
     }
   }
 
