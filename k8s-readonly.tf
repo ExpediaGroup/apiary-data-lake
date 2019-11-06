@@ -98,6 +98,6 @@ resource "kubernetes_service" "hms_readonly" {
       port        = 9083
       target_port = 9083
     }
-    type = "ClusterIP"
+    type = "NodePort"
   }
 }

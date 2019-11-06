@@ -110,6 +110,6 @@ resource "kubernetes_service" "hms_readwrite" {
       port        = 9083
       target_port = 9083
     }
-    type = "ClusterIP"
+    type = "NodePort"
   }
 }
