@@ -73,6 +73,14 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
          "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
        },
        "Action": "sts:AssumeRole"
+     },
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn}"
+       },
+       "Action": "sts:AssumeRole"
      }
    ]
 }

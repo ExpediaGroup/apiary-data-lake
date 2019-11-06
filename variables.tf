@@ -401,6 +401,12 @@ variable "k8s_docker_registry_secret" {
   default     = ""
 }
 
+variable "kiam_arn" {
+  description = "Kiam server IAM role ARN."
+  type        = "string"
+  default     = ""
+}
+
 variable "s3_storage_class" {
   description = "S3 storage class after transition using lifecycle policy"
   type        = "string"
