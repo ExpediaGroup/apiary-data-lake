@@ -83,3 +83,21 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
     }
   }
 }
+
+resource "kubernetes_service" "hms_readonly" {
+  metadata {
+    name      = "hms-readonly"
+    namespace = "metastore"
+  }
+  spec {
+    selector = {
+      name = "hms-readonly"
+    }
+    session_affinity = "ClientIP"
+    port {
+      port        = 9083
+      target_port = 9083
+    }
+    type = "ClusterIP"
+  }
+}
