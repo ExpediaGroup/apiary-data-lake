@@ -95,3 +95,21 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
     }
   }
 }
+
+resource "kubernetes_service" "hms_readwrite" {
+  metadata {
+    name      = "hms-readwrite"
+    namespace = "metastore"
+  }
+  spec {
+    selector = {
+      name = "hms-readwrite"
+    }
+    session_affinity = "ClientIP"
+    port {
+      port        = 9083
+      target_port = 9083
+    }
+    type = "ClusterIP"
+  }
+}
