@@ -54,6 +54,7 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Principal": {
          "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
        },
+       "Action": "sts:AssumeRole"
      }
    ]
 }
