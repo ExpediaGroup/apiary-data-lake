@@ -1,10 +1,10 @@
-resource "kubernetes_deployment" "apiary_hms_readwrite" {
+resource "kubernetes_deployment" "apiary_hms_readonly" {
   metadata {
-    name      = "hms-readwrite"
+    name      = "hms-readonly"
     namespace = "metastore"
 
     labels = {
-      name = "hms-readwrite"
+      name = "hms-readonly"
     }
   }
 
@@ -12,24 +12,24 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
     replicas = 3
     selector {
       match_labels = {
-        name = "hms-readwrite"
+        name = "hms-readonly"
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "hms-readwrite"
+          name = "hms-readonly"
         }
         annotations = {
-          "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
+          "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
         }
       }
 
       spec {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
-          name  = "hms-readwrite"
+          name  = "hms-readonly"
 
           env {
             name  = "MYSQL_DB_HOST"
@@ -41,15 +41,15 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "MYSQL_SECRET_ARN"
-            value = data.aws_secretsmanager_secret.db_rw_user.arn
+            value = data.aws_secretsmanager_secret.db_ro_user.arn
           }
           env {
             name  = "HIVE_METASTORE_ACCESS_MODE"
-            value = "readwrite"
+            value = "readonly"
           }
           env {
             name  = "HADOOP_HEAPSIZE"
-            value = var.hms_rw_heapsize
+            value = var.hms_ro_heapsize
           }
           env {
             name  = "AWS_REGION"
@@ -60,20 +60,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = var.aws_region
           }
           env {
-            name  = "HIVE_DB_NAMES"
-            value = join(",", local.apiary_managed_schema_names_original)
-          }
-          env {
             name  = "INSTANCE_NAME"
             value = local.instance_alias
-          }
-          env {
-            name  = "SNS_ARN"
-            value = var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)
-          }
-          env {
-            name  = "TABLE_PARAM_FILTER"
-            value = var.enable_metadata_events == "" ? "" : var.table_param_filter
           }
           env {
             name  = "ENABLE_METRICS"
@@ -81,10 +69,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           resources {
             limits {
-              memory = "${var.hms_rw_heapsize}Mi"
+              memory = "${var.hms_ro_heapsize}Mi"
             }
             requests {
-              memory = "${var.hms_rw_heapsize}Mi"
+              memory = "${var.hms_ro_heapsize}Mi"
             }
           }
         }
@@ -95,9 +83,3 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
     }
   }
 }
-
-/*
-resource "kubernetes_deployment" "apiary_hms_readonly" {
-
-}
-*/

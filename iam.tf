@@ -47,6 +47,13 @@ resource "aws_iam_role" "apiary_hms_readonly" {
          "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
        },
        "Action": "sts:AssumeRole"
+     },
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
+       },
      }
    ]
 }
