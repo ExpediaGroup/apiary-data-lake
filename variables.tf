@@ -395,6 +395,12 @@ variable "docker_registry_auth_secret_name" {
   default     = ""
 }
 
+variable "k8s_docker_registry_secret" {
+  description = "Docker Registry authentication K8s secret name."
+  type        = "string"
+  default     = ""
+}
+
 variable "s3_storage_class" {
   description = "S3 storage class after transition using lifecycle policy"
   type        = "string"
