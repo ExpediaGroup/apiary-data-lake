@@ -6,9 +6,6 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
     labels = {
       name = "hms-readwrite"
     }
-    annotations = {
-      "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
-    }
   }
 
   spec {
@@ -23,6 +20,9 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       metadata {
         labels = {
           name = "hms-readwrite"
+        }
+        annotations = {
+          "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
         }
       }
 
