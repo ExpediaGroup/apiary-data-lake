@@ -56,6 +56,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = var.aws_region
           }
           env {
+            name  = "AWS_DEFAULT_REGION"
+            value = var.aws_region
+          }
+          env {
             name  = "HIVE_DB_NAMES"
             value = join(",", local.apiary_managed_schema_names_original)
           }
