@@ -1,3 +1,7 @@
+locals {
+  hms_rw_heapsize = ceil((var.hms_rw_heapsize * 90) / 100)
+}
+
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
   metadata {
     name      = "hms-readwrite"
@@ -49,7 +53,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "HADOOP_HEAPSIZE"
-            value = var.hms_rw_heapsize
+            value = local.hms_rw_heapsize
           }
           env {
             name  = "AWS_REGION"

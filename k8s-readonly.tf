@@ -1,3 +1,7 @@
+locals {
+  hms_ro_heapsize = ceil((var.hms_ro_heapsize * 90) / 100)
+}
+
 resource "kubernetes_deployment" "apiary_hms_readonly" {
   metadata {
     name      = "hms-readonly"
@@ -49,7 +53,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
           env {
             name  = "HADOOP_HEAPSIZE"
-            value = var.hms_ro_heapsize
+            value = local.hms_ro_heapsize
           }
           env {
             name  = "AWS_REGION"
