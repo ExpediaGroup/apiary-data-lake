@@ -10,12 +10,6 @@ variable "instance_name" {
   default     = ""
 }
 
-variable "ami_id" {
-  description = "Amazon Linux AMI, when using ec2 instance type for metastore."
-  type        = "string"
-  default     = ""
-}
-
 variable "root_vol_type" {
   description = "Hive Metastore root volume type."
   type        = "string"
@@ -26,18 +20,6 @@ variable "root_vol_size" {
   description = "Hive Metastore root volume size."
   type        = "string"
   default     = "10"
-}
-
-variable "ec2_instance_type" {
-  description = "Hive Metastore EC2 instance type."
-  type        = "string"
-  default     = "m5.large"
-}
-
-variable "key_name" {
-  description = "EC2 key pair name."
-  type        = "string"
-  default     = "automation"
 }
 
 variable "apiary_tags" {
@@ -201,7 +183,7 @@ variable "db_maintenance_window" {
 }
 
 variable "hms_instance_type" {
-  description = "Hive Metastore instance type, possible values: ecs,ec2."
+  description = "Hive Metastore instance type, possible values: ecs,k8s."
   type        = "string"
   default     = "ecs"
 }
