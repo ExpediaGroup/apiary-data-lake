@@ -3,6 +3,7 @@ locals {
 }
 
 resource "kubernetes_deployment" "apiary_hms_readonly" {
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
     name      = "hms-readonly"
     namespace = "metastore"
@@ -89,6 +90,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
 }
 
 resource "kubernetes_service" "hms_readonly" {
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
     name      = "hms-readonly"
     namespace = "metastore"

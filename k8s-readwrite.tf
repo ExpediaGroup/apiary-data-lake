@@ -3,6 +3,7 @@ locals {
 }
 
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
     name      = "hms-readwrite"
     namespace = "metastore"
@@ -101,6 +102,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
 }
 
 resource "kubernetes_service" "hms_readwrite" {
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
     name      = "hms-readwrite"
     namespace = "metastore"

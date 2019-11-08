@@ -100,27 +100,3 @@ EOF
     create_before_destroy = true
   }
 }
-
-resource "aws_iam_role_policy_attachment" "apiary_readwrite_ssm_policy" {
-  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_hms_readwrite.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
-resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
-  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_hms_readonly.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
-resource "aws_iam_instance_profile" "apiary_hms_readwrite" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${aws_iam_role.apiary_hms_readwrite.name}"
-  role  = "${aws_iam_role.apiary_hms_readwrite.name}"
-}
-
-resource "aws_iam_instance_profile" "apiary_hms_readonly" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${aws_iam_role.apiary_hms_readonly.name}"
-  role  = "${aws_iam_role.apiary_hms_readonly.name}"
-}
