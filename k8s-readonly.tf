@@ -92,16 +92,19 @@ resource "kubernetes_service" "hms_readonly" {
   metadata {
     name      = "hms-readonly"
     namespace = "metastore"
+    annotations = {
+      "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
+      "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+    }
   }
   spec {
     selector = {
       name = "hms-readonly"
     }
-    session_affinity = "ClientIP"
     port {
       port        = 9083
       target_port = 9083
     }
-    type = "NodePort"
+    type = "LoadBalancer"
   }
 }

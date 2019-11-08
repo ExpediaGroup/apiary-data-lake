@@ -104,16 +104,19 @@ resource "kubernetes_service" "hms_readwrite" {
   metadata {
     name      = "hms-readwrite"
     namespace = "metastore"
+    annotations = {
+      "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
+      "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
+    }
   }
   spec {
     selector = {
       name = "hms-readwrite"
     }
-    session_affinity = "ClientIP"
     port {
       port        = 9083
       target_port = 9083
     }
-    type = "NodePort"
+    type = "LoadBalancer"
   }
 }
