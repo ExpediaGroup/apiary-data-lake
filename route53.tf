@@ -44,13 +44,9 @@ resource "aws_route53_record" "hms_readwrite" {
   name  = "hms-readwrite"
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
-  type    = "A"
+  type    = "CNAME"
 
-  alias {
-    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
-    evaluate_target_health = true
-  }
+  records = kubernetes_service.hms_readwrite.load_balancer_ingress.*.hostname
 }
 
 resource "aws_route53_record" "hms_readonly" {
@@ -58,11 +54,7 @@ resource "aws_route53_record" "hms_readonly" {
   name  = "hms-readonly"
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
-  type    = "A"
+  type    = "CNAME"
 
-  alias {
-    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
-    evaluate_target_health = true
-  }
+  records = kubernetes_service.hms_readonly.load_balancer_ingress.*.hostname
 }
