@@ -128,42 +128,10 @@ data "template_file" "ecs_widgets" {
 EOF
 }
 
-resource "aws_cloudwatch_dashboard" "apiary" {
-  dashboard_name = "${local.instance_alias}-${var.aws_region}"
+data "template_file" "nlb_widgets" {
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
 
-  dashboard_body = <<EOF
- {
-   "widgets": [
-${join("", data.template_file.ecs_widgets.*.rendered)}
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary DB CPU"
-          }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [ "AWS/RDS", "VolumeBytesUsed", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary DB Bytes Used"
-          }
-       },
-${join("", data.template_file.s3_widgets.*.rendered)}
+  template = <<EOF
        {
           "type":"metric",
           "width":12,
@@ -212,6 +180,46 @@ ${join("", data.template_file.s3_widgets.*.rendered)}
              "stat":"Average",
              "region":"${var.aws_region}",
              "title":"Apiary ELB Processed Bytes"
+          }
+       },
+EOF
+}
+
+resource "aws_cloudwatch_dashboard" "apiary" {
+  dashboard_name = "${local.instance_alias}-${var.aws_region}"
+
+  dashboard_body = <<EOF
+ {
+   "widgets": [
+${join("", data.template_file.ecs_widgets.*.rendered)}
+${join("", data.template_file.s3_widgets.*.rendered)}
+${join("", data.template_file.nlb_widgets.*.rendered)}
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [ "AWS/RDS", "CPUUtilization", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary DB CPU"
+          }
+       },
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [ "AWS/RDS", "VolumeBytesUsed", "DBClusterIdentifier", "${local.instance_alias}-cluster" ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary DB Bytes Used"
           }
        }
    ]
