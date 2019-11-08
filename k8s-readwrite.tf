@@ -122,3 +122,13 @@ resource "kubernetes_service" "hms_readwrite" {
     type = "LoadBalancer"
   }
 }
+
+locals {
+  hms_readwrite_load_balancer_ingress = var.hms_instance_type == "k8s" ? kubernetes_service.hms_readwrite.*.load_balancer_ingress.0 : [{ hostname = "dummy-hostname.invalid.domain.name", ip = "127.0.0.1" }]
+  k8s_hms_readwrite_nlb_name          = "${split("-", split(".", local.hms_readwrite_load_balancer_ingress[0].hostname)[0])[0]}"
+}
+
+data "aws_lb" "k8s_hms_rw_lb" {
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
+  name  = "${local.k8s_hms_readwrite_nlb_name}"
+}
