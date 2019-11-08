@@ -73,19 +73,3 @@ resource "aws_lb_listener" "hms_ro_listener" {
     type             = "forward"
   }
 }
-
-resource "aws_lb_target_group_attachment" "hms_rw" {
-  count            = "${var.hms_instance_type == "ecs" ? 0 : length(var.private_subnets)}"
-  target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg.arn}"
-  target_id        = "${aws_instance.hms_readwrite.*.private_ip[count.index]}"
-  port             = 9083
-  depends_on       = ["aws_instance.hms_readwrite"]
-}
-
-resource "aws_lb_target_group_attachment" "hms_ro" {
-  count            = "${var.hms_instance_type == "ecs" ? 0 : length(var.private_subnets)}"
-  target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg.arn}"
-  target_id        = "${aws_instance.hms_readonly.*.private_ip[count.index]}"
-  port             = 9083
-  depends_on       = ["aws_instance.hms_readonly"]
-}
