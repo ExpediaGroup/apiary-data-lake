@@ -108,7 +108,7 @@ resource "kubernetes_service" "hms_readonly" {
       target_port = 9083
     }
     type                        = "LoadBalancer"
-    load_balancer_source_ranges = data.aws_vpc.apiary_vpc.cidr_block
+    load_balancer_source_ranges = [data.aws_vpc.apiary_vpc.cidr_block]
   }
 }
 
