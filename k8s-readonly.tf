@@ -111,12 +111,7 @@ resource "kubernetes_service" "hms_readonly" {
   }
 }
 
-locals {
-  hms_readonly_load_balancer_ingress = var.hms_instance_type == "k8s" ? kubernetes_service.hms_readonly.*.load_balancer_ingress.0 : [{ hostname = "dummy-hostname.invalid.domain.name", ip = "127.0.0.1" }]
-  k8s_hms_readonly_nlb_name          = "${split("-", split(".", local.hms_readonly_load_balancer_ingress[0].hostname)[0])[0]}"
-}
-
 data "aws_lb" "k8s_hms_ro_lb" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
-  name  = "${local.k8s_hms_readonly_nlb_name}"
+  name  = split("-", split(".", kubernetes_service.hms_readonly.0.load_balancer_ingress.0.hostname).0).0
 }
