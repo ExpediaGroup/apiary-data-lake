@@ -63,6 +63,10 @@
         "value": "${sns_arn}"
      },
      {
+      "name": "ATLAS_HIVE_SYNC",
+      "value": "${atlas_hive_sync}"
+     },
+     {
         "name": "TABLE_PARAM_FILTER",
         "value": "${table_param_filter}"
      },
