@@ -1,3 +1,9 @@
+/**
+ * Copyright (C) 2018-2019 Expedia Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ */
+
 locals {
   hms_rw_heapsize = ceil((var.hms_rw_heapsize * 90) / 100)
 }

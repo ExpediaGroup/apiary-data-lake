@@ -40,13 +40,15 @@
 | hms_log_level | Log level for the Hive Metastore. | string | `INFO` | no |
 | hms_nofile_ulimit | Ulimit for the Hive Metastore container. | string | `32768` | no |
 | hms_ro_cpu | CPU for the read only Hive Metastore ECS task. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `512` | no |
-| hms_ro_ecs_task_count | Desired ECS task count of the read only Hive Metastore service. | string | `2` | no |
+| hms_ro_ecs_task_count | Desired ECS task count of the read only Hive Metastore service. | string | `3` | no |
 | hms_ro_heapsize | Heapsize for the read only Hive Metastore. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | - | yes |
 | hms_rw_cpu | CPU for the read/write Hive Metastore ECS task. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `512` | no |
-| hms_rw_ecs_task_count | Desired ECS task count of the read/write Hive Metastore service. | string | `2` | no |
+| hms_rw_ecs_task_count | Desired ECS task count of the read/write Hive Metastore service. | string | `3` | no |
 | hms_rw_heapsize | Heapsize for the read/write Hive Metastore. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | - | yes |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
 | instance_name | Apiary instance name to identify resources in multi-instance deployments. | string | `` | no |
+| k8s_docker_registry_secret| Docker Registry authentication K8s secret name. | string | `` | no |
+| kiam_arn | Kiam server IAM role ARN. | string | `` | no |
 | ldap_base | Active directory LDAP base DN to search users and groups. | string | `` | no |
 | ldap_ca_cert | Base64 encoded Certificate Authority bundle to validate LDAPS connections. | string | `` | no |
 | ldap_secret_name | Active directory LDAP bind DN SecretsManager secret name. | string | `` | no |
