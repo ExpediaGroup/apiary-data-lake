@@ -10,18 +10,6 @@ variable "instance_name" {
   default     = ""
 }
 
-variable "root_vol_type" {
-  description = "Hive Metastore root volume type."
-  type        = "string"
-  default     = "gp2"
-}
-
-variable "root_vol_size" {
-  description = "Hive Metastore root volume size."
-  type        = "string"
-  default     = "10"
-}
-
 variable "apiary_tags" {
   description = "Common tags that get put on all resources."
   type        = "map"
