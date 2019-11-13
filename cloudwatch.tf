@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2019 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -128,6 +128,63 @@ data "template_file" "ecs_widgets" {
 EOF
 }
 
+data "template_file" "nlb_widgets" {
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+
+  template = <<EOF
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [
+                   "AWS/NetworkELB",
+                   "NetFlowCount",
+                   "LoadBalancer",
+                   "${aws_lb.apiary_hms_rw_lb[0].arn_suffix}"
+                ],
+                [
+                   "AWS/NetworkELB",
+                   "NetFlowCount",
+                   "LoadBalancer",
+                   "${aws_lb.apiary_hms_ro_lb[0].arn_suffix}"
+                ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary ELB Request Count"
+          }
+       },
+       {
+          "type":"metric",
+          "width":12,
+          "height":6,
+          "properties":{
+             "metrics":[
+                [
+                   "AWS/NetworkELB",
+                   "ProcessedBytes",
+                   "LoadBalancer",
+                   "${aws_lb.apiary_hms_rw_lb[0].arn_suffix}"
+                ],
+                [
+                   "AWS/NetworkELB",
+                   "ProcessedBytes",
+                   "LoadBalancer",
+                   "${aws_lb.apiary_hms_ro_lb[0].arn_suffix}"
+                ]
+             ],
+             "period":300,
+             "stat":"Average",
+             "region":"${var.aws_region}",
+             "title":"Apiary ELB Processed Bytes"
+          }
+       },
+EOF
+}
+
 resource "aws_cloudwatch_dashboard" "apiary" {
   dashboard_name = "${local.instance_alias}-${var.aws_region}"
 
@@ -135,6 +192,8 @@ resource "aws_cloudwatch_dashboard" "apiary" {
  {
    "widgets": [
 ${join("", data.template_file.ecs_widgets.*.rendered)}
+${join("", data.template_file.s3_widgets.*.rendered)}
+${join("", data.template_file.nlb_widgets.*.rendered)}
        {
           "type":"metric",
           "width":12,
@@ -161,57 +220,6 @@ ${join("", data.template_file.ecs_widgets.*.rendered)}
              "stat":"Average",
              "region":"${var.aws_region}",
              "title":"Apiary DB Bytes Used"
-          }
-       },
-${join("", data.template_file.s3_widgets.*.rendered)}
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/NetworkELB",
-                   "NetFlowCount",
-                   "LoadBalancer",
-                   "${aws_lb.apiary_hms_rw_lb.arn_suffix}"
-                ],
-                [
-                   "AWS/NetworkELB",
-                   "NetFlowCount",
-                   "LoadBalancer",
-                   "${aws_lb.apiary_hms_ro_lb.arn_suffix}"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary ELB Request Count"
-          }
-       },
-       {
-          "type":"metric",
-          "width":12,
-          "height":6,
-          "properties":{
-             "metrics":[
-                [
-                   "AWS/NetworkELB",
-                   "ProcessedBytes",
-                   "LoadBalancer",
-                   "${aws_lb.apiary_hms_rw_lb.arn_suffix}"
-                ],
-                [
-                   "AWS/NetworkELB",
-                   "ProcessedBytes",
-                   "LoadBalancer",
-                   "${aws_lb.apiary_hms_ro_lb.arn_suffix}"
-                ]
-             ],
-             "period":300,
-             "stat":"Average",
-             "region":"${var.aws_region}",
-             "title":"Apiary ELB Processed Bytes"
           }
        }
    ]

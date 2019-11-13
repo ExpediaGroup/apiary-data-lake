@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2019 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -8,36 +8,6 @@ variable "instance_name" {
   description = "Apiary instance name to identify resources in multi-instance deployments."
   type        = "string"
   default     = ""
-}
-
-variable "ami_id" {
-  description = "Amazon Linux AMI, when using ec2 instance type for metastore."
-  type        = "string"
-  default     = ""
-}
-
-variable "root_vol_type" {
-  description = "Hive Metastore root volume type."
-  type        = "string"
-  default     = "gp2"
-}
-
-variable "root_vol_size" {
-  description = "Hive Metastore root volume size."
-  type        = "string"
-  default     = "10"
-}
-
-variable "ec2_instance_type" {
-  description = "Hive Metastore EC2 instance type."
-  type        = "string"
-  default     = "m5.large"
-}
-
-variable "key_name" {
-  description = "EC2 key pair name."
-  type        = "string"
-  default     = "automation"
 }
 
 variable "apiary_tags" {
@@ -201,7 +171,7 @@ variable "db_maintenance_window" {
 }
 
 variable "hms_instance_type" {
-  description = "Hive Metastore instance type, possible values: ecs,ec2."
+  description = "Hive Metastore instance type, possible values: ecs,k8s."
   type        = "string"
   default     = "ecs"
 }
@@ -391,6 +361,18 @@ variable "secondary_vpcs" {
 
 variable "docker_registry_auth_secret_name" {
   description = "Docker Registry authentication SecretManager secret name."
+  type        = "string"
+  default     = ""
+}
+
+variable "k8s_docker_registry_secret" {
+  description = "Docker Registry authentication K8s secret name."
+  type        = "string"
+  default     = ""
+}
+
+variable "kiam_arn" {
+  description = "Kiam server IAM role ARN."
   type        = "string"
   default     = ""
 }

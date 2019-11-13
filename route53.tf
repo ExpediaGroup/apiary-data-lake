@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2019 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -11,8 +11,8 @@ resource "aws_route53_record" "hms_readwrite_alias" {
   type    = "A"
 
   alias {
-    name                   = "${aws_lb.apiary_hms_rw_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_rw_lb.zone_id}"
+    name                   = "${aws_lb.apiary_hms_rw_lb[0].dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_rw_lb[0].zone_id}"
     evaluate_target_health = true
   }
 }
@@ -24,14 +24,14 @@ resource "aws_route53_record" "hms_readonly_alias" {
   type    = "A"
 
   alias {
-    name                   = "${aws_lb.apiary_hms_ro_lb.dns_name}"
-    zone_id                = "${aws_lb.apiary_hms_ro_lb.zone_id}"
+    name                   = "${aws_lb.apiary_hms_ro_lb[0].dns_name}"
+    zone_id                = "${aws_lb.apiary_hms_ro_lb[0].zone_id}"
     evaluate_target_health = true
   }
 }
 
 resource "aws_route53_zone" "apiary" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   name  = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
 
   vpc {
@@ -40,21 +40,21 @@ resource "aws_route53_zone" "apiary" {
 }
 
 resource "aws_route53_record" "hms_readwrite" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   name  = "hms-readwrite"
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = aws_instance.hms_readwrite.*.private_ip
+  records = kubernetes_service.hms_readwrite[0].load_balancer_ingress.*.hostname
 }
 
 resource "aws_route53_record" "hms_readonly" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
+  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   name  = "hms-readonly"
 
   zone_id = "${aws_route53_zone.apiary[0].id}"
-  type    = "A"
+  type    = "CNAME"
   ttl     = "300"
-  records = aws_instance.hms_readonly.*.private_ip
+  records = kubernetes_service.hms_readonly[0].load_balancer_ingress.*.hostname
 }

@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.0.0] - TBD
+## [4.0.0] - 2019-11-13
 
 ### Added
+- Support for running Hive Metastore on Kubernetes.
 - Upgrade to Terraform version 0.12.
 - Configuration variable for `apiary_extensions_version`.
 - Variable to grant cross account AWS IAM roles write access to Apiary managed S3 buckets using assume policy.
@@ -17,6 +18,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Tag VPC endpoint services.
 - Add ansible handler to restart hive metastore services on changes to hive-site.xml and hive-env.sh.
 - add TABLE_PARAM_FILTER environment variable to hive-env.sh on EC2 to fix beekeeper.
+
+### Removed
+- Support for running Hive Metastore on EC2 nodes.
 
 ## [3.0.1] - 2019-08-08
 ### Added

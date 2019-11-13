@@ -1,10 +1,11 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2019 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
 resource "aws_lb" "apiary_hms_rw_lb" {
+  count              = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   name               = "${local.instance_alias}-hms-rw-lb"
   load_balancer_type = "network"
   subnets            = var.private_subnets
@@ -14,7 +15,7 @@ resource "aws_lb" "apiary_hms_rw_lb" {
 }
 
 resource "aws_lb_target_group" "apiary_hms_rw_tg" {
-  depends_on  = ["aws_lb.apiary_hms_rw_lb"]
+  count       = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   name        = "${local.instance_alias}-hms-rw-tg"
   port        = 9083
   protocol    = "TCP"
@@ -24,22 +25,25 @@ resource "aws_lb_target_group" "apiary_hms_rw_tg" {
   health_check {
     protocol = "TCP"
   }
-
   tags = "${var.apiary_tags}"
+
+  depends_on = ["aws_lb.apiary_hms_rw_lb"]
 }
 
 resource "aws_lb_listener" "hms_rw_listener" {
-  load_balancer_arn = "${aws_lb.apiary_hms_rw_lb.arn}"
+  count             = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  load_balancer_arn = "${aws_lb.apiary_hms_rw_lb[0].arn}"
   port              = "9083"
   protocol          = "TCP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg[0].arn}"
     type             = "forward"
   }
 }
 
 resource "aws_lb" "apiary_hms_ro_lb" {
+  count              = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   name               = "${local.instance_alias}-hms-ro-lb"
   load_balancer_type = "network"
   subnets            = var.private_subnets
@@ -49,6 +53,7 @@ resource "aws_lb" "apiary_hms_ro_lb" {
 }
 
 resource "aws_lb_target_group" "apiary_hms_ro_tg" {
+  count       = "${var.hms_instance_type == "ecs" ? 1 : 0}"
   depends_on  = ["aws_lb.apiary_hms_ro_lb"]
   name        = "${local.instance_alias}-hms-ro-tg"
   port        = 9083
@@ -64,28 +69,13 @@ resource "aws_lb_target_group" "apiary_hms_ro_tg" {
 }
 
 resource "aws_lb_listener" "hms_ro_listener" {
-  load_balancer_arn = "${aws_lb.apiary_hms_ro_lb.arn}"
+  count             = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  load_balancer_arn = "${aws_lb.apiary_hms_ro_lb[0].arn}"
   port              = "9083"
   protocol          = "TCP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg.arn}"
+    target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg[0].arn}"
     type             = "forward"
   }
-}
-
-resource "aws_lb_target_group_attachment" "hms_rw" {
-  count            = "${var.hms_instance_type == "ecs" ? 0 : length(var.private_subnets)}"
-  target_group_arn = "${aws_lb_target_group.apiary_hms_rw_tg.arn}"
-  target_id        = "${aws_instance.hms_readwrite.*.private_ip[count.index]}"
-  port             = 9083
-  depends_on       = ["aws_instance.hms_readwrite"]
-}
-
-resource "aws_lb_target_group_attachment" "hms_ro" {
-  count            = "${var.hms_instance_type == "ecs" ? 0 : length(var.private_subnets)}"
-  target_group_arn = "${aws_lb_target_group.apiary_hms_ro_tg.arn}"
-  target_id        = "${aws_instance.hms_readonly.*.private_ip[count.index]}"
-  port             = 9083
-  depends_on       = ["aws_instance.hms_readonly"]
 }

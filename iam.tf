@@ -44,7 +44,15 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
+         "Service": "ecs-tasks.amazonaws.com"
+       },
+       "Action": "sts:AssumeRole"
+     },
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      }
@@ -70,7 +78,15 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": [ "ecs-tasks.amazonaws.com", "ec2.amazonaws.com" ]
+         "Service": "ecs-tasks.amazonaws.com"
+       },
+       "Action": "sts:AssumeRole"
+     },
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      }
@@ -83,28 +99,4 @@ EOF
   lifecycle {
     create_before_destroy = true
   }
-}
-
-resource "aws_iam_role_policy_attachment" "apiary_readwrite_ssm_policy" {
-  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_hms_readwrite.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
-resource "aws_iam_role_policy_attachment" "apiary_readonly_ssm_policy" {
-  count      = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  role       = "${aws_iam_role.apiary_hms_readonly.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-}
-
-resource "aws_iam_instance_profile" "apiary_hms_readwrite" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${aws_iam_role.apiary_hms_readwrite.name}"
-  role  = "${aws_iam_role.apiary_hms_readwrite.name}"
-}
-
-resource "aws_iam_instance_profile" "apiary_hms_readonly" {
-  count = "${var.hms_instance_type == "ecs" ? 0 : 1}"
-  name  = "${aws_iam_role.apiary_hms_readonly.name}"
-  role  = "${aws_iam_role.apiary_hms_readonly.name}"
 }
