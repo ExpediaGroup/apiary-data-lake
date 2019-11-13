@@ -71,6 +71,10 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             value = var.aws_region
           }
           env {
+            name  = "HIVE_DB_WHITELIST"
+            value = join(",", var.apiary_shared_schemas)
+          }
+          env {
             name  = "INSTANCE_NAME"
             value = local.instance_alias
           }
@@ -78,6 +82,39 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             name  = "ENABLE_METRICS"
             value = var.enable_hive_metastore_metrics
           }
+          env {
+            name  = "HIVE_METASTORE_LOG_LEVEL"
+            value = var.hms_log_level
+          }
+          env {
+            name  = "RANGER_SERVICE_NAME"
+            value = "${local.instance_alias}-metastore"
+          }
+          env {
+            name  = "RANGER_POLICY_MANAGER_URL"
+            value = "${var.ranger_policy_manager_url}"
+          }
+          env {
+            name  = "RANGER_AUDIT_SOLR_URL"
+            value = "${var.ranger_audit_solr_url}"
+          }
+          env {
+            name  = "LDAP_URL"
+            value = "${var.ldap_url}"
+          }
+          env {
+            name  = "LDAP_CA_CERT"
+            value = "${var.ldap_ca_cert}"
+          }
+          env {
+            name  = "LDAP_BASE"
+            value = "${var.ldap_base}"
+          }
+          env {
+            name  = "LDAP_SECRET_ARN"
+            value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
+          }
+
           resources {
             limits {
               memory = "${var.hms_ro_heapsize}Mi"
