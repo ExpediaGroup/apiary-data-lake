@@ -83,8 +83,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)
           }
           env {
-            name  = "ATLAS_HIVE_SYNC"
-            value = var.enable_atlas_hive_sync == "" ? "" : var.enable_atlas_hive_sync
+            name  = "ENABLE_ATLAS_HIVE_SYNC"
+            value = var.enable_atlas_hive_sync
           }
           env {
             name  = "TABLE_PARAM_FILTER"
