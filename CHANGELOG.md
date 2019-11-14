@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Variable to grant cross account AWS IAM roles write access to Apiary managed S3 buckets using assume policy.
 - Variable to enable S3 inventory configuration.
 - Variable to enable S3 Block Public Access.
+- Variable to enable Atlas Hive sync.
 
 ### Changed
 - `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.
