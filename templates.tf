@@ -31,6 +31,8 @@ data "template_file" "hms_readwrite" {
     ranger_service_name       = "${local.instance_alias}-metastore"
     ranger_policy_manager_url = "${var.ranger_policy_manager_url}"
     ranger_audit_solr_url     = "${var.ranger_audit_solr_url}"
+    kafka_url                 = "${var.kafka_url}"
+    zookeeper_url             = "${var.zookeeper_url}"
     ranger_audit_db_url       = "${var.ranger_audit_db_url}"
     ranger_audit_secret_arn   = "${var.ranger_audit_db_url == "" ? "" : join("", data.aws_secretsmanager_secret.ranger_audit.*.arn)}"
     ldap_url                  = "${var.ldap_url}"

@@ -99,6 +99,10 @@
         "value": "${ranger_audit_secret_arn}"
      },
      {
+      "name": "KAFKA_URL",
+      "value": "${kafka_url}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
      },
@@ -125,7 +129,11 @@
      {
         "name": "ENABLE_METRICS",
         "value": "${enable_metrics}"
-     }
+     },
+     {
+      "name": "ZOOKEEPER_URL",
+      "value": "${zookeeper_url}"
+     },
     ]
   }
 ]

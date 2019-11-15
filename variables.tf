@@ -371,6 +371,12 @@ variable "k8s_docker_registry_secret" {
   default     = ""
 }
 
+variable "kafka_url" {
+  description = "Kafka instance url.."
+  type        = "string"
+  default     = ""
+}
+
 variable "kiam_arn" {
   description = "Kiam server IAM role ARN."
   type        = "string"
@@ -397,6 +403,12 @@ variable "apiary_extensions_version" {
 
 variable "enable_atlas_hive_bridge" {
   description = "If this variable is set to any non-empty value, Kafka Metastore Listener for Atlas will be enabled"
+  type        = "string"
+  default     = ""
+}
+
+variable "zookeeper_url" {
+  description = "Zookeeper instance url."
   type        = "string"
   default     = ""
 }

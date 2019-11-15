@@ -111,6 +111,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = "${var.ranger_audit_solr_url}"
           }
           env {
+            name  = "KAFKA_URL"
+            value = "${var.kafka_url}"
+          }
+          env {
             name  = "LDAP_URL"
             value = "${var.ldap_url}"
           }
@@ -125,6 +129,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           env {
             name  = "LDAP_SECRET_ARN"
             value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
+          }
+          env {
+            name  = "ZOOKEEPER_URL"
+            value = "${var.zookeeper_url}"
           }
 
           resources {
