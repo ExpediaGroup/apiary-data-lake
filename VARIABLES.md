@@ -27,7 +27,7 @@
 | docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | ecs_domain_extension | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
-| enable_atlas_hive_sync | Enable Atlas Hive sync. | string | `` | no |
+| enable_atlas_hive_bridge | Enable Atlas Hive Bridge. | string | `` | no |
 | enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | string | `` | no |
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | string | `` | no |

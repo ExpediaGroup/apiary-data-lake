@@ -63,8 +63,8 @@
         "value": "${sns_arn}"
      },
      {
-      "name": "ENABLE_ATLAS_HIVE_SYNC",
-      "value": "${enable_atlas_hive_sync}"
+      "name": "ENABLE_ATLAS_HIVE_BRIDGE",
+      "value": "${enable_atlas_hive_bridge}"
      },
      {
         "name": "TABLE_PARAM_FILTER",

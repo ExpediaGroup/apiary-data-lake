@@ -395,7 +395,7 @@ variable "apiary_extensions_version" {
   default     = "4.2.0"
 }
 
-variable "enable_atlas_hive_sync" {
+variable "enable_atlas_hive_bridge" {
   description = "If this variable is set to any non-empty value, Kafka Metastore Listener for Atlas will be enabled"
   type        = "string"
   default     = ""
