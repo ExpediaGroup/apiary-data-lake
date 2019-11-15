@@ -372,7 +372,7 @@ variable "k8s_docker_registry_secret" {
 }
 
 variable "kafka_url" {
-  description = "Kafka instance url.."
+  description = "Kafka instance url."
   type        = "string"
   default     = ""
 }
