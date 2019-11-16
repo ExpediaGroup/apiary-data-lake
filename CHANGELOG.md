@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - TBD
+
+### Added
+- Variable to enable Atlas hive-bridge.
+
 ## [4.0.0] - 2019-11-13
 
 ### Added
@@ -12,7 +17,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Variable to grant cross account AWS IAM roles write access to Apiary managed S3 buckets using assume policy.
 - Variable to enable S3 inventory configuration.
 - Variable to enable S3 Block Public Access.
-- Variable to enable Atlas Hive sync.
 
 ### Changed
 - `hms_readwrite` VPC endpoint whitelisted principals list now filters out empty elements.

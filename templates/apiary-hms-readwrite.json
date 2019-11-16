@@ -63,10 +63,6 @@
         "value": "${sns_arn}"
      },
      {
-      "name": "ENABLE_ATLAS_HIVE_BRIDGE",
-      "value": "${enable_atlas_hive_bridge}"
-     },
-     {
         "name": "TABLE_PARAM_FILTER",
         "value": "${table_param_filter}"
      },
@@ -99,8 +95,8 @@
         "value": "${ranger_audit_secret_arn}"
      },
      {
-      "name": "KAFKA_URL",
-      "value": "${kafka_url}"
+      "name": "ATLAS_KAFKA_BOOTSTRAP_SERVERS",
+      "value": "${atlas_kafka_bootstrap_servers}"
      },
      {
         "name": "LDAP_URL",
@@ -129,11 +125,7 @@
      {
         "name": "ENABLE_METRICS",
         "value": "${enable_metrics}"
-     },
-     {
-      "name": "ZOOKEEPER_URL",
-      "value": "${zookeeper_url}"
-     },
+     }
     ]
   }
 ]

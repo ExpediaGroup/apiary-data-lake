@@ -83,10 +83,6 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)
           }
           env {
-            name  = "ENABLE_ATLAS_HIVE_BRIDGE"
-            value = var.enable_atlas_hive_bridge
-          }
-          env {
             name  = "TABLE_PARAM_FILTER"
             value = var.enable_metadata_events == "" ? "" : var.table_param_filter
           }
@@ -111,8 +107,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = "${var.ranger_audit_solr_url}"
           }
           env {
-            name  = "KAFKA_URL"
-            value = "${var.kafka_url}"
+            name  = "ATLAS_KAFKA_BOOTSTRAP_SERVERS"
+            value = "${var.atlas_kafka_bootstrap_servers}"
           }
           env {
             name  = "LDAP_URL"
@@ -129,10 +125,6 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           env {
             name  = "LDAP_SECRET_ARN"
             value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
-          }
-          env {
-            name  = "ZOOKEEPER_URL"
-            value = "${var.zookeeper_url}"
           }
 
           resources {

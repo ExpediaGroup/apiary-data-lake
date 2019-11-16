@@ -371,7 +371,7 @@ variable "k8s_docker_registry_secret" {
   default     = ""
 }
 
-variable "kafka_url" {
+variable "atlas_kafka_bootstrap_servers" {
   description = "Kafka instance url."
   type        = "string"
   default     = ""
@@ -399,16 +399,4 @@ variable "apiary_extensions_version" {
   description = "Version of the Apiary-Extensions module. Only for deployment with Ansible Playbook."
   type        = "string"
   default     = "4.2.0"
-}
-
-variable "enable_atlas_hive_bridge" {
-  description = "If this variable is set to any non-empty value, Kafka Metastore Listener for Atlas will be enabled"
-  type        = "string"
-  default     = ""
-}
-
-variable "zookeeper_url" {
-  description = "Zookeeper instance url."
-  type        = "string"
-  default     = ""
 }
