@@ -95,6 +95,10 @@
         "value": "${ranger_audit_secret_arn}"
      },
      {
+      "name": "ATLAS_KAFKA_BOOTSTRAP_SERVERS",
+      "value": "${atlas_kafka_bootstrap_servers}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
      },

@@ -371,6 +371,12 @@ variable "k8s_docker_registry_secret" {
   default     = ""
 }
 
+variable "atlas_kafka_bootstrap_servers" {
+  description = "Kafka instance url."
+  type        = "string"
+  default     = ""
+}
+
 variable "kiam_arn" {
   description = "Kiam server IAM role ARN."
   type        = "string"

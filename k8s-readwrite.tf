@@ -107,6 +107,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = "${var.ranger_audit_solr_url}"
           }
           env {
+            name  = "ATLAS_KAFKA_BOOTSTRAP_SERVERS"
+            value = "${var.atlas_kafka_bootstrap_servers}"
+          }
+          env {
             name  = "LDAP_URL"
             value = "${var.ldap_url}"
           }
