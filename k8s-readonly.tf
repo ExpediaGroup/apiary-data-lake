@@ -5,7 +5,7 @@
  */
 
 locals {
-  hms_ro_heapsize = ceil((var.hms_ro_heapsize * 90) / 100)
+  hms_ro_heapsize = ceil((var.hms_ro_heapsize * 85) / 100)
 }
 
 resource "kubernetes_deployment" "apiary_hms_readonly" {
