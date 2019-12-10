@@ -99,6 +99,10 @@
       "value": "${atlas_kafka_bootstrap_servers}"
      },
      {
+       "name": "ATLAS_CLUSTER_NAME",
+       "value": "${atlas_cluster_name}"
+     },
+     {
         "name": "LDAP_URL",
         "value": "${ldap_url}"
      },

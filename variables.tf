@@ -377,6 +377,12 @@ variable "atlas_kafka_bootstrap_servers" {
   default     = ""
 }
 
+variable "atlas_cluster_name" {
+  description = "Name of the Atlas cluster where metastore plugin will send DDL events.  Defaults to `var.instance_name` if not set."
+  type        = "string"
+  default     = ""
+}
+
 variable "kiam_arn" {
   description = "Kiam server IAM role ARN."
   type        = "string"

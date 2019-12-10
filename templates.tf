@@ -31,6 +31,7 @@ data "template_file" "hms_readwrite" {
     ranger_policy_manager_url     = "${var.ranger_policy_manager_url}"
     ranger_audit_solr_url         = "${var.ranger_audit_solr_url}"
     atlas_kafka_bootstrap_servers = "${var.atlas_kafka_bootstrap_servers}"
+    atlas_cluster_name            = "${local.final_atlas_cluster_name}"
     ranger_audit_db_url           = "${var.ranger_audit_db_url}"
     ranger_audit_secret_arn       = "${var.ranger_audit_db_url == "" ? "" : join("", data.aws_secretsmanager_secret.ranger_audit.*.arn)}"
     ldap_url                      = "${var.ldap_url}"
