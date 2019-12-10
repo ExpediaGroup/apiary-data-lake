@@ -15,7 +15,7 @@ locals {
   cw_arn                               = "arn:aws:swf:${var.aws_region}:${data.aws_caller_identity.current.account_id}:action/actions/AWS_EC2.InstanceId.Reboot/1.0"
   assume_allowed_principals            = split(",", join(",", [for role in var.apiary_assume_roles : join(",", [for principal in role.principals : replace(principal, "/:role.*/", ":root")])]))
   producer_allowed_principals          = split(",", join(",", values(var.apiary_producer_iamroles)))
-  final_atlas_cluster_name             = "${var.atlas_cluster_name == "" ? var.instance_name : var.atlas_cluster_name}"
+  final_atlas_cluster_name             = "${var.atlas_cluster_name == "" ? local.instance_alias : var.atlas_cluster_name}"
 }
 
 data "aws_iam_account_alias" "current" {}
