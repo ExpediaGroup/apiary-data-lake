@@ -111,6 +111,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = "${var.atlas_kafka_bootstrap_servers}"
           }
           env {
+            name  = "ATLAS_CLUSTER_NAME"
+            value = "${local.final_atlas_cluster_name}"
+          }
+          env {
             name  = "LDAP_URL"
             value = "${var.ldap_url}"
           }
