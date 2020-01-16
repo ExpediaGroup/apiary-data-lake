@@ -14,6 +14,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * SNS Listener - A Hive metastore event listener to publish all metadata updates to a SNS topic, see [ApiarySNSListener](https://github.com/ExpediaGroup/apiary-extensions/tree/master/apiary-metastore-listener) for more details.
   * Gluesync  - A metastore event listener to replay Hive metadata events in a Glue catalog.
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
+  * Grafana dashboard - A grafana dashboard will be created that shows S3 bucket sizes for each apiary bucket
 
 ## Variables
 Please refer to [VARIABLES.md](VARIABLES.md).
