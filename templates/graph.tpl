@@ -141,7 +141,7 @@
               "alias": "IntelligentTieringAStorage",
               "dimensions": {
                 "BucketName": "${bucket_name}",
-                "StorageType": "IntelligentTieringIAStorage"
+                "StorageType": "IntelligentTieringAStorage"
               },
               "expression": "",
               "highResolution": false,
@@ -174,7 +174,7 @@
               ]
             },
             {
-              "alias": "IntelligentTieringAStorage",
+              "alias": "IntelligentTieringFAStorage",
               "dimensions": {
                 "BucketName": "${bucket_name}",
                 "StorageType": "IntelligentTieringFAStorage"
