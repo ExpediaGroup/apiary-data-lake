@@ -1,10 +1,15 @@
+locals {
+  graph_id_base = 100
+  apiary_data_buckets = 2
+}
+
 data "template_file" "graphs" {
   template = file("${path.module}/templates/graph.tpl")
   count = length(local.apiary_data_buckets)
   vars = {
     bucket_name = local.apiary_data_buckets[count.index]
     title_bucket_name = local.apiary_managed_schema_names_replaced[count.index]
-    graph_id = range(100, length(local.apiary_data_buckets) * 2, 2)[count.index]
+    graph_id = range(local.graph_id_base, length(local.apiary_data_buckets) * local.apiary_data_buckets, local.apiary_bucket_prefix)[count.index]
   }
 }
 
