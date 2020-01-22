@@ -49,7 +49,7 @@
           "namespace": "AWS/S3",
           "period": "300",
           "refId": "A",
-          "region": "us-east-1",
+          "region": "${aws_region}",
           "statistics": [
             "Average"
           ]
@@ -138,10 +138,10 @@
           "steppedLine": false,
           "targets": [
             {
-              "alias": "IntelligentTieringAStorage",
+              "alias": "IntelligentTieringIAStorage",
               "dimensions": {
                 "BucketName": "${bucket_name}",
-                "StorageType": "IntelligentTieringAStorage"
+                "StorageType": "IntelligentTieringIAStorage"
               },
               "expression": "",
               "highResolution": false,
@@ -150,7 +150,7 @@
               "namespace": "AWS/S3",
               "period": "300",
               "refId": "A",
-              "region": "us-east-1",
+              "region": "${aws_region}",
               "statistics": [
                 "Sum"
               ]
@@ -168,7 +168,7 @@
               "namespace": "AWS/S3",
               "period": "300",
               "refId": "B",
-              "region": "us-east-1",
+              "region": "${aws_region}",
               "statistics": [
                 "Sum"
               ]
@@ -186,7 +186,7 @@
               "namespace": "AWS/S3",
               "period": "300",
               "refId": "C",
-              "region": "us-east-1",
+              "region": "${aws_region}",
               "statistics": [
                 "Sum"
               ]
