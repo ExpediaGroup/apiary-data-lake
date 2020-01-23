@@ -9,7 +9,7 @@ resource "kubernetes_config_map" "mysql_datasource" {
   }
 
   data = {
-    "mysql-datasource.yaml" = <<EOF
+    "apiary-mysql-datasource.yaml" = <<EOF
   - name: MySQL
     type: mysql
     url: "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host}:3306"
