@@ -14,9 +14,10 @@ resource "kubernetes_config_map" "mysql_datasource" {
     datasources:
   - name: MySQL
     type: mysql
-    url: apiary-cluster.cluster-ro-cuivrgzvv9cy.us-east-1.rds.amazonaws.com:3306
+    url: "${aws_rds_cluster.apiary_cluster.*.endpoint}"
     database: "${var.apiary_database_name}"
-    user: "${var.db_ro_secret_name}"
+    user: "${data.external.db_ro_user.username}"
+    password: "${data.external.db_ro_user.password}"
     jsonData:
       maxOpenConns: 0
       maxIdleConns: 2
