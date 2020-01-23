@@ -20,6 +20,6 @@ resource "kubernetes_config_map" "mysql_datasource" {
       maxOpenConns: 0
       maxIdleConns: 2
       connMaxLifetime: 14400
-    EOF
+EOF
   }
 }
