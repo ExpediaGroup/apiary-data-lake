@@ -1,6 +1,6 @@
 locals {
   graph_id_base = 100
-  number_of_graphs_per_bucket = 2
+  number_of_graphs_per_bucket = 5
 }
 
 data "template_file" "grafana_graphs" {
@@ -11,6 +11,7 @@ data "template_file" "grafana_graphs" {
     title_bucket_name = local.apiary_managed_schema_names_replaced[count.index]
     graph_id = range(local.graph_id_base, local.graph_id_base + length(local.apiary_data_buckets) * local.number_of_graphs_per_bucket, local.number_of_graphs_per_bucket)[count.index]
     aws_region = data.aws_region.current.name
+    y_position = range(1, 10 * length(local.apiary_data_buckets), 10)[count.index]
   }
 }
 
