@@ -1,6 +1,6 @@
 locals {
   graph_id_base = 100
-  number_of_graphs_per_bucket = 2
+  number_of_graphs_per_bucket = 5
 }
 
 data "template_file" "grafana_graphs" {
