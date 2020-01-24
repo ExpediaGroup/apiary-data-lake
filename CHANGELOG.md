@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Updated the grafana dashboard design and panels
 
-## [4.1.0] - 2020-01-23
+## [4.1.0] - 2020-01-24
 
 ### Added
 - Templates to configure a Grafana dashboard through the `grafana-dashboard` config map
