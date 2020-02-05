@@ -401,8 +401,14 @@ variable "s3_lifecycle_policy_transition_period" {
   default     = "30"
 }
 
-variable "apiary_extensions_version" {
-  description = "Version of the Apiary-Extensions module. Only for deployment with Ansible Playbook."
+variable "kafka_bootstrap_url" {
+  description = "Enables Hive Metastore Kafka listener."
+  type        = string
+  default     = ""
+}
+
+variable "kafka_topic_name" {
+  description = "Kafka topic to send metastore events."
   type        = "string"
-  default     = "4.2.0"
+  default     = ""
 }

@@ -129,6 +129,14 @@
      {
         "name": "ENABLE_METRICS",
         "value": "${enable_metrics}"
+     },
+     {
+      "name": "KAFKA_BOOTSTRAP_URL",
+      "value": "${kafka_bootstrap_url}"
+     },
+     {
+      "name": "KAFKA_TOPIC_NAME",
+      "value": "${kafka_topic_name}"
      }
     ]
   }
