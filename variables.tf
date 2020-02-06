@@ -402,7 +402,7 @@ variable "s3_lifecycle_policy_transition_period" {
 }
 
 variable "kafka_bootstrap_servers" {
-  description = "Enables Hive Metastore Kafka listener."
+  description = "Kafka bootstrap servers to send metastore events, setting this enables Hive Metastore Kafka listener."
   type        = string
   default     = ""
 }
