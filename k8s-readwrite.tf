@@ -130,6 +130,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "LDAP_SECRET_ARN"
             value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
           }
+          env {
+            name  = "KAFKA_BOOTSTRAP_SERVERS"
+            value = var.kafka_bootstrap_servers
+          }
+          env {
+            name  = "KAFKA_TOPIC_NAME"
+            value = var.kafka_topic_name
+          }
 
           resources {
             limits {
