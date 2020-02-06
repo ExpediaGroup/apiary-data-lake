@@ -131,8 +131,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
           }
           env {
-            name  = "KAFKA_BOOTSTRAP_URL"
-            value = var.kafka_bootstrap_url
+            name  = "KAFKA_BOOTSTRAP_SERVERS"
+            value = var.kafka_bootstrap_servers
           }
           env {
             name  = "KAFKA_TOPIC_NAME"

@@ -401,7 +401,7 @@ variable "s3_lifecycle_policy_transition_period" {
   default     = "30"
 }
 
-variable "kafka_bootstrap_url" {
+variable "kafka_bootstrap_servers" {
   description = "Enables Hive Metastore Kafka listener."
   type        = string
   default     = ""

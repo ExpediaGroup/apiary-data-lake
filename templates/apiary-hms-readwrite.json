@@ -131,8 +131,8 @@
         "value": "${enable_metrics}"
      },
      {
-      "name": "KAFKA_BOOTSTRAP_URL",
-      "value": "${kafka_bootstrap_url}"
+      "name": "KAFKA_BOOTSTRAP_SERVERS",
+      "value": "${kafka_bootstrap_servers}"
      },
      {
       "name": "KAFKA_TOPIC_NAME",
