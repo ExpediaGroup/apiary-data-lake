@@ -34,6 +34,9 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
         }
         annotations = {
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
+          "prometheus.io/path"     = "/metrics"
+          "prometheus.io/port"     = "8080"
+          "prometheus.io/scrape"   = "true"
         }
       }
 
@@ -41,7 +44,9 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "hms-readwrite"
-
+          port {
+            container_port = 9083
+          }
           env {
             name  = "MYSQL_DB_HOST"
             value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
