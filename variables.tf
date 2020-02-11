@@ -51,6 +51,7 @@ variable "aws_region" {
 variable "apiary_log_bucket" {
   description = "Bucket for Apiary logs."
   type        = "string"
+  default     = ""
 }
 
 variable "apiary_log_prefix" {
