@@ -403,7 +403,7 @@ variable "s3_lifecycle_policy_transition_period" {
 }
 
 variable "s3_log_expiry" {
-  description = "Number of days after which apiary S3 bucket logs expire."
+  description = "Number of days after which Apiary S3 bucket logs expire."
   type        = "string"
   default     = "365"
 }
