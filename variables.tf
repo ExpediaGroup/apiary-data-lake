@@ -402,6 +402,12 @@ variable "s3_lifecycle_policy_transition_period" {
   default     = "30"
 }
 
+variable "s3_log_expiry" {
+  description = "Number of days after which apiary S3 bucket logs expire."
+  type        = "string"
+  default     = "365"
+}
+
 variable "kafka_bootstrap_servers" {
   description = "Kafka bootstrap servers to send metastore events, setting this enables Hive Metastore Kafka listener."
   type        = string
