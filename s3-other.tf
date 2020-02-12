@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_s3_bucket" "apiary_logs_bucket" {
+resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
   count  = var.apiary_log_bucket == "" ? 1 : 0
   bucket = "${local.apiary_bucket_prefix}-s3-logs"
   acl    = "log-delivery-write"

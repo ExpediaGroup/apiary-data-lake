@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [4.4.0] - 2020-02-12
 
 ### Added
-- Manage logs S3 bucket to capture data bucket access logs.
+- Manage logs S3 bucket to capture data bucket access logs, logs bucket will be created when apiary_log_bucket variable is not set.
+
+### Changed
+- apiary_log_bucket variable is optional now.
 
 ## [4.3.0] - 2020-02-10
 
