@@ -64,7 +64,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   tags          = "${merge(map("Name", "${element(local.apiary_data_buckets, count.index)}"), "${var.apiary_tags}")}"
 
   logging {
-    target_bucket = "${var.apiary_log_bucket}"
+    target_bucket = var.apiary_log_bucket == "" ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
     target_prefix = "${var.apiary_log_prefix}${local.apiary_data_buckets[count.index]}/"
   }
 

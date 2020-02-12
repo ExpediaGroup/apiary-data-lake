@@ -51,6 +51,7 @@ variable "aws_region" {
 variable "apiary_log_bucket" {
   description = "Bucket for Apiary logs."
   type        = "string"
+  default     = ""
 }
 
 variable "apiary_log_prefix" {
@@ -399,6 +400,12 @@ variable "s3_lifecycle_policy_transition_period" {
   description = "S3 Lifecycle Policy number of days for Transition rule"
   type        = "string"
   default     = "30"
+}
+
+variable "s3_log_expiry" {
+  description = "Number of days after which Apiary S3 bucket logs expire."
+  type        = "string"
+  default     = "365"
 }
 
 variable "kafka_bootstrap_servers" {
