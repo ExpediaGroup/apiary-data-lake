@@ -21,6 +21,8 @@ Please refer to [VARIABLES.md](VARIABLES.md).
 
 ## Usage
 
+NB: This module currently requires you to use it from a machine with bash, aws, mysql, and jq CLI tools installed.
+
 Example module invocation:
 ```
 module "apiary" {
