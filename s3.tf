@@ -101,6 +101,7 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
     }
   }
 
+  optional_fields = ["Size", "LastModifiedDate", "StorageClass", "ETag", "IntelligentTieringAccessTier"]
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
