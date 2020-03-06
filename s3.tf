@@ -4,36 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_s3_bucket" "apiary_inventory_bucket" {
-  count  = var.s3_enable_inventory == true ? 1 : 0
-  bucket = "${local.apiary_bucket_prefix}-s3-inventory"
-  acl    = "private"
-  tags   = "${merge(map("Name", "${local.apiary_bucket_prefix}-s3-inventory"), "${var.apiary_tags}")}"
-  policy = <<EOF
-{
-  "Version":"2012-10-17",
-  "Statement":[
-    {
-      "Sid":"InventoryAndAnalyticsPolicy",
-      "Effect":"Allow",
-      "Principal": {"Service": "s3.amazonaws.com"},
-      "Action":["s3:PutObject"],
-      "Resource":["arn:aws:s3:::${local.apiary_bucket_prefix}-s3-inventory/*"],
-      "Condition": {
-          "ArnLike": {
-              "aws:SourceArn": "arn:aws:s3:::${local.apiary_bucket_prefix}-*"
-           },
-         "StringEquals": {
-             "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}",
-             "s3:x-amz-acl": "bucket-owner-full-control"
-          }
-       }
-    }
-  ]
-}
-EOF
-}
-
 ##
 ### Apiary S3 policy template
 ##
@@ -93,7 +63,7 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
 
   destination {
     bucket {
-      format     = "ORC"
+      format     = "${var.s3_inventory_format}"
       bucket_arn = "${aws_s3_bucket.apiary_inventory_bucket[0].arn}"
       encryption {
         sse_s3 {}
