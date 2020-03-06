@@ -303,7 +303,7 @@ variable "s3_enable_inventory" {
 variable "s3_inventory_format" {
   description = "Output format for S3 inventory results. Can be Parquet, ORC, CSV"
   type        = string
-  default     = "Parquet"
+  default     = "ORC"
 }
 
 variable "s3_block_public_access" {
