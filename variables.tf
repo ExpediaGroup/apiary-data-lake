@@ -300,6 +300,12 @@ variable "s3_enable_inventory" {
   default     = false
 }
 
+variable "s3_inventory_format" {
+  description = "Output format for S3 inventory results. Can be Parquet, ORC, CSV"
+  type        = string
+  default     = "Parquet"
+}
+
 variable "s3_block_public_access" {
   description = "Variable to enable S3 Block Public Access."
   type        = bool
