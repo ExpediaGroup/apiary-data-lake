@@ -30,8 +30,8 @@ resource "aws_iam_role_policy" "s3_data_for_hms_readwrite" {
                               "s3:PutObjectVersionTagging"
                             ],
                   "Resource": [
-                                "${join("\",\"", formatlist("arn:aws:s3:::%s", local.apiary_data_buckets))}",
-                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*", local.apiary_data_buckets))}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s", local.apiary_iam_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*", local.apiary_iam_buckets))}"
                               ]
                 }
               ]
@@ -55,8 +55,8 @@ resource "aws_iam_role_policy" "s3_data_for_hms_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "${join("\",\"", formatlist("arn:aws:s3:::%s", local.apiary_data_buckets))}",
-                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*", local.apiary_data_buckets))}"
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s", local.apiary_iam_buckets))}",
+                                "${join("\",\"", formatlist("arn:aws:s3:::%s/*", local.apiary_iam_buckets))}"
                               ]
                 }
               ]

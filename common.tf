@@ -16,6 +16,9 @@ locals {
   assume_allowed_principals            = split(",", join(",", [for role in var.apiary_assume_roles : join(",", [for principal in role.principals : replace(principal, "/:role.*/", ":root")])]))
   producer_allowed_principals          = split(",", join(",", values(var.apiary_producer_iamroles)))
   final_atlas_cluster_name             = "${var.atlas_cluster_name == "" ? local.instance_alias : var.atlas_cluster_name}"
+  s3_inventory_prefix                  = "EntireBucketDaily"
+  s3_inventory_bucket                  = var.s3_enable_inventory ? "${local.apiary_bucket_prefix}-s3-inventory" : ""
+  apiary_iam_buckets                   = compact(concat(local.apiary_data_buckets, [local.s3_inventory_bucket]))
 }
 
 data "aws_iam_account_alias" "current" {}

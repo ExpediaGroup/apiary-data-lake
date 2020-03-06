@@ -46,6 +46,11 @@ data "template_file" "hms_readwrite" {
 
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("", data.aws_secretsmanager_secret.docker_registry.*.arn))}"
+
+    # S3 inventory
+    s3_enable_inventory = var.s3_enable_inventory
+    s3_inventory_bucket = local.s3_inventory_bucket
+    s3_inventory_prefix = local.s3_inventory_prefix
   }
 }
 
