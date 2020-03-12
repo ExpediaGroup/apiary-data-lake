@@ -47,7 +47,7 @@
 | hms_rw_cpu | CPU for the read/write Hive Metastore ECS task. Valid values can be 256, 512, 1024, 2048 and 4096. Reference: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | `512` | no |
 | hms_rw_ecs_task_count | Desired ECS task count of the read/write Hive Metastore service. | string | `3` | no |
 | hms_rw_heapsize | Heapsize for the read/write Hive Metastore. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | - | yes |
-| iam_name_root | Name to identify Hive Metastore IAM roles. | string | hms | no |
+| iam_name_root | Name to identify Hive Metastore IAM roles. | string | `hms` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
 | instance_name | Apiary instance name to identify resources in multi-instance deployments. | string | `` | no |
 | k8s_docker_registry_secret| Docker Registry authentication K8s secret name. | string | `` | no |
@@ -61,8 +61,9 @@
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| s3_block_public_access | Variable to enable S3 Block Public Access. | bool | false | no |
-| s3_enable_inventory | Enable S3 inventory configuration. | bool | false | no |
+| s3_block_public_access | Variable to enable S3 Block Public Access. | bool | `false` | no |
+| s3_enable_inventory | Enable S3 inventory configuration. | bool | `false` | no |
+| s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
