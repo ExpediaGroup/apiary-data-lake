@@ -4,6 +4,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| apiary_assume_roles | List of maps - each map describes an IAM role that can be assumed in this account to write data into the configured list of schemas. See section `apiary_assume_roles` for more info. | list(map) | - | no |
 | apiary_customer_accounts | AWS account IDs for clients of this Metastore. | list | - | yes |
 | apiary_database_name | Database name to create in RDS for Apiary. | string | `apiary` | no |
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
@@ -69,3 +70,31 @@
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
 | vpc_id | VPC ID. | string | - | yes |
+
+### apiary_assume_roles
+
+A list of maps.  Each map entry describes a role that is created in this account, and a list of principals (IAM ARNs) in other accounts that are allowed  
+to assume this role.  Each entry also specifies a list of Apiary schemas that this role is allowed to write to.
+
+An example entry looks like:
+```
+apiary_assume_roles = [
+    {
+        name = "client_name"
+        principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
+        schema_names = [ "dm","lz","test_1" ]
+        max_session_duration = "7200",
+        allow_cross_region_access = true 
+    }
+  ]
+``` 
+`apiary_assume_roles` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| name | Short name of the IAM role to be created.  Full name will be `apiary-<name>-<region>` | string | - | yes |
+| principals | List of IAM role ARNs from other accounts that can assume this role. | list(string) | - | yes |
+| schema_names | List of Apiary schemas that this role can read/write. | list(string) | - | yes |
+| max_session_duration | Number of seconds that the assumed credentials are valid for.| string | `"3600"` | no |
+| allow_cross_region_access | If `true`, will allow this role to write this Apiary schemas in all AWS regions that these Apiary schemas exist in in this account.  | bool | `false` | no |
+
