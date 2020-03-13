@@ -7,7 +7,7 @@
 locals {
   instance_alias                       = "${var.instance_name == "" ? "apiary" : format("apiary-%s", var.instance_name)}"
   apiary_bucket_prefix                 = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
-  apiary_assume_role_bucket_prefix     = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? data.aws_region.current.name : "*"}"]
+  apiary_assume_role_bucket_prefix     = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
   enable_route53_records               = "${var.apiary_domain_name == "" ? "0" : "1"}"
   apiary_managed_schema_names_original = [for schema in var.apiary_managed_schemas : "${schema.schema_name}"]
   apiary_managed_schema_names_replaced = [for schema in var.apiary_managed_schemas : "${replace(schema.schema_name, "_", "-")}"]

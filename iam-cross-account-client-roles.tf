@@ -46,7 +46,7 @@ resource "aws_iam_role_policy" "apiary_assume_role_s3" {
       ],
       "Resource": [
         "${join("\",\"", [for schema in var.apiary_assume_roles[count.index].schema_names : "arn:aws:s3:::${local.apiary_assume_role_bucket_prefix[count.index]}-${replace(schema, "_", "-")}"])}",
-        "${join("\",\"", [for schema in var.apiary_assume_roles[count.index].schema_names : "arn:aws:s3:::${local..apiary_assume_role_bucket_prefix[count.index]}-${replace(schema, "_", "-")}/*"])}"
+        "${join("\",\"", [for schema in var.apiary_assume_roles[count.index].schema_names : "arn:aws:s3:::${local.apiary_assume_role_bucket_prefix[count.index]}-${replace(schema, "_", "-")}/*"])}"
       ]
     }
   ]
