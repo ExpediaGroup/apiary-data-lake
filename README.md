@@ -59,8 +59,6 @@ module "apiary" {
         principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
         schema_names = [ "dm","lz","test_1" ]
         max_session_duration = "7200",
-        # allows assumed role in us-east-1 to read dm, lz, and test_1 S3 buckets in both us-east-1 and us-west-2, for example.  
-        # If false or absent, can only read S3 bucket in same region where assumed role exists
         allow_cross_region_access = true 
     }
   ]
