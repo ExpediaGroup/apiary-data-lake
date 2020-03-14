@@ -143,6 +143,18 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "KAFKA_TOPIC_NAME"
             value = var.kafka_topic_name
           }
+          env {
+            name  = "ENABLE_S3_INVENTORY"
+            value = var.s3_enable_inventory
+          }
+          env {
+            name  = "APIARY_S3_INVENTORY_TABLE_FORMAT"
+            value = var.s3_inventory_format
+          }
+          env {
+            name  = "APIARY_S3_INVENTORY_PREFIX"
+            value = local.s3_inventory_prefix
+          }
 
           resources {
             limits {
