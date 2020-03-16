@@ -58,7 +58,7 @@ module "apiary" {
         name = "client_name"
         principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
         schema_names = [ "dm","lz","test_1" ]
-        max_session_duration = "7200",
+        max_role_session_duration_seconds = "7200",
         allow_cross_region_access = true 
     }
   ]
