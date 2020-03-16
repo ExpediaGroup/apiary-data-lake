@@ -92,9 +92,8 @@ apiary_assume_roles = [
 
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| name | Short name of the IAM role to be created.  Full name will be `apiary-<name>-<region>` | string | - | yes |
+| name | Short name of the IAM role to be created.  Full name will be `apiary-<name>-<region>`. | string | - | yes |
 | principals | List of IAM role ARNs from other accounts that can assume this role. | list(string) | - | yes |
 | schema_names | List of Apiary schemas that this role can read/write. | list(string) | - | yes |
 | max_session_duration | Number of seconds that the assumed credentials are valid for.| string | `"3600"` | no |
 | allow_cross_region_access | If `true`, will allow this role to write these Apiary schemas in all AWS regions that these schemas exist in (in this account). If `false`, can only write in this region. | bool | `false` | no |
-
