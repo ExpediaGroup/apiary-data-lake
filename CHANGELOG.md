@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [4.5.0] - TBD
 ### Added
 - Variable to configure `apiary_assume_roles` cross-region S3 access.
+- Documentation in `VARIABLES.md` for the `apiary_assume_roles` variable.
 
 ## [4.4.2] - 2020-03-06
 ### Added
