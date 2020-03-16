@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Variable to configure `apiary_assume_roles` cross-region S3 access.
 - Documentation in `VARIABLES.md` for the `apiary_assume_roles` variable.
 
+### Changed
+- `apiary_assume_roles[i].max_session_duration` renamed to `apiary_assume_roles[i].max_role_session_duration_seconds`.
+
 ## [4.4.2] - 2020-03-06
 ### Added
 - Variable to configure S3 inventory output format.
