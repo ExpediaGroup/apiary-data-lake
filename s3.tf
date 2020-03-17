@@ -4,6 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+locals {
+expiry_days_check = "${var.s3_bucket_expiry != "null" ? "true" : "false" }"
+}
+
 ##
 ### Apiary S3 policy template
 ##
@@ -46,7 +50,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
       days          = lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
       storage_class = lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)
     }
-    expiration {
+    expiration = expiry_days_check == false ? null : {
       days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
     }
   }
