@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018-2019 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -18,8 +18,7 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
   spec {
     concurrency_policy = "Replace"
     failed_jobs_history_limit = 5
-    #TODO: Make me once a day after testing
-    schedule = "*/10 * * * *"
+    schedule = var.s3_inventory_update_schedule
 
     job_template {
       metadata {}
