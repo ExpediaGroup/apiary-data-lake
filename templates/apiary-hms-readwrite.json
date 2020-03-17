@@ -141,14 +141,6 @@
      {
       "name": "ENABLE_S3_INVENTORY",
       "value": "${s3_enable_inventory}"
-     },
-     {
-      "name": "APIARY_S3_INVENTORY_TABLE_FORMAT",
-      "value": "${s3_inventory_format}"
-     },
-     {
-      "name": "APIARY_S3_INVENTORY_PREFIX",
-      "value": "${s3_inventory_prefix}"
      }
     ]
   }

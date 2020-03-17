@@ -29,7 +29,7 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
               name = "s3-inventory-repair"
             }
             annotations = {
-              "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
+              "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
             }
           }
 
