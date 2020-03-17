@@ -49,8 +49,6 @@ data "template_file" "hms_readwrite" {
 
     # S3 inventory
     s3_enable_inventory = var.s3_enable_inventory
-    s3_inventory_format = var.s3_inventory_format
-    s3_inventory_prefix = local.s3_inventory_prefix
   }
 }
 
