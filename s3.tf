@@ -50,6 +50,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
       days          = lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
       storage_class = lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)
     }
+    
     expiration = expiry_days_check == false ? null : {
       days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
     }
