@@ -8,6 +8,10 @@ locals {
 expiry_days_check = "${var.s3_bucket_expiry != "null" ? "true" : "false" }"
 }
 
+output "expiry_check" {
+  value = "${var.expiry_days_check}"
+}
+
 ##
 ### Apiary S3 policy template
 ##
@@ -51,11 +55,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
       storage_class = lookup(var.apiary_managed_schemas[count.index], "s3_storage_class", var.s3_storage_class)
     }
 
-    expiration = null 
-    {
-      #days = 60
-      #expiry_days_check == false ? null : {
-      #days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
+    expiration {
+      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
     }
   }
 }
