@@ -7,6 +7,7 @@
 ##
 ### Apiary S3 policy template
 ##
+
 data "template_file" "bucket_policy" {
   count    = "${length(local.apiary_data_buckets)}"
   template = "${file("${path.module}/templates/apiary_bucket_policy.json")}"
@@ -48,9 +49,9 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-    for_each = length(lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)) > 0 ? [] : [1] 
+    for_each = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", "") > 0 [] : [1]
     content {
-      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", null)
+      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
       }
     }
   }
