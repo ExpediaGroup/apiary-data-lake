@@ -4,11 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-locals {
-  first_id = length(azurerm_virtual_machine.example) > 0 ? azurerm_virtual_machine.example[0].id : ""
-  buckets = (var.env == "dev" ? [var.build_bucket, var.qa_bucket] : [var.prod_bucket])
-}
-
 ##
 ### Apiary S3 policy template
 ##
