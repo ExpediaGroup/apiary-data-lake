@@ -52,7 +52,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     expiration {
-      days = 60
+    null
+      #days = 60
       #expiry_days_check == false ? null : {
       #days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
     }
