@@ -5,11 +5,8 @@
  */
 
 locals {
-expiry_days_check = "${var.s3_bucket_expiry != "null" ? "true" : "false" }"
-}
-
-output "expiry_check" {
-  value = "${local.expiry_days_check}"
+  first_id = length(azurerm_virtual_machine.example) > 0 ? azurerm_virtual_machine.example[0].id : ""
+  buckets = (var.env == "dev" ? [var.build_bucket, var.qa_bucket] : [var.prod_bucket])
 }
 
 ##
@@ -56,7 +53,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-    for_each = length(keys(var.s3_bucket_expiry)) == 0 ? [] : [var.s3_bucket_expiry]
+    for_each = length(lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)) > 0 ? [] : [1]
     content {
       days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", null)
       }
