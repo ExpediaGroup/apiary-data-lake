@@ -9,7 +9,7 @@ expiry_days_check = "${var.s3_bucket_expiry != "null" ? "true" : "false" }"
 }
 
 output "expiry_check" {
-  value = "${var.expiry_days_check}"
+  value = "${local.expiry_days_check}"
 }
 
 ##
