@@ -56,9 +56,17 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     expiration {
-      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", "${var.s3_bucket_expiry}")
+
+    dynamic "s3_bucket_expiry" {
+    for_each = length(keys(var.s3_bucket_expiry)) == 0 ? [] : [var.s3_bucket_expiry]
+    content {
+      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", null)
     }
+    
+    }
+
   }
+}
 }
 
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
