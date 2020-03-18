@@ -425,3 +425,9 @@ variable "kafka_topic_name" {
   type        = "string"
   default     = ""
 }
+
+variable "s3_inventory_update_schedule" {
+  description = "Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours."
+  type        = "string"
+  default     = "0 */12 * * *"
+}

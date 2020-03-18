@@ -53,7 +53,7 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
   count  = var.s3_enable_inventory == true ? "${length(local.apiary_data_buckets)}" : 0
   bucket = "${aws_s3_bucket.apiary_data_bucket.*.id[count.index]}"
 
-  name = "EntireBucketDaily"
+  name = local.s3_inventory_prefix
 
   included_object_versions = "All"
 
