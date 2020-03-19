@@ -137,6 +137,10 @@
      {
       "name": "KAFKA_TOPIC_NAME",
       "value": "${kafka_topic_name}"
+     },
+     {
+      "name": "ENABLE_S3_INVENTORY",
+      "value": "${s3_enable_inventory}"
      }
     ]
   }

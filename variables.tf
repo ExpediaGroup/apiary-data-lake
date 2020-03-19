@@ -431,3 +431,9 @@ variable "s3_object_expiration_days" {
   type        = number
   default     = null
 }
+
+variable "s3_inventory_update_schedule" {
+  description = "Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours."
+  type        = "string"
+  default     = "0 */12 * * *"
+}
