@@ -426,8 +426,8 @@ variable "kafka_topic_name" {
   default     = ""
 }
 
-variable "s3_bucket_expiry" {
-  description = "Number of days after which apiary S3 bucket expire"
+variable "s3_object_expiration_days" {
+  description = "Number of days after which objects in the Apiary S3 buckets expire"
   type        = number
   default     = null
 }

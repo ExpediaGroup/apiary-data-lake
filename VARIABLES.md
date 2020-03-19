@@ -66,6 +66,7 @@
 | s3_enable_inventory | Enable S3 inventory configuration. | bool | `false` | no |
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
+| s3_object_expiration_days | Number of days after which objects in the Apiary S3 buckets expire | number | `null` | no
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |

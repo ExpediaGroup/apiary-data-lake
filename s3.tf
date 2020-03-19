@@ -3,7 +3,6 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
-
 ##
 ### Apiary S3 policy template
 ##
@@ -49,9 +48,9 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-    for_each = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry) != null ? [1] : []
+    for_each = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", var.s3_object_expiration_days) != null ? [1] : []
     content {
-      days = lookup(var.apiary_managed_schemas[count.index], "s3_bucket_expiry", var.s3_bucket_expiry)
+      days = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", var.s3_object_expiration_days)
       }
     }
   }
