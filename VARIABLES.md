@@ -122,4 +122,4 @@ Name | Description | Type | Default | Required |
 | schema_name | Name of the S3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy | string | "30" | No |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string | "INTELLIGENT_TIERING" | No |
-| s3_object_expiration_days | Number of days after which objects in apiary managed schema buckets expire | number | null | No
+| s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |
