@@ -10,7 +10,7 @@
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
-| apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions. For valid values for S3 Storage classes, Reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | list of map | `<list of map>` | no |
+| apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. For valid values for S3 Storage classes, Reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | list of map | `<list of map>` | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
@@ -67,7 +67,6 @@
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
-| s3_object_expiration_days | Number of days after which objects in apiary managed schema buckets expire | number | `null` | no
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
@@ -103,7 +102,7 @@ Name | Description | Type | Default | Required |
 
 ### apiary_managed_schemas
 
-A list of maps. Along with S3 bucket name, each map corresponds to S3 storage properties. 
+A list of maps. Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions.
 
 An example entry looks like:
 ```
@@ -120,7 +119,7 @@ apiary_managed_schemas = [
 
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| schema_name | Name pf the s3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
+| schema_name | Name of the S3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy | string | "30" | No |
-| s3_storage_class | Destination S3 storage class for transition in the lifecycle policy | string | "INTELLIGENT_TIERING" | No |
+| s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string | "INTELLIGENT_TIERING" | No |
 | s3_object_expiration_days | Number of days after which objects in apiary managed schema buckets expire | number | null | No
