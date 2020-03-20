@@ -67,7 +67,7 @@
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
-| s3_object_expiration_days | Number of days after which objects in the Apiary S3 buckets expire | number | `null` | no
+| s3_object_expiration_days | Number of days after which objects in apiary managed schema buckets expire | number | `null` | no
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
@@ -99,3 +99,28 @@ Name | Description | Type | Default | Required |
 | schema_names | List of Apiary schemas that this role can read/write. | list(string) | - | yes |
 | max_role_session_duration_seconds | Number of seconds that the assumed credentials are valid for.| string | `"3600"` | no |
 | allow_cross_region_access | If `true`, will allow this role to write these Apiary schemas in all AWS regions that these schemas exist in (in this account). If `false`, can only write in this region. | bool | `false` | no |
+
+
+### apiary_managed_schemas
+
+A list of maps. Along with S3 bucket name, each map corresponds to S3 storage properties. 
+
+An example entry looks like:
+```
+apiary_managed_schemas = [
+  {
+   schema_name = "sandbox"
+   s3_lifecycle_policy_transition_period = "30"
+   s3_storage_class = "INTELLIGENT_TIERING"
+   s3_object_expiration_days = 60
+  }
+]
+``` 
+`apiary_managed_schemas` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| schema_name | Name pf the s3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
+| s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy | string | "30" | No |
+| s3_storage_class | Destination S3 storage class for transition in the lifecycle policy | string | "INTELLIGENT_TIERING" | No |
+| s3_object_expiration_days | Number of days after which objects in apiary managed schema buckets expire | number | null | No

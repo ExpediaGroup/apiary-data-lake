@@ -426,12 +426,6 @@ variable "kafka_topic_name" {
   default     = ""
 }
 
-variable "s3_object_expiration_days" {
-  description = "Number of days after which objects in the Apiary S3 buckets expire"
-  type        = number
-  default     = null
-}
-
 variable "s3_inventory_update_schedule" {
   description = "Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours."
   type        = "string"

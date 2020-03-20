@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [5.1.1] - 2020-03-19
 ### Added
-- Variable to configure `s3_object_expiration_days` number of days after which objects in the Apiary S3 buckets expire.
-- Documentation in `VARIABLES.md` for the `s3_object_expiration_days` variable.
+- Property `s3_object_expiration_days` to `apiary_managed_schemas`, which sets number of days after which objects in the Apiary S3 buckets expire
+- Documentation in `VARIABLES.md` for `s3_object_expiration_days` property.
 
 ## [5.1.0] - 2020-03-18
 ### Added
