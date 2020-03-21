@@ -10,7 +10,7 @@
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
-| apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. For valid values for S3 Storage classes, Reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | list of map | `<list of map>` | no |
+| apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
