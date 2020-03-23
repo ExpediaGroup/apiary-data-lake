@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.2.0] - 2020-03-23
+### Added
+- Property `s3_object_expiration_days` to `apiary_managed_schemas`, which sets number of days after which objects in the Apiary S3 buckets expire
+- Documentation in `VARIABLES.md` for the `apiary_managed_schemas` variable.
+
 ## [5.1.0] - 2020-03-18
 ### Added
 - If S3 inventory is enabled, Hive tables will be created for each Apiary schema bucket.  They will be updated on a scheduled basis each day, etc.
