@@ -10,7 +10,7 @@
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
-| apiary_managed_schemas | Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions. For valid values for S3 Storage classes, Reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | list of map | `<list of map>` | no |
+| apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
@@ -100,10 +100,27 @@ Name | Description | Type | Default | Required |
 | allow_cross_region_access | If `true`, will allow this role to write these Apiary schemas in all AWS regions that these schemas exist in (in this account). If `false`, can only write in this region. | bool | `false` | no |
 
 
+### apiary_managed_schemas
+
+A list of maps. Schema names from which S3 bucket names will be derived, corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name, along with S3 storage properties like storage class and number of days for transitions.
+
+An example entry looks like:
+```
+apiary_managed_schemas = [
+  {
+   schema_name = "sandbox"
+   s3_lifecycle_policy_transition_period = "30"
+   s3_storage_class = "INTELLIGENT_TIERING"
+   s3_object_expiration_days = 60
+  }
+]
+```
 `apiary_managed_schemas` map entry fields:
 
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| name | S3 bucket name as apiary_instance-aws_account-aws_region-schema_name | string | - | yes |
-| tags | List of tags added to the S3 data bucket | list(map) | null | no |
-Note: User must specify zero instances of tags in apiary_managed_schemas, or must do it for all.
+| schema_name | Name of the S3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
+| s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string | "30" | No |
+| s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. For valid values for S3 Storage classes, reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | string | "INTELLIGENT_TIERING" | No |
+| s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |
+
