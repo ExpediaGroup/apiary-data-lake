@@ -98,3 +98,12 @@ Name | Description | Type | Default | Required |
 | schema_names | List of Apiary schemas that this role can read/write. | list(string) | - | yes |
 | max_role_session_duration_seconds | Number of seconds that the assumed credentials are valid for.| string | `"3600"` | no |
 | allow_cross_region_access | If `true`, will allow this role to write these Apiary schemas in all AWS regions that these schemas exist in (in this account). If `false`, can only write in this region. | bool | `false` | no |
+
+
+`apiary_managed_schemas` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| name | S3 bucket name as apiary_instance-aws_account-aws_region-schema_name | string | - | yes |
+| tags | List of tags added to the S3 data bucket | list(map) | null | no |
+Note: User must specify zero instances of tags in apiary_managed_schemas, or must do it for all.
