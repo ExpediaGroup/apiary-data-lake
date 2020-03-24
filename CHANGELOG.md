@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [5.3.1] - 2020-03-24
 ### Added
-- Configuration to delete incomplete mutli-part S3 uploads.
+- Configuration to delete incomplete multi-part S3 uploads.
 
 ### Changed
 - Add additional tags to Apiary data buckets using json instead of terraform map.
