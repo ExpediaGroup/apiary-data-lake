@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   tags = merge(
     map("Name", local.apiary_data_buckets[count.index]),
     var.apiary_tags,
-    contains(keys(var.apiary_managed_schemas[count.index]), "tags") ? var.apiary_managed_schemas[count.index].tags : {}
+    contains(keys(var.apiary_managed_schemas[count.index]), "tags") ? var.apiary_managed_schemas[count.index].tags : null
   )
 
   logging {
