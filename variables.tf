@@ -408,6 +408,12 @@ variable "s3_lifecycle_policy_transition_period" {
   default     = "30"
 }
 
+variable "s3_lifecycle_abort_incomplete_multipart_upload_days" {
+  description = "Number of days after which incomplete multipart uploads will be deleted."
+  type        = "string"
+  default     = "7"
+}
+
 variable "s3_log_expiry" {
   description = "Number of days after which Apiary S3 bucket logs expire."
   type        = "string"
