@@ -32,7 +32,11 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = "${data.template_file.bucket_policy.*.rendered[count.index]}"
-  tags          = merge(map("Name", local.apiary_data_buckets[count.index]), local.schema_tags[count.index])
+  tags = merge(map("Name", local.apiary_data_buckets[count.index]),
+    var.apiary_tags,
+    jsondecode(lookup(var.apiary_managed_schemas[count.index], "tags", "{}"))
+  )
+
 
   logging {
     target_bucket = var.apiary_log_bucket == "" ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
