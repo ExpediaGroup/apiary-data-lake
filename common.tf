@@ -19,7 +19,6 @@ locals {
   final_atlas_cluster_name             = "${var.atlas_cluster_name == "" ? local.instance_alias : var.atlas_cluster_name}"
   s3_inventory_prefix                  = "EntireBucketDaily"
   s3_inventory_bucket                  = var.s3_enable_inventory ? "${local.apiary_bucket_prefix}-s3-inventory" : ""
-  schema_tags                          = [for schema in var.apiary_managed_schemas : contains(keys(schema), "tags") ? merge(var.apiary_tags, jsondecode(schema.tags)) : var.apiary_tags]
 }
 
 data "aws_iam_account_alias" "current" {}
