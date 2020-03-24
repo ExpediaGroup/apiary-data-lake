@@ -32,10 +32,12 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = "${data.template_file.bucket_policy.*.rendered[count.index]}"
-  tags          = "${merge(map("Name", "${element(local.apiary_data_buckets, count.index)}"),
-                           "${var.apiary_tags}",
-                           lookup(element(var.apiary_managed_schemas, count.index), "tags", {})
-                          )}"
+  tags = merge(map("Name", local.apiary_data_buckets[count.index]),
+    var.apiary_tags,
+    jsondecode(lookup(var.apiary_managed_schemas[count.index], "tags", "{}"))
+  )
+
+  abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
   logging {
     target_bucket = var.apiary_log_bucket == "" ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
@@ -52,9 +54,9 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-    for_each = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", null) != null ? [1] : []
-    content {
-      days = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", null)
+      for_each = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", null) != null ? [1] : []
+      content {
+        days = lookup(var.apiary_managed_schemas[count.index], "s3_object_expiration_days", null)
       }
     }
   }

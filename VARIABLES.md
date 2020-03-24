@@ -67,6 +67,7 @@
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
+| s3_lifecycle_abort_incomplete_multipart_upload_days | Number of days after which incomplete multipart uploads will be deleted. | string  | `7` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
@@ -112,10 +113,7 @@ apiary_managed_schemas = [
    s3_lifecycle_policy_transition_period = "30"
    s3_storage_class = "INTELLIGENT_TIERING"
    s3_object_expiration_days = 60
-   tags={
-            Domain = "egdp-search",
-            ComponentInfo = "1234"
-        }
+   tags=jsonencode({ Domain = "search", ComponentInfo = "1234" })
   }
 ]
 ```
@@ -127,5 +125,4 @@ Name | Description | Type | Default | Required |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string | "30" | No |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. For valid values for S3 Storage classes, reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | string | "INTELLIGENT_TIERING" | No |
 | s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |
-| tags | Additional tags added to the S3 data bucket. If the `var.apiary_tags` collection and the tags passed to `apiary_managed_schemas` both contain the same tag name, the tag value passed to `apiary_managed_schemas` will be used. | map | null | no |
-Note: User must specify zero instances of tags in `apiary_managed_schemas`, or must add it for all the instances, with `tags={}` for instances where additional tags do not exist.
+| tags | Additional tags added to the S3 data bucket. The map of tags must be encoded as a string using `jsonencode` (see sample above). If the `var.apiary_tags` collection and the tags passed to `apiary_managed_schemas` both contain the same tag name, the tag value passed to `apiary_managed_schemas` will be used. | string | null | no |
