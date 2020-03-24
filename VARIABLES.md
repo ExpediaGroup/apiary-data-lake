@@ -125,4 +125,4 @@ Name | Description | Type | Default | Required |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string | "30" | No |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. For valid values for S3 Storage classes, reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | string | "INTELLIGENT_TIERING" | No |
 | s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |
-| tags | Additional tags added to the S3 data bucket. If the `var.apiary_tags` collection and the tags passed to `apiary_managed_schemas` both contain the same tag name, the tag value passed to `apiary_managed_schemas` will be used. | map | null | no |
+| tags | Additional tags added to the S3 data bucket. The map of tags must be encoded as a string using `jsonencode` (see sample above). If the `var.apiary_tags` collection and the tags passed to `apiary_managed_schemas` both contain the same tag name, the tag value passed to `apiary_managed_schemas` will be used. | string | null | no |
