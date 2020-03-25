@@ -37,7 +37,6 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     jsondecode(lookup(var.apiary_managed_schemas[count.index], "tags", "{}"))
   )
 
-  abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
   logging {
     target_bucket = var.apiary_log_bucket == "" ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
@@ -47,6 +46,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   lifecycle_rule {
     id      = "cost_optimization"
     enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
     transition {
       days          = lookup(var.apiary_managed_schemas[count.index], "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
