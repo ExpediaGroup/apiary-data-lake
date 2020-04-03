@@ -11,6 +11,7 @@ locals {
   enable_route53_records               = "${var.apiary_domain_name == "" ? "0" : "1"}"
   #
   # Create a new list of maps with some extra attributes needed later
+  #
   schemas_info = [
     for schema in var.apiary_managed_schemas: merge(
       {
@@ -19,6 +20,10 @@ locals {
       },
       schema)
   ]
+
+  #
+  # Create some string arrays of commonly-referenced values for things like join()
+  #
   apiary_managed_schema_names_original = [for schema in local.schemas_info : schema["schema_name"]]
   apiary_managed_schema_names_replaced = [for schema in local.schemas_info : schema["replaced_name"]]
   apiary_data_buckets                  = [for schema in local.schemas_info : schema["data_bucket"]]

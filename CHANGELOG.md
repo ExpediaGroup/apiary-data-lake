@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - TBD
+### Added
+- Per-schema option to send S3 data notifications to an SQS queue.  See `enable_data_event_queue` in the [apiary_managed_schemas](VARIABLES.md#apiary_managed_schemas) section of [VARIABLES.md](VARIABLES.md)
+### Changed
+- Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
+  - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
+  - *NOTE - This is a breaking change!* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
+    - TODO: Procedure TBD
+    
 ## [5.3.2] - 2020-03-26
 ### Added
 - Add S3 replication permissions to producer bucket policy.
