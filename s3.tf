@@ -38,7 +38,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   policy        = data.template_file.bucket_policy[each.key].rendered
   tags          = merge(map("Name", each.value["data_bucket"]),
                         var.apiary_tags,
-                        jsondecode(lookup(var.apiary_managed_schemas[count.index], "tags", "{}")))
+                        jsondecode(lookup(each.value, "tags", "{}")))
 
   logging {
     target_bucket = var.apiary_log_bucket == "" ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
@@ -110,7 +110,7 @@ resource "aws_s3_bucket_notification" "data_events" {
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   topic {
-    topic_arn = "${aws_sns_topic.apiary_data_events.*.arn[count.index]}"
+    topic_arn = aws_sns_topic.apiary_data_events[each.key].arn
     events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }
