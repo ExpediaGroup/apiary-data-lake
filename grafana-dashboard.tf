@@ -4,8 +4,8 @@ locals {
 }
 
 data "template_file" "grafana_graphs" {
-  template = file("${path.module}/templates/grafana-graph.tpl")
   count = length(local.apiary_data_buckets)
+  template = file("${path.module}/templates/grafana-graph.tpl")
   vars = {
     bucket_name = local.apiary_data_buckets[count.index]
     title_bucket_name = local.apiary_managed_schema_names_replaced[count.index]

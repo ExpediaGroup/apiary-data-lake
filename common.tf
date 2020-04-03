@@ -9,9 +9,20 @@ locals {
   apiary_bucket_prefix                 = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   apiary_assume_role_bucket_prefix     = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
   enable_route53_records               = "${var.apiary_domain_name == "" ? "0" : "1"}"
-  apiary_managed_schema_names_original = [for schema in var.apiary_managed_schemas : "${schema.schema_name}"]
-  apiary_managed_schema_names_replaced = [for schema in var.apiary_managed_schemas : "${replace(schema.schema_name, "_", "-")}"]
-  apiary_data_buckets                  = [for schema in var.apiary_managed_schemas : "${local.apiary_bucket_prefix}-${replace(schema.schema_name, "_", "-")}"]
+  #
+  # Create a new list of maps with some extra attributes needed later
+  schemas_info = [
+    for schema in var.apiary_managed_schemas: merge(
+      {
+        replaced_name : replace(schema["schema_name"], "_", "-"),
+        data_bucket   : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"]
+      },
+      schema)
+  ]
+  apiary_managed_schema_names_original = [for schema in local.schemas_info : schema["schema_name"]]
+  apiary_managed_schema_names_replaced = [for schema in local.schemas_info : schema["replaced_name"]]
+  apiary_data_buckets                  = [for schema in local.schemas_info : schema["data_bucket"]]
+
   gluedb_prefix                        = "${var.instance_name == "" ? "" : "${var.instance_name}_"}"
   cw_arn                               = "arn:aws:swf:${var.aws_region}:${data.aws_caller_identity.current.account_id}:action/actions/AWS_EC2.InstanceId.Reboot/1.0"
   assume_allowed_principals            = split(",", join(",", [for role in var.apiary_assume_roles : join(",", [for principal in role.principals : replace(principal, "/:role.*/", ":root")])]))
