@@ -16,7 +16,7 @@ locals {
     for schema in var.apiary_managed_schemas: merge(
       {
         replaced_name : replace(schema["schema_name"], "_", "-"),
-        data_bucket   : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"]
+        data_bucket   : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
       },
       schema)
   ]
