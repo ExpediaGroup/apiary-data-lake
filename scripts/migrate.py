@@ -54,20 +54,21 @@ def change_resource_indices(args, logger, tfstate, resource_type, resource_name,
     logger.info(str.format("Updating resource indexes for {}.{}", resource_type, resource_name))
     for resource in tfstate['resources']:
         if (resource['name'] == resource_name and resource['type'] == resource_type):
+            # Only do following code if count hasn't already been migrated to for_each (each:list --> each:map)
             if (resource['each'] == 'list'):
                 if args.dryrun or logger.isEnabledFor(logging.DEBUG):
                     logger.debug(str.format('    Changing {0}.{1}.each="list" to {0}.{1}.each="map"', resource_type, resource_name))
                 if not args.dryrun:
                     resource['each'] = 'map'
 
-            for resource_instance in resource['instances']:
-                index = resource_instance['index_key']
-                schema = schema_index_map[resource_instance['index_key']]
-                if args.dryrun or logger.isEnabledFor(logging.DEBUG):
-                    logger.debug(str.format('    Changing {0}.{1}[{2}] to {0}.{1}["{3}"]', resource_type, resource_name, index, schema))
+                for resource_instance in resource['instances']:
+                    index = resource_instance['index_key']
+                    schema = schema_index_map[resource_instance['index_key']]
+                    if args.dryrun or logger.isEnabledFor(logging.DEBUG):
+                        logger.debug(str.format('    Changing {0}.{1}[{2}] to {0}.{1}["{3}"]', resource_type, resource_name, index, schema))
 
-                if not args.dryrun:
-                    resource_instance['index_key'] = schema
+                    if not args.dryrun:
+                        resource_instance['index_key'] = schema
 
 
 def read_state_from_s3(args, logger):

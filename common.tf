@@ -35,6 +35,7 @@ locals {
   final_atlas_cluster_name             = "${var.atlas_cluster_name == "" ? local.instance_alias : var.atlas_cluster_name}"
   s3_inventory_prefix                  = "EntireBucketDaily"
   s3_inventory_bucket                  = var.s3_enable_inventory ? "${local.apiary_bucket_prefix}-s3-inventory" : ""
+  create_sqs_data_event_queue          = contains([for schema in local.schemas_info: lookup(schema, "enable_data_event_queue", "0")], "1") ? true : false
 }
 
 data "aws_iam_account_alias" "current" {}

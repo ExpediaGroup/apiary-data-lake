@@ -50,6 +50,7 @@ POLICY
 }
 
 resource "aws_sqs_queue" "apiary_data_event_queue" {
+  count = local.create_sqs_data_event_queue ? 1 : 0
   name = "${local.instance_alias}-data-event-queue"
 
   policy = <<POLICY

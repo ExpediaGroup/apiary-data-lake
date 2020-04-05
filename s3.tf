@@ -120,7 +120,7 @@ resource "aws_s3_bucket_notification" "data_queue_events" {
   bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   queue {
-    queue_arn     = aws_sqs_queue.apiary_data_event_queue.arn
+    queue_arn     = aws_sqs_queue.apiary_data_event_queue[0].arn
     events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }
