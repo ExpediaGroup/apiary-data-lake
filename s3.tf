@@ -127,7 +127,7 @@ resource "aws_s3_bucket_notification" "data_queue_events" {
 
 
 resource "aws_s3_bucket_metric" "paid_metrics" {
-  for_each = {
+  for_each = var.enable_s3_paid_metrics == "" ? {} : {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
