@@ -45,7 +45,7 @@ def get_schema_map(logger, tfstate):
 
     # Regex to get schema name from Apiary bucket name.  Handles instance names and any region.
     regex = re.compile("apiary.*-\d{12}-[a-zA-Z]+-[a-zA-Z]+-\d-(.+)")
-    schema_index_map = { bucket['index_key'] : regex.match(bucket['attributes']['bucket']).group(1) for bucket in bucket_resources }
+    schema_index_map = { bucket['index_key'] : regex.match(bucket['attributes']['bucket']).group(1).replace('-', '_') for bucket in bucket_resources }
 
     for (k,v) in schema_index_map.items():
         logger.info(str.format("    Mapped index {} to schema {}", k, v))
