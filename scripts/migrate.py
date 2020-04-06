@@ -4,6 +4,7 @@ import argparse
 import os
 import re
 import boto3
+from datetime import datetime
 try:
     from urlparse import urlparse
 except ImportError:
@@ -28,6 +29,7 @@ class S3Url(object):
     def url(self):
         return self._parsed.geturl()
 
+
 def get_terraform_resource_instances(logger, tfstate, resource_type, resource_name):
     resource_instances = [resource['instances'] for resource in tfstate['resources']
                              if (resource['name'] == resource_name and resource['type'] == resource_type)][0]
@@ -35,7 +37,7 @@ def get_terraform_resource_instances(logger, tfstate, resource_type, resource_na
 
 
 def get_schema_map(logger, tfstate):
-    logger.info("Getting Apiary schema names and indices.")
+    logger.info("Getting Apiary schema names and indices...")
 
     bucket_resources = get_terraform_resource_instances(logger, tfstate, 'aws_s3_bucket', 'apiary_data_bucket')
 
@@ -69,6 +71,8 @@ def change_resource_indices(args, logger, tfstate, resource_type, resource_name,
 
                     if not args.dryrun:
                         resource_instance['index_key'] = schema
+            else:
+                logger.info("    {0}.{1}.each already is type 'map' - nothing to do.", resource_type, resource_name)
 
 
 def read_state_from_s3(args, logger):
@@ -103,9 +107,9 @@ def read_state_from_file(args, logger):
         logger.error("Unable to open state file: ", exc_info=e)
         exit(1)
 
-def write_state_to_file(args, logger, tfstate):
+def write_state_to_file(outfile, logger, tfstate):
     try:
-        with open(args.outfile, 'w') as new_state_file:
+        with open(outfile, 'w') as new_state_file:
             json.dump(tfstate, new_state_file, indent=2)
     except Exception as e:
         logger.error("Unable to write state file: ", exc_info=e)
@@ -140,6 +144,12 @@ def main():
     else:
         tfstate = read_state_from_file(args, logger)
 
+    if not args.dryrun and (args.statefile == args.outfile):
+        basename = os.path.basename(args.statefile)
+        backupfile = str.format("{}.premigrate.{}", basename, datetime.now().strftime("%Y%m%d-%H%M%S"))
+        logger.info(str.format("Backing up {} to {}", args.statefile, backupfile))
+        write_state_to_file(backupfile, logger, tfstate)
+
     if tfstate['terraform_version'] < ('0.12.1'):
         logger.error("This migration script only works on state files created by Terraform 0.12.1+")
         exit(1)
@@ -159,7 +169,7 @@ def main():
         if (args.outfile.startswith('s3://')):
             write_state_to_s3(args, logger, tfstate)
         else:
-            write_state_to_file(args, logger, tfstate)
+            write_state_to_file(args.outfile, logger, tfstate)
 
     if args.dryrun:
         logger.info(str.format("-- DRYRUN MODE - No changes were written to output file {}. --", args.outfile))
