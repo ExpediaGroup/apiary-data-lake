@@ -31,7 +31,7 @@ resource "aws_sns_topic" "apiary_data_events" {
   for_each = var.enable_data_events == "1" ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_event_queue", "0") == "0"
   } : {}
-  name  = "${local.instance_alias}-${each.value["replaced_name"]}-data-events"
+  name  = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
 
   policy = <<POLICY
 {
@@ -40,7 +40,7 @@ resource "aws_sns_topic" "apiary_data_events" {
         "Effect": "Allow",
         "Principal": {"AWS":"*"},
         "Action": "SNS:Publish",
-        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${each.value["replaced_name"]}-data-events",
+        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${each.value["resource_suffix"]}-data-events",
         "Condition":{
             "ArnLike":{"aws:SourceArn":"${aws_s3_bucket.apiary_data_bucket[each.key].arn}"}
         }

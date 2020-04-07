@@ -15,18 +15,11 @@ locals {
   schemas_info = [
     for schema in var.apiary_managed_schemas: merge(
       {
-        replaced_name : replace(schema["schema_name"], "_", "-"),
-        data_bucket   : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
+        resource_suffix : replace(schema["schema_name"], "_", "-"),
+        data_bucket     : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
       },
       schema)
   ]
-
-  #
-  # Create some string arrays of commonly-referenced values for things like join()
-  #
-  apiary_managed_schema_names_original = [for schema in local.schemas_info : schema["schema_name"]]
-  apiary_managed_schema_names_replaced = [for schema in local.schemas_info : schema["replaced_name"]]
-  apiary_data_buckets                  = [for schema in local.schemas_info : schema["data_bucket"]]
 
   gluedb_prefix                        = "${var.instance_name == "" ? "" : "${var.instance_name}_"}"
   cw_arn                               = "arn:aws:swf:${var.aws_region}:${data.aws_caller_identity.current.account_id}:action/actions/AWS_EC2.InstanceId.Reboot/1.0"

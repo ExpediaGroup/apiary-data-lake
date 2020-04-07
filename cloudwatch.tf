@@ -5,7 +5,7 @@
  */
 
 data "template_file" "s3_widgets" {
-  count = "${length(local.apiary_data_buckets)}"
+  count = "${length(local.schemas_info)}"
 
   template = <<EOF
        {
@@ -87,12 +87,12 @@ data "template_file" "s3_widgets" {
 EOF
 
   vars = {
-    bucket_name = "${local.apiary_data_buckets[count.index]}"
+    bucket_name = "${local.schemas_info[count.index]["data_bucket"]}"
   }
 }
 
 data "template_file" "ecs_widgets" {
-  count = "${var.hms_instance_type == "ecs" ? length(local.apiary_data_buckets) : 0}"
+  count = "${var.hms_instance_type == "ecs" ? length(local.schemas_info) : 0}"
 
   template = <<EOF
        {
