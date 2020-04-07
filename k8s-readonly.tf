@@ -85,7 +85,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
           env {
             name  = "ENABLE_METRICS"
-            value = var.enable_hive_metastore_metrics ? "TRUE" : ""
+            value = var.enable_hive_metastore_metrics ? "1" : ""
           }
           env {
             name  = "HIVE_METASTORE_LOG_LEVEL"
