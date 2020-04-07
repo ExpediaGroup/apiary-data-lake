@@ -29,7 +29,7 @@ POLICY
 
 resource "aws_sns_topic" "apiary_data_events" {
   for_each = var.enable_data_events == "1" ? {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_event_queue", "0") == "0"
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
   } : {}
   name  = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
 

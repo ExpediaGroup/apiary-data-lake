@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.0.0] - TBD
 ### Added
-- Per-schema option to send S3 data notifications to an SQS queue.  See `enable_data_event_queue` in the [apiary_managed_schemas](VARIABLES.md#apiary_managed_schemas) section of [VARIABLES.md](VARIABLES.md)
+- Per-schema option to send S3 data notifications to an SQS queue.  See `enable_data_events_sqs` in the [apiary_managed_schemas](VARIABLES.md#apiary_managed_schemas) section of [VARIABLES.md](VARIABLES.md)
 ### Changed
 - Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
   - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
@@ -31,7 +31,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
     are passed to the `apiary-data-lake` module.  If you are not yet using TF 0.12.21+, please upgrade to 0.12.21.
   - Now run a plan of your `apiary-terraform-app` that is using `apiary-data-lake` v6.0.0.  It should show no changes needed.
   - Now run an apply of the code.
-  - Now you can make changes to use any other v6.0.0 features or make any other changes you want.  E.g, setting `enable_data_event_queue` in schemas.
+  - Now you can make changes to use any other v6.0.0 features or make any other changes you want.  E.g, setting `enable_data_events_sqs` in schemas.
 - This version of `apiary-data-lake` requires at least Terraform `0.12.21`
     
 ## [5.3.2] - 2020-03-26

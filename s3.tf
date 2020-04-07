@@ -105,7 +105,7 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
 
 resource "aws_s3_bucket_notification" "data_events" {
   for_each = var.enable_data_events == "" ? {} : {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_event_queue", "0") == "0"
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
   }
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
@@ -116,7 +116,7 @@ resource "aws_s3_bucket_notification" "data_events" {
 }
 
 resource "aws_s3_bucket_notification" "data_queue_events" {
-  for_each = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_event_queue", "0") == "1" }
+  for_each = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "1" }
   bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   queue {
