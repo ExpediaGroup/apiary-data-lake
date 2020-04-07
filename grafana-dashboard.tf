@@ -4,12 +4,12 @@ locals {
 }
 
 data "template_file" "grafana_graphs" {
+  count = length(local.schemas_info)
   template = file("${path.module}/templates/grafana-graph.tpl")
-  count = length(local.apiary_data_buckets)
   vars = {
-    bucket_name = local.apiary_data_buckets[count.index]
-    title_bucket_name = local.apiary_managed_schema_names_replaced[count.index]
-    graph_id = range(local.graph_id_base, local.graph_id_base + length(local.apiary_data_buckets) * local.number_of_graphs_per_bucket, local.number_of_graphs_per_bucket)[count.index]
+    bucket_name = local.schemas_info[count.index]["data_bucket"]
+    title_bucket_name = local.schemas_info[count.index]["resource_suffix"]
+    graph_id = range(local.graph_id_base, local.graph_id_base + length(local.schemas_info) * local.number_of_graphs_per_bucket, local.number_of_graphs_per_bucket)[count.index]
     aws_region = data.aws_region.current.name
   }
 }

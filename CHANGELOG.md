@@ -3,6 +3,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - TBD
+### Added
+- Per-schema option to send S3 data notifications to an SQS queue.  See `enable_data_events_sqs` in the [apiary_managed_schemas](VARIABLES.md#apiary_managed_schemas) section of [VARIABLES.md](VARIABLES.md)
+### Changed
+- Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
+  - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
+### Notes
+- *THIS IS A BREAKING CHANGE.* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
+  - See the `migrate.py` script in the `scripts` folder.
+  - This script is used to migrate an Apiary Terraform state file from using `count` for resource indexing to using
+      `for_each`, which is how apiary-data-lake v6.0.0+ handles indexed resources.  Without this script, doing an `apply` 
+      will want to destroy all your S3 resources and then recreate them because they are stored in the `.tfstate` file
+      differently.  
+  - The migration script needs some external packages installed (see `migrate_requirements.txt`) and then should run in either Python 2.7+ or Python 3.6+.
+  - This procedure assumes you have a Terraform app called `apiary-terraform-app` that is the application using this module.
+  - Upgrade `apiary-terraform-app` to `apiary-data-lake` v5.3.2.  This will necessitate using Terraform 0.12+ and
+    resolving any TF 0.12 incompatibilities in your application code.  TF 0.12.21+ is recommended (will be required later).
+  - Plan and apply your Terraform app to make sure it is working and up-to-date.
+  - Install Python 3 if you don't yet have a Python installation.
+  - Install requirements for this script with `pip install -r migrate_requirements.txt`.
+  - Run this script pointing to your terraform state file.  Script can read the state file from either file system or S3. Run it first with dryrun, then live.  Example:
+    - `python migrate.py --dryrun --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate`
+    - `python migrate.py --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate`
+    - Note that appropriate AWS credentials will be needed for S3: AWS_PROFILE, AWS_DEFAULT_REGION, etc.
+  - Upgrade `apiary-terraform-app` to use `apiary-data-lake` v6.0.0.  Do NOT make any changes in the variables that
+    are passed to the `apiary-data-lake` module.  If you are not yet using TF 0.12.21+, please upgrade to 0.12.21.
+  - Now run a plan of your `apiary-terraform-app` that is using `apiary-data-lake` v6.0.0.  It should show no changes needed.
+  - Now run an apply of the code.
+  - Now you can make changes to use any other v6.0.0 features or make any other changes you want.  E.g, setting `enable_data_events_sqs` in schemas.
+- This version of `apiary-data-lake` requires at least Terraform `0.12.21`
+    
 ## [5.3.2] - 2020-03-26
 ### Added
 - Add S3 replication permissions to producer bucket policy.

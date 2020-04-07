@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "HIVE_DB_NAMES"
-            value = join(",", local.apiary_managed_schema_names_original)
+            value = join(",", local.schemas_info[*]["schema_name"])
           }
           env {
             name  = "INSTANCE_NAME"

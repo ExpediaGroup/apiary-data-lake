@@ -114,6 +114,7 @@ apiary_managed_schemas = [
    s3_storage_class = "INTELLIGENT_TIERING"
    s3_object_expiration_days = 60
    tags=jsonencode({ Domain = "search", ComponentInfo = "1234" })
+   enable_data_events_sqs = "1"
   }
 ]
 ```
@@ -122,6 +123,7 @@ apiary_managed_schemas = [
 Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | schema_name | Name of the S3 bucket. Full name will be `apiary_instance-aws_account-aws_region-schema_name`. | string | - | yes |
+| enable_data_events_sqs | If set to `"1"`, S3 data event notifications for `ObjectCreated` and `ObjectRemoved` will be sent to an SQS queue for processing by external systems. | string | - | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string | "30" | No |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. For valid values for S3 Storage classes, reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | string | "INTELLIGENT_TIERING" | No |
 | s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |

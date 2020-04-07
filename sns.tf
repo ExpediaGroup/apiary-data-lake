@@ -28,8 +28,10 @@ POLICY
 }
 
 resource "aws_sns_topic" "apiary_data_events" {
-  count = "${ var.enable_data_events == "" ? 0 : length(var.apiary_managed_schemas) }"
-  name  = "${local.instance_alias}-${local.apiary_managed_schema_names_replaced[count.index]}-data-events"
+  for_each = var.enable_data_events == "1" ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
+  } : {}
+  name  = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
 
   policy = <<POLICY
 {
@@ -38,11 +40,34 @@ resource "aws_sns_topic" "apiary_data_events" {
         "Effect": "Allow",
         "Principal": {"AWS":"*"},
         "Action": "SNS:Publish",
-        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${local.apiary_managed_schema_names_replaced[count.index]}-data-events",
+        "Resource": "arn:aws:sns:*:*:${local.instance_alias}-${each.value["resource_suffix"]}-data-events",
         "Condition":{
-            "ArnLike":{"aws:SourceArn":"${aws_s3_bucket.apiary_data_bucket.*.arn[count.index]}"}
+            "ArnLike":{"aws:SourceArn":"${aws_s3_bucket.apiary_data_bucket[each.key].arn}"}
         }
     }]
 }
 POLICY
 }
+
+resource "aws_sqs_queue" "apiary_data_event_queue" {
+  count = local.create_sqs_data_event_queue ? 1 : 0
+  name = "${local.instance_alias}-data-event-queue"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "s3.amazonaws.com" },
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:*:*:${local.instance_alias}-data-event-queue",
+      "Condition":{
+          "ArnLike":{"aws:SourceArn":"arn:aws:s3:::${local.apiary_bucket_prefix}-*"}
+      }
+    }
+  ]
+}
+POLICY
+}
+
