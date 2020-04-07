@@ -3,12 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.0.0] - TBD
+## [6.0.0] - 2020-04-08
 ### Added
 - Per-schema option to send S3 data notifications to an SQS queue.  See `enable_data_events_sqs` in the [apiary_managed_schemas](VARIABLES.md#apiary_managed_schemas) section of [VARIABLES.md](VARIABLES.md)
 ### Changed
 - Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
   - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
+- Removed variable `s3_block_public_access` - Blocking of public access to Apiary S3 buckets is now mandatory.
+- The following variables changed type from `string` to `bool` since the `string` was acting as a boolean pre-TF0.12:
+  - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`, 
+  - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`  
+- Removed quoted variable types in `variables.tf` to follow Terraform 0.12 standards and remove warnings.
 ### Notes
 - *THIS IS A BREAKING CHANGE.* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
   - See the `migrate.py` script in the `scripts` folder.
@@ -27,8 +32,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
     - `python migrate.py --dryrun --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate`
     - `python migrate.py --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate`
     - Note that appropriate AWS credentials will be needed for S3: AWS_PROFILE, AWS_DEFAULT_REGION, etc.
-  - Upgrade `apiary-terraform-app` to use `apiary-data-lake` v6.0.0.  Do NOT make any changes in the variables that
-    are passed to the `apiary-data-lake` module.  If you are not yet using TF 0.12.21+, please upgrade to 0.12.21.
+  - Upgrade `apiary-terraform-app` to use `apiary-data-lake` v6.0.0. If you are not yet using TF 0.12.21+, please upgrade to 0.12.21.
+  - Make _only_ the following changes to your `.tf` file that references the `apiary-data-lake` module. Don't make any additions or other changes:
+    - If your app is setting `s3_block_public_access`, remove reference to that variable.  Public access blocks are now mandatory.
+    - If your app is setting any of the following variables that changed type to `bool`, change the passed value to `true` or `false`:
+      - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`, 
+      - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`  
+      - If current code is setting those to `"1"` (or anything non-blank), change to `true.`  If setting to `""`, change to `false`.
   - Now run a plan of your `apiary-terraform-app` that is using `apiary-data-lake` v6.0.0.  It should show no changes needed.
   - Now run an apply of the code.
   - Now you can make changes to use any other v6.0.0 features or make any other changes you want.  E.g, setting `enable_data_events_sqs` in schemas.
