@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018-2019 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -85,15 +85,15 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "SNS_ARN"
-            value = var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)
+            value = var.enable_metadata_events ? join("", aws_sns_topic.apiary_metadata_events.*.arn) : ""
           }
           env {
             name  = "TABLE_PARAM_FILTER"
-            value = var.enable_metadata_events == "" ? "" : var.table_param_filter
+            value = var.enable_metadata_events ? var.table_param_filter : ""
           }
           env {
             name  = "ENABLE_METRICS"
-            value = var.enable_hive_metastore_metrics
+            value = var.enable_hive_metastore_metrics ? "TRUE" : ""
           }
           env {
             name  = "HIVE_METASTORE_LOG_LEVEL"

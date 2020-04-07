@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -8,7 +8,7 @@ locals {
   instance_alias                       = "${var.instance_name == "" ? "apiary" : format("apiary-%s", var.instance_name)}"
   apiary_bucket_prefix                 = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   apiary_assume_role_bucket_prefix     = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
-  enable_route53_records               = "${var.apiary_domain_name == "" ? "0" : "1"}"
+  enable_route53_records               = var.apiary_domain_name == "" ? false : true
   #
   # Create a new list of maps with some extra attributes needed later
   #
@@ -42,7 +42,7 @@ data "aws_vpc" "apiary_vpc" {
 }
 
 data "aws_route53_zone" "apiary_zone" {
-  count  = "${local.enable_route53_records}"
+  count  = local.enable_route53_records ? 1 : 0
   name   = "${var.apiary_domain_name}"
   vpc_id = "${var.vpc_id}"
 }

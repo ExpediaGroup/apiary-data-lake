@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018-2019 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -92,7 +92,7 @@ EOF
 }
 
 data "template_file" "ecs_widgets" {
-  count = "${var.hms_instance_type == "ecs" ? length(local.schemas_info) : 0}"
+  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
 
   template = <<EOF
        {

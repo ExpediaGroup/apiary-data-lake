@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+
+#
+# Copyright (C) 2018-2020 Expedia Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+#
+
 import logging
 import json
 import argparse
@@ -205,7 +213,7 @@ def main():
     made_changes |= change_resource_indices(args, logger, tfstate, 'aws_s3_bucket_metric', 'paid_metrics', schema_index_map)
     made_changes |= change_resource_indices(args, logger, tfstate, 'aws_sns_topic', 'apiary_data_events', schema_index_map)
 
-    if not made_changes:
+    if not args.dryrun and not made_changes:
         logger.info('State file was already migrated, no changes made, not saving to {}'.format(args.outfile))
     else:
         logger.info("Saving migrated state to {}".format(args.outfile))
