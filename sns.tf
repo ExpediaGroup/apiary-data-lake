@@ -59,7 +59,7 @@ resource "aws_sqs_queue" "apiary_data_event_queue" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {"AWS":"*"},
+      "Principal": { "Service": "s3.amazonaws.com" },
       "Action": "sqs:SendMessage",
       "Resource": "arn:aws:sqs:*:*:${local.instance_alias}-data-event-queue",
       "Condition":{
