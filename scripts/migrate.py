@@ -29,8 +29,8 @@ except ImportError:
     - Install Python 3 if you don't yet have a Python installation.
     - Install requirements for this script with "pip install -r migrate_requirements.txt".
     - Run this script pointing to your terraform state file.  Script can read from either file system or S3. Run it first with dryrun, then live.  Example:
-      - python migrate.py --dryrun --statefile s3://terraform-state-672016901104-us-east-1/apiary/datalake/terraform.tfstate
-      - python migrate.py --statefile s3://terraform-state-672016901104-us-east-1/apiary/datalake/terraform.tfstate
+      - python migrate.py --dryrun --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate
+      - python migrate.py --statefile s3://<bucket_name>/<path_to_statefile>/terraform.tfstate
       - Note that appropriate AWS credentials will be needed for S3: AWS_PROFILE, AWS_DEFAULT_REGION, etc.
     - Upgrade "apiary-terraform-app" to use "apiary-data-lake" v6.0.0.  Do NOT make any changes in the variables that
       are passed to the "apiary-data-lake" module.  If you are not yet using TF 0.12.21+, please upgrade to 0.12.21.
