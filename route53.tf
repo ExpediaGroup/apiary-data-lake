@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2018-2019 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
 resource "aws_route53_record" "hms_readwrite_alias" {
-  count   = "${local.enable_route53_records}"
+  count   = local.enable_route53_records ? 1 : 0
   zone_id = "${data.aws_route53_zone.apiary_zone[0].zone_id}"
   name    = "${local.instance_alias}-hms-readwrite"
   type    = "A"
@@ -18,7 +18,7 @@ resource "aws_route53_record" "hms_readwrite_alias" {
 }
 
 resource "aws_route53_record" "hms_readonly_alias" {
-  count   = "${local.enable_route53_records}"
+  count   = local.enable_route53_records ? 1 : 0
   zone_id = "${data.aws_route53_zone.apiary_zone[0].zone_id}"
   name    = "${local.instance_alias}-hms-readonly"
   type    = "A"

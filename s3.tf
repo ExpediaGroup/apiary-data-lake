@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -93,9 +93,9 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
-  for_each = var.s3_block_public_access == true ? {
+  for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-  } : {}
+  }
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   block_public_acls   = true
@@ -104,9 +104,9 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
 }
 
 resource "aws_s3_bucket_notification" "data_events" {
-  for_each = var.enable_data_events == "" ? {} : {
+  for_each = var.enable_data_events ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
-  }
+  } : {}
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   topic {
@@ -127,9 +127,9 @@ resource "aws_s3_bucket_notification" "data_queue_events" {
 
 
 resource "aws_s3_bucket_metric" "paid_metrics" {
-  for_each = var.enable_s3_paid_metrics == "" ? {} : {
+  for_each = var.enable_s3_paid_metrics ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-  }
+  } : {}
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
   name   = "EntireBucket"
 }

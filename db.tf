@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -68,7 +68,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   tags                                = "${var.apiary_tags}"
   final_snapshot_identifier           = "${local.instance_alias}-cluster-final-${random_id.snapshot_id[0].hex}"
   iam_database_authentication_enabled = true
-  apply_immediately                   = "${var.db_apply_immediately}"
+  apply_immediately                   = var.db_apply_immediately
 
   lifecycle {
     create_before_destroy = true

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -19,11 +19,11 @@ data "template_file" "hms_readwrite" {
     loggroup                   = "${join("", aws_cloudwatch_log_group.apiary_ecs.*.name)}"
     hive_metastore_log_level   = "${var.hms_log_level}"
     nofile_ulimit              = "${var.hms_nofile_ulimit}"
-    enable_metrics             = "${var.enable_hive_metastore_metrics}"
+    enable_metrics             = var.enable_hive_metastore_metrics ? "1" : ""
     managed_schemas            = join(",", local.schemas_info[*]["schema_name"])
     instance_name              = "${local.instance_alias}"
-    sns_arn                    = "${var.enable_metadata_events == "" ? "" : join("", aws_sns_topic.apiary_metadata_events.*.arn)}"
-    table_param_filter         = "${var.enable_metadata_events == "" ? "" : var.table_param_filter}"
+    sns_arn                    = var.enable_metadata_events ? join("", aws_sns_topic.apiary_metadata_events.*.arn) : ""
+    table_param_filter         = var.enable_metadata_events ? var.table_param_filter : ""
     enable_gluesync            = "${var.enable_gluesync}"
     gluedb_prefix              = "${local.gluedb_prefix}"
 
@@ -67,7 +67,7 @@ data "template_file" "hms_readonly" {
     loggroup                   = "${join("", aws_cloudwatch_log_group.apiary_ecs.*.name)}"
     hive_metastore_log_level   = "${var.hms_log_level}"
     nofile_ulimit              = "${var.hms_nofile_ulimit}"
-    enable_metrics             = "${var.enable_hive_metastore_metrics}"
+    enable_metrics             = var.enable_hive_metastore_metrics ? "1" : ""
     shared_schemas             = "${join(",", var.apiary_shared_schemas)}"
     instance_name              = "${local.instance_alias}"
 

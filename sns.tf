@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -9,7 +9,7 @@ resource "aws_sns_topic" "apiary_ops_sns" {
 }
 
 resource "aws_sns_topic" "apiary_metadata_events" {
-  count = "${ var.enable_metadata_events == "" ? 0 : 1 }"
+  count = var.enable_metadata_events ? 1 : 0
   name  = "${local.instance_alias}-metadata-events"
 
   policy = <<POLICY
@@ -28,7 +28,7 @@ POLICY
 }
 
 resource "aws_sns_topic" "apiary_data_events" {
-  for_each = var.enable_data_events == "1" ? {
+  for_each = var.enable_data_events ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
   } : {}
   name  = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"

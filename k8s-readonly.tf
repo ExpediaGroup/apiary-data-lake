@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018-2019 Expedia Inc.
+ * Copyright (C) 2018-2020 Expedia, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
@@ -85,7 +85,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
           env {
             name  = "ENABLE_METRICS"
-            value = var.enable_hive_metastore_metrics
+            value = var.enable_hive_metastore_metrics ? "1" : ""
           }
           env {
             name  = "HIVE_METASTORE_LOG_LEVEL"

@@ -18,7 +18,7 @@
 | atlas_kafka_bootstrap_servers | Atlas kafka bootstrap servers. | string | `` | no |
 | atlas_cluster_name | Name of the Atlas cluster where metastore plugin will send DDL events.  Defaults to `var.instance_name` if not set. | string | `` | no |
 | aws_region | AWS region. | string | - | yes |
-| db_apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window. | string | `false` | no |
+| db_apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window. | bool | `false` | no |
 | db_backup_retention | The number of days to retain backups for the RDS Metastore DB. | string | - | yes |
 | db_backup_window | Preferred backup window for the RDS Metastore DB in UTC. | string | `02:00-03:00` | no |
 | db_instance_class | Instance type for the RDS Metastore DB. | string | - | yes |
@@ -30,11 +30,11 @@
 | docker_registry_auth_secret_name | Docker Registry authentication SecretManager secret name. | string | `` | no |
 | ecs_domain_extension | Domain name to use for hosted zone created by ECS service discovery. | string | `lcl` | no |
 | elb_timeout | Idle timeout for Apiary ELB. | string | `1800` | no |
-| enable_data_events | Enable managed buckets S3 event notifications. | string | `` | no |
-| enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | string | `` | no |
-| enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | string | `` | no |
-| enable_metadata_events | Enable Hive Metastore SNS listener. | string | `` | no |
-| enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | string | `` | no |
+| enable_data_events | Enable managed buckets S3 event notifications. | bool | `false` | no |
+| enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | bool | `false` | no |
+| enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | bool | `false` | no |
+| enable_metadata_events | Enable Hive Metastore SNS listener. | bool | `false` | no |
+| enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | bool | `false` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
 | hms_docker_image | Docker image ID for the Hive Metastore. | string | - | yes |
@@ -62,7 +62,6 @@
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| s3_block_public_access | Variable to enable S3 Block Public Access. | bool | `false` | no |
 | s3_enable_inventory | Enable S3 inventory configuration. | bool | `false` | no |
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
