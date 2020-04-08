@@ -9,10 +9,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
   - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
-- Removed variable `s3_block_public_access` - Blocking of public access to Apiary S3 buckets is now mandatory.
-- The following variables changed type from `string` to `bool` since the `string` was acting as a boolean pre-TF0.12:
+- The following variables changed type from `string` to `bool` since the `string` was acting as a boolean pre-TF 0.12:
   - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`, 
-  - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`  
+  - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`
+### Removed
+- Removed variable `s3_block_public_access` - Blocking of public access to Apiary S3 buckets is now mandatory.
 - Removed quoted variable types in `variables.tf` to follow Terraform 0.12 standards and remove warnings.
 ### Notes
 - *THIS IS A BREAKING CHANGE.* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
