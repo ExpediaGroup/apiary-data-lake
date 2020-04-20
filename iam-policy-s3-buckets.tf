@@ -174,9 +174,9 @@ resource "aws_iam_role_policy" "s3_inventory_for_hms_readonly" {
 EOF
 }
 
-resource "aws_iam_role_policy" "s3_inventory_for_hms_readwrite" {
-  count = var.s3_enable_inventory ? 1 : 0
-  name  = "s3-inventory"
+resource "aws_iam_role_policy" "s3_access_logs_for_hms_readwrite" {
+  count = local.enable_apiary_s3_log_management ? 1 : 0
+  name  = "s3-access-logs"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
