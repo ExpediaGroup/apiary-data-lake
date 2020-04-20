@@ -141,6 +141,10 @@
      {
       "name": "ENABLE_S3_INVENTORY",
       "value": "${s3_enable_inventory}"
+     },
+     {
+       "name": "ENABLE_S3_INVENTORY",
+       "value": "${s3_enable_logs}"
      }
     ]
   }

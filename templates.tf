@@ -47,8 +47,9 @@ data "template_file" "hms_readwrite" {
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("", data.aws_secretsmanager_secret.docker_registry.*.arn))}"
 
-    # S3 inventory
-    s3_enable_inventory = var.s3_enable_inventory
+    s3_enable_inventory = var.s3_enable_inventory ? "1" : ""
+    # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
+    s3_enable_logs      = var.apiary_log_bucket == "" ? "1" : ""
   }
 }
 
