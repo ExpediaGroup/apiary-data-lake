@@ -150,8 +150,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_inventory_for_hms_readonly" {
-  count = var.s3_enable_inventory ? 1 : 0
-  name  = "s3-inventory"
+  count = local.enable_apiary_s3_log_management ? 1 : 0
+  name  = "s3-access-logs"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
   policy = <<EOF
@@ -167,6 +167,56 @@ resource "aws_iam_role_policy" "s3_inventory_for_hms_readonly" {
                   "Resource": [
                                 "${format("arn:aws:s3:::%s", local.s3_inventory_bucket)}",
                                 "${format("arn:aws:s3:::%s/*", local.s3_inventory_bucket)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "s3_inventory_for_hms_readwrite" {
+  count = var.s3_enable_inventory ? 1 : 0
+  name  = "s3-inventory"
+  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "${format("arn:aws:s3:::%s", local.apiary_s3_hive_logs_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_s3_hive_logs_bucket)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "s3_access_logs_for_hms_readonly" {
+  count = local.enable_apiary_s3_log_management ? 1 : 0
+  name  = "s3-access-logs"
+  role  = "${aws_iam_role.apiary_hms_readonly.id}"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "${format("arn:aws:s3:::%s", local.apiary_s3_hive_logs_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_s3_hive_logs_bucket)}"
                               ]
                 }
               ]
