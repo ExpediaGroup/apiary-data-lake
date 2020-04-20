@@ -150,8 +150,8 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_inventory_for_hms_readonly" {
-  count = local.enable_apiary_s3_log_management ? 1 : 0
-  name  = "s3-access-logs"
+  count = var.s3_enable_inventory ? 1 : 0
+  name  = "s3-inventory"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
   policy = <<EOF
