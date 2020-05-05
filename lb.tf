@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "apiary_hms_rw_tg" {
   }
   tags = "${var.apiary_tags}"
 
-  depends_on = ["aws_lb.apiary_hms_rw_lb"]
+  depends_on = [aws_lb.apiary_hms_rw_lb]
 }
 
 resource "aws_lb_listener" "hms_rw_listener" {
@@ -54,7 +54,7 @@ resource "aws_lb" "apiary_hms_ro_lb" {
 
 resource "aws_lb_target_group" "apiary_hms_ro_tg" {
   count       = "${var.hms_instance_type == "ecs" ? 1 : 0}"
-  depends_on  = ["aws_lb.apiary_hms_ro_lb"]
+  depends_on  = [aws_lb.apiary_hms_ro_lb]
   name        = "${local.instance_alias}-hms-ro-tg"
   port        = 9083
   protocol    = "TCP"
