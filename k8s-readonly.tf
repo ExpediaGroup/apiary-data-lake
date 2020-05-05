@@ -11,11 +11,11 @@ locals {
 resource "kubernetes_deployment" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "hms-readonly"
+    name      = "${local.instance_alias}-metastore-readonly"
     namespace = "metastore"
 
     labels = {
-      name = "hms-readonly"
+      name = "${local.instance_alias}-metastore-readonly"
     }
   }
 
@@ -23,14 +23,14 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
     replicas = 3
     selector {
       match_labels = {
-        name = "hms-readonly"
+        name = "${local.instance_alias}-metastore-readonly"
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "hms-readonly"
+          name = "${local.instance_alias}-metastore-readonly"
         }
         annotations = {
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
@@ -43,7 +43,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
       spec {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
-          name  = "hms-readonly"
+          name  = "${local.instance_alias}-metastore-readonly"
           port {
             container_port = 9083
           }
@@ -140,7 +140,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
 resource "kubernetes_service" "hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "hms-readonly"
+    name      = "${local.instance_alias}-metastore-readonly"
     namespace = "metastore"
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
@@ -149,7 +149,7 @@ resource "kubernetes_service" "hms_readonly" {
   }
   spec {
     selector = {
-      name = "hms-readonly"
+      name = "${local.instance_alias}-metastore-readonly"
     }
     port {
       port        = 9083

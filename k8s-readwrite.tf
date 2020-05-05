@@ -11,11 +11,11 @@ locals {
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "hms-readwrite"
+    name      = "${local.instance_alias}-metastore-readwrite"
     namespace = "metastore"
 
     labels = {
-      name = "hms-readwrite"
+      name = "${local.instance_alias}-metastore-readwrite"
     }
   }
 
@@ -23,14 +23,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
     replicas = 3
     selector {
       match_labels = {
-        name = "hms-readwrite"
+        name = "${local.instance_alias}-metastore-readwrite"
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "hms-readwrite"
+          name = "${local.instance_alias}-metastore-readwrite"
         }
         annotations = {
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
@@ -43,7 +43,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       spec {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
-          name  = "hms-readwrite"
+          name  = "${local.instance_alias}-metastore-readwrite"
           port {
             container_port = 9083
           }
@@ -173,7 +173,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
 resource "kubernetes_service" "hms_readwrite" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "hms-readwrite"
+    name      = "${local.instance_alias}-metastore-readwrite"
     namespace = "metastore"
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
@@ -182,7 +182,7 @@ resource "kubernetes_service" "hms_readwrite" {
   }
   spec {
     selector = {
-      name = "hms-readwrite"
+      name = "${local.instance_alias}-metastore-readwrite"
     }
     port {
       port        = 9083
