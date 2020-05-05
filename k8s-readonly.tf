@@ -6,16 +6,17 @@
 
 locals {
   hms_ro_heapsize = ceil((var.hms_ro_heapsize * 85) / 100)
+  hms_alias       = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
 }
 
 resource "kubernetes_deployment" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "${local.instance_alias}-metastore-readonly"
+    name      = "${local.hms_alias}-readonly"
     namespace = "metastore"
 
     labels = {
-      name = "${local.instance_alias}-metastore-readonly"
+      name = "${local.hms_alias}-readonly"
     }
   }
 
@@ -23,14 +24,14 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
     replicas = 3
     selector {
       match_labels = {
-        name = "${local.instance_alias}-metastore-readonly"
+        name = "${local.hms_alias}-readonly"
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "${local.instance_alias}-metastore-readonly"
+          name = "${local.hms_alias}-readonly"
         }
         annotations = {
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
@@ -43,7 +44,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
       spec {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
-          name  = "${local.instance_alias}-metastore-readonly"
+          name  = "${local.hms_alias}-readonly"
           port {
             container_port = 9083
           }
@@ -140,7 +141,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
 resource "kubernetes_service" "hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
-    name      = "${local.instance_alias}-metastore-readonly"
+    name      = "${local.hms_alias}-readonly"
     namespace = "metastore"
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
@@ -149,7 +150,7 @@ resource "kubernetes_service" "hms_readonly" {
   }
   spec {
     selector = {
-      name = "${local.instance_alias}-metastore-readonly"
+      name = "${local.hms_alias}-readonly"
     }
     port {
       port        = 9083
