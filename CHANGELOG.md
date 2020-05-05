@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.1.1] - 2020-05-04
+### Changed
+- Fix multiple instance deployment on k8s.
+
 ## [6.1.0] - 2020-04-21
 ### Added
 - If Apiary's default S3 access log management is enabled (i.e., `var.apiary_log_bucket` is not set by the user), signal the Hive metastore to create the Hive database `s3_logs_hive` on startup. This is pre-work to prepare for S3 access-log Hive tables in a future version of Apiary. Requires `apiary-metastore-docker` version `1.13.0` or above.
