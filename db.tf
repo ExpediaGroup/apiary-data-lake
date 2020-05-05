@@ -91,7 +91,7 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
 
 resource "null_resource" "db_iam_auth" {
   count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/db-iam-auth.sh &> /dev/null"
