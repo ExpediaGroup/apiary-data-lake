@@ -7,18 +7,18 @@
 resource "kubernetes_cron_job" "apiary_inventory_repair" {
   count = (var.s3_enable_inventory && var.hms_instance_type == "k8s") ? 1 : 0
   metadata {
-    name      = "s3-inventory-repair"
+    name      = "${local.instance_alias}-s3-inventory-repair"
     namespace = "metastore"
 
     labels = {
-      name = "s3-inventory-repair"
+      name = "${local.instance_alias}-s3-inventory-repair"
     }
   }
 
   spec {
-    concurrency_policy = "Replace"
+    concurrency_policy        = "Replace"
     failed_jobs_history_limit = 5
-    schedule = var.s3_inventory_update_schedule
+    schedule                  = var.s3_inventory_update_schedule
 
     job_template {
       metadata {}
@@ -26,7 +26,7 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
         template {
           metadata {
             labels = {
-              name = "s3-inventory-repair"
+              name = "${local.instance_alias}-s3-inventory-repair"
             }
             annotations = {
               "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
@@ -36,38 +36,38 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
           spec {
             container {
               image   = "${var.hms_docker_image}:${var.hms_docker_version}"
-              name    = "s3-inventory-repair"
-              command = [ "/s3_inventory_repair.sh" ]
+              name    = "${local.instance_alias}-s3-inventory-repair"
+              command = ["/s3_inventory_repair.sh"]
               env {
-                name = "AWS_REGION"
+                name  = "AWS_REGION"
                 value = var.aws_region
               }
               env {
-                name = "AWS_DEFAULT_REGION"
+                name  = "AWS_DEFAULT_REGION"
                 value = var.aws_region
               }
               env {
-                name = "HIVE_DB_NAMES"
+                name  = "HIVE_DB_NAMES"
                 value = join(",", local.schemas_info[*]["schema_name"])
               }
               env {
-                name = "INSTANCE_NAME"
+                name  = "INSTANCE_NAME"
                 value = local.instance_alias
               }
               env {
-                name = "HIVE_METASTORE_LOG_LEVEL"
+                name  = "HIVE_METASTORE_LOG_LEVEL"
                 value = var.hms_log_level
               }
               env {
-                name = "ENABLE_S3_INVENTORY"
+                name  = "ENABLE_S3_INVENTORY"
                 value = var.s3_enable_inventory
               }
               env {
-                name = "APIARY_S3_INVENTORY_TABLE_FORMAT"
+                name  = "APIARY_S3_INVENTORY_TABLE_FORMAT"
                 value = var.s3_inventory_format
               }
               env {
-                name = "APIARY_S3_INVENTORY_PREFIX"
+                name  = "APIARY_S3_INVENTORY_PREFIX"
                 value = local.s3_inventory_prefix
               }
             }

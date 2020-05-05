@@ -106,7 +106,7 @@ resource "null_resource" "db_iam_auth" {
 
 resource "null_resource" "mysql_rw_user" {
   count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
 
   triggers = {
     secret_string = "${md5(data.aws_secretsmanager_secret_version.db_rw_user.secret_string)}"
@@ -129,7 +129,7 @@ resource "null_resource" "mysql_rw_user" {
 
 resource "null_resource" "mysql_ro_user" {
   count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = ["aws_rds_cluster_instance.apiary_cluster_instance"]
+  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
 
   triggers = {
     secret_string = "${md5(data.aws_secretsmanager_secret_version.db_ro_user.secret_string)}"
