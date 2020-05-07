@@ -60,6 +60,12 @@ variable "apiary_log_prefix" {
   default     = ""
 }
 
+variable "apiary_logs_retention_days" {
+  description = "Log retention in days for the Apiary ECS cloudwatch log group."
+  type        = "string"
+  default     = "30"
+}
+
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = bool

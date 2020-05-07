@@ -11,9 +11,10 @@ resource "aws_ecs_cluster" "apiary" {
 }
 
 resource "aws_cloudwatch_log_group" "apiary_ecs" {
-  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
-  name  = "${local.instance_alias}-ecs"
-  tags  = "${var.apiary_tags}"
+  count             = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  name              = "${local.instance_alias}-ecs"
+  retention_in_days = "${var.apiary_logs_retention_days}"
+  tags              = "${var.apiary_tags}"
 }
 
 resource "aws_ecs_task_definition" "apiary_hms_readwrite" {

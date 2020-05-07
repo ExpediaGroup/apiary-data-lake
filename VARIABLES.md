@@ -10,6 +10,7 @@
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
+| apiary_logs_retention_days | Log retention in days for the Apiary ECS cloudwatch log group. | string | `30` | no |
 | apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
