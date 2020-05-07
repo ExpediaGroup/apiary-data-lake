@@ -74,7 +74,7 @@ variable "apiary_shared_schemas" {
 
 variable "apiary_managed_schemas" {
   description = "List of maps, each map contains schema name from which S3 bucket names will be derived, and various properties. The corresponding S3 bucket will be named as apiary_instance-aws_account-aws_region-schema_name."
-  type        = list(any)
+  type        = list(map(string))
   default     = []
 }
 
