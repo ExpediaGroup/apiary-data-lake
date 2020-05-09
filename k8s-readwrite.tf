@@ -5,7 +5,9 @@
  */
 
 locals {
-  hms_rw_heapsize = ceil((var.hms_rw_heapsize * 85) / 100)
+  hms_rw_heapsize   = ceil((var.hms_rw_heapsize * 85) / 100)
+  hms_rw_minthreads = max(25,  ceil((var.hms_rw_heapsize * 12.5) / 100))
+  hms_rw_maxthreads = max(100, ceil((var.hms_rw_heapsize * 50)   / 100))
 }
 
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
@@ -151,6 +153,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
             name  = "ENABLE_S3_LOGS"
             value = local.enable_apiary_s3_log_management ? "1" : ""
+          }
+          env {
+            name  = "HMS_MIN_THREADS"
+            value = local.hms_rw_minthreads
+          }
+          env {
+            name  = "HMS_MAX_THREADS"
+            value = local.hms_rw_maxthreads
           }
 
           resources {

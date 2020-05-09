@@ -143,8 +143,12 @@
       "value": "${s3_enable_inventory}"
      },
      {
-       "name": "ENABLE_S3_LOGS",
-       "value": "${s3_enable_logs}"
+       "name": "HMS_MIN_THREADS",
+       "value": "${hms_minthreads}"
+     },
+     {
+       "name": "HMS_MAX_THREADS",
+       "value": "${hms_maxthreads}"
      }
     ]
   }

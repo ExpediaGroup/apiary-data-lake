@@ -4,6 +4,13 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+locals {
+  hms_ro_minthreads = max(25,  ceil((var.hms_ro_heapsize * 12.5) / 100))
+  hms_ro_maxthreads = max(100, ceil((var.hms_ro_heapsize * 50)   / 100))
+  hms_rw_minthreads = max(25,  ceil((var.hms_rw_heapsize * 12.5) / 100))
+  hms_rw_maxthreads = max(100, ceil((var.hms_rw_heapsize * 50)   / 100))
+}
+
 data "template_file" "hms_readwrite" {
   template = "${file("${path.module}/templates/apiary-hms-readwrite.json")}"
 
@@ -13,6 +20,8 @@ data "template_file" "hms_readwrite" {
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     hive_metastore_access_mode = "readwrite"
     hms_heapsize               = "${var.hms_rw_heapsize}"
+    hms_minthreads             = local.hms_ro_minthreads
+    hms_maxthreads             = local.hms_ro_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
     region                     = "${var.aws_region}"
@@ -62,6 +71,8 @@ data "template_file" "hms_readonly" {
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     hive_metastore_access_mode = "readonly"
     hms_heapsize               = "${var.hms_ro_heapsize}"
+    hms_minthreads             = local.hms_rw_minthreads
+    hms_maxthreads             = local.hms_rw_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
     region                     = "${var.aws_region}"
