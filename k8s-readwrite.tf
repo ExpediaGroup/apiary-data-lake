@@ -4,12 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-locals {
-  hms_rw_heapsize   = ceil((var.hms_rw_heapsize * 85) / 100)
-  hms_rw_minthreads = max(25,  ceil((var.hms_rw_heapsize * 12.5) / 100))
-  hms_rw_maxthreads = max(100, ceil((var.hms_rw_heapsize * 50)   / 100))
-}
-
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {

@@ -4,13 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-locals {
-  hms_ro_heapsize   = ceil((var.hms_ro_heapsize * 85) / 100)
-  hms_ro_minthreads = max(25,  ceil((var.hms_ro_heapsize * 12.5) / 100))
-  hms_ro_maxthreads = max(100, ceil((var.hms_ro_heapsize * 50)   / 100))
-  hms_alias       = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
-}
-
 resource "kubernetes_deployment" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
