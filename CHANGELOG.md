@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.1.2] - TBD
 ### Added
-- Added apiary_logs_retention_days variable that sets the default retention period of the apiary cloudwatch group. The default is 30 days.
+- Added apiary_cloudwatch_logs_retention_days variable that sets the default retention period of the apiary cloudwatch group. The default is 30 days.
 
 ## [6.1.1] - 2020-05-04
 ### Changed
