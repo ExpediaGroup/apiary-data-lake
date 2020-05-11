@@ -101,6 +101,14 @@
       {
         "name": "ENABLE_METRICS",
         "value": "${enable_metrics}"
+      },
+      {
+        "name": "HMS_MIN_THREADS",
+        "value": "${hms_minthreads}"
+      },
+      {
+        "name": "HMS_MAX_THREADS",
+        "value": "${hms_maxthreads}"
       }
     ]
   }

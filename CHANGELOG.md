@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.1.3] - 2020-05-11
+### Changed
+- Set min/max size of HMS thread pool based on memory.  Max will be set to 1 connection for every 2MB RAM.  Min will be 0.25% of max.  This will prevent large HMS instances from not having enough threads/connections available.
+
+
 ## [6.1.2] - 2020-05-07
 ### Changed
 - Change type of `apiary_managed_schemas` from `list(any)` to `list(map(string))` to support dynamically-generated schema lists. This type is backward-compatible with previous schema lists.  Schema lists were already lists of maps of strings, but this change makes TF 0.12 work in certain circumstances that were causing a fatal TF error.

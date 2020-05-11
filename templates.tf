@@ -13,6 +13,8 @@ data "template_file" "hms_readwrite" {
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     hive_metastore_access_mode = "readwrite"
     hms_heapsize               = "${var.hms_rw_heapsize}"
+    hms_minthreads             = local.hms_ro_minthreads
+    hms_maxthreads             = local.hms_ro_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
     region                     = "${var.aws_region}"
@@ -62,6 +64,8 @@ data "template_file" "hms_readonly" {
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     hive_metastore_access_mode = "readonly"
     hms_heapsize               = "${var.hms_ro_heapsize}"
+    hms_minthreads             = local.hms_rw_minthreads
+    hms_maxthreads             = local.hms_rw_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
     region                     = "${var.aws_region}"
