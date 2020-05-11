@@ -4,10 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-locals {
-  hms_rw_heapsize = ceil((var.hms_rw_heapsize * 85) / 100)
-}
-
 resource "kubernetes_deployment" "apiary_hms_readwrite" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
@@ -151,6 +147,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
             name  = "ENABLE_S3_LOGS"
             value = local.enable_apiary_s3_log_management ? "1" : ""
+          }
+          env {
+            name  = "HMS_MIN_THREADS"
+            value = local.hms_rw_minthreads
+          }
+          env {
+            name  = "HMS_MAX_THREADS"
+            value = local.hms_rw_maxthreads
           }
 
           resources {

@@ -4,11 +4,6 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-locals {
-  hms_ro_heapsize = ceil((var.hms_ro_heapsize * 85) / 100)
-  hms_alias       = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
-}
-
 resource "kubernetes_deployment" "apiary_hms_readonly" {
   count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
   metadata {
@@ -119,6 +114,14 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           env {
             name  = "LDAP_SECRET_ARN"
             value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
+          }
+          env {
+            name  = "HMS_MIN_THREADS"
+            value = local.hms_ro_minthreads
+          }
+          env {
+            name  = "HMS_MAX_THREADS"
+            value = local.hms_ro_maxthreads
           }
 
           resources {
