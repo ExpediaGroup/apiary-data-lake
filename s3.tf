@@ -22,7 +22,7 @@ data "template_file" "bucket_policy" {
 
     bucket_name       = each.value["data_bucket"]
     producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles, each.key, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"), ",", "\",\"")}"
-    deny_iamroles     = var.deny_iamroles
+    deny_iamroles     = join("\",\"", var.deny_iamroles)
   }
 }
 

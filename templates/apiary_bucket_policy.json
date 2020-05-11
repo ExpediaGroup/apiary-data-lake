@@ -18,7 +18,7 @@
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
-%{if deny_iamroles != []}
+%{if deny_iamroles != ""}
         {
             "Sid": "Local role deny permissions",
             "Effect": "Deny",
@@ -27,7 +27,7 @@
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
               "StringLike": {
-                "aws:PrincipalArn": [ "${join("\",\"",deny_iamroles)}" ]
+                "aws:PrincipalArn": [ "$deny_iamroles}" ]
               }
             }
         },
