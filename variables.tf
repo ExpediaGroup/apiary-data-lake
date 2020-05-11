@@ -95,7 +95,7 @@ variable "apiary_customer_accounts" {
   type        = list(any)
 }
 
-variable "deny_iamroles" {
+variable "apiary_deny_iamroles" {
   description = "AWS IAM roles denied access to Apiary managed S3 buckets."
   type        = list(string)
   default     = []
