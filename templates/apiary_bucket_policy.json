@@ -27,7 +27,7 @@
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
               "StringLike": {
-                "aws:PrincipalArn": [ "$deny_iamroles}" ]
+                "aws:PrincipalArn": [ "${deny_iamroles}" ]
               }
             }
         },
