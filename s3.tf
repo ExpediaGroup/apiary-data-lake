@@ -18,10 +18,11 @@ data "template_file" "bucket_policy" {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
     customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key) ?
       join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) :
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"}"
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"}"
 
     bucket_name       = each.value["data_bucket"]
     producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles, each.key, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"), ",", "\",\"")}"
+    deny_iamroles     = var.deny_iamroles
   }
 }
 
@@ -36,9 +37,9 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = data.template_file.bucket_policy[each.key].rendered
-  tags          = merge(map("Name", each.value["data_bucket"]),
-                        var.apiary_tags,
-                        jsondecode(lookup(each.value, "tags", "{}")))
+  tags = merge(map("Name", each.value["data_bucket"]),
+    var.apiary_tags,
+  jsondecode(lookup(each.value, "tags", "{}")))
 
   logging {
     target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
@@ -120,8 +121,8 @@ resource "aws_s3_bucket_notification" "data_queue_events" {
   bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   queue {
-    queue_arn     = aws_sqs_queue.apiary_data_event_queue[0].arn
-    events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    queue_arn = aws_sqs_queue.apiary_data_event_queue[0].arn
+    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }
 
