@@ -61,8 +61,8 @@ variable "apiary_log_prefix" {
 }
 
 variable "apiary_cloudwatch_logs_retention_days" {
-  description = "Log retention in days for the Apiary ECS cloudwatch log group."
-  type        = "string"
+  description = "Log retention in days for the Apiary ECS Cloudwatch log group."
+  type        = string
   default     = "30"
 }
 
