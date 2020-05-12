@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.1.2] - TBD
+## [6.2.0] - TBD
 ### Added
-- Added apiary_cloudwatch_logs_retention_days variable that sets the default retention period of the apiary cloudwatch group. The default is 30 days.
+- Added `apiary_cloudwatch_logs_retention_days` variable that sets the default retention period of the Apiary Cloudwatch group. The default is 30 days.
 
 ## [6.1.1] - 2020-05-04
 ### Changed
