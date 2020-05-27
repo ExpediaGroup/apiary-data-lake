@@ -92,7 +92,8 @@ variable "external_database_host" {
 
 variable "apiary_customer_accounts" {
   description = "AWS account IDs for clients of this Metastore."
-  type        = list(any)
+  type        = list(string)
+  default     = []
 }
 
 variable "apiary_deny_iamroles" {

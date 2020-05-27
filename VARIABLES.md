@@ -5,7 +5,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | apiary_assume_roles | List of maps - each map describes an IAM role that can be assumed in this account to write data into the configured list of schemas. See section [`apiary_assume_roles`](#apiary_assume_roles) for more info. | list(map) | - | no |
-| apiary_customer_accounts | AWS account IDs for clients of this Metastore. | list | - | yes |
+| apiary_customer_accounts | AWS account IDs for clients of this Metastore. | list | - | no |
 | apiary_database_name | Database name to create in RDS for Apiary. | string | `apiary` | no |
 | apiary_deny_roles | AWS IAM roles denied access to Apiary managed S3 buckets. | list | - | yes |
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |

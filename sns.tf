@@ -12,13 +12,13 @@ resource "aws_sns_topic" "apiary_metadata_events" {
   count = var.enable_metadata_events ? 1 : 0
   name  = "${local.instance_alias}-metadata-events"
 
-  policy = <<POLICY
+  policy = length(var.apiary_customer_accounts) == 0 ? null : <<POLICY
 {
     "Version":"2012-10-17",
     "Statement":[{
         "Effect": "Allow",
         "Principal": {
-            "AWS": [ "${join("\",\"", formatlist("arn:aws:iam::%s:root",var.apiary_customer_accounts))}" ]
+            "AWS": [ "${join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts))}" ]
         },
         "Action": [ "SNS:Subscribe", "SNS:Receive" ],
         "Resource": "arn:aws:sns:*:*:${local.instance_alias}-metadata-events"
@@ -31,7 +31,7 @@ resource "aws_sns_topic" "apiary_data_events" {
   for_each = var.enable_data_events ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
   } : {}
-  name  = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
+  name = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
 
   policy = <<POLICY
 {
@@ -51,7 +51,7 @@ POLICY
 
 resource "aws_sqs_queue" "apiary_data_event_queue" {
   count = local.create_sqs_data_event_queue ? 1 : 0
-  name = "${local.instance_alias}-data-event-queue"
+  name  = "${local.instance_alias}-data-event-queue"
 
   policy = <<POLICY
 {

@@ -17,11 +17,10 @@ data "template_file" "bucket_policy" {
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
     customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key) ?
-      join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) :
-    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"}"
+    join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) : ""}"
 
     bucket_name       = each.value["data_bucket"]
-    producer_iamroles = "${replace(lookup(var.apiary_producer_iamroles, each.key, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"), ",", "\",\"")}"
+    producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
     deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
   }
 }
