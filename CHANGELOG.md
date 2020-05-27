@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.2.1] - 2020-05-27
 ### Changed
-- Optional `customer_principal` and `producer_iamroles` in apiary managed bucket policies.
+- Optional `customer_principal` and `producer_iamroles` in Apiary managed bucket policies.
 
 ## [6.2.0] - 2020-05-11
 ### Added
