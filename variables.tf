@@ -442,11 +442,5 @@ variable "s3_inventory_update_schedule" {
 variable "enable_ranger_logs" {
   description = "Enable Ranger logs archive"
   type        = bool
-  default     = false
-}
-
-variable "ranger_logs_update_schedule" {
-  description = "Cron schedule to update Ranger log tables (if enabled). Defaults to every 12 hours."
-  type        = string
-  default     = "0 */12 * * *"
+  default     = true
 }
