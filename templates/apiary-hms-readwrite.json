@@ -156,7 +156,7 @@
      },
      {
       "name": "ENABLE_RANGER_LOGS",
-      "value": "${s3_ranger_logs}"
+      "value": "${enable_ranger_logs}"
      }
     ]
   }
