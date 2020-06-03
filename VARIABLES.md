@@ -35,6 +35,7 @@
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | bool | `false` | no |
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | bool | `false` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | bool | `false` | no |
+| enable_ranger_logs | Enable storing Ranger Audit logs. | bool | 'false' | no |
 | enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | bool | `false` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
