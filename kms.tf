@@ -1,6 +1,6 @@
 resource "aws_kms_key" "apiary_kms" {
   for_each = {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if schema["encryption"] == "aws:kms"
   }
 
   description = "apiary ${each.key} kms key"
