@@ -21,6 +21,7 @@ data "template_file" "bucket_policy" {
 
     bucket_name       = each.value["data_bucket"]
     encryption        = lookup(each.value, "encryption", "AES256")
+    kms_key_arn       = lookup(each.value, "encryption", "") == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
     producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
     deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
   }
