@@ -4,7 +4,7 @@ resource "aws_kms_key" "apiary_kms" {
   }
 
   description = "apiary ${each.key} kms key"
-  policy      = data.template_file.vault_kms_key_policy[each.key].rendered
+  policy      = data.template_file.apiary_kms_key_policy[each.key].rendered
 
   lifecycle {
     prevent_destroy = true
