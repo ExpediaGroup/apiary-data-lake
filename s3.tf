@@ -20,6 +20,7 @@ data "template_file" "bucket_policy" {
     join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) : ""}"
 
     bucket_name       = each.value["data_bucket"]
+    encryption        = lookup(each.value, "encryption", "AES256")
     producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
     deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
   }
