@@ -20,6 +20,6 @@ data "template_file" "apiary_kms_key_policy" {
 
   vars = {
     admin_roles  = replace(each.value["admin_roles"], ",", "\",\"")
-    client_roles = lookup(each.value, "client_roles", "")
+    client_roles = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
   }
 }
