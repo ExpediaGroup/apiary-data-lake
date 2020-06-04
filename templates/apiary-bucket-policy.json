@@ -29,7 +29,7 @@
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
               "StringNotEquals": {
-                "aws:PrincipalArn": [ "${client_iamroles}" ]
+                "aws:PrincipalArn": [ "${client_roles}" ]
               }
             }
         },
