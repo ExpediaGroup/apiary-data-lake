@@ -12,7 +12,7 @@ data "template_file" "bucket_policy" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
-  template = "${file("${path.module}/templates/apiary_bucket_policy.json")}"
+  template = "${file("${path.module}/templates/apiary-bucket-policy.json")}"
 
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
