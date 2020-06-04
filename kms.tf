@@ -16,12 +16,10 @@ data "template_file" "apiary_kms_key_policy" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if schema["encryption"] == "aws:kms"
   }
 
-  template = file("${path.module}/templates/apiary_kms_key_policy.json")
+  template = file("${path.module}/templates/apiary-kms-key-policy.json")
 
   vars = {
-    aws_region   = data.aws_region.current.name
-    aws_account  = data.aws_caller_identity.current.account_id
-    admin_roles  = replace(schema["admin_roles"], ",", "\",\"")
-    client_roles = ""
+    admin_roles  = replace(each.value["admin_roles"], ",", "\",\"")
+    client_roles = lookup(each.value, "client_roles", "")
   }
 }
