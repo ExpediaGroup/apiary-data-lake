@@ -20,20 +20,6 @@
             ]
         },
 %{endif}
-%{if client_roles != ""}
-        {
-            "Sid": "Only allow access from client roles",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:*",
-            "Resource": "arn:aws:s3:::${bucket_name}/*",
-            "Condition": {
-              "StringNotEquals": {
-                "aws:PrincipalArn": [ "${client_roles}" ]
-              }
-            }
-        },
-%{endif}
 %{if deny_iamroles != ""}
         {
             "Sid": "Local role deny permissions",
