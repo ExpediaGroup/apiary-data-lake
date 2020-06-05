@@ -438,9 +438,3 @@ variable "s3_inventory_update_schedule" {
   type        = string
   default     = "0 */12 * * *"
 }
-
-variable "enable_ranger_logs" {
-  description = "Enable Ranger logs archive"
-  type        = bool
-  default     = false
-}

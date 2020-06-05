@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.3.0] - 2020-06-03
+## [6.3.0] - [TBD]
 ### Added
-- If Ranger access logs are enabled, Hive tables will be created for each Ranger service. They will be updated on a scheduled basis signal the Hive metastore to create the Hive database `ranger-access-logs` on startup. This is pre-work to prepare for Ranger access-log Hive tables in a future version of Apiary. Requires `apiary-metastore-docker` version `1.14.0` or above.
+- If Ranger access logs are enabled, Hive tables will be created for each Ranger service in `ranger-access-logs` database. This is pre-work to prepare for Ranger access-log Hive tables in a future version of Apiary. Requires `apiary-metastore-docker` version `1.15.0` or above.
 
 
 ## [6.2.1] - 2020-05-27

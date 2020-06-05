@@ -158,7 +158,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "ENABLE_RANGER_LOGS"
-            value = var.enable_ranger_logs ? "1" : ""
+            value = var.ranger_policy_manager_url != "" ? "1" : ""
           }
 
           resources {
