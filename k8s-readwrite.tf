@@ -156,10 +156,6 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "HMS_MAX_THREADS"
             value = local.hms_rw_maxthreads
           }
-          env {
-            name  = "ENABLE_RANGER_LOGS"
-            value = var.ranger_policy_manager_url != "" ? "1" : ""
-          }
 
           resources {
             limits {

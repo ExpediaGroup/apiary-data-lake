@@ -153,10 +153,6 @@
      {
        "name": "HMS_MAX_THREADS",
        "value": "${hms_maxthreads}"
-     },
-     {
-      "name": "ENABLE_RANGER_LOGS",
-      "value": "${enable_ranger_logs}"
      }
     ]
   }
