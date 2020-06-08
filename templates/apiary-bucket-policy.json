@@ -94,10 +94,24 @@
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
                 "StringNotEquals": {
-                    "s3:x-amz-server-side-encryption": "AES256"
+                    "s3:x-amz-server-side-encryption": "${encryption}"
                 }
             }
         },
+%{if kms_key_arn != ""}
+        {
+          "Sid": "DenyWrongKMSKey",
+          "Effect": "Deny",
+          "Principal": "*",
+          "Action": "s3:PutObject",
+          "Resource": "arn:aws:s3:::${bucket_name}/*",
+          "Condition": {
+            "StringNotEquals": {
+              "s3:x-amz-server-side-encryption-aws-kms-key-id": "${kms_key_arn}"
+            }
+          }
+        },
+%{endif}
         {
             "Sid": "DenyUnEncryptedObjectUploads",
             "Effect": "Deny",
