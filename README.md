@@ -54,7 +54,7 @@ module "apiary" {
         schema_name = "secure_db",
         encryption   = "aws:kms"
         admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
-        client_roles = "role3_arn,role4_arn" //s3 bucket read/write, kms key usage will be restricted to these roles.
+        client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
     }
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
