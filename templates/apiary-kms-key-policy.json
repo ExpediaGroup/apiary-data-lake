@@ -37,26 +37,26 @@
     },
 %{endif}
     {
-      "Sid": "AllowAdminAllKMS",
+      "Sid": "Allow access for Key Administrators",
       "Effect": "Allow",
       "Principal": {
         "AWS": [ "${admin_roles}" ]
       },
-      "Action": "kms:*",
-      "Resource": "*"
-    },
-    {
-      "Sid": "DenyAdminKMSKeyUsage",
-      "Effect": "Deny",
-      "Principal": {
-        "AWS": [ "${admin_roles}" ]
-      },
       "Action": [
-        "kms:Decrypt",
-        "kms:Encrypt",
-        "kms:GenerateDataKey",
-        "kms:ReEncryptFrom",
-        "kms:ReEncryptTo"
+        "kms:Create*",
+        "kms:Describe*",
+        "kms:Enable*",
+        "kms:List*",
+        "kms:Put*",
+        "kms:Update*",
+        "kms:Revoke*",
+        "kms:Disable*",
+        "kms:Get*",
+        "kms:Delete*",
+        "kms:TagResource",
+        "kms:UntagResource",
+        "kms:ScheduleKeyDeletion",
+        "kms:CancelKeyDeletion"
       ],
       "Resource": "*"
     }
