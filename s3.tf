@@ -12,7 +12,7 @@ data "template_file" "bucket_policy" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
-  template = "${file("${path.module}/templates/apiary_bucket_policy.json")}"
+  template = "${file("${path.module}/templates/apiary-bucket-policy.json")}"
 
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
@@ -20,8 +20,11 @@ data "template_file" "bucket_policy" {
     join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) : ""}"
 
     bucket_name       = each.value["data_bucket"]
+    encryption        = each.value["encryption"]
+    kms_key_arn       = each.value["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
     producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
     deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
+    client_roles      = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
   }
 }
 
