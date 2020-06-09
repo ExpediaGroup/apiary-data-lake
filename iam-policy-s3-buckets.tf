@@ -226,6 +226,7 @@ EOF
 
 resource "aws_iam_role_policy" "system_logs_for_hms_readwrite" {
 
+  count = local.enable_apiary_s3_log_management ? 1 : 0
   name  = "system-logs"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
@@ -251,6 +252,7 @@ EOF
 
 resource "aws_iam_role_policy" "system_logs_for_hms_readonly" {
 
+  count = local.enable_apiary_s3_log_management ? 1 : 0
   name  = "system-logs"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
