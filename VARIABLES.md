@@ -115,6 +115,9 @@ apiary_managed_schemas = [
    s3_object_expiration_days = 60
    tags=jsonencode({ Domain = "search", ComponentInfo = "1234" })
    enable_data_events_sqs = "1"
+   encryption   = "aws:kms" //supported values for encryption are AES256,aws:kms
+   admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
+   client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
   }
 ]
 ```
@@ -128,3 +131,6 @@ Name | Description | Type | Default | Required |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. For valid values for S3 Storage classes, reference: https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#storage_class | string | "INTELLIGENT_TIERING" | No |
 | s3_object_expiration_days | Number of days after which objects in Apiary managed schema buckets expire. | number | null | No |
 | tags | Additional tags added to the S3 data bucket. The map of tags must be encoded as a string using `jsonencode` (see sample above). If the `var.apiary_tags` collection and the tags passed to `apiary_managed_schemas` both contain the same tag name, the tag value passed to `apiary_managed_schemas` will be used. | string | null | no |
+| encryption | S3 objects encryption type, supported values are AES256,aws:kms. | string | null | no |
+| admin_roles | IAM roles configured with admin access on corresponding KMS keys,required when encryption type is `aws:kms`. | string | null | no |
+| client_roles | IAM roles configured with usage access on corresponding KMS keys,required when encryption type is `aws:kms`. | string | null | no |
