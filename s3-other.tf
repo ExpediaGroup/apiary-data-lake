@@ -44,7 +44,7 @@ resource "aws_s3_bucket_public_access_block" "apiary_inventory_bucket" {
 }
 
 resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
-  count  = local.enable_apiary_system_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_s3_logs_bucket
   acl    = "log-delivery-write"
   tags   = merge(map("Name", local.apiary_s3_logs_bucket), var.apiary_tags)
@@ -72,7 +72,7 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
-  count  = local.enable_apiary_system_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_s3_logs_bucket
 
   block_public_acls   = true
@@ -80,31 +80,31 @@ resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
   ignore_public_acls  = true
 }
 
-//resource "aws_s3_bucket" "apiary_access_logs_hive" {
-//  count  = local.enable_apiary_system_log_management ? 1 : 0
-//  bucket = local.apiary_s3_hive_logs_bucket
-//  tags   = merge(map("Name", local.apiary_s3_hive_logs_bucket), var.apiary_tags)
-//  acl    = "private"
-//  server_side_encryption_configuration {
-//    rule {
-//      apply_server_side_encryption_by_default {
-//        sse_algorithm = "AES256"
-//      }
-//    }
-//  }
-//}
-//
-//resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
-//  count  = local.enable_apiary_system_log_management ? 1 : 0
-//  bucket = local.apiary_s3_hive_logs_bucket
-//
-//  block_public_acls   = true
-//  block_public_policy = true
-//  ignore_public_acls  = true
-//}
+resource "aws_s3_bucket" "apiary_access_logs_hive" {
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  bucket = local.apiary_s3_hive_logs_bucket
+  tags   = merge(map("Name", local.apiary_s3_hive_logs_bucket), var.apiary_tags)
+  acl    = "private"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  bucket = local.apiary_s3_hive_logs_bucket
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
 
 resource "aws_s3_bucket" "apiary_system_logs" {
-  count  = local.enable_apiary_system_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_system_logs_bucket
   tags   = merge(map("Name", local.apiary_system_logs_bucket), var.apiary_tags)
   acl    = "private"
@@ -118,7 +118,7 @@ resource "aws_s3_bucket" "apiary_system_logs" {
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_system_logs" {
-  count  = local.enable_apiary_system_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_system_logs_bucket
 
   block_public_acls   = true
