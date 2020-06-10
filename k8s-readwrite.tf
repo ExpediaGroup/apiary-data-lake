@@ -146,7 +146,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           env {
             # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
             name  = "ENABLE_S3_LOGS"
-            value = local.enable_apiary_s3_log_management ? "1" : ""
+            value = local.enable_apiary_system_log_management ? "1" : ""
           }
           env {
             name  = "HMS_MIN_THREADS"
