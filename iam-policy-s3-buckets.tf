@@ -224,10 +224,10 @@ resource "aws_iam_role_policy" "s3_access_logs_for_hms_readonly" {
 EOF
 }
 
-resource "aws_iam_role_policy" "system_logs_for_hms_readwrite" {
+resource "aws_iam_role_policy" "system_for_hms_readwrite" {
 
-  count = local.enable_apiary_s3_log_management ? 1 : 0
-  name  = "system-logs"
+  count = 1
+  name  = "system"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
   policy = <<EOF
@@ -241,8 +241,8 @@ resource "aws_iam_role_policy" "system_logs_for_hms_readwrite" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "${format("arn:aws:s3:::%s", local.apiary_system_logs_bucket)}",
-                                "${format("arn:aws:s3:::%s/*", local.apiary_system_logs_bucket)}"
+                                "${format("arn:aws:s3:::%s", local.apiary_system_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_system_bucket)}"
                               ]
                 }
               ]
@@ -250,10 +250,10 @@ resource "aws_iam_role_policy" "system_logs_for_hms_readwrite" {
 EOF
 }
 
-resource "aws_iam_role_policy" "system_logs_for_hms_readonly" {
+resource "aws_iam_role_policy" "system_for_hms_readonly" {
 
-  count = local.enable_apiary_s3_log_management ? 1 : 0
-  name  = "system-logs"
+  count = 1
+  name  = "system"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
   policy = <<EOF
@@ -267,8 +267,8 @@ resource "aws_iam_role_policy" "system_logs_for_hms_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "${format("arn:aws:s3:::%s", local.apiary_system_logs_bucket)}",
-                                "${format("arn:aws:s3:::%s/*", local.apiary_system_logs_bucket)}"
+                                "${format("arn:aws:s3:::%s", local.apiary_system_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_system_bucket)}"
                               ]
                 }
               ]

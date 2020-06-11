@@ -103,10 +103,10 @@ resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
   ignore_public_acls  = true
 }
 
-resource "aws_s3_bucket" "apiary_system_logs" {
-  count  = local.enable_apiary_s3_log_management ? 1 : 0
-  bucket = local.apiary_system_logs_bucket
-  tags   = merge(map("Name", local.apiary_system_logs_bucket), var.apiary_tags)
+resource "aws_s3_bucket" "apiary_system" {
+  count  = 1
+  bucket = local.apiary_system_bucket
+  tags   = merge(map("Name", local.apiary_system_bucket), var.apiary_tags)
   acl    = "private"
   server_side_encryption_configuration {
     rule {
@@ -117,9 +117,9 @@ resource "aws_s3_bucket" "apiary_system_logs" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "apiary_system_logs" {
-  count  = local.enable_apiary_s3_log_management ? 1 : 0
-  bucket = local.apiary_system_logs_bucket
+resource "aws_s3_bucket_public_access_block" "apiary_system" {
+  count  = 1
+  bucket = local.apiary_system_bucket
 
   block_public_acls   = true
   block_public_policy = true
