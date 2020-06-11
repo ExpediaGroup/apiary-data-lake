@@ -52,7 +52,7 @@ module "apiary" {
     },
     {
         schema_name = "secure_db",
-        encryption   = "aws:kms"
+        encryption   = "aws:kms" //supported values for encryption are AES256,aws:kms
         admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
         client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
     }
