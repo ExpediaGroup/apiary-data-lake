@@ -156,7 +156,7 @@
      },
      {
        "name": "APIARY_SYSTEM_SCHEMA",
-       "value": "${hms_maxthreads}"
+       "value": "${system_schema_name}"
      }
     ]
   }
