@@ -42,6 +42,7 @@ data "template_file" "hms_readwrite" {
     ldap_secret_arn               = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
     kafka_bootstrap_servers       = var.kafka_bootstrap_servers
     kafka_topic_name              = var.kafka_topic_name
+    system_schema_name            = var.system_schema_name
 
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1"}"
