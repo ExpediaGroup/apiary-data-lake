@@ -32,3 +32,4 @@ resource "aws_kms_alias" "apiary_alias" {
   name          = "alias/${local.instance_alias}/${each.value["schema_name"]}"
   target_key_id = aws_kms_key.apiary_kms[each.key].key_id
 }
+  
