@@ -156,6 +156,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "HMS_MAX_THREADS"
             value = local.hms_rw_maxthreads
           }
+          env {
+            name  = "APIARY_SYSTEM_SCHEMA"
+            value = var.system_schema_name
+          }
 
           resources {
             limits {

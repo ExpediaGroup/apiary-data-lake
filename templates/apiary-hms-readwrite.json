@@ -153,6 +153,10 @@
      {
        "name": "HMS_MAX_THREADS",
        "value": "${hms_maxthreads}"
+     },
+     {
+       "name": "APIARY_SYSTEM_SCHEMA",
+       "value": "${hms_maxthreads}"
      }
     ]
   }

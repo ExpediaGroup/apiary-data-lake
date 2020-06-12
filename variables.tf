@@ -439,7 +439,7 @@ variable "s3_inventory_update_schedule" {
   default     = "0 */12 * * *"
 }
 
-variable "system_database_name" {
+variable "system_schema_name" {
   description = "Name for the internal system database"
   type        = string
   default     = "apiary_system"
