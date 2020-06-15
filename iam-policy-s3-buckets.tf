@@ -226,7 +226,6 @@ EOF
 
 resource "aws_iam_role_policy" "system_for_hms_readwrite" {
 
-  count = 1
   name  = "system"
   role  = "${aws_iam_role.apiary_hms_readwrite.id}"
 
@@ -252,7 +251,6 @@ EOF
 
 resource "aws_iam_role_policy" "system_for_hms_readonly" {
 
-  count = 1
   name  = "system"
   role  = "${aws_iam_role.apiary_hms_readonly.id}"
 
