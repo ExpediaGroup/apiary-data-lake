@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.4.0] - [TBD]
 ### Added
-- Create `apiary_system` database and buckets. This is pre-fork for Ranger access logs Hive tables and other system data. Requires `apiary-metastore-docker` version `1.15.0` or above.
+- Create `apiary_system` database and buckets. This is pre-work for Ranger access logs Hive tables and other system data. Requires `apiary-metastore-docker` version `1.15.0` or above.
 
 ## [6.3.0] - 2020-06-08
 ### Added
