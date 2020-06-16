@@ -102,3 +102,24 @@ resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
   block_public_policy = true
   ignore_public_acls  = true
 }
+
+resource "aws_s3_bucket" "apiary_system" {
+  bucket = local.apiary_system_bucket
+  tags   = merge(map("Name", local.apiary_system_bucket), var.apiary_tags)
+  acl    = "private"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "apiary_system" {
+  bucket = local.apiary_system_bucket
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}

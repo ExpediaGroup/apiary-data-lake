@@ -223,3 +223,53 @@ resource "aws_iam_role_policy" "s3_access_logs_for_hms_readonly" {
 }
 EOF
 }
+
+resource "aws_iam_role_policy" "system_for_hms_readwrite" {
+
+  name  = "system"
+  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "${format("arn:aws:s3:::%s", local.apiary_system_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_system_bucket)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "system_for_hms_readonly" {
+
+  name  = "system"
+  role  = "${aws_iam_role.apiary_hms_readonly.id}"
+
+  policy = <<EOF
+{
+ "Version": "2012-10-17",
+ "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                              "s3:Get*",
+                              "s3:List*"
+                            ],
+                  "Resource": [
+                                "${format("arn:aws:s3:::%s", local.apiary_system_bucket)}",
+                                "${format("arn:aws:s3:::%s/*", local.apiary_system_bucket)}"
+                              ]
+                }
+              ]
+}
+EOF
+}
