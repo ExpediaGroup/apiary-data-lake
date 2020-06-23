@@ -42,7 +42,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           name  = "${local.hms_alias}-sql-init-readonly"
           
           command = ["sh allow-grant.sh"]
-          
+
           env {
             name = "MYSQL_HOST",
             value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
@@ -56,6 +56,22 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           env {
             name = "MYSQL_PERMISSIONS",
             value = "SELECT"
+          }
+
+          env_from {
+            name = "MYSQL_MASTER_CREDS"
+            secret_key_ref {
+              name: kubernetes_secret.hms_secrets[0].metadata.name
+              key: "master_creds"
+            }
+          }
+
+          env_from {
+            name = "MYSQL_USER_CREDS"
+            secret_key_ref {
+              name: kubernetes_secret.hms_secrets[0].metadata.name
+              key: "ro_creds"
+            }
           }
         }
 

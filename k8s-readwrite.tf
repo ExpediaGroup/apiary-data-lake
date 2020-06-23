@@ -57,6 +57,22 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name = "MYSQL_PERMISSIONS",
             value = "ALL"
           }
+
+          env_from {
+            name = "MYSQL_MASTER_CREDS"
+            secret_key_ref {
+              name: kubernetes_secret.hms_secrets[0].metadata.name
+              key: "master_creds"
+            }
+          }
+
+          env_from {
+            name = "MYSQL_USER_CREDS"
+            secret_key_ref {
+              name: kubernetes_secret.hms_secrets[0].metadata.name
+              key: "rw_creds"
+            }
+          }
         }
 
         container {
