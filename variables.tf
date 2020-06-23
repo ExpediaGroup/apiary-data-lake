@@ -444,3 +444,16 @@ variable "system_schema_name" {
   type        = string
   default     = "apiary_system"
 }
+
+
+variable "init_container_image" {
+  description = "Docker image for running HMS init container."
+  type        = string
+  default     = "tbd"
+}
+
+variable "init_container_version" {
+  description = "Docker image version for running HMS init container."
+  type        = string
+  default     = "0.0.1"
+}

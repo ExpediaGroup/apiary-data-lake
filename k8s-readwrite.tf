@@ -37,6 +37,28 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       }
 
       spec {
+        init_container {
+          image = "${var.init_container_image}:${var.init_container_version}"
+          name  = "${local.hms_alias}-sql-init-readwrite"
+          
+          command = ["sh allow-grant.sh"]
+
+          env {
+            name = "MYSQL_HOST",
+            value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
+          }
+
+          env {
+            name = "MYSQL_DB",
+            value = var.apiary_database_name
+          }
+
+          env {
+            name = "MYSQL_PERMISSIONS",
+            value = "ALL"
+          }
+        }
+
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "${local.hms_alias}-readwrite"

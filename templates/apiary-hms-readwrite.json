@@ -1,4 +1,44 @@
-[
+[  {
+   "name": "mysql-setup",
+   "essential": false,
+   "image": "${var.init_container_image}:${var.init_container_version}",
+   ${docker_auth}
+   "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+          "awslogs-group": "${loggroup}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "/"
+      }
+    },
+   "environment": [
+      {
+         "name": "MYSQL_HOST",
+         "value": "${mysql_db_host}"
+      },
+      {
+         "name": "MYSQL_DB",
+         "value": "${mysql_db_name}"
+      },
+      {
+         "name": "MYSQL_PERMISSIONS",
+         "value": "${mysql_permissions}"
+      }
+   ],
+   "secrets": [
+      {
+        "valueFrom": "${mysql_master_cred_arn}",
+        "name": "MYSQL_MASTER_CREDS"
+      },
+      {
+        "valueFrom": "${mysql_user_cred_arn}",
+        "name": "MYSQL_USER_CREDS"
+      }
+   ],
+   "entryPoint": [ "/bin/sh", "-c" ],
+   "workingDirectory": "/init",
+   "command": ["${mysql_commands}"]
+  },
   {
     "name": "apiary-hms-readwrite",
     "image": "${hms_docker_image}:${hms_docker_version}",
@@ -23,6 +63,12 @@
       {
         "containerPort": 9083,
         "hostPort": 9083
+      }
+    ],
+    "dependsOn": [
+      {
+        "containerName": "mysql-setup",
+        "condition": "SUCCESS"
       }
     ],
     "environment":[
