@@ -89,7 +89,9 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   }
 }
 
-resource "random_string" "secret_seed_slug" {
+# In order to avoid resource collision when deleting & immediately recreating SecretsManager secrets in AWS, we set a random suffix on the name of the secret.
+# This allows us to avoid the issue of AWS's imposed 7 day recovery window.
+resource "random_string" "secret_name_suffix" {
   count   = "${var.external_database_host == "" ? var.db_instance_count : 0}"
   length  = 8
   special = false
@@ -97,7 +99,7 @@ resource "random_string" "secret_seed_slug" {
 
 resource "aws_secretsmanager_secret" "apiary_mysql_master_credentials" {
   count                   = "${var.external_database_host == "" ? var.db_instance_count : 0}"
-  name                    = "apiary_db_master_user_${random_string.secret_seed_slug.result}"
+  name                    = "apiary_db_master_user_${random_string.secret_name_suffix.result}"
   tags                    = var.apiary_tags
   recovery_window_in_days = 0
 }
