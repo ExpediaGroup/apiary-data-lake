@@ -99,7 +99,7 @@ resource "random_string" "secret_name_suffix" {
 
 resource "aws_secretsmanager_secret" "apiary_mysql_master_credentials" {
   count                   = "${var.external_database_host == "" ? var.db_instance_count : 0}"
-  name                    = "apiary_db_master_user_${random_string.secret_name_suffix[0].result}"
+  name                    = "${local.instance_alias}_db_master_user_${random_string.secret_name_suffix[0].result}"
   tags                    = var.apiary_tags
   recovery_window_in_days = 0
 }
