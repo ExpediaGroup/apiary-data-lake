@@ -51,7 +51,7 @@ resource "aws_iam_role_policy" "secretsmanager_for_ecs_task_exec" {
           "${join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn))}",
           "${data.aws_secretsmanager_secret.db_rw_user.arn}",
           "${data.aws_secretsmanager_secret.db_ro_user.arn}",
-          "${aws_secretsmanager_secret.apiary_mysql_master_credentials.arn}"
+          "${aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn}"
         ]
     }
 }

@@ -1,4 +1,5 @@
 [
+%{ if init_container_enabled }
   {
     "name": "mysql-setup",
     "essential": false,
@@ -40,6 +41,7 @@
     "workingDirectory": "/init",
     "command": ["${mysql_commands}"]
   },
+%{ endif } 
   {
     "name": "apiary-hms-readonly",
     "image": "${hms_docker_image}:${hms_docker_version}",
@@ -66,12 +68,14 @@
         "hostPort": 9083
       }
     ],
+%{ if init_container_enabled }
     "dependsOn": [
       {
         "containerName": "mysql-setup",
         "condition": "SUCCESS"
       }
     ],
+%{ endif } 
     "environment":[
       {
         "name": "MYSQL_DB_HOST",
