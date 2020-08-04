@@ -90,6 +90,11 @@ variable "external_database_host" {
   default     = ""
 }
 
+variable "enable_vpc_endpoint_services" {
+  type    = bool
+  default = true
+}
+
 variable "apiary_customer_accounts" {
   description = "AWS account IDs for clients of this Metastore."
   type        = list(string)
