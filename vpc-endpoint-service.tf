@@ -14,7 +14,7 @@ resource "aws_vpc_endpoint_service" "hms_readonly" {
 
 resource "aws_vpc_endpoint_connection_notification" "hms_readonly" {
   count                       = var.enable_vpc_endpoint_services ? 1 : 0
-  vpc_endpoint_service_id     = "${aws_vpc_endpoint_service.hms_readonly.id}"
+  vpc_endpoint_service_id     = join("", aws_vpc_endpoint_service.hms_readonly.*.id)
   connection_notification_arn = "${aws_sns_topic.apiary_ops_sns.arn}"
   connection_events           = ["Connect", "Accept", "Reject", "Delete"]
 }
@@ -29,7 +29,7 @@ resource "aws_vpc_endpoint_service" "hms_readwrite" {
 
 resource "aws_vpc_endpoint_connection_notification" "hms_readwrite" {
   count                       = var.enable_vpc_endpoint_services ? 1 : 0
-  vpc_endpoint_service_id     = "${aws_vpc_endpoint_service.hms_readwrite.id}"
+  vpc_endpoint_service_id     = join("", aws_vpc_endpoint_service.hms_readwrite.*.id)
   connection_notification_arn = "${aws_sns_topic.apiary_ops_sns.arn}"
   connection_events           = ["Connect", "Accept", "Reject", "Delete"]
 }
