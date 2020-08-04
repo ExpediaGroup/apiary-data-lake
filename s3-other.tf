@@ -100,6 +100,11 @@ resource "aws_s3_bucket" "apiary_access_logs_hive" {
       }
     }
   }
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
