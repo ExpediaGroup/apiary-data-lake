@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 - Variable to disable metastore VPC endpoint services.
 - Add `abort_incomplete_multipart_upload_days` to all S3 buckets.
+- [Issue 167](https://github.com/ExpediaGroup/apiary-data-lake/issues/167) Fix gluesync in ECS deployments.
 
 ## [6.4.1] - 2020-06-18
 ### Fixed
