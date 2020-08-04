@@ -91,8 +91,9 @@ variable "external_database_host" {
 }
 
 variable "enable_vpc_endpoint_services" {
-  type    = bool
-  default = true
+  description = "Enable metastore VPC endpoint services,for cross-account access."
+  type        = bool
+  default     = true
 }
 
 variable "apiary_customer_accounts" {
