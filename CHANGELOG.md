@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.4.2] - 2020-08-04
+### Fixed
+- Variable to disable metastore VPC endpoint services.
+- Add `abort_incomplete_multipart_upload_days` to all S3 buckets.
+- [Issue 167](https://github.com/ExpediaGroup/apiary-data-lake/issues/167) Fix gluesync in ECS deployments.
+
 ## [6.4.1] - 2020-06-18
 ### Fixed
 - [Issue 162](https://github.com/ExpediaGroup/apiary-data-lake/issues/162) Add explicit dependency for S3 public access block to resolve race condition.
