@@ -60,6 +60,8 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
   lifecycle_rule {
     enabled = true
 
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+
     transition {
       days          = 30
       storage_class = "INTELLIGENT_TIERING"
