@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [?.?.?] - ????-??-??
 ### Fixed
-- [Issue 169](https://github.com/ExpediaGroup/apiary-data-lake/issues/167) Added S3:GetBucketAcl to cross-account shared buckets
+- [Issue 169](https://github.com/ExpediaGroup/apiary-data-lake/issues/169) Added S3:GetBucketAcl to cross-account shared buckets
 
 ## [6.4.2] - 2020-08-04
 ### Fixed
