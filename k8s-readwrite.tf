@@ -76,6 +76,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             value = join(",", local.schemas_info[*]["schema_name"])
           }
           env {
+            name  = "HIVE_DBS_TO_DELETE"
+            value = join(",", var.apiary_delete_schemas[*]["schema_name"])
+          }
+          env {
+            name  = "ENABLE_SCHEMA_DELETION"
+            value = var.enable_schema_deletion ? "1" : ""
+          }
+          env {
             name  = "INSTANCE_NAME"
             value = local.instance_alias
           }

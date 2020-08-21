@@ -78,6 +78,18 @@ variable "apiary_managed_schemas" {
   default     = []
 }
 
+variable "apiary_delete_schemas" {
+  description = "List of maps, each map contains schema name which will be deleted from the Hive metastore, and its corresponding S3 bucket deleted."
+  type        = list(map(string))
+  default     = []
+}
+
+variable "enable_schema_deletion" {
+  description = "Boolean to enable schema deletion. If false, then any schemas in 'apiary_delete_schemas' will not be deleted."
+  type        = bool
+  default     = false
+}
+
 variable "external_data_buckets" {
   description = "Buckets that are not managed by Apiary but added to Hive Metastore IAM role access."
   type        = list(any)

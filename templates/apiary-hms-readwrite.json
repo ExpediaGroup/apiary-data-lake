@@ -55,6 +55,14 @@
         "value": "${managed_schemas}"
      },
      {
+        "name": "HIVE_DBS_TO_DELETE",
+        "value": "${delete_schemas}"
+     },
+     {
+        "name": "ENABLE_SCHEMA_DELETION",
+        "value": "${enable_schema_deletion}"
+     },
+     {
         "name": "INSTANCE_NAME",
         "value": "${instance_name}"
      },

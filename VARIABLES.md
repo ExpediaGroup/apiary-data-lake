@@ -12,6 +12,7 @@
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
 | apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
+| apiary_delete_schemas | List of maps - each map contains schema name which will be deleted from the Hive metastore, and its corresponding S3 bucket deleted. | list(map) | - | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
@@ -35,6 +36,7 @@
 | enable_gluesync | Enable metadata sync from Hive to the Glue catalog. | bool | `false` | no |
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | bool | `false` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | bool | `false` | no |
+| enable_schema_deletion | Enable deletion of Hive schemas (from `var.apiary_delete_schemas`) when HMS starts. | bool | `false` | no |
 | enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | bool | `false` | no |
 | enable_vpc_endpoint_services | Enable metastore VPC endpoint services,for cross-account access. | bool | `true` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
