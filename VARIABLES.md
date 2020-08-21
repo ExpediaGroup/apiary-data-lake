@@ -12,7 +12,7 @@
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
 | apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
-| apiary_delete_schemas | List of maps - each map contains schema name which will be deleted from the Hive metastore, and its corresponding S3 bucket deleted. | list(map) | - | no |
+| apiary_delete_schemas | List of maps - each map contains schema name which will be deleted from the Hive metastore. This will NOT delete the corresponding S3 data. | list(map) | - | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |

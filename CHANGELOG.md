@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.5.0] - TBD
+### Added
+- Add the option of deleting certain Hive databases when the metastore starts up. This will only delete metadata from the HMS, not actual S3 data or buckets. Will also enable cascading-deletes on the MySQL tables before deleting, then will remove cascading-deletes. See variables `enable_schema_deletion` and `apiary_delete_schemas` in [VARIABLES.md](VARIABLES.md).
+
 ## [6.4.3] - 2020-08-12
 ### Fixed
 - [Issue 169](https://github.com/ExpediaGroup/apiary-data-lake/issues/169) Added S3:GetBucketAcl to cross-account shared buckets
