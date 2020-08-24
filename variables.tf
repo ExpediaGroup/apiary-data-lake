@@ -79,7 +79,7 @@ variable "apiary_managed_schemas" {
 }
 
 variable "apiary_delete_schemas" {
-  description = "List of maps, each map contains schema name which will be deleted from the Hive metastore, and its corresponding S3 bucket deleted."
+  description = "List of maps, each map contains the schema name which will be deleted from the Hive metastore. Entry is a list of maps to allow for future properties in each entry that will control optional delete-time functionality."
   type        = list(map(string))
   default     = []
 }

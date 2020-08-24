@@ -137,3 +137,22 @@ Name | Description | Type | Default | Required |
 | encryption | S3 objects encryption type, supported values are AES256,aws:kms. | string | null | no |
 | admin_roles | IAM roles configured with admin access on corresponding KMS keys,required when encryption type is `aws:kms`. | string | null | no |
 | client_roles | IAM roles configured with usage access on corresponding KMS keys,required when encryption type is `aws:kms`. | string | null | no |
+
+### apiary_delete_schemas
+
+A list of maps. Aach map contains the schema name which will be deleted from the Hive metastore. Entry is a list of maps to allow for future properties in each entry that will control optional delete-time functionality.
+
+An example entry looks like:
+```
+apiary_delete_schemas = [
+  {
+   schema_name = "deleteme_schema"
+  }
+]
+```
+
+`apiary_delete_schemas` map entry fields:
+
+Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| schema_name | Name of the schema to be deleted. | string | - | yes |
