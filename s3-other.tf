@@ -32,6 +32,12 @@ resource "aws_s3_bucket" "apiary_inventory_bucket" {
   ]
 }
 EOF
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
+
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_inventory_bucket" {
@@ -59,6 +65,8 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
 
   lifecycle_rule {
     enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
     transition {
       days          = 30
@@ -92,6 +100,11 @@ resource "aws_s3_bucket" "apiary_access_logs_hive" {
       }
     }
   }
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
@@ -113,6 +126,11 @@ resource "aws_s3_bucket" "apiary_system" {
         sse_algorithm = "AES256"
       }
     }
+  }
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
   }
 }
 
