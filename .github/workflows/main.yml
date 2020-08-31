@@ -1,0 +1,24 @@
+name: Terraform CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Terraform Checks
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Check out code  
+      uses: actions/checkout@v2
+
+    - name: Setup
+      uses: hashicorp/setup-terraform@v1.1.0
+      with:
+        terraform_version: 0.12.29
+
+    - name: Init
+      run: terraform init -backend=false
+
+    - name: Validate
+      run: terraform validate
+      env: 
+        AWS_DEFAULT_REGION: us-west-1
