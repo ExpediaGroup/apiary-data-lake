@@ -52,7 +52,16 @@ data "template_file" "hms_readwrite" {
 
     s3_enable_inventory = var.s3_enable_inventory ? "1" : ""
     # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
-    s3_enable_logs = local.enable_apiary_s3_log_management ? "1" : ""
+    s3_enable_logs      = local.enable_apiary_s3_log_management ? "1" : ""
+
+    # Template vars for init container
+    init_container_enabled = var.external_database_host == "" ? true : false
+    init_container_image = "${var.init_container_image}"
+    init_container_version = "${var.init_container_version}"
+    mysql_permissions = "ALL"
+    mysql_master_cred_arn = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
+    mysql_user_cred_arn = data.aws_secretsmanager_secret.db_rw_user.arn
+    mysql_commands = "sh allow-grant.sh"
   }
 }
 
@@ -89,5 +98,14 @@ data "template_file" "hms_readonly" {
 
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
+
+    # Template vars for init container
+    init_container_enabled = var.external_database_host == "" ? true : false
+    init_container_image = "${var.init_container_image}"
+    mysql_permissions = "SELECT"
+    mysql_write_db = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
+    mysql_master_cred_arn = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
+    mysql_user_cred_arn = data.aws_secretsmanager_secret.db_ro_user.arn
+    mysql_commands = "sh allow-grant.sh"
   }
 }
