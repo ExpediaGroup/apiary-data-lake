@@ -453,13 +453,13 @@ variable "system_schema_name" {
 
 
 variable "init_container_image" {
-  description = "Docker image for running HMS init container."
+  description = "Docker image for running HMS init container. Required if `external_database_host` is unset."
   type        = string
-  default     = "tbd"
+  default     = ""
 }
 
 variable "init_container_version" {
-  description = "Docker image version for running HMS init container."
+  description = "Docker image version for running HMS init container. Required if `external_database_host` is unset."
   type        = string
-  default     = "0.0.1"
+  default     = ""
 }
