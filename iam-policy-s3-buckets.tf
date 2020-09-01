@@ -30,8 +30,8 @@ resource "aws_iam_role_policy" "s3_data_for_hms_readwrite" {
                               "s3:PutObjectVersionTagging"
                             ],
                   "Resource": [
-                                "${local.apiary_bucket_prefix}-*",
-                                "${local.apiary_bucket_prefix}-*/*"
+                                "arn:aws:s3:::${local.apiary_bucket_prefix}-*",
+                                "arn:aws:s3:::${local.apiary_bucket_prefix}-*/*"
                               ]
                 }
               ]
@@ -55,8 +55,8 @@ resource "aws_iam_role_policy" "s3_data_for_hms_readonly" {
                               "s3:List*"
                             ],
                   "Resource": [
-                                "${local.apiary_bucket_prefix}-*",
-                                "${local.apiary_bucket_prefix}-*/*"
+                                "arn:aws:s3:::${local.apiary_bucket_prefix}-*",
+                                "arn:aws:s3:::${local.apiary_bucket_prefix}-*/*"
                               ]
                 }
               ]
