@@ -37,26 +37,26 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       }
 
       spec {
-         dynamic "init_container" {
-           for_each = var.external_database_host == "" ? ["enabled"] : []
-           content {
+        dynamic "init_container" {
+          for_each = var.external_database_host == "" ? ["enabled"] : []
+          content {
             image = "${var.init_container_image}:${var.init_container_version}"
             name  = "${local.hms_alias}-sql-init-readwrite"
-            
-            command = ["sh allow-grant.sh"]
+
+            command = ["sh /allow-grant.sh"]
 
             env {
-              name = "MYSQL_HOST"
+              name  = "MYSQL_HOST"
               value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
             }
 
             env {
-              name = "MYSQL_DB"
+              name  = "MYSQL_DB"
               value = var.apiary_database_name
             }
 
             env {
-              name = "MYSQL_PERMISSIONS"
+              name  = "MYSQL_PERMISSIONS"
               value = "ALL"
             }
 
@@ -65,7 +65,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
               value_from {
                 secret_key_ref {
                   name = kubernetes_secret.hms_secrets[0].metadata[0].name
-                  key = "master_creds"
+                  key  = "master_creds"
                 }
               }
             }
@@ -75,7 +75,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
               value_from {
                 secret_key_ref {
                   name = kubernetes_secret.hms_secrets[0].metadata[0].name
-                  key = "rw_creds"
+                  key  = "rw_creds"
                 }
               }
             }
