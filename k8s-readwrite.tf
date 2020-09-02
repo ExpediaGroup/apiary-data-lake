@@ -40,7 +40,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
         dynamic "init_container" {
           for_each = var.external_database_host == "" ? ["enabled"] : []
           content {
-            image = "${var.init_container_image}:${var.init_container_version}"
+            image = "${var.hms_docker_image}:${var.hms_docker_version}"
             name  = "${local.hms_alias}-sql-init-readwrite"
 
             command = ["sh", "/allow-grant.sh"]

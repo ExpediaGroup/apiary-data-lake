@@ -56,8 +56,6 @@ data "template_file" "hms_readwrite" {
 
     # Template vars for init container
     init_container_enabled = var.external_database_host == "" ? true : false
-    init_container_image   = var.init_container_image
-    init_container_version = var.init_container_version
     mysql_permissions      = "ALL"
     mysql_master_cred_arn  = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
@@ -100,8 +98,6 @@ data "template_file" "hms_readonly" {
 
     # Template vars for init container
     init_container_enabled = var.external_database_host == "" ? true : false
-    init_container_image   = var.init_container_image
-    init_container_version = var.init_container_version
     mysql_permissions      = "SELECT"
     mysql_write_db         = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_master_cred_arn  = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
