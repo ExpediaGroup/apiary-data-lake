@@ -44,7 +44,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             image = "${var.init_container_image}:${var.init_container_version}"
             name  = "${local.hms_alias}-sql-init-readonly"
 
-            command = ["sh /allow-grant.sh"]
+            command = ["sh", "/allow-grant.sh"]
 
             env {
               name  = "MYSQL_HOST"
