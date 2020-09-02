@@ -3,7 +3,7 @@
   {
     "name": "mysql-setup",
     "essential": false,
-    "image": "${var.init_container_image}:${var.init_container_version}",
+    "image": "${init_container_image}:${init_container_version}",
     ${docker_auth}
     "logConfiguration": {
         "logDriver": "awslogs",
