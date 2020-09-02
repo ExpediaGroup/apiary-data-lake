@@ -450,16 +450,3 @@ variable "system_schema_name" {
   type        = string
   default     = "apiary_system"
 }
-
-
-variable "init_container_image" {
-  description = "Docker image for running HMS init container. Required if `external_database_host` is unset."
-  type        = string
-  default     = ""
-}
-
-variable "init_container_version" {
-  description = "Docker image version for running HMS init container. Required if `external_database_host` is unset."
-  type        = string
-  default     = ""
-}

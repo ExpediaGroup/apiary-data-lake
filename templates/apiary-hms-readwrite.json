@@ -3,7 +3,7 @@
   {
     "name": "mysql-setup",
     "essential": false,
-    "image": "${var.init_container_image}:${var.init_container_version}",
+    "image": "${hms_docker_image}:${hms_docker_version}",
     ${docker_auth}
     "logConfiguration": {
         "logDriver": "awslogs",
@@ -37,9 +37,7 @@
         "name": "MYSQL_USER_CREDS"
         }
     ],
-    "entryPoint": [ "/bin/sh", "-c" ],
-    "workingDirectory": "/init",
-    "command": ["${mysql_commands}"]
+    "command": ["sh", "/allow-grant.sh"]
   },
 %{ endif }
   {
