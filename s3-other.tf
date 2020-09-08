@@ -88,6 +88,16 @@ resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
   ignore_public_acls  = true
 }
 
+resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  bucket = aws_s3_bucket.apiary_managed_logs_bucket[0].bucket
+
+  queue {
+    queue_arn = aws_sqs_queue.apiary_managed_logs_queue[0].arn
+    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+  }
+}
+
 resource "aws_s3_bucket" "apiary_access_logs_hive" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_s3_hive_logs_bucket

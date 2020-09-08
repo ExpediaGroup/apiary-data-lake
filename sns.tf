@@ -6,11 +6,13 @@
 
 resource "aws_sns_topic" "apiary_ops_sns" {
   name = "${local.instance_alias}-operational-events"
+  tags = var.apiary_tags
 }
 
 resource "aws_sns_topic" "apiary_metadata_events" {
   count = var.enable_metadata_events ? 1 : 0
   name  = "${local.instance_alias}-metadata-events"
+  tags  = var.apiary_tags
 
   policy = length(var.apiary_customer_accounts) == 0 ? null : <<POLICY
 {
@@ -33,6 +35,8 @@ resource "aws_sns_topic" "apiary_data_events" {
   } : {}
   name = "${local.instance_alias}-${each.value["resource_suffix"]}-data-events"
 
+  tags = var.apiary_tags
+
   policy = <<POLICY
 {
     "Version":"2012-10-17",
@@ -52,6 +56,7 @@ POLICY
 resource "aws_sqs_queue" "apiary_data_event_queue" {
   count = local.create_sqs_data_event_queue ? 1 : 0
   name  = "${local.instance_alias}-data-event-queue"
+  tags  = var.apiary_tags
 
   policy = <<POLICY
 {
@@ -71,3 +76,25 @@ resource "aws_sqs_queue" "apiary_data_event_queue" {
 POLICY
 }
 
+resource "aws_sqs_queue" "apiary_managed_logs_queue" {
+  count = local.enable_apiary_s3_log_management ? 1 : 0
+  name  = "${local.instance_alias}-s3-logs-queue"
+  tags  = var.apiary_tags
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "s3.amazonaws.com" },
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:*:*:${local.instance_alias}-s3-logs-queue",
+      "Condition":{
+          "ArnEquals":{"aws:SourceArn":"arn:aws:s3:::${local.apiary_s3_logs_bucket}"}
+      }
+    }
+  ]
+}
+POLICY
+}
