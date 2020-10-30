@@ -106,6 +106,17 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
   ignore_public_acls  = true
 }
 
+resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_notification" "data_events" {
   for_each = var.enable_data_events ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
