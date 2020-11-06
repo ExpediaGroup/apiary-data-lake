@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.6.1] - 2020-11-06
+### Added
+- Add managed_database_host output.
+
 ## [6.6.0] - 2020-10-30
 ### Added
 - Configure bucket ownership controls on apiary managed buckets,cross account object writes will be owned by bucket instead of writer.
