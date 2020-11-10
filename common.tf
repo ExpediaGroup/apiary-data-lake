@@ -18,6 +18,7 @@ locals {
         encryption : lookup(schema, "encryption", "AES256"),
         resource_suffix : replace(schema["schema_name"], "_", "-"),
         data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
+        customer_accounts : split(",", lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts)))
       },
     schema)
   ]

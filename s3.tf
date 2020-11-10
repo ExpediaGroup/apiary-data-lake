@@ -17,7 +17,7 @@ data "template_file" "bucket_policy" {
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
     customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key) ?
-    join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) : ""}"
+    join("\",\"", formatlist("arn:aws:iam::%s:root", each.value["customer_accounts"])) : ""}"
 
     bucket_name       = each.value["data_bucket"]
     encryption        = each.value["encryption"]
