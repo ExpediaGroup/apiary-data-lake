@@ -90,6 +90,12 @@ variable "external_database_host" {
   default     = ""
 }
 
+variable "enable_vpc_endpoint_services" {
+  description = "Enable metastore VPC endpoint services,for cross-account access."
+  type        = bool
+  default     = true
+}
+
 variable "apiary_customer_accounts" {
   description = "AWS account IDs for clients of this Metastore."
   type        = list(string)
@@ -437,4 +443,10 @@ variable "s3_inventory_update_schedule" {
   description = "Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours."
   type        = string
   default     = "0 */12 * * *"
+}
+
+variable "system_schema_name" {
+  description = "Name for the internal system database"
+  type        = string
+  default     = "apiary_system"
 }

@@ -32,15 +32,30 @@ resource "aws_s3_bucket" "apiary_inventory_bucket" {
   ]
 }
 EOF
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
+
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_inventory_bucket" {
   count  = var.s3_enable_inventory == true ? 1 : 0
-  bucket = local.s3_inventory_bucket
+  bucket = aws_s3_bucket.apiary_inventory_bucket[0].bucket
 
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "apiary_inventory_bucket" {
+  count  = var.s3_enable_inventory == true ? 1 : 0
+  bucket = aws_s3_bucket.apiary_inventory_bucket[0].bucket
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
 
 resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
@@ -60,6 +75,8 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
   lifecycle_rule {
     enabled = true
 
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+
     transition {
       days          = 30
       storage_class = "INTELLIGENT_TIERING"
@@ -73,11 +90,21 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
 
 resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
-  bucket = local.apiary_s3_logs_bucket
+  bucket = aws_s3_bucket.apiary_managed_logs_bucket[0].bucket
 
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+}
+
+resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
+  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  bucket = aws_s3_bucket.apiary_managed_logs_bucket[0].bucket
+
+  queue {
+    queue_arn = aws_sqs_queue.apiary_managed_logs_queue[0].arn
+    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+  }
 }
 
 resource "aws_s3_bucket" "apiary_access_logs_hive" {
@@ -92,11 +119,42 @@ resource "aws_s3_bucket" "apiary_access_logs_hive" {
       }
     }
   }
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
-  bucket = local.apiary_s3_hive_logs_bucket
+  bucket = aws_s3_bucket.apiary_access_logs_hive[0].bucket
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
+
+resource "aws_s3_bucket" "apiary_system" {
+  bucket = local.apiary_system_bucket
+  tags   = merge(map("Name", local.apiary_system_bucket), var.apiary_tags)
+  acl    = "private"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "apiary_system" {
+  bucket = aws_s3_bucket.apiary_system.bucket
 
   block_public_acls   = true
   block_public_policy = true

@@ -26,7 +26,7 @@ data "template_file" "hms_readwrite" {
     instance_name              = "${local.instance_alias}"
     sns_arn                    = var.enable_metadata_events ? join("", aws_sns_topic.apiary_metadata_events.*.arn) : ""
     table_param_filter         = var.enable_metadata_events ? var.table_param_filter : ""
-    enable_gluesync            = "${var.enable_gluesync}"
+    enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
 
     ranger_service_name           = "${local.instance_alias}-metastore"
@@ -42,6 +42,7 @@ data "template_file" "hms_readwrite" {
     ldap_secret_arn               = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
     kafka_bootstrap_servers       = var.kafka_bootstrap_servers
     kafka_topic_name              = var.kafka_topic_name
+    system_schema_name            = var.system_schema_name
 
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1"}"
@@ -51,7 +52,13 @@ data "template_file" "hms_readwrite" {
 
     s3_enable_inventory = var.s3_enable_inventory ? "1" : ""
     # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
-    s3_enable_logs      = local.enable_apiary_s3_log_management ? "1" : ""
+    s3_enable_logs = local.enable_apiary_s3_log_management ? "1" : ""
+
+    # Template vars for init container
+    init_container_enabled = var.external_database_host == "" ? true : false
+    mysql_permissions      = "ALL"
+    mysql_master_cred_arn  = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
+    mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
   }
 }
 
@@ -88,5 +95,12 @@ data "template_file" "hms_readonly" {
 
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
+
+    # Template vars for init container
+    init_container_enabled = var.external_database_host == "" ? true : false
+    mysql_permissions      = "SELECT"
+    mysql_write_db         = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
+    mysql_master_cred_arn  = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn
+    mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
   }
 }

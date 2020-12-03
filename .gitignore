@@ -45,6 +45,7 @@ terraform.tfstate.backup
 *.swp
 *.plan
 terraform.tfstate
+.terraform.tfstate.lock.info
 
 # Netbeans files
 nbactions.xml

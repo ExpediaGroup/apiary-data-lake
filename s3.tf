@@ -16,8 +16,7 @@ data "template_file" "bucket_policy" {
 
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
-    customer_principal = "${length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key) ?
-    join("\",\"", formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)) : ""}"
+    customer_principal = (length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key)) && each.value["customer_accounts"] != "" ? join("\",\"", formatlist("arn:aws:iam::%s:root", split(",", each.value["customer_accounts"]))) : ""
 
     bucket_name       = each.value["data_bucket"]
     encryption        = each.value["encryption"]
@@ -104,6 +103,17 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+}
+
+resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
 }
 
 resource "aws_s3_bucket_notification" "data_events" {

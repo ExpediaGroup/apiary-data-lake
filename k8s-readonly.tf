@@ -37,6 +37,52 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
       }
 
       spec {
+        dynamic "init_container" {
+          for_each = var.external_database_host == "" ? ["enabled"] : []
+
+          content {
+            image = "${var.hms_docker_image}:${var.hms_docker_version}"
+            name  = "${local.hms_alias}-sql-init-readonly"
+
+            command = ["sh", "/allow-grant.sh"]
+
+            env {
+              name  = "MYSQL_HOST"
+              value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
+            }
+
+            env {
+              name  = "MYSQL_DB"
+              value = var.apiary_database_name
+            }
+
+            env {
+              name  = "MYSQL_PERMISSIONS"
+              value = "SELECT"
+            }
+
+            env {
+              name = "MYSQL_MASTER_CREDS"
+              value_from {
+                secret_key_ref {
+                  name = kubernetes_secret.hms_secrets[0].metadata[0].name
+                  key  = "master_creds"
+                }
+              }
+            }
+
+            env {
+              name = "MYSQL_USER_CREDS"
+              value_from {
+                secret_key_ref {
+                  name = kubernetes_secret.hms_secrets[0].metadata[0].name
+                  key  = "ro_creds"
+                }
+              }
+            }
+          }
+        }
+
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "${local.hms_alias}-readonly"

@@ -3,6 +3,60 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.1] - 2020-11-11
+### Fixed
+- Fix managed bucket policy with empty_customer_accounts.
+
+## [6.7.0] - 2020-11-09
+### Added
+- Support to override customer accounts per managed schema.
+
+## [6.6.1] - 2020-11-06
+### Added
+- Add managed_database_host output.
+
+## [6.6.0] - 2020-10-30
+### Added
+- Configure bucket ownership controls on apiary managed buckets,cross account object writes will be owned by bucket instead of writer.
+
+## [6.5.3] - 2020-10-09
+### Added
+- Add metastore load balancer outputs.
+
+## [6.5.2] - 2020-09-08
+### Changed
+- Enable SQS events on managed logs bucket.
+
+## [6.5.1] - 2020-09-02
+### Changed
+- [Issue 165](https://github.com/ExpediaGroup/apiary-data-lake/issues/173) Configure metastore IAM roles using apiary bucket prefix.
+- Fix init container deployment.
+
+## [6.5.0] - 2020-08-31
+### Changed
+- [Issue 165](https://github.com/ExpediaGroup/apiary-data-lake/issues/165) Use init containers instead of `mysql` commands to initialize mysql users.
+
+### Removed
+- `mysql` dependency for this terraform module.
+
+## [6.4.3] - 2020-08-12
+### Fixed
+- [Issue 169](https://github.com/ExpediaGroup/apiary-data-lake/issues/169) Added S3:GetBucketAcl to cross-account shared buckets
+
+## [6.4.2] - 2020-08-04
+### Fixed
+- Variable to disable metastore VPC endpoint services.
+- Add `abort_incomplete_multipart_upload_days` to all S3 buckets.
+- [Issue 167](https://github.com/ExpediaGroup/apiary-data-lake/issues/167) Fix gluesync in ECS deployments.
+
+## [6.4.1] - 2020-06-18
+### Fixed
+- [Issue 162](https://github.com/ExpediaGroup/apiary-data-lake/issues/162) Add explicit dependency for S3 public access block to resolve race condition.
+
+## [6.4.0] - 2020-06-16
+### Added
+- Create `apiary_system` database and buckets. This is pre-work for Ranger access logs Hive tables and other system data. Requires `apiary-metastore-docker` version `1.15.0` or above.
+
 ## [6.3.0] - 2020-06-08
 ### Added
 - Added support for SSE-KMS encryption in Apiary managed S3 bucket.

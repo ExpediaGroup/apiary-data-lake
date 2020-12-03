@@ -18,6 +18,7 @@ locals {
         encryption : lookup(schema, "encryption", "AES256"),
         resource_suffix : replace(schema["schema_name"], "_", "-"),
         data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
+        customer_accounts : lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts))
       },
     schema)
   ]
@@ -33,6 +34,7 @@ locals {
   enable_apiary_s3_log_management = var.apiary_log_bucket == "" ? true : false
   apiary_s3_logs_bucket           = local.enable_apiary_s3_log_management ? "${local.apiary_bucket_prefix}-s3-logs" : ""
   apiary_s3_hive_logs_bucket      = local.enable_apiary_s3_log_management ? "${local.apiary_s3_logs_bucket}-hive" : ""
+  apiary_system_bucket            = "${local.apiary_bucket_prefix}-${replace(var.system_schema_name, "_", "-")}"
 
   hms_ro_heapsize   = ceil((var.hms_ro_heapsize * 85) / 100)
   hms_ro_minthreads = max(25, ceil((var.hms_ro_heapsize * 12.5) / 100))

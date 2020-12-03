@@ -1,4 +1,45 @@
 [
+%{ if init_container_enabled }
+  {
+    "name": "mysql-setup",
+    "essential": false,
+    "image": "${hms_docker_image}:${hms_docker_version}",
+    ${docker_auth}
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${loggroup}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "/"
+        }
+    },
+    "environment": [
+        {
+          "name": "MYSQL_HOST",
+          "value": "${mysql_db_host}"
+        },
+        {
+          "name": "MYSQL_DB",
+          "value": "${mysql_db_name}"
+        },
+        {
+          "name": "MYSQL_PERMISSIONS",
+          "value": "${mysql_permissions}"
+        }
+    ],
+    "secrets": [
+        {
+        "valueFrom": "${mysql_master_cred_arn}",
+        "name": "MYSQL_MASTER_CREDS"
+        },
+        {
+        "valueFrom": "${mysql_user_cred_arn}",
+        "name": "MYSQL_USER_CREDS"
+        }
+    ],
+    "command": ["sh", "/allow-grant.sh"]
+  },
+%{ endif }
   {
     "name": "apiary-hms-readwrite",
     "image": "${hms_docker_image}:${hms_docker_version}",
@@ -25,6 +66,14 @@
         "hostPort": 9083
       }
     ],
+%{ if init_container_enabled }
+    "dependsOn": [
+      {
+        "containerName": "mysql-setup",
+        "condition": "SUCCESS"
+      }
+    ],
+%{ endif }
     "environment":[
      {
         "name": "MYSQL_DB_HOST",
@@ -153,6 +202,10 @@
      {
        "name": "HMS_MAX_THREADS",
        "value": "${hms_maxthreads}"
+     },
+     {
+       "name": "APIARY_SYSTEM_SCHEMA",
+       "value": "${system_schema_name}"
      }
     ]
   }

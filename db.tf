@@ -89,63 +89,28 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   }
 }
 
-resource "null_resource" "db_iam_auth" {
-  count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
-
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/db-iam-auth.sh &> /dev/null"
-
-    environment = {
-      MYSQL_HOST            = "${aws_rds_cluster.apiary_cluster[0].endpoint}"
-      MYSQL_MASTER_USER     = "${aws_rds_cluster.apiary_cluster[0].master_username}"
-      MYSQL_MASTER_PASSWORD = "${aws_rds_cluster.apiary_cluster[0].master_password}"
-    }
-  }
+# In order to avoid resource collision when deleting & immediately recreating SecretsManager secrets in AWS, we set a random suffix on the name of the secret.
+# This allows us to avoid the issue of AWS's imposed 7 day recovery window.
+resource "random_string" "secret_name_suffix" {
+  count   = var.external_database_host == "" ? 1 : 0
+  length  = 8
+  special = false
 }
 
-resource "null_resource" "mysql_rw_user" {
-  count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
-
-  triggers = {
-    secret_string = "${md5(data.aws_secretsmanager_secret_version.db_rw_user.secret_string)}"
-  }
-
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/mysql-user.sh &> /dev/null"
-
-    environment = {
-      MYSQL_HOST            = "${aws_rds_cluster.apiary_cluster[0].endpoint}"
-      MYSQL_MASTER_USER     = "${aws_rds_cluster.apiary_cluster[0].master_username}"
-      MYSQL_MASTER_PASSWORD = "${aws_rds_cluster.apiary_cluster[0].master_password}"
-      MYSQL_DB              = "${var.apiary_database_name}"
-      MYSQL_SECRET_ARN      = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
-      MYSQL_PERMISSIONS     = "ALL"
-      AWS_REGION            = "${var.aws_region}"
-    }
-  }
+resource "aws_secretsmanager_secret" "apiary_mysql_master_credentials" {
+  count                   = var.external_database_host == "" ? 1 : 0
+  name                    = "${local.instance_alias}_db_master_user_${random_string.secret_name_suffix[0].result}"
+  tags                    = var.apiary_tags
+  recovery_window_in_days = 0
 }
 
-resource "null_resource" "mysql_ro_user" {
-  count      = "${var.external_database_host == "" ? 1 : 0}"
-  depends_on = [aws_rds_cluster_instance.apiary_cluster_instance]
-
-  triggers = {
-    secret_string = "${md5(data.aws_secretsmanager_secret_version.db_ro_user.secret_string)}"
-  }
-
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/mysql-user.sh &> /dev/null"
-
-    environment = {
-      MYSQL_HOST            = "${aws_rds_cluster.apiary_cluster[0].endpoint}"
-      MYSQL_MASTER_USER     = "${aws_rds_cluster.apiary_cluster[0].master_username}"
-      MYSQL_MASTER_PASSWORD = "${aws_rds_cluster.apiary_cluster[0].master_password}"
-      MYSQL_DB              = "${var.apiary_database_name}"
-      MYSQL_SECRET_ARN      = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
-      MYSQL_PERMISSIONS     = "SELECT"
-      AWS_REGION            = "${var.aws_region}"
-    }
-  }
+resource "aws_secretsmanager_secret_version" "apiary_mysql_master_credentials" {
+  count     = var.external_database_host == "" ? 1 : 0
+  secret_id = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].id
+  secret_string = jsonencode(
+    map(
+      "username", var.db_master_username,
+      "password", random_string.db_master_password[0].result
+    )
+  )
 }

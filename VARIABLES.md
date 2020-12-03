@@ -36,6 +36,7 @@
 | enable_hive_metastore_metrics | Enable sending Hive Metastore metrics to CloudWatch. | bool | `false` | no |
 | enable_metadata_events | Enable Hive Metastore SNS listener. | bool | `false` | no |
 | enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | bool | `false` | no |
+| enable_vpc_endpoint_services | Enable metastore VPC endpoint services,for cross-account access. | bool | `true` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
 | hms_docker_image | Docker image ID for the Hive Metastore. | string | - | yes |
@@ -118,6 +119,7 @@ apiary_managed_schemas = [
    encryption   = "aws:kms" //supported values for encryption are AES256,aws:kms
    admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
    client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
+   customer_accounts = "account_id1,account_id2" //this will override module level apiary_customer_accounts
   }
 ]
 ```

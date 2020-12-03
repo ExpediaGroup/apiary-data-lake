@@ -55,6 +55,7 @@ module "apiary" {
         encryption   = "aws:kms" //supported values for encryption are AES256,aws:kms
         admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
         client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
+        customer_accounts = "account_id1,account_id2" //this will override module level apiary_customer_accounts
     }
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
