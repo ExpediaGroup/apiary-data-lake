@@ -44,5 +44,5 @@
     ]
   },
   "timezone": "",
-  "title": "S3 Bucket Size"
+  "title": "${instance_alias} S3 Bucket Size"
 }
