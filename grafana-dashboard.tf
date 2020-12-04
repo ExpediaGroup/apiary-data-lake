@@ -17,7 +17,8 @@ data "template_file" "grafana_graphs" {
 data "template_file" "grafana_dashboard_data" {
   template = file("${path.module}/templates/grafana-dashboard.tpl")
   vars = {
-    panels = "[${join(",", data.template_file.grafana_graphs.*.rendered)}]"
+    panels        = "[${join(",", data.template_file.grafana_graphs.*.rendered)}]"
+    instance_alias = local.instance_alias
   }
 }
 
