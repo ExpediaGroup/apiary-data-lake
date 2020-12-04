@@ -3,7 +3,7 @@ resource "aws_kms_key" "apiary_kms" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if schema["encryption"] == "aws:kms"
   }
 
-  description = "apiary ${each.key} kms key"
+  description = "Apiary ${each.key} kms key"
 
   policy      = data.template_file.apiary_kms_key_policy[each.key].rendered
 
