@@ -4,7 +4,6 @@ resource "aws_kms_key" "apiary_kms" {
   }
 
   description = "Apiary ${each.key} kms key"
-
   policy      = data.template_file.apiary_kms_key_policy[each.key].rendered
 
   lifecycle {
