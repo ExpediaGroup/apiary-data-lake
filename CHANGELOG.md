@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.7.2] - TBD
 ### Fixed
-- Fix colliding Grafana dashboard names for miltiple Apiary instances.
+- Fix colliding Grafana dashboard names for multiple Apiary instances.
 
 ## [6.7.1] - 2020-11-11
 ### Fixed
