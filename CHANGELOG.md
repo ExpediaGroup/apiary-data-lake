@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.2] - 2021-01-04
+### Fixed
+- Fix colliding Grafana dashboard names for multiple Apiary instances.
+
 ## [6.7.1] - 2020-11-11
 ### Fixed
 - Fix managed bucket policy with empty_customer_accounts.
