@@ -32,6 +32,7 @@ locals {
   s3_inventory_bucket             = var.s3_enable_inventory ? "${local.apiary_bucket_prefix}-s3-inventory" : ""
   create_sqs_data_event_queue     = contains([for schema in local.schemas_info : lookup(schema, "enable_data_events_sqs", "0")], "1") ? true : false
   enable_apiary_s3_log_management = var.apiary_log_bucket == "" ? true : false
+  enable_apiary_s3_log_hive       = var.apiary_log_bucket == "" && var.enable_apiary_s3_log_hive ? true : false
   apiary_s3_logs_bucket           = local.enable_apiary_s3_log_management ? "${local.apiary_bucket_prefix}-s3-logs" : ""
   apiary_s3_hive_logs_bucket      = local.enable_apiary_s3_log_management ? "${local.apiary_s3_logs_bucket}-hive" : ""
   apiary_system_bucket            = "${local.apiary_bucket_prefix}-${replace(var.system_schema_name, "_", "-")}"
