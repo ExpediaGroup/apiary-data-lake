@@ -49,7 +49,7 @@ variable "aws_region" {
 }
 
 variable "apiary_log_bucket" {
-  description = "Bucket for Apiary logs."
+  description = "Bucket for Apiary logs.If this is blank, module will create a bucket."
   type        = string
   default     = ""
 }
@@ -58,6 +58,12 @@ variable "apiary_log_prefix" {
   description = "Prefix for Apiary logs."
   type        = string
   default     = ""
+}
+
+variable "enable_apiary_s3_log_hive" {
+  description = "Create hive database to archive s3 logs in parquet format.Only applicable when module manages logs S3 bucket."
+  type        = bool
+  default     = true
 }
 
 variable "enable_hive_metastore_metrics" {
