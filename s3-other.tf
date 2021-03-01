@@ -103,12 +103,12 @@ resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
 
   queue {
     queue_arn = aws_sqs_queue.apiary_managed_logs_queue[0].arn
-    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    events    = ["s3:ObjectCreated:*"]
   }
 }
 
 resource "aws_s3_bucket" "apiary_access_logs_hive" {
-  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_hive ? 1 : 0
   bucket = local.apiary_s3_hive_logs_bucket
   tags   = merge(map("Name", local.apiary_s3_hive_logs_bucket), var.apiary_tags)
   acl    = "private"
@@ -127,7 +127,7 @@ resource "aws_s3_bucket" "apiary_access_logs_hive" {
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
-  count  = local.enable_apiary_s3_log_management ? 1 : 0
+  count  = local.enable_apiary_s3_log_hive ? 1 : 0
   bucket = aws_s3_bucket.apiary_access_logs_hive[0].bucket
 
   block_public_acls   = true
