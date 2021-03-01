@@ -6,7 +6,7 @@
 
 resource "aws_iam_role_policy" "cloudwatch_for_hms_readonly" {
   name = "cloudwatch"
-  role = "${aws_iam_role.apiary_hms_readonly.id}"
+  role = aws_iam_role.apiary_hms_readonly.id
 
   policy = <<EOF
 {
@@ -29,7 +29,7 @@ EOF
 
 resource "aws_iam_role_policy" "cloudwatch_for_hms_readwrite" {
   name = "cloudwatch"
-  role = "${aws_iam_role.apiary_hms_readwrite.id}"
+  role = aws_iam_role.apiary_hms_readwrite.id
 
   policy = <<EOF
 {

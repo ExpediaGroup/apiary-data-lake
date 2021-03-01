@@ -5,7 +5,7 @@
  */
 
 resource "kubernetes_deployment" "apiary_hms_readonly" {
-  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
     namespace = "metastore"
@@ -139,27 +139,27 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
           env {
             name  = "RANGER_POLICY_MANAGER_URL"
-            value = "${var.ranger_policy_manager_url}"
+            value = var.ranger_policy_manager_url
           }
           env {
             name  = "RANGER_AUDIT_SOLR_URL"
-            value = "${var.ranger_audit_solr_url}"
+            value = var.ranger_audit_solr_url
           }
           env {
             name  = "LDAP_URL"
-            value = "${var.ldap_url}"
+            value = var.ldap_url
           }
           env {
             name  = "LDAP_CA_CERT"
-            value = "${var.ldap_ca_cert}"
+            value = var.ldap_ca_cert
           }
           env {
             name  = "LDAP_BASE"
-            value = "${var.ldap_base}"
+            value = var.ldap_base
           }
           env {
             name  = "LDAP_SECRET_ARN"
-            value = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
+            value = var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)
           }
           env {
             name  = "HMS_MIN_THREADS"
@@ -188,7 +188,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
 }
 
 resource "kubernetes_service" "hms_readonly" {
-  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
     namespace = "metastore"
@@ -211,6 +211,6 @@ resource "kubernetes_service" "hms_readonly" {
 }
 
 data "aws_lb" "k8s_hms_ro_lb" {
-  count = "${var.hms_instance_type == "k8s" ? 1 : 0}"
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   name  = split("-", split(".", kubernetes_service.hms_readonly.0.load_balancer_ingress.0.hostname).0).0
 }

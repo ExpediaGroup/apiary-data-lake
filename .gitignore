@@ -46,6 +46,7 @@ terraform.tfstate.backup
 *.plan
 terraform.tfstate
 .terraform.tfstate.lock.info
+.terraform.lock.hcl
 
 # Netbeans files
 nbactions.xml

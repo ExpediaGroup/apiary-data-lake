@@ -5,7 +5,7 @@
  */
 
 data "template_file" "s3_widgets" {
-  count = "${length(local.schemas_info)}"
+  count = length(local.schemas_info)
 
   template = <<EOF
        {
@@ -92,7 +92,7 @@ EOF
 }
 
 data "template_file" "ecs_widgets" {
-  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  count = var.hms_instance_type == "ecs" ? 1 : 0
 
   template = <<EOF
        {
@@ -129,7 +129,7 @@ EOF
 }
 
 data "template_file" "nlb_widgets" {
-  count = "${var.hms_instance_type == "ecs" ? 1 : 0}"
+  count = var.hms_instance_type == "ecs" ? 1 : 0
 
   template = <<EOF
        {
@@ -262,7 +262,7 @@ locals {
     },
   ]
 
-  ecs_cluster_name = "${join("", aws_ecs_cluster.apiary.*.name)}"
+  ecs_cluster_name = join("", aws_ecs_cluster.apiary.*.name)
 
   dimensions = [
     {
@@ -288,18 +288,18 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
-  count               = "${var.hms_instance_type == "ecs" ? length(local.alerts) : 0}"
-  alarm_name          = "${lookup(local.alerts[count.index], "alarm_name")}"
-  comparison_operator = "${lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")}"
-  metric_name         = "${lookup(local.alerts[count.index], "metric_name")}"
-  namespace           = "${lookup(local.alerts[count.index], "namespace")}"
-  period              = "${lookup(local.alerts[count.index], "period", "120")}"
-  evaluation_periods  = "${lookup(local.alerts[count.index], "evaluation_periods", "2")}"
+  count               = var.hms_instance_type == "ecs" ? length(local.alerts) : 0
+  alarm_name          = lookup(local.alerts[count.index], "alarm_name")
+  comparison_operator = lookup(local.alerts[count.index], "comparison_operator", "GreaterThanOrEqualToThreshold")
+  metric_name         = lookup(local.alerts[count.index], "metric_name")
+  namespace           = lookup(local.alerts[count.index], "namespace")
+  period              = lookup(local.alerts[count.index], "period", "120")
+  evaluation_periods  = lookup(local.alerts[count.index], "evaluation_periods", "2")
   statistic           = "Average"
-  threshold           = "${lookup(local.alerts[count.index], "threshold")}"
+  threshold           = lookup(local.alerts[count.index], "threshold")
 
   #alarm_description         = "This metric monitors apiary ecs ec2 cpu utilization"
   insufficient_data_actions = []
-  dimensions                = "${local.dimensions[count.index]}"
+  dimensions                = local.dimensions[count.index]
   alarm_actions             = ["${aws_sns_topic.apiary_ops_sns.arn}"]
 }
