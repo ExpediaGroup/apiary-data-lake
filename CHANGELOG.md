@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.3] - 2021-03-01
+### Changed
+- Terraform 0.12+ formatting.
+- Add required version(1.x) for kubernetes provider,to fix issues with 2.x provider.
+
 ## [6.7.2] - 2021-01-04
 ### Fixed
 - Fix colliding Grafana dashboard names for multiple Apiary instances.
