@@ -6,21 +6,21 @@
 
 resource "aws_security_group" "hms_sg" {
   name   = "${local.instance_alias}-hms"
-  vpc_id = "${var.vpc_id}"
-  tags   = "${var.apiary_tags}"
+  vpc_id = var.vpc_id
+  tags   = var.apiary_tags
 
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = "${var.ingress_cidr}"
+    cidr_blocks = var.ingress_cidr
   }
 
   ingress {
     from_port   = 9083
     to_port     = 9083
     protocol    = "tcp"
-    cidr_blocks = "${var.ingress_cidr}"
+    cidr_blocks = var.ingress_cidr
   }
 
   ingress {

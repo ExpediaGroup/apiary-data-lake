@@ -5,7 +5,7 @@
  */
 
 data "template_file" "hms_readwrite" {
-  template = "${file("${path.module}/templates/apiary-hms-readwrite.json")}"
+  template = file("${path.module}/templates/apiary-hms-readwrite.json")
 
   vars = {
     mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
@@ -63,7 +63,7 @@ data "template_file" "hms_readwrite" {
 }
 
 data "template_file" "hms_readonly" {
-  template = "${file("${path.module}/templates/apiary-hms-readonly.json")}"
+  template = file("${path.module}/templates/apiary-hms-readonly.json")
 
   vars = {
     mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host}"

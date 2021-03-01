@@ -23,13 +23,13 @@ resource "aws_iam_role" "apiary_assume_role" {
   ]
 }
 EOF
-  tags               = "${var.apiary_tags}"
+  tags               = var.apiary_tags
 }
 
 resource "aws_iam_role_policy" "apiary_assume_role_s3" {
   count = length(var.apiary_assume_roles)
   name  = "s3_access"
-  role  = "${aws_iam_role.apiary_assume_role[count.index].id}"
+  role  = aws_iam_role.apiary_assume_role[count.index].id
 
   policy = <<EOF
 {

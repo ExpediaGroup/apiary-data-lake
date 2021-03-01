@@ -7,7 +7,7 @@
 resource "aws_iam_role_policy" "sns_for_hms_readwrite" {
   count = var.enable_metadata_events ? 1 : 0
   name  = "sns"
-  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
+  role  = aws_iam_role.apiary_hms_readwrite.id
 
   policy = <<EOF
 {

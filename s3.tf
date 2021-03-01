@@ -12,7 +12,7 @@ data "template_file" "bucket_policy" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
-  template = "${file("${path.module}/templates/apiary-bucket-policy.json")}"
+  template = file("${path.module}/templates/apiary-bucket-policy.json")
 
   vars = {
     #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
@@ -83,8 +83,8 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
 
   destination {
     bucket {
-      format     = "${var.s3_inventory_format}"
-      bucket_arn = "${aws_s3_bucket.apiary_inventory_bucket[0].arn}"
+      format     = var.s3_inventory_format
+      bucket_arn = aws_s3_bucket.apiary_inventory_bucket[0].arn
       encryption {
         sse_s3 {}
       }

@@ -7,7 +7,7 @@
 resource "aws_iam_role_policy" "glue_for_hms_readwrite" {
   count = var.enable_gluesync ? 1 : 0
   name  = "glue"
-  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
+  role  = aws_iam_role.apiary_hms_readwrite.id
 
   policy = <<EOF
 {

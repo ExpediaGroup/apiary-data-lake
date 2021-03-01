@@ -5,9 +5,9 @@
  */
 
 resource "aws_iam_role_policy" "rds_for_hms_readonly" {
-  count = "${var.external_database_host == "" ? 1 : 0}"
+  count = var.external_database_host == "" ? 1 : 0
   name  = "rds"
-  role  = "${aws_iam_role.apiary_hms_readonly.id}"
+  role  = aws_iam_role.apiary_hms_readonly.id
 
   policy = <<EOF
 {
@@ -25,9 +25,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "rds_for_hms_readwrite" {
-  count = "${var.external_database_host == "" ? 1 : 0}"
+  count = var.external_database_host == "" ? 1 : 0
   name  = "rds"
-  role  = "${aws_iam_role.apiary_hms_readwrite.id}"
+  role  = aws_iam_role.apiary_hms_readwrite.id
 
   policy = <<EOF
 {
