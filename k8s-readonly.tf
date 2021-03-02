@@ -205,8 +205,8 @@ resource "kubernetes_service" "hms_readonly" {
       port        = 9083
       target_port = 9083
     }
-    type                        = "LoadBalancer"
-    load_balancer_source_ranges = var.ingress_cidr
+    type                        = var.enable_vpc_endpoint_services ? "LoadBalancer" : "ClusterIP"
+    load_balancer_source_ranges = var.enable_vpc_endpoint_services ? var.ingress_cidr : null
   }
 }
 

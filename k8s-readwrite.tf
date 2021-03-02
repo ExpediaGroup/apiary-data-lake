@@ -241,12 +241,12 @@ resource "kubernetes_service" "hms_readwrite" {
       port        = 9083
       target_port = 9083
     }
-    type                        = "LoadBalancer"
-    load_balancer_source_ranges = var.ingress_cidr
+    type                        = var.enable_vpc_endpoint_services ? "LoadBalancer" : "ClusterIP"
+    load_balancer_source_ranges = var.enable_vpc_endpoint_services ? var.ingress_cidr : null
   }
 }
 
 data "aws_lb" "k8s_hms_rw_lb" {
-  count = var.hms_instance_type == "k8s" ? 1 : 0
+  count = var.hms_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
   name  = split("-", split(".", kubernetes_service.hms_readwrite.0.load_balancer_ingress.0.hostname).0).0
 }
