@@ -97,7 +97,7 @@ variable "external_database_host" {
 }
 
 variable "enable_vpc_endpoint_services" {
-  description = "Enable metastore NLB,Route53 entries VPC access and VPC endpoint services,for cross-account access."
+  description = "Enable metastore NLB, Route53 entries VPC access and VPC endpoint services, for cross-account access."
   type        = bool
   default     = true
 }
