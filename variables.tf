@@ -66,6 +66,30 @@ variable "enable_apiary_s3_log_hive" {
   default     = true
 }
 
+variable "s3_logs_sqs_visibility_timeout_seconds" {
+  description = "Time in seconds after which message will be returned to the queue if it is not deleted."
+  type        = number
+  default     = 3600
+}
+
+variable "s3_logs_sqs_message_retention_seconds" {
+  description = "Time in seconds after which message will be deleted from the queue."
+  type        = number
+  default     = 345600
+}
+
+variable "s3_logs_sqs_delay_seconds" {
+  description = "The time in seconds that the delivery of all messages in the queue will be delayed."
+  type        = number
+  default     = 300
+}
+
+variable "s3_logs_sqs_receive_wait_time_seconds" {
+  description = "The time for which a ReceiveMessage call will wait for a message to arrive (long polling) before returning."
+  type        = number
+  default     = 10
+}
+
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = bool
