@@ -73,7 +73,7 @@ variable "s3_logs_sqs_visibility_timeout_seconds" {
 }
 
 variable "s3_logs_sqs_message_retention_seconds" {
-  description = "Time in seconds after which message will be delete from the queue."
+  description = "Time in seconds after which message will be deleted from the queue."
   type        = number
   default     = 345600
 }
