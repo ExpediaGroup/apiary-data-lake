@@ -69,6 +69,10 @@
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
 | s3_lifecycle_abort_incomplete_multipart_upload_days | Number of days after which incomplete multipart uploads will be deleted. | string  | `7` | no |
+| s3\_logs\_sqs\_delay\_seconds | The time in seconds that the delivery of all messages in the queue will be delayed. | `number` | `300` | no |
+| s3\_logs\_sqs\_message\_retention\_seconds | Time in seconds after which message will be delete from the queue. | `number` | `345600` | no |
+| s3\_logs\_sqs\_receive\_wait\_time\_seconds | The time for which a ReceiveMessage call will wait for a message to arrive (long polling) before returning. | `number` | `10` | no |
+| s3\_logs\_sqs\_visibility\_timeout\_seconds | Time in seconds after which message will be returned to the queue if it is not deleted. | `number` | `3600` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |

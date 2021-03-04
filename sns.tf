@@ -81,6 +81,11 @@ resource "aws_sqs_queue" "apiary_managed_logs_queue" {
   name  = "${local.instance_alias}-s3-logs-queue"
   tags  = var.apiary_tags
 
+  visibility_timeout_seconds = var.s3_logs_sqs_visibility_timeout_seconds
+  message_retention_seconds  = var.s3_logs_sqs_message_retention_seconds
+  delay_seconds              = var.s3_logs_sqs_delay_seconds
+  receive_wait_time_seconds  = var.s3_logs_sqs_receive_wait_time_seconds
+
   policy = <<POLICY
 {
   "Version": "2012-10-17",
