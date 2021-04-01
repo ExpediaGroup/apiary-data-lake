@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.7.8] - 2021-03-30
 ### Changed
-- Added `DenyUnsecureCommunication` policy for `s3-other.tf` buckets
+- Added `DenyUnsecureCommunication` policy for `s3-other.tf` buckets.
 
 ## [6.7.7] - 2021-03-03
 ### Changed
