@@ -55,7 +55,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
     dynamic "transition" {
-      for_each = each.value["s3_object_expiration_days"] == null || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days"] ? [1] : []
+      for_each = each.value["s3_object_expiration_days"] == -1 || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days"] ? [1] : []
 
       content {
         days          = each.value["s3_lifecycle_policy_transition_period"]
@@ -64,7 +64,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-      for_each = each.value["s3_object_expiration_days"] != null ? [1] : []
+      for_each = each.value["s3_object_expiration_days"] != -1 ? [1] : []
       content {
         days = each.value["s3_object_expiration_days"]
       }
