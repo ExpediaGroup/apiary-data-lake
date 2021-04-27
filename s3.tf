@@ -55,7 +55,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 
     dynamic "transition" {
       #for_each = lookup(each.value, "s3_object_expiration_days", null) == null || (lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period) < lookup(each.value, "s3_object_expiration_days", 0)) ? [1] : []
-      for_each = tonumber(lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)) < tonumber(lookup(each.value, "s3_object_expiration_days", 0)) ? [1] : []
+      for_each = lookup(each.value, "s3_object_expiration_days", null) == null ? [1] : []
       content {
         days          = lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
         storage_class = lookup(each.value, "s3_storage_class", var.s3_storage_class)
