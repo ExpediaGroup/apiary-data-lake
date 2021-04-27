@@ -55,21 +55,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
     dynamic "transition" {
-      # The following line works with any integer value as the last part of the comparison - I am just using "30" as an example
-      # for_each = lookup(each.value, "s3_object_expiration_days", null) == null || lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period) < 30 ? [1] : []
-      #
-
-      # The following line fails with this terraform error:
-      #
-      # on .terraform/modules/apiary/s3.tf line 58, in resource "aws_s3_bucket" "apiary_data_bucket":
-      # 58:       for_each = lookup(each.value, "s3_object_expiration_days", null) == null || lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period) < tonumber(lookup(each.value, "s3_object_expiration_days", 0)) ? [1] : []
-      # |----------------
-      # | each.value is object with 8 attributes
-      # | var.s3_lifecycle_policy_transition_period is "30"
-	  #
-      # Error during operation: argument must not be null.
-      #
-      for_each = each.value["s3_object_expiration_days"] == -1 || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days"] ? [1] : []
+      for_each = each.value["s3_object_expiration_days"] == null || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days"] ? [1] : []
 
       content {
         days          = each.value["s3_lifecycle_policy_transition_period"]
@@ -78,7 +64,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-      for_each = each.value["s3_object_expiration_days"] != -1 ? [1] : []
+      for_each = each.value["s3_object_expiration_days"] != null ? [1] : []
       content {
         days = each.value["s3_object_expiration_days"]
       }
