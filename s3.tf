@@ -63,7 +63,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-      for_each = each.value["object_expiration_days_num"] != -1 ? [1] : []
+      for_each = each.value["object_expiration_days_num"] == -1 ? [] : [1]
       content {
         days = each.value["object_expiration_days_num"]
       }
