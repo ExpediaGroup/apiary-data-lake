@@ -20,6 +20,9 @@ locals {
         data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
         customer_accounts : lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts))
         s3_lifecycle_policy_transition_period: lookup(schema, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
+        # Need to change the default "null" value of s3_object_expiration_days to a number so we can compare it
+        # later to s3_lifecycle_policy_transition_period without getting a TF error.  However, TF is doing weird things
+        # when comparing them as actual "number" type (-1), so use a string type ("-1"), which works as expected.
         s3_object_expiration_days_num: coalesce(lookup(schema, "s3_object_expiration_days", "-1"), "-1")
         s3_storage_class = lookup(schema, "s3_storage_class", var.s3_storage_class)
       },
