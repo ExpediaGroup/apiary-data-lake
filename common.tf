@@ -19,6 +19,9 @@ locals {
         resource_suffix : replace(schema["schema_name"], "_", "-"),
         data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
         customer_accounts : lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts))
+        s3_lifecycle_policy_transition_period: lookup(schema, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
+        s3_object_expiration_days: lookup(schema, "s3_object_expiration_days", -1)
+        s3_storage_class = lookup(schema, "s3_storage_class", var.s3_storage_class)
       },
     schema)
   ]
