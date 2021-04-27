@@ -68,7 +68,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 	  #
       # Error during operation: argument must not be null.
       #
-      for_each = lookup(each.value, "s3_object_expiration_days", null) == null || lookup(tomap(each.value), "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period) < lookup(tomap(each.value), "s3_object_expiration_days", 0) ? [1] : []
+      for_each = (lookup(each.value, "s3_object_expiration_days", null) == null) || (lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period) < lookup(each.value, "s3_object_expiration_days", 0)) ? [1] : []
 
       content {
         days          = lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
