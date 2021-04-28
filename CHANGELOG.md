@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.9] - 2021-04-28
+### Fixed
+- If the S3 bucket specifies an expiration TTL in days that is <= the Intelligent-Tiering transition days, don't create
+  a lifecycle `transition` policy. This will prevent errors like:
+  ```
+  Error: Error putting S3 lifecycle: InvalidArgument: 'Days' in the Expiration action for filter '(prefix=)' must be greater than 'Days' in the Transition action
+  ``` 
+
 ## [6.7.8] - 2021-04-01
 ### Changed
 - Added `DenyUnsecureCommunication` policy for `s3-other.tf` buckets.

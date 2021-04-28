@@ -27,6 +27,7 @@ data "template_file" "bucket_policy" {
   }
 }
 
+
 ##
 ### Apiary S3 data buckets
 ##
@@ -53,15 +54,18 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 
     abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
-    transition {
-      days          = lookup(each.value, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
-      storage_class = lookup(each.value, "s3_storage_class", var.s3_storage_class)
+    dynamic "transition" {
+      for_each = each.value["s3_object_expiration_days_num"] == "-1" || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days_num"] ? [1] : []
+      content {
+        days          = each.value["s3_lifecycle_policy_transition_period"]
+        storage_class = each.value["s3_storage_class"]
+      }
     }
 
     dynamic "expiration" {
-      for_each = lookup(each.value, "s3_object_expiration_days", null) != null ? [1] : []
+      for_each = each.value["s3_object_expiration_days_num"] != "-1" ? [1] : []
       content {
-        days = lookup(each.value, "s3_object_expiration_days", null)
+        days = each.value["s3_object_expiration_days_num"]
       }
     }
   }
