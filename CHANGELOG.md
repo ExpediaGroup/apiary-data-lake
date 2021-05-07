@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.8.0] - 2021-05-10
+### Added
+- Add support for Apiary-specific RDS parameter groups.
+- Add variable to specify RDS/MySQL parameter value for `max_allowed_packet` (default 16MB).
+
 ## [6.7.9] - 2021-04-28
 ### Fixed
 - If the S3 bucket specifies an expiration TTL in days that is <= the Intelligent-Tiering transition days, don't create
