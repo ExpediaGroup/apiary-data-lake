@@ -62,7 +62,7 @@ resource aws_rds_cluster_parameter_group "apiary_rds_param_group" {
 
   parameter {
     name  = "max_allowed_packet"
-    value = "16M"
+    value = var.rds_max_allowed_packet
   }
 }
 

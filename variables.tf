@@ -480,3 +480,9 @@ variable "system_schema_name" {
   type        = string
   default     = "apiary_system"
 }
+
+variable "rds_max_allowed_packet" {
+  description = "RDS/MySQL setting for parameter 'max-allowed-packet'. Default is 16MB."
+  type        = number
+  default     = 16777216
+}
