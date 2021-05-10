@@ -64,7 +64,7 @@
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |
 | ranger_audit_solr_url | Ranger Solr audit provider configuration. | string | `` | no |
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
-| rds_max_allowed_packet | RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. | number | `16777216` | no |
+| rds_max_allowed_packet | RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. | number | `134217728` | no |
 | s3_enable_inventory | Enable S3 inventory configuration. | bool | `false` | no |
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |

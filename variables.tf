@@ -482,7 +482,7 @@ variable "system_schema_name" {
 }
 
 variable "rds_max_allowed_packet" {
-  description = "RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. Default is 16MB (Note that MySQL default is 4MB)."
+  description = "RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. Default is 128MB (Note that MySQL default is 4MB)."
   type        = number
-  default     = 16777216
+  default     = 134217728
 }

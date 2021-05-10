@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [6.8.0] - 2021-05-10
 ### Added
 - Add support for Apiary-specific RDS parameter groups.
-- Add variable to specify RDS/MySQL parameter value for `max_allowed_packet` (default 16MB).
+- Add variable to specify RDS/MySQL parameter value for `max_allowed_packet` (default 128MB).
 
 ## [6.7.9] - 2021-04-28
 ### Fixed
