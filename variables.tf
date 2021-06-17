@@ -349,6 +349,12 @@ variable "s3_inventory_format" {
   default     = "ORC"
 }
 
+variable "s3_inventory_customer_accounts" {
+  description = "AWS account IDs allowed to access s3 inventory database."
+  type        = list(string)
+  default     = []
+}
+
 variable "ranger_policy_manager_url" {
   description = "Ranger admin URL to synchronize policies."
   type        = string
