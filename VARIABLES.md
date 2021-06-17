@@ -66,6 +66,7 @@
 | ranger_policy_manager_url | Ranger admin URL to synchronize policies. | string | `` | no |
 | rds_max_allowed_packet | RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. | number | `134217728` | no |
 | s3_enable_inventory | Enable S3 inventory configuration. | bool | `false` | no |
+| s3_inventory_customer_accounts | AWS account IDs allowed to access s3 inventory database. | list | - | no |
 | s3_inventory_format | Output format for S3 inventory results. Can be Parquet, ORC, CSV | string | `ORC` | no |
 | s3_inventory_update_schedule | Cron schedule to update S3 inventory tables (if enabled). Defaults to every 12 hours. | string | `0 */12 * * *` | no |
 | s3_lifecycle_policy_transition_period | Number of days for transition to a different storage class using lifecycle policy. | string  | `30` | no |
