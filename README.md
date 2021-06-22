@@ -59,6 +59,10 @@ module "apiary" {
     }
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
+  apiary_customer_condition = <<EOF
+    "ForAnyValue:StringEquals": {"s3:ExistingObjectTag/security": [ "public"] } ,
+    "StringLike": {"s3:ExistingObjectTag/type": "image*" }
+  EOF
   ingress_cidr             = ["10.0.0.0/8"]
   apiary_assume_roles      = [
     {
