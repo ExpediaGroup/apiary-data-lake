@@ -9,6 +9,11 @@
             "Principal": {
                 "AWS": [ "${customer_principal}" ]
             },
+%{if customer_condition != ""}
+            "Condition": {
+              ${customer_condition}
+            },
+%{endif}
             "Action": [
                 "s3:GetBucketLocation",
                 "s3:GetObject",
@@ -34,6 +39,26 @@
                 "aws:PrincipalArn": [ "${deny_iamroles}" ]
               }
             }
+        },
+%{endif}
+%{if consumer_iamroles != ""}
+        {
+            "Sid": "Apiary consumer iamrole permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [ "${consumer_iamroles}" ]
+            },
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetBucketAcl",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${bucket_name}",
+                "arn:aws:s3:::${bucket_name}/*"
+            ]
         },
 %{endif}
 %{if producer_iamroles != ""}

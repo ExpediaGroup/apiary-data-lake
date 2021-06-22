@@ -132,6 +132,12 @@ variable "apiary_customer_accounts" {
   default     = []
 }
 
+variable "apiary_customer_condition" {
+  description = "IAM policy condition applied to customer account access."
+  type        = string
+  default     = ""
+}
+
 variable "apiary_deny_iamroles" {
   description = "AWS IAM roles denied access to Apiary managed S3 buckets."
   type        = list(string)
@@ -141,6 +147,12 @@ variable "apiary_deny_iamroles" {
 variable "apiary_assume_roles" {
   description = "Cross account AWS IAM roles allowed write access to managed Apiary S3 buckets using assume policy."
   type        = list(any)
+  default     = []
+}
+
+variable "apiary_consumer_iamroles" {
+  description = "AWS IAM roles allowed read access to managed Apiary S3 buckets."
+  type        = list(string)
   default     = []
 }
 
