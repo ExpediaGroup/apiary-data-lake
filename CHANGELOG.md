@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.9.0] - 2021-06-22
+### Added
+- Added apiary_consumer_iamroles variable to grant cross account access to IAM roles.
+- Added apiary_customer_condition variable to restrict access using S3 object tags.
+
 ## [6.8.1] - 2021-06-17
 ### Added
 - Add support for cross account access to s3 inventory.
