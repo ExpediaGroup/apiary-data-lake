@@ -4,7 +4,25 @@
     "Statement": [
 %{if customer_principal != ""}
         {
-            "Sid": "Apiary customer account permissions",
+            "Sid": "Apiary customer account bucket permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [ "${customer_principal}" ]
+            },
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetBucketAcl",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${bucket_name}",
+                "arn:aws:s3:::${bucket_name}/*"
+            ]
+        },
+%{endif}
+%{if customer_principal != ""}
+        {
+            "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
             "Principal": {
                 "AWS": [ "${customer_principal}" ]
@@ -15,11 +33,8 @@
             },
 %{endif}
             "Action": [
-                "s3:GetBucketLocation",
                 "s3:GetObject",
-                "s3:GetObjectAcl",
-                "s3:GetBucketAcl",
-                "s3:ListBucket"
+                "s3:GetObjectAcl"
             ],
             "Resource": [
                 "arn:aws:s3:::${bucket_name}",
