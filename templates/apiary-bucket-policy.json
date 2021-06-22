@@ -15,8 +15,7 @@
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${bucket_name}",
-                "arn:aws:s3:::${bucket_name}/*"
+                "arn:aws:s3:::${bucket_name}"
             ]
         },
 %{endif}
@@ -37,7 +36,6 @@
                 "s3:GetObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::${bucket_name}",
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
