@@ -6,12 +6,14 @@
 |------|-------------|:----:|:-----:|:-----:|
 | apiary_assume_roles | List of maps - each map describes an IAM role that can be assumed in this account to write data into the configured list of schemas. See section [`apiary_assume_roles`](#apiary_assume_roles) for more info. | list(map) | - | no |
 | apiary_customer_accounts | AWS account IDs for clients of this Metastore. | list | - | no |
+| apiary_customer_condition | IAM policy condition applied to customer account s3 access. | string | `` | no |
 | apiary_database_name | Database name to create in RDS for Apiary. | string | `apiary` | no |
 | apiary_deny_roles | AWS IAM roles denied access to Apiary managed S3 buckets. | list | - | yes |
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |
 | apiary_managed_schemas | List of maps - each map entry describes an Apiary schema, along with S3 storage properties for the schema. See section [`apiary_managed_schemas`](#apiary_managed_schemas) for more info. | list(map) | - | no |
+| apiary_consumer_iamroles | AWS IAM roles allowed read access to managed Apiary S3 buckets. | map | `<list>` | no |
 | apiary_producer_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | map | `<map>` | no |
 | apiary_rds_additional_sg | Comma-separated string containing additional security groups to attach to RDS. | list | `<list>` | no |
 | apiary_shared_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | list | `<list>` | no |
