@@ -132,7 +132,7 @@ variable "apiary_customer_accounts" {
   default     = []
 }
 
-variable "apiary_customer_object_condition" {
+variable "apiary_customer_condition" {
   description = "IAM policy condition applied to customer account s3 object access."
   type        = string
   default     = ""
