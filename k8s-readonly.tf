@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
-    namespace = "metastore"
+    namespace = var.k8s_metastore
 
     labels = {
       name = "${local.hms_alias}-readonly"
@@ -191,7 +191,7 @@ resource "kubernetes_service" "hms_readonly" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
-    namespace = "metastore"
+    namespace = var.k8s_metastore
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
       "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"

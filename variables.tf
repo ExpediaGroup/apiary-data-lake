@@ -427,6 +427,11 @@ variable "docker_registry_auth_secret_name" {
   default     = ""
 }
 
+variable "k8s_namespace" {
+  description = "k8s namespace to deploy metastore containers."
+  default     = "metastore"
+}
+
 variable "k8s_docker_registry_secret" {
   description = "Docker Registry authentication K8s secret name."
   type        = string
