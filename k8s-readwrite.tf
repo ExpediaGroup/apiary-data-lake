@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readwrite"
-    namespace = var.k8s_metastore
+    namespace = var.k8s_namespace
 
     labels = {
       name = "${local.hms_alias}-readwrite"
@@ -227,7 +227,7 @@ resource "kubernetes_service" "hms_readwrite" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readwrite"
-    namespace = var.k8s_metastore
+    namespace = var.k8s_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
       "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
