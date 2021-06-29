@@ -26,7 +26,7 @@ resource "kubernetes_config_map" "grafana_dashboard" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.instance_alias}-data-lake-dashboard"
-    namespace = "monitoring"
+    namespace = var.dashboard_namespace
     labels = {
       grafana_dashboard = "true"
     }

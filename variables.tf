@@ -427,6 +427,11 @@ variable "docker_registry_auth_secret_name" {
   default     = ""
 }
 
+variable "dashboard_namespace" {
+  description = "k8s namespace to deploy grafana dashboard."
+  default     = "monitoring"
+}
+
 variable "k8s_namespace" {
   description = "k8s namespace to deploy metastore containers."
   default     = "metastore"
