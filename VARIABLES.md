@@ -79,6 +79,7 @@
 | s3\_logs\_sqs\_visibility\_timeout\_seconds | Time in seconds after which message will be returned to the queue if it is not deleted. | `number` | `3600` | no |
 | s3_storage_class | Destination S3 storage class for transition in the lifecycle policy. | string  | `INTELLIGENT_TIERING` | no |
 | secondary_vpcs | List of VPCs to associate with Service Discovery namespace. | list | `<list>` | no |
+| system_schema_customer_accounts | AWS account IDs allowed to access system database. | list | - | no |
 | table_param_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | string | `` | no |
 | vpc_id | VPC ID. | string | - | yes |
 
