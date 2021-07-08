@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.9.1] - 2021-07-08
+## [6.9.2] - 2021-07-08
 ### Added
 - Added disallow_incompatible_col_type_changes variable to disable hive validation when schema changes. This variable will help Apache Iceberg to make schema-evolution.
+
+## [6.9.1] - 2021-07-08
+### Added
+- Add support for cross account access to system schema.
 
 ## [6.9.0] - 2021-06-22
 ### Added
