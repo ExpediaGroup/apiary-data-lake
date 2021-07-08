@@ -511,3 +511,9 @@ variable "rds_max_allowed_packet" {
   type        = number
   default     = 134217728
 }
+
+variable "disallow_incompatible_col_type_changes" {
+  description = "Hive metastore setting to disallow validation when incompatible schema type changes. Default is false."
+  type        = bool
+  default     = true
+}

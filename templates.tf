@@ -29,20 +29,21 @@ data "template_file" "hms_readwrite" {
     enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
 
-    ranger_service_name           = "${local.instance_alias}-metastore"
-    ranger_policy_manager_url     = "${var.ranger_policy_manager_url}"
-    ranger_audit_solr_url         = "${var.ranger_audit_solr_url}"
-    atlas_kafka_bootstrap_servers = "${var.atlas_kafka_bootstrap_servers}"
-    atlas_cluster_name            = "${local.final_atlas_cluster_name}"
-    ranger_audit_db_url           = "${var.ranger_audit_db_url}"
-    ranger_audit_secret_arn       = "${var.ranger_audit_db_url == "" ? "" : join("", data.aws_secretsmanager_secret.ranger_audit.*.arn)}"
-    ldap_url                      = "${var.ldap_url}"
-    ldap_ca_cert                  = "${var.ldap_ca_cert}"
-    ldap_base                     = "${var.ldap_base}"
-    ldap_secret_arn               = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
-    kafka_bootstrap_servers       = var.kafka_bootstrap_servers
-    kafka_topic_name              = var.kafka_topic_name
-    system_schema_name            = var.system_schema_name
+    ranger_service_name                    = "${local.instance_alias}-metastore"
+    ranger_policy_manager_url              = "${var.ranger_policy_manager_url}"
+    ranger_audit_solr_url                  = "${var.ranger_audit_solr_url}"
+    atlas_kafka_bootstrap_servers          = "${var.atlas_kafka_bootstrap_servers}"
+    atlas_cluster_name                     = "${local.final_atlas_cluster_name}"
+    ranger_audit_db_url                    = "${var.ranger_audit_db_url}"
+    ranger_audit_secret_arn                = "${var.ranger_audit_db_url == "" ? "" : join("", data.aws_secretsmanager_secret.ranger_audit.*.arn)}"
+    ldap_url                               = "${var.ldap_url}"
+    ldap_ca_cert                           = "${var.ldap_ca_cert}"
+    ldap_base                              = "${var.ldap_base}"
+    ldap_secret_arn                        = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
+    kafka_bootstrap_servers                = var.kafka_bootstrap_servers
+    kafka_topic_name                       = var.kafka_topic_name
+    system_schema_name                     = var.system_schema_name
+    disallow_incompatible_col_type_changes = var.disallow_incompatible_col_type_changes
 
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1"}"
