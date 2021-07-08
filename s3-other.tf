@@ -220,6 +220,26 @@ resource "aws_s3_bucket" "apiary_system" {
 {
   "Version":"2012-10-17",
   "Statement":[
+%{if length(var.system_schema_customer_accounts) > 0}
+    {
+        "Sid": "system schema customer account permissions",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [ "${join("\",\"", formatlist("arn:aws:iam::%s:root", var.system_schema_customer_accounts))}" ]
+        },
+        "Action": [
+            "s3:GetBucketLocation",
+            "s3:GetObject",
+            "s3:GetObjectAcl",
+            "s3:GetBucketAcl",
+            "s3:ListBucket"
+        ],
+        "Resource": [
+            "arn:aws:s3:::${local.apiary_system_bucket}",
+            "arn:aws:s3:::${local.apiary_system_bucket}/*"
+        ]
+    },
+%{endif}
     {
       "Sid": "DenyUnSecureCommunications",
       "Effect": "Deny",

@@ -499,6 +499,13 @@ variable "system_schema_name" {
   default     = "apiary_system"
 }
 
+variable "system_schema_customer_accounts" {
+  description = "AWS account IDs allowed to access system database."
+  type        = list(string)
+  default     = []
+}
+
+
 variable "rds_max_allowed_packet" {
   description = "RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. Default is 128MB (Note that MySQL default is 4MB)."
   type        = number
