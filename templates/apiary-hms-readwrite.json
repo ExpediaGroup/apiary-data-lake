@@ -206,6 +206,10 @@
      {
        "name": "APIARY_SYSTEM_SCHEMA",
        "value": "${system_schema_name}"
+     },
+     {
+      "name": "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES",
+      "value": "${disallow_incompatible_col_type_changes}"
      }
     ]
   }
