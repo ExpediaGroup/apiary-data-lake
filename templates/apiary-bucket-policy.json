@@ -18,8 +18,7 @@
                 "arn:aws:s3:::${bucket_name}"
             ]
         },
-%{endif}
-%{if customer_principal != "" && customer_condition == ""}
+%{if customer_condition == ""}
         {
             "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
@@ -34,8 +33,7 @@
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
-%{endif}
-%{if customer_principal != "" && customer_condition != ""}
+%{else}
 %{for condition in split(";",customer_condition)}
         {
             "Sid": "Apiary customer account object permissions",
@@ -55,6 +53,7 @@
             ]
         },
 %{endfor}
+%{endif}
 %{endif}
 %{if deny_iamroles != ""}
         {
