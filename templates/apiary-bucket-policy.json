@@ -36,17 +36,16 @@
         },
 %{endif}
 %{if customer_principal != "" && customer_condition != ""}
+%{for condition in split(";",customer_condition)}
         {
             "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
             "Principal": {
                 "AWS": [ "${customer_principal}" ]
             },
-%{for condition in split(";",customer_condition)}
             "Condition": {
               ${condition}
             },
-%{endfor}
             "Action": [
                 "s3:GetObject",
                 "s3:GetObjectAcl"
@@ -55,6 +54,7 @@
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
+%{endfor}
 %{endif}
 %{if deny_iamroles != ""}
         {
