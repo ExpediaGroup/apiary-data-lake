@@ -4,7 +4,7 @@ resource "kubernetes_service_account" "hms_readwrite" {
     name      = "${local.hms_alias}-readwrite"
     namespace = var.k8s_namespace
     annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.apiary_hms_readwrite.arn
+      "eks.amazonaws.com/role-arn" = var.oidc_provider == "" ? "" : aws_iam_role.apiary_hms_readwrite.arn
     }
   }
   automount_service_account_token = true
@@ -16,7 +16,7 @@ resource "kubernetes_service_account" "hms_readonly" {
     name      = "${local.hms_alias}-readonly"
     namespace = var.k8s_namespace
     annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.apiary_hms_readonly.arn
+      "eks.amazonaws.com/role-arn" = var.oidc_provider == "" ? "" : aws_iam_role.apiary_hms_readonly.arn
     }
   }
   automount_service_account_token = true
