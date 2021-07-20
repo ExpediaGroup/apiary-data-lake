@@ -205,6 +205,10 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "APIARY_SYSTEM_SCHEMA"
             value = var.system_schema_name
           }
+          env {
+            name  = "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES"
+            value = var.disallow_incompatible_col_type_changes
+          }
 
           resources {
             limits {

@@ -59,8 +59,11 @@ module "apiary" {
     }
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
+  # single policy with multiple conditions will use AND operator
+  # https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_multi-value-conditions.html
+  # ; will create seperate policies for each condition, essentially to enable OR operator
   apiary_customer_condition = <<EOF
-    "ForAnyValue:StringEquals": {"s3:ExistingObjectTag/security": [ "public"] } ,
+    "ForAnyValue:StringEquals": {"s3:ExistingObjectTag/security": [ "public"] };
     "StringLike": {"s3:ExistingObjectTag/type": "image*" }
   EOF
   ingress_cidr             = ["10.0.0.0/8"]

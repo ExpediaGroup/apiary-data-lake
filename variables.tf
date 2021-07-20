@@ -509,8 +509,21 @@ variable "system_schema_name" {
   default     = "apiary_system"
 }
 
+variable "system_schema_customer_accounts" {
+  description = "AWS account IDs allowed to access system database."
+  type        = list(string)
+  default     = []
+}
+
+
 variable "rds_max_allowed_packet" {
   description = "RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. Default is 128MB (Note that MySQL default is 4MB)."
   type        = number
   default     = 134217728
+}
+
+variable "disallow_incompatible_col_type_changes" {
+  description = "Hive metastore setting to disallow validation when incompatible schema type changes."
+  type        = bool
+  default     = true
 }
