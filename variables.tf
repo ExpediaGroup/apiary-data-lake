@@ -461,6 +461,16 @@ variable "kiam_arn" {
   default     = ""
 }
 
+variable "oidc_provider_arn" {
+  type    = string
+  default = ""
+}
+
+variable "oidc_provider_url" {
+  type    = string
+  default = ""
+}
+
 variable "s3_storage_class" {
   description = "S3 storage class after transition using lifecycle policy"
   type        = string

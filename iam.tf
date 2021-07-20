@@ -82,6 +82,20 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        },
        "Action": "sts:AssumeRole"
      },
+%{if var.oidc_provider_arn != ""}
+     {
+       "Effect": "Allow",
+       "Principal": {
+         "Federated": "${var.oidc_provider_arn}"
+       },
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+         "StringEquals": {
+           "${replace(var.oidc_provider_url, "https://", "")}:sub": "system:serviceaccount:${var.k8s_namespace}:my-serviceaccount"
+         }
+       }
+     },
+%{endif}
      {
        "Sid": "",
        "Effect": "Allow",
