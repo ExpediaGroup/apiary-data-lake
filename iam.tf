@@ -48,6 +48,20 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        },
        "Action": "sts:AssumeRole"
      },
+%{if var.oidc_provider != ""}
+     {
+       "Effect": "Allow",
+       "Principal": {
+         "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
+       },
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+         "StringEquals": {
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${kubernetes_service_account.hms_readonly[0].metadata.0.name}"
+         }
+       }
+     },
+%{endif}
      {
        "Sid": "",
        "Effect": "Allow",
@@ -82,16 +96,16 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        },
        "Action": "sts:AssumeRole"
      },
-%{if var.oidc_provider_arn != ""}
+%{if var.oidc_provider != ""}
      {
        "Effect": "Allow",
        "Principal": {
-         "Federated": "${var.oidc_provider_arn}"
+         "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
        },
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${replace(var.oidc_provider_url, "https://", "")}:sub": "system:serviceaccount:${var.k8s_namespace}:my-serviceaccount"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${kubernetes_service_account.hms_readwrite[0].metadata.0.name}"
          }
        }
      },

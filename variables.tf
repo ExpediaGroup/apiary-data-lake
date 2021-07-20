@@ -461,12 +461,7 @@ variable "kiam_arn" {
   default     = ""
 }
 
-variable "oidc_provider_arn" {
-  type    = string
-  default = ""
-}
-
-variable "oidc_provider_url" {
+variable "oidc_provider" {
   type    = string
   default = ""
 }
