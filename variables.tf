@@ -462,8 +462,9 @@ variable "kiam_arn" {
 }
 
 variable "oidc_provider" {
-  type    = string
-  default = ""
+  description = "EKS cluster OIDC provider name, required for configuring IAM using IRSA."
+  type        = string
+  default     = ""
 }
 
 variable "s3_storage_class" {

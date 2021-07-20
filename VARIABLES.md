@@ -61,6 +61,7 @@
 | ldap_ca_cert | Base64 encoded Certificate Authority bundle to validate LDAPS connections. | string | `` | no |
 | ldap_secret_name | Active directory LDAP bind DN SecretsManager secret name. | string | `` | no |
 | ldap_url | Active directory LDAP URL to configure Hadoop LDAP group mapping. | string | `` | no |
+| oidc_provider | EKS cluster OIDC provider name, required for configuring IAM using IRSA. | string | `` | no |
 | private_subnets | Private subnets. | list | - | yes |
 | ranger_audit_db_url | Ranger DB audit provider configuration. | string | `` | no |
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |
