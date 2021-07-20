@@ -57,7 +57,7 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${kubernetes_service_account.hms_readonly[0].metadata.0.name}"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.hms_alias}-readonly"
          }
        }
      },
@@ -105,7 +105,7 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${kubernetes_service_account.hms_readwrite[0].metadata.0.name}"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.hms_alias}-readwrite"
          }
        }
      },
