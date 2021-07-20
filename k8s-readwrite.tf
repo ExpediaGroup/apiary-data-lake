@@ -37,6 +37,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       }
 
       spec {
+        service_account_name            = kubernetes_service_account.hms_readwrite[0].metadata.0.name
+        automount_service_account_token = true
         dynamic "init_container" {
           for_each = var.external_database_host == "" ? ["enabled"] : []
           content {
