@@ -40,14 +40,16 @@ resource "aws_iam_role" "apiary_hms_readonly" {
 {
    "Version": "2012-10-17",
    "Statement": [
+%{if var.kiam_arn != ""}
      {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
+         "AWS": "${var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      },
+%{endif}
 %{if var.oidc_provider != ""}
      {
        "Effect": "Allow",
@@ -66,7 +68,7 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
+         "Service": "ecs-tasks.amazonaws.com"
        },
        "Action": "sts:AssumeRole"
      }
@@ -88,14 +90,16 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
 {
    "Version": "2012-10-17",
    "Statement": [
+%{if var.kiam_arn != ""}
      {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
+         "AWS": "${var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      },
+%{endif}
 %{if var.oidc_provider != ""}
      {
        "Effect": "Allow",
@@ -114,7 +118,7 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
-         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
+         "Service": "ecs-tasks.amazonaws.com"
        },
        "Action": "sts:AssumeRole"
      }
