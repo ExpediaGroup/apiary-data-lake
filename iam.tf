@@ -40,19 +40,35 @@ resource "aws_iam_role" "apiary_hms_readonly" {
 {
    "Version": "2012-10-17",
    "Statement": [
+%{if var.kiam_arn != ""}
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn}"
+       },
+       "Action": "sts:AssumeRole"
+     },
+%{endif}
+%{if var.oidc_provider != ""}
+     {
+       "Effect": "Allow",
+       "Principal": {
+         "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
+       },
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+         "StringEquals": {
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readonly"
+         }
+       }
+     },
+%{endif}
      {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
          "Service": "ecs-tasks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole"
-     },
-     {
-       "Sid": "",
-       "Effect": "Allow",
-       "Principal": {
-         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      }
@@ -74,19 +90,35 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
 {
    "Version": "2012-10-17",
    "Statement": [
+%{if var.kiam_arn != ""}
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "${var.kiam_arn}"
+       },
+       "Action": "sts:AssumeRole"
+     },
+%{endif}
+%{if var.oidc_provider != ""}
+     {
+       "Effect": "Allow",
+       "Principal": {
+         "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.oidc_provider}"
+       },
+       "Action": "sts:AssumeRoleWithWebIdentity",
+       "Condition": {
+         "StringEquals": {
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readwrite"
+         }
+       }
+     },
+%{endif}
      {
        "Sid": "",
        "Effect": "Allow",
        "Principal": {
          "Service": "ecs-tasks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole"
-     },
-     {
-       "Sid": "",
-       "Effect": "Allow",
-       "Principal": {
-         "AWS": "${var.kiam_arn == "" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Admin" : var.kiam_arn}"
        },
        "Action": "sts:AssumeRole"
      }

@@ -21,6 +21,7 @@
 | atlas_kafka_bootstrap_servers | Atlas kafka bootstrap servers. | string | `` | no |
 | atlas_cluster_name | Name of the Atlas cluster where metastore plugin will send DDL events.  Defaults to `var.instance_name` if not set. | string | `` | no |
 | aws_region | AWS region. | string | - | yes |
+| dashboard_namespace | K8s namespace to deploy grafana dashboard as configmap. | string | `monitoring` | no |
 | db_apply_immediately | Specifies whether any cluster modifications are applied immediately, or during the next maintenance window. | bool | `false` | no |
 | db_backup_retention | The number of days to retain backups for the RDS Metastore DB. | string | - | yes |
 | db_backup_window | Preferred backup window for the RDS Metastore DB in UTC. | string | `02:00-03:00` | no |
@@ -61,6 +62,8 @@
 | ldap_ca_cert | Base64 encoded Certificate Authority bundle to validate LDAPS connections. | string | `` | no |
 | ldap_secret_name | Active directory LDAP bind DN SecretsManager secret name. | string | `` | no |
 | ldap_url | Active directory LDAP URL to configure Hadoop LDAP group mapping. | string | `` | no |
+| metastore_namespace | K8s namespace to deploy Hive metastore containers. | string | `metastore` | no |
+| oidc_provider | EKS cluster OIDC provider name, required for configuring IAM using IRSA. | string | `` | no |
 | private_subnets | Private subnets. | list | - | yes |
 | ranger_audit_db_url | Ranger DB audit provider configuration. | string | `` | no |
 | ranger_audit_secret_name | Ranger DB audit secret name. | string | `` | no |

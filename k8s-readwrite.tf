@@ -8,7 +8,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readwrite"
-    namespace = "metastore"
+    namespace = var.metastore_namespace
 
     labels = {
       name = "${local.hms_alias}-readwrite"
@@ -37,6 +37,8 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       }
 
       spec {
+        service_account_name            = kubernetes_service_account.hms_readwrite[0].metadata.0.name
+        automount_service_account_token = true
         dynamic "init_container" {
           for_each = var.external_database_host == "" ? ["enabled"] : []
           content {
@@ -231,7 +233,7 @@ resource "kubernetes_service" "hms_readwrite" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readwrite"
-    namespace = "metastore"
+    namespace = var.metastore_namespace
     annotations = {
       "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
       "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"

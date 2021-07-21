@@ -427,6 +427,16 @@ variable "docker_registry_auth_secret_name" {
   default     = ""
 }
 
+variable "dashboard_namespace" {
+  description = "k8s namespace to deploy grafana dashboard."
+  default     = "monitoring"
+}
+
+variable "metastore_namespace" {
+  description = "k8s namespace to deploy metastore containers."
+  default     = "metastore"
+}
+
 variable "k8s_docker_registry_secret" {
   description = "Docker Registry authentication K8s secret name."
   type        = string
@@ -447,6 +457,12 @@ variable "atlas_cluster_name" {
 
 variable "kiam_arn" {
   description = "Kiam server IAM role ARN."
+  type        = string
+  default     = ""
+}
+
+variable "oidc_provider" {
+  description = "EKS cluster OIDC provider name, required for configuring IAM using IRSA."
   type        = string
   default     = ""
 }

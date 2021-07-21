@@ -82,6 +82,8 @@ module "apiary" {
 ## Notes
   The Apiary metastore Docker image is not yet published to a public repository, you can build from this [repo](https://github.com/ExpediaGroup/apiary-metastore-docker) and then publish it to your own ECR.
 
+  In k8s deployment mode IAM roles can be attached to metastore pods either using [IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) or [KIAM](https://github.com/uswitch/kiam), module will use IRSA when `oidc_provider` variable is configured, will use Kiam whne `kiam_arn` variable is configured.
+
 # Contact
 
 ## Mailing List

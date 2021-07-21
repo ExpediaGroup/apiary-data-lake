@@ -2,7 +2,7 @@ resource "kubernetes_secret" "hms_secrets" {
   count = var.external_database_host == "" && var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-credentials"
-    namespace = "metastore"
+    namespace = var.metastore_namespace
   }
 
   data = {
