@@ -432,7 +432,7 @@ variable "dashboard_namespace" {
   default     = "monitoring"
 }
 
-variable "k8s_namespace" {
+variable "metastore_namespace" {
   description = "k8s namespace to deploy metastore containers."
   default     = "metastore"
 }

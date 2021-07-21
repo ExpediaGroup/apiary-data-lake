@@ -59,7 +59,7 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.hms_alias}-readonly"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readonly"
          }
        }
      },
@@ -109,7 +109,7 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.k8s_namespace}:${local.hms_alias}-readwrite"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readwrite"
          }
        }
      },

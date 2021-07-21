@@ -8,7 +8,7 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
   count = (var.s3_enable_inventory && var.hms_instance_type == "k8s") ? 1 : 0
   metadata {
     name      = "${local.instance_alias}-s3-inventory-repair"
-    namespace = var.k8s_namespace
+    namespace = var.metastore_namespace
 
     labels = {
       name = "${local.instance_alias}-s3-inventory-repair"
