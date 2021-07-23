@@ -226,6 +226,12 @@ variable "db_maintenance_window" {
   default     = "wed:03:00-wed:04:00"
 }
 
+variable "encrypt_db" {
+  description = "Specifies whether the DB cluster is encrypted"
+  type        = bool
+  default     = false
+}
+
 variable "hms_instance_type" {
   description = "Hive Metastore instance type, possible values: ecs,k8s."
   type        = string
