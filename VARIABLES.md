@@ -40,6 +40,7 @@
 | enable_metadata_events | Enable Hive Metastore SNS listener. | bool | `false` | no |
 | enable_s3_paid_metrics | Enable managed S3 buckets request and data transfer metrics. | bool | `false` | no |
 | enable\_vpc\_endpoint\_services | Enable metastore NLB,Route53 entries VPC access and VPC endpoint services,for cross-account access. | `bool` | `true` | no |
+| encrypt\_db | Specifies whether the RDS cluster is encrypted. | `bool` | `false` | no |
 | external_data_buckets | Buckets that are not managed by Apiary but added to Hive Metastore IAM role access. | list | `<list>` | no |
 | external_database_host | External Metastore database host to support legacy installations, MySQL database won't be created by Apiary when this option is specified. | string | `` | no |
 | hms_docker_image | Docker image ID for the Hive Metastore. | string | - | yes |
