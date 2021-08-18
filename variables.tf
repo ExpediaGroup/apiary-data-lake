@@ -144,6 +144,24 @@ variable "apiary_deny_iamroles" {
   default     = []
 }
 
+variable "apiary_deny_iamrole_actions" {
+  description = "List of S3 actions that 'apiary_deny_iamroles' are not allowed to perform."
+  type        = list(string)
+  default     = [
+    "s3:Abort*",
+    "s3:Bypass*",
+    "s3:Delete*",
+    "s3:GetObject",
+    "s3:GetObjectTorrent",
+    "s3:GetObjectVersion",
+    "s3:GetObjectVersionTorrent",
+    "s3:ObjectOwnerOverrideToBucketOwner",
+    "s3:Put*",
+    "s3:Replicate*",
+    "s3:Restore*"
+  ]
+}
+
 variable "apiary_assume_roles" {
   description = "Cross account AWS IAM roles allowed write access to managed Apiary S3 buckets using assume policy."
   type        = list(any)

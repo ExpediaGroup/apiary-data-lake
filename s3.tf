@@ -19,13 +19,14 @@ data "template_file" "bucket_policy" {
     customer_principal = (length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key)) && each.value["customer_accounts"] != "" ? join("\",\"", formatlist("arn:aws:iam::%s:root", split(",", each.value["customer_accounts"]))) : ""
     customer_condition = var.apiary_customer_condition
 
-    bucket_name       = each.value["data_bucket"]
-    encryption        = each.value["encryption"]
-    kms_key_arn       = each.value["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
-    consumer_iamroles = join("\",\"", var.apiary_consumer_iamroles)
-    producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
-    deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
-    client_roles      = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
+    bucket_name          = each.value["data_bucket"]
+    encryption           = each.value["encryption"]
+    kms_key_arn          = each.value["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
+    consumer_iamroles    = join("\",\"", var.apiary_consumer_iamroles)
+    producer_iamroles    = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
+    deny_iamroles        = join("\",\"", var.apiary_deny_iamroles)
+    deny_iamrole_actions = join("\",\"", var.apiary_deny_iamrole_actions)
+    client_roles         = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
   }
 }
 
