@@ -60,21 +60,7 @@
             "Sid": "Local role deny permissions",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": [
-              "s3:Abort*",
-              "s3:Bypass*",
-              "s3:Create*",
-              "s3:Delete*",
-              "s3:GetObject",
-              "s3:GetObjectTorrent",
-              "s3:GetObjectVersion",
-              "s3:GetObjectVersionTorrent",
-              "s3:ObjectOwnerOverrideToBucketOwner",
-              "s3:Put*",
-              "s3:Replicate*",
-              "s3:Restore*",
-              "s3:Update*"
-            ],
+            "Action": [ ${deny_iamrole_actions} ],
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
               "StringLike": {

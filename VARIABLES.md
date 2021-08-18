@@ -8,7 +8,8 @@
 | apiary_customer_accounts | AWS account IDs for clients of this Metastore. | list | - | no |
 | apiary_customer_condition | IAM policy condition applied to customer account s3 access. | string | `` | no |
 | apiary_database_name | Database name to create in RDS for Apiary. | string | `apiary` | no |
-| apiary_deny_roles | AWS IAM roles denied access to Apiary managed S3 buckets. | list | - | yes |
+| apiary_deny_iamroles | AWS IAM roles denied access to Apiary managed S3 buckets. | list | - | no |
+| apiary_deny_iamrole_actions | List of S3 actions that `apiary_deny_iamroles` are not allowed to perform. | list | All actions except `Get*`, but not including `GetObject` | no |
 | apiary_domain_name | Apiary domain name for Route 53. | string | `` | no |
 | apiary_log_bucket | Bucket for Apiary logs. | string | - | yes |
 | apiary_log_prefix | Prefix for Apiary logs. | string | `` | no |

@@ -19,13 +19,14 @@ data "template_file" "bucket_policy" {
     customer_principal = (length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, each.key)) && each.value["customer_accounts"] != "" ? join("\",\"", formatlist("arn:aws:iam::%s:root", split(",", each.value["customer_accounts"]))) : ""
     customer_condition = var.apiary_customer_condition
 
-    bucket_name       = each.value["data_bucket"]
-    encryption        = each.value["encryption"]
-    kms_key_arn       = each.value["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
-    consumer_iamroles = join("\",\"", var.apiary_consumer_iamroles)
-    producer_iamroles = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
-    deny_iamroles     = join("\",\"", var.apiary_deny_iamroles)
-    client_roles      = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
+    bucket_name          = each.value["data_bucket"]
+    encryption           = each.value["encryption"]
+    kms_key_arn          = each.value["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[each.key].arn : ""
+    consumer_iamroles    = join("\",\"", var.apiary_consumer_iamroles)
+    producer_iamroles    = replace(lookup(var.apiary_producer_iamroles, each.key, ""), ",", "\",\"")
+    deny_iamroles        = join("\",\"", var.apiary_deny_iamroles)
+    deny_iamrole_actions = join("\",\"", var.apiary_deny_iamrole_actions),
+    client_roles         = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
   }
 }
 
@@ -34,15 +35,15 @@ data "template_file" "bucket_policy" {
 ### Apiary S3 data buckets
 ##
 resource "aws_s3_bucket" "apiary_data_bucket" {
-  for_each = {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  for_each      = {
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket        = each.value["data_bucket"]
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = data.template_file.bucket_policy[each.key].rendered
-  tags = merge(map("Name", each.value["data_bucket"]),
-    var.apiary_tags,
+  tags          = merge(map("Name", each.value["data_bucket"]),
+  var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
 
   logging {
@@ -57,7 +58,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
     dynamic "transition" {
-      for_each = each.value["s3_object_expiration_days_num"] == "-1" || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days_num"] ? [1] : []
+      for_each = each.value["s3_object_expiration_days_num"] == "-1" || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days_num"] ? [
+        1] : []
       content {
         days          = each.value["s3_lifecycle_policy_transition_period"]
         storage_class = each.value["s3_storage_class"]
@@ -65,7 +67,8 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     }
 
     dynamic "expiration" {
-      for_each = each.value["s3_object_expiration_days_num"] != "-1" ? [1] : []
+      for_each = each.value["s3_object_expiration_days_num"] != "-1" ? [
+        1] : []
       content {
         days = each.value["s3_object_expiration_days_num"]
       }
@@ -75,9 +78,9 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
   for_each = var.s3_enable_inventory == true ? {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+  bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   name = local.s3_inventory_prefix
 
@@ -97,14 +100,19 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
     }
   }
 
-  optional_fields = ["Size", "LastModifiedDate", "StorageClass", "ETag", "IntelligentTieringAccessTier"]
+  optional_fields = [
+    "Size",
+    "LastModifiedDate",
+    "StorageClass",
+    "ETag",
+    "IntelligentTieringAccessTier"]
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
   for_each = {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+  bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   block_public_acls   = true
   block_public_policy = true
@@ -113,9 +121,9 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
 
 resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
   for_each = {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+  bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -124,31 +132,35 @@ resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
 
 resource "aws_s3_bucket_notification" "data_events" {
   for_each = var.enable_data_events ? {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
   } : {}
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+  bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   topic {
     topic_arn = aws_sns_topic.apiary_data_events[each.key].arn
-    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    events    = [
+      "s3:ObjectCreated:*",
+      "s3:ObjectRemoved:*"]
   }
 }
 
 resource "aws_s3_bucket_notification" "data_queue_events" {
-  for_each = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "1" }
+  for_each = {for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "1"}
   bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   queue {
     queue_arn = aws_sqs_queue.apiary_data_event_queue[0].arn
-    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    events    = [
+      "s3:ObjectCreated:*",
+      "s3:ObjectRemoved:*"]
   }
 }
 
 
 resource "aws_s3_bucket_metric" "paid_metrics" {
   for_each = var.enable_s3_paid_metrics ? {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
-  name   = "EntireBucket"
+  bucket   = aws_s3_bucket.apiary_data_bucket[each.key].id
+  name     = "EntireBucket"
 }
