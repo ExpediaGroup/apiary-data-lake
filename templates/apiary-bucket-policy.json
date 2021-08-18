@@ -60,7 +60,7 @@
             "Sid": "Local role deny permissions",
             "Effect": "Deny",
             "Principal": "*",
-            "Action": [ ${deny_iamrole_actions} ],
+            "Action": [ "${deny_iamrole_actions}" ],
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
               "StringLike": {
