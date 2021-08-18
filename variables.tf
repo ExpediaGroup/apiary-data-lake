@@ -150,7 +150,6 @@ variable "apiary_deny_iamrole_actions" {
   default     = [
     "s3:Abort*",
     "s3:Bypass*",
-    "s3:Create*",
     "s3:Delete*",
     "s3:GetObject",
     "s3:GetObjectTorrent",
@@ -159,8 +158,7 @@ variable "apiary_deny_iamrole_actions" {
     "s3:ObjectOwnerOverrideToBucketOwner",
     "s3:Put*",
     "s3:Replicate*",
-    "s3:Restore*",
-    "s3:Update*"
+    "s3:Restore*"
   ]
 }
 
