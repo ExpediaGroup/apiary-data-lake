@@ -55,6 +55,10 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
                 value = local.instance_alias
               }
               env {
+                name  = "APIARY_RW_METASTORE_URI"
+                value = "${aws_route53_record.hms_readwrite_alias.fqdn}:9083"
+              }
+              env {
                 name  = "HIVE_METASTORE_LOG_LEVEL"
                 value = var.hms_log_level
               }
