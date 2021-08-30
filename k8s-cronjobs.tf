@@ -56,7 +56,7 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
               }
               env {
                 name  = "APIARY_RW_METASTORE_URI"
-                value = "thrift://${kubernetes_service.hms_readwrite[0].metadata.name}.${kubernetes_service.hms_readwrite[0].metadata.namespace}.svc.cluster.local:9083"
+                value = "thrift://${kubernetes_service.hms_readwrite[0].metadata[0].name}.${kubernetes_service.hms_readwrite[0].metadata[0].namespace}.svc.cluster.local:9083"
               }
               env {
                 name  = "HIVE_METASTORE_LOG_LEVEL"
