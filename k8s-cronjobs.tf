@@ -34,6 +34,8 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
           }
 
           spec {
+            service_account_name            = kubernetes_service_account.hms_readonly[0].metadata.0.name
+            automount_service_account_token = true
             container {
               image   = "${var.hms_docker_image}:${var.hms_docker_version}"
               name    = "${local.instance_alias}-s3-inventory-repair"
