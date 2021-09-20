@@ -29,12 +29,12 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
               name = "${local.instance_alias}-s3-inventory-repair"
             }
             annotations = {
-              "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
+              "iam.amazonaws.com/role" = aws_iam_role.apiary_s3_inventory.name
             }
           }
 
           spec {
-            service_account_name            = kubernetes_service_account.hms_readonly[0].metadata.0.name
+            service_account_name            = kubernetes_service_account.s3_inventory[0].metadata.0.name
             automount_service_account_token = true
             container {
               image   = "${var.hms_docker_image}:${var.hms_docker_version}"
