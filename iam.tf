@@ -133,7 +133,7 @@ EOF
   }
 }
 
-resource "aws_iam_role" "s3_inventory" {
+resource "aws_iam_role" "apiary_s3_inventory" {
   name = "${local.instance_alias}-s3-inventory-${var.aws_region}"
 
   assume_role_policy = <<EOF
