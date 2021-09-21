@@ -4,14 +4,14 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_cron_job" "apiary_inventory_repair" {
+resource "kubernetes_cron_job" "apiary_inventory" {
   count = (var.s3_enable_inventory && var.hms_instance_type == "k8s") ? 1 : 0
   metadata {
-    name      = "${local.instance_alias}-s3-inventory-repair"
+    name      = "${local.instance_alias}-s3-inventory"
     namespace = var.metastore_namespace
 
     labels = {
-      name = "${local.instance_alias}-s3-inventory-repair"
+      name = "${local.instance_alias}-s3-inventory"
     }
   }
 
@@ -26,17 +26,19 @@ resource "kubernetes_cron_job" "apiary_inventory_repair" {
         template {
           metadata {
             labels = {
-              name = "${local.instance_alias}-s3-inventory-repair"
+              name = "${local.instance_alias}-s3-inventory"
             }
             annotations = {
-              "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
+              "iam.amazonaws.com/role" = aws_iam_role.apiary_s3_inventory.name
             }
           }
 
           spec {
+            service_account_name            = kubernetes_service_account.s3_inventory[0].metadata.0.name
+            automount_service_account_token = true
             container {
               image   = "${var.hms_docker_image}:${var.hms_docker_version}"
-              name    = "${local.instance_alias}-s3-inventory-repair"
+              name    = "${local.instance_alias}-s3-inventory"
               command = ["/s3_inventory_repair.sh"]
               env {
                 name  = "AWS_REGION"

@@ -21,3 +21,15 @@ resource "kubernetes_service_account" "hms_readonly" {
   }
   automount_service_account_token = true
 }
+
+resource "kubernetes_service_account" "s3_inventory" {
+  count = var.hms_instance_type == "k8s" ? 1 : 0
+  metadata {
+    name      = "${local.instance_alias}-s3-inventory"
+    namespace = var.metastore_namespace
+    annotations = {
+      "eks.amazonaws.com/role-arn" = var.oidc_provider == "" ? "" : aws_iam_role.apiary_s3_inventory.arn
+    }
+  }
+  automount_service_account_token = true
+}

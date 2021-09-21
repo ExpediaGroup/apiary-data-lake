@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.10.4] - 2021-09-21
+### Changed
+- Attach service account to s3_inventory job when using IRSA.
+- Rename s3_inventory cronjob to match service account name, required on new internal clusters.
+
 ## [6.10.3] - 2021-08-30
 ### Fixed
 - Fixed problem with s3_inventory_repair cronjob when apiary instance_name is not empty.
