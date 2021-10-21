@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.10.5] - 2021-10-21
+### Changed
+- Add variable to configure read-write metastore service ingress.
+
 ## [6.10.4] - 2021-09-21
 ### Changed
 - Attach service account to s3_inventory job when using IRSA.
