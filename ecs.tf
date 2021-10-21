@@ -58,7 +58,7 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
   }
 
   network_configuration {
-    security_groups = ["${aws_security_group.hms_rw.id}"]
+    security_groups = ["${aws_security_group.hms_rw[0].id}"]
     subnets         = var.private_subnets
   }
 
@@ -83,7 +83,7 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
   }
 
   network_configuration {
-    security_groups = ["${aws_security_group.hms_ro.id}"]
+    security_groups = ["${aws_security_group.hms_ro[0].id}"]
     subnets         = var.private_subnets
   }
 
