@@ -248,7 +248,7 @@ resource "kubernetes_service" "hms_readwrite" {
       target_port = 9083
     }
     type                        = var.enable_vpc_endpoint_services ? "LoadBalancer" : "ClusterIP"
-    load_balancer_source_ranges = var.enable_vpc_endpoint_services ? var.ingress_cidr : null
+    load_balancer_source_ranges = var.enable_vpc_endpoint_services ? local.rw_ingress_cidr : null
   }
 }
 
