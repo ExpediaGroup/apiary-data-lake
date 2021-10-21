@@ -17,13 +17,6 @@ resource "aws_security_group" "hms_ro" {
     cidr_blocks = local.ro_ingress_cidr
   }
 
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [data.aws_vpc.apiary_vpc.cidr_block]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
@@ -43,13 +36,6 @@ resource "aws_security_group" "hms_rw" {
     to_port     = 9083
     protocol    = "tcp"
     cidr_blocks = local.rw_ingress_cidr
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [data.aws_vpc.apiary_vpc.cidr_block]
   }
 
   egress {
