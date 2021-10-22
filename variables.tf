@@ -147,7 +147,7 @@ variable "apiary_deny_iamroles" {
 variable "apiary_deny_iamrole_actions" {
   description = "List of S3 actions that 'apiary_deny_iamroles' are not allowed to perform."
   type        = list(string)
-  default     = [
+  default = [
     "s3:Abort*",
     "s3:Bypass*",
     "s3:Delete*",
@@ -340,7 +340,13 @@ variable "elb_timeout" {
 
 variable "ingress_cidr" {
   description = "Generally allowed ingress CIDR list."
-  type        = list(any)
+  type        = list(string)
+}
+
+variable "rw_ingress_cidr" {
+  description = "Read-Write metastore ingress CIDR list. If not set, defaults to `var.ingress_cidr`."
+  type        = list(string)
+  default     = []
 }
 
 variable "enable_gluesync" {

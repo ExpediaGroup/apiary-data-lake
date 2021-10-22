@@ -57,6 +57,7 @@
 | hms_rw_heapsize | Heapsize for the read/write Hive Metastore. Valid values: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html | string | - | yes |
 | iam_name_root | Name to identify Hive Metastore IAM roles. | string | `hms` | no |
 | ingress_cidr | Generally allowed ingress CIDR list. | list | - | yes |
+| rw_ingress_cidr | Read-Write metastore ingress CIDR list. | list | `var.ingress_cidr` | no |
 | instance_name | Apiary instance name to identify resources in multi-instance deployments. | string | `` | no |
 | k8s_docker_registry_secret| Docker Registry authentication K8s secret name. | string | `` | no |
 | kiam_arn | Kiam server IAM role ARN. | string | `` | no |
