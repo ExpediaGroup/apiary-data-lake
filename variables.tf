@@ -344,7 +344,7 @@ variable "ingress_cidr" {
 }
 
 variable "rw_ingress_cidr" {
-  description = "Read-Write metastore ingress CIDR list."
+  description = "Read-Write metastore ingress CIDR list. If not set, defaults to `var.ingress_cidr`."
   type        = list(string)
   default     = []
 }
