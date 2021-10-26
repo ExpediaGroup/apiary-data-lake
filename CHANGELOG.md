@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.10.6] - 2021-10-26
+### Added
+- Add `restrict_public_buckets = true` to s3 bucket public access settings
+
 ## [6.10.5] - 2021-10-21
 ### Changed
 - Add variable to configure read-write metastore service ingress.
@@ -60,7 +64,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
   a lifecycle `transition` policy. This will prevent errors like:
   ```
   Error: Error putting S3 lifecycle: InvalidArgument: 'Days' in the Expiration action for filter '(prefix=)' must be greater than 'Days' in the Transition action
-  ``` 
+  ```
 
 ## [6.7.8] - 2021-04-01
 ### Changed
@@ -183,7 +187,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Changed AWS resources created on a per-schema basis to use Terraform `for_each` instead of `count`.  This includes S3 and SNS resources.
   - This was done to fix the issue of removing a schema in a later deployment.  If the schema removed is not at the end of the `apiary_managed_schemas` list, then when using `count`, Terraform will see different indexes in the state file for the other resources, and will want to delete and recreate them. Using `for_each` references them by `schema_name` in the state file and fixes this issue.
 - The following variables changed type from `string` to `bool` since the `string` was acting as a boolean pre-TF 0.12:
-  - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`, 
+  - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`,
   - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`
 ### Removed
 - Removed variable `s3_block_public_access` - Blocking of public access to Apiary S3 buckets is now mandatory.
@@ -192,7 +196,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - *THIS IS A BREAKING CHANGE.* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
   - See the `migrate.py` script in the `scripts` folder.
   - This script is used to migrate an Apiary Terraform state file from using `count` for resource indexing to using
-      `for_each`, which is how apiary-data-lake v6.0.0+ handles indexed resources.  Without this script, doing an `apply` 
+      `for_each`, which is how apiary-data-lake v6.0.0+ handles indexed resources.  Without this script, doing an `apply`
       will want to destroy all your S3 resources and then recreate them because they are stored in the `.tfstate` file
       differently.  
   - The migration script needs some external packages installed (see `migrate_requirements.txt`) and then should run in either Python 2.7+ or Python 3.6+.
@@ -210,14 +214,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
   - Make _only_ the following changes to your `.tf` file that references the `apiary-data-lake` module. Don't make any additions or other changes:
     - If your app is setting `s3_block_public_access`, remove reference to that variable.  Public access blocks are now mandatory.
     - If your app is setting any of the following variables that changed type to `bool`, change the passed value to `true` or `false`:
-      - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`, 
+      - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`,
       - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`  
       - If current code is setting those to `"1"` (or anything non-blank), change to `true.`  If setting to `""`, change to `false`.
   - Now run a plan of your `apiary-terraform-app` that is using `apiary-data-lake` v6.0.0.  It should show no changes needed.
   - Now run an apply of the code.
   - Now you can make changes to use any other v6.0.0 features or make any other changes you want.  E.g, setting `enable_data_events_sqs` in schemas.
 - This version of `apiary-data-lake` requires at least Terraform `0.12.21`
-    
+
 ## [5.3.2] - 2020-03-26
 ### Added
 - Add S3 replication permissions to producer bucket policy.
