@@ -176,9 +176,10 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             tcp_socket {
               port = var.hive_metastore_port
             }
+            timeout_seconds       = 60
             failure_threshold     = 3
             success_threshold     = 1
-            initial_delay_seconds = 20
+            initial_delay_seconds = 60
             period_seconds        = 20
           }
 
@@ -186,9 +187,10 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             tcp_socket {
               port = var.hive_metastore_port
             }
+            timeout_seconds       = 60
             failure_threshold     = 3
             success_threshold     = 1
-            initial_delay_seconds = 20
+            initial_delay_seconds = 60
             period_seconds        = 20
           }
 
