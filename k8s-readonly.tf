@@ -89,7 +89,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "${local.hms_alias}-readonly"
           port {
-            container_port = 9083
+            container_port = var.hive_metastore_port
           }
           env {
             name  = "MYSQL_DB_HOST"
@@ -170,6 +170,28 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           env {
             name  = "HMS_MAX_THREADS"
             value = local.hms_ro_maxthreads
+          }
+
+          liveness_probe {
+            tcp_socket {
+              port = var.hive_metastore_port
+            }
+            timeout_seconds       = 60
+            failure_threshold     = 3
+            success_threshold     = 1
+            initial_delay_seconds = 60
+            period_seconds        = 20
+          }
+
+          readiness_probe {
+            tcp_socket {
+              port = var.hive_metastore_port
+            }
+            timeout_seconds       = 60
+            failure_threshold     = 3
+            success_threshold     = 1
+            initial_delay_seconds = 60
+            period_seconds        = 20
           }
 
           resources {
