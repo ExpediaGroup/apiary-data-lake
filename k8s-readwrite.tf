@@ -88,7 +88,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "${local.hms_alias}-readwrite"
           port {
-            container_port = 9083
+            container_port = var.hive_metastore_port
           }
           env {
             name  = "MYSQL_DB_HOST"
@@ -210,6 +210,26 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           env {
             name  = "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES"
             value = var.disallow_incompatible_col_type_changes
+          }
+
+          liveness_probe {
+            tcp_socket {
+              port = var.hive_metastore_port
+            }
+            failure_threshold     = 3
+            success_threshold     = 1
+            initial_delay_seconds = 20
+            period_seconds        = 20
+          }
+
+          readiness_probe {
+            tcp_socket {
+              port = var.hive_metastore_port
+            }
+            failure_threshold     = 3
+            success_threshold     = 1
+            initial_delay_seconds = 20
+            period_seconds        = 20
           }
 
           resources {

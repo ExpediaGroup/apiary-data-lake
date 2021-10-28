@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.11.0] - 2021-10-28
+### Added
+- `liveness_probe` and `readiness_probe` for HMS readwrite and HMS readonly.
+
 ## [6.10.6] - 2021-10-26
 ### Added
 - Add `restrict_public_buckets = true` to s3 bucket public access settings

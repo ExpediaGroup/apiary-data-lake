@@ -48,6 +48,12 @@ variable "aws_region" {
   type        = string
 }
 
+variable "hive_metastore_port" {
+  description = "Port on which both Hive Metastore readwrite and readonly will run."
+  type        = number
+  default     = 9083
+}
+
 variable "apiary_log_bucket" {
   description = "Bucket for Apiary logs.If this is blank, module will create a bucket."
   type        = string
