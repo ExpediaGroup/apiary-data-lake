@@ -109,10 +109,10 @@ apiary_assume_roles = [
     principals = [ "arn:aws:iam::account_number:role/cross-account-role" ]
     schema_names = [ "dm","lz","test_1" ]
     max_role_session_duration_seconds = "7200",
-    allow_cross_region_access = true 
+    allow_cross_region_access = true
   }
 ]
-``` 
+```
 `apiary_assume_roles` map entry fields:
 
 Name | Description | Type | Default | Required |

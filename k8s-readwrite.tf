@@ -236,9 +236,11 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
 
           resources {
             limits {
+              cpu    = "${var.hms_rw_cpu}m"
               memory = "${var.hms_rw_heapsize}Mi"
             }
             requests {
+              cpu    = "${var.hms_rw_cpu}m"
               memory = "${var.hms_rw_heapsize}Mi"
             }
           }
