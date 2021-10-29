@@ -288,6 +288,12 @@ EOF
   default = "2048"
 }
 
+variable "hms_rw_cpu" {
+  description = "CPU for the read/write Hive Metastore."
+  type    = string
+  default = "500"
+}
+
 variable "hms_ro_cpu" {
   description = <<EOF
 CPU for the read only Hive Metastore ECS task.
