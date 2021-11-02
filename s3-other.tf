@@ -152,6 +152,7 @@ resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
@@ -212,6 +213,7 @@ resource "aws_s3_bucket_public_access_block" "apiary_access_logs_hive" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket" "apiary_system" {
@@ -280,4 +282,5 @@ resource "aws_s3_bucket_public_access_block" "apiary_system" {
   block_public_acls   = true
   block_public_policy = true
   ignore_public_acls  = true
+  restrict_public_buckets = true
 }
