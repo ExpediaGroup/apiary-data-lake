@@ -569,3 +569,9 @@ variable "disallow_incompatible_col_type_changes" {
   type        = bool
   default     = true
 }
+
+variable "apiary_governance_iamroles" {
+  description = "AWS IAM roles allowed read access to managed Apiary S3 buckets."
+  type        = list(string)
+  default     = []
+}
