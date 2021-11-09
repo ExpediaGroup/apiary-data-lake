@@ -129,6 +129,28 @@
             }
         },
 %{endif}
+%{if governance_iamroles != ""}
+        {
+            "Sid": "Apiary consumer iamrole permissions",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [ "${governance_iamroles}" ]
+            },
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:GetBucketAcl",
+                "s3:GetObjectTagging",
+                "s3:ListBucket",
+                "s3:PutObjectTagging"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${bucket_name}",
+                "arn:aws:s3:::${bucket_name}/*"
+            ]
+        },
+%{endif}
         {
             "Sid": "DenyUnSecureCommunications",
             "Effect": "Deny",
