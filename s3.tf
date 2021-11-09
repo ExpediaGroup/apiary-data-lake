@@ -27,6 +27,7 @@ data "template_file" "bucket_policy" {
     deny_iamroles        = join("\",\"", var.apiary_deny_iamroles)
     deny_iamrole_actions = join("\",\"", var.apiary_deny_iamrole_actions)
     client_roles         = replace(lookup(each.value, "client_roles", ""), ",", "\",\"")
+    governance_iamroles  = join("\",\"", var.apiary_governance_iamroles)
   }
 }
 
