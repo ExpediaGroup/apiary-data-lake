@@ -131,7 +131,7 @@
 %{endif}
 %{if governance_iamroles != ""}
         {
-            "Sid": "Apiary consumer iamrole permissions",
+            "Sid": "Apiary governance iamrole permissions",
             "Effect": "Allow",
             "Principal": {
                 "AWS": [ "${governance_iamroles}" ]
