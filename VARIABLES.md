@@ -12,11 +12,11 @@
 | apiary\_deny\_iamrole\_actions | List of S3 actions that 'apiary\_deny\_iamroles' are not allowed to perform. | `list(string)` | <pre>[<br>  "s3:Abort*",<br>  "s3:Bypass*",<br>  "s3:Delete*",<br>  "s3:GetObject",<br>  "s3:GetObjectTorrent",<br>  "s3:GetObjectVersion",<br>  "s3:GetObjectVersionTorrent",<br>  "s3:ObjectOwnerOverrideToBucketOwner",<br>  "s3:Put*",<br>  "s3:Replicate*",<br>  "s3:Restore*"<br>]</pre> | no |
 | apiary\_deny\_iamroles | AWS IAM roles denied access to Apiary managed S3 buckets. | `list(string)` | `[]` | no |
 | apiary\_domain\_name | Apiary domain name for Route 53. | `string` | `""` | no |
+| apiary\_governance\_iamroles | AWS IAM governance roles allowed read and tagging access to managed Apiary S3 buckets. | `list(string)` | `[]` | no |
 | apiary\_log\_bucket | Bucket for Apiary logs.If this is blank, module will create a bucket. | `string` | `""` | no |
 | apiary\_log\_prefix | Prefix for Apiary logs. | `string` | `""` | no |
 | apiary\_managed\_schemas | List of maps, each map contains schema name from which S3 bucket names will be derived, and various properties. The corresponding S3 bucket will be named as apiary\_instance-aws\_account-aws\_region-schema\_name. | `list(map(string))` | `[]` | no |
 | apiary\_producer\_iamroles | AWS IAM roles allowed write access to managed Apiary S3 buckets. | `map(any)` | `{}` | no |
-| apiary\_governance\_iamroles | AWS IAM governance roles allowed read and tagging access to managed Apiary S3 buckets. | `list(string)` | `[]` | no |
 | apiary\_rds\_additional\_sg | Comma-separated string containing additional security groups to attach to RDS. | `list(any)` | `[]` | no |
 | apiary\_shared\_schemas | Schema names which are accessible from read-only metastore, default is all schemas. | `list(any)` | `[]` | no |
 | apiary\_tags | Common tags that get put on all resources. | `map(any)` | n/a | yes |
