@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.11.2] - 2021-11-09
+## [6.11.2] - 2021-11-12
 ### Added
 - Added governance role read and tag objects permission to apiary buckets
 
