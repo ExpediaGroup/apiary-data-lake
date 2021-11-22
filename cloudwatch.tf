@@ -186,7 +186,7 @@ EOF
 }
 
 resource "aws_cloudwatch_dashboard" "apiary" {
-  count          = var.hms_instance_type == "ecs" ? 1 : 0
+  count          = var.hms_instance_type == "ecs" && var.enable_dashboard ? 1 : 0
   dashboard_name = "${local.instance_alias}-${var.aws_region}"
 
   dashboard_body = <<EOF

@@ -23,7 +23,7 @@ data "template_file" "grafana_dashboard_data" {
 }
 
 resource "kubernetes_config_map" "grafana_dashboard" {
-  count = var.hms_instance_type == "k8s" ? 1 : 0
+  count = var.hms_instance_type == "k8s" && var.enable_dashboard ? 1 : 0
   metadata {
     name      = "${local.instance_alias}-data-lake-dashboard"
     namespace = var.dashboard_namespace
