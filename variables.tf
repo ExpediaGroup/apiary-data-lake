@@ -577,7 +577,7 @@ variable "apiary_governance_iamroles" {
 }
 
 variable "enable_dashboard" {
-  description = "make grafana dashboard optional"
+  description = "make EKS & ECS dashboard optional"
   type        = bool
   default     = true
 }  
