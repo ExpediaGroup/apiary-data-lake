@@ -577,7 +577,7 @@ variable "apiary_governance_iamroles" {
 }
 
 variable "enable_dashboard" {
-  description = "make enable_dashboard optional"
+  description = "make grafana dashboard optional"
   type        = bool
   default     = true
 }  
