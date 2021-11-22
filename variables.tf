@@ -575,3 +575,9 @@ variable "apiary_governance_iamroles" {
   type        = list(string)
   default     = []
 }
+
+variable "enable_dashboard" {
+  description = "make enable_dashboard optional"
+  type        = bool
+  default     = true
+}  
