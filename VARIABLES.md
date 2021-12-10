@@ -97,7 +97,7 @@
 | table\_param\_filter | A regular expression for selecting necessary table parameters for the SNS listener. If the value isn't set, then no table parameters are selected. | `string` | `""` | no |
 | vpc\_id | VPC ID. | `string` | n/a | yes |
 | enable\_dashboard | make EKS & ECS dashboard optional | `bool` | true | no | 
-| rds\_family | rds version | `string` | aurora5.6 | no | 
+| rds\_family | RDS Family | `string` | aurora5.6 | no | 
 
 ### apiary_assume_roles
 
