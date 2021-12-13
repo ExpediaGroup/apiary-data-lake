@@ -48,7 +48,7 @@ resource "random_string" "db_master_password" {
 
 resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
   name        = "${local.instance_alias}-param-group"
-  family      = "aurora5.6" # Needs to be kept in sync with aws_rds_cluster.apiary_cluster.engine and version
+  family      = var.rds_family # Needs to be kept in sync with aws_rds_cluster.apiary_cluster.engine and version
   description = "Apiary-specific Aurora parameters"
   tags        = merge(map("Name", "${local.instance_alias}-param-group"), var.apiary_tags)
 

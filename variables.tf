@@ -581,3 +581,11 @@ variable "enable_dashboard" {
   type        = bool
   default     = true
 }  
+
+variable "rds_family" {
+  description = "RDS family"
+  type        = string
+  default     = "aurora5.6"
+}
+  
+  
