@@ -24,8 +24,7 @@ resource "aws_s3_bucket" "apiary_inventory_bucket" {
               "aws:SourceArn": "arn:aws:s3:::${local.apiary_bucket_prefix}-*"
            },
          "StringEquals": {
-             "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}",
-             "s3:x-amz-acl": "bucket-owner-full-control"
+             "aws:SourceAccount": "${data.aws_caller_identity.current.account_id}"
           }
        }
     },
