@@ -116,18 +116,6 @@
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
-        {
-            "Sid": "EnsureBucketOwnerFullControl",
-            "Effect":"Deny",
-            "Principal": {
-                "AWS": [ "${producer_iamroles}" ]
-            },
-            "Action":"s3:PutObject",
-            "Resource": "arn:aws:s3:::${bucket_name}/*",
-            "Condition": {
-                "StringNotEquals": {"s3:x-amz-acl":"bucket-owner-full-control"}
-            }
-        },
 %{endif}
 %{if governance_iamroles != ""}
         {
