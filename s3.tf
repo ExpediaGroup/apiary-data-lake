@@ -108,9 +108,9 @@ resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
   }
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
-  block_public_acls   = true
-  block_public_policy = true
-  ignore_public_acls  = true
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
@@ -121,7 +121,7 @@ resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
   bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
