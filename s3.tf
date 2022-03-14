@@ -46,7 +46,7 @@ locals {
       deny_iamrole_actions  = join("\",\"", var.apiary_deny_iamrole_actions)
       client_roles          = replace(lookup(schema, "client_roles", ""), ",", "\",\"")
       governance_iamroles   = join("\",\"", var.apiary_governance_iamroles)
-      consumer_prefix_roles = lookup(var.apiary_consumer_prefix_iamroles, s["schema_name"], {})
+      consumer_prefix_roles = lookup(var.apiary_consumer_prefix_iamroles, schema["schema_name"], {})
     })
   }
 }
@@ -63,7 +63,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   #policy        = data.template_file.bucket_policy[each.key].rendered
-  policy        = bucket_policy_map[each.key]
+  policy        = local.bucket_policy_map[each.key]
   tags = merge(map("Name", each.value["data_bucket"]),
     var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
