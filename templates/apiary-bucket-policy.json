@@ -55,6 +55,7 @@
 %{endfor}
 %{endif}
 %{for prefix, role_list in consumer_prefix_roles ~}
+%{if length(role_list) > 0 }
         {
           "Sid": "Apiary consumer_prefix_iamroles policy",
           "Effect": "Allow",
@@ -67,6 +68,7 @@
           ],
           "Resource": "arn:aws:s3::${bucket_name}/${trim(prefix," /")}/*"
         },
+%{endif}
 %{endfor ~}
 %{endif}
 %{if deny_iamroles != ""}
