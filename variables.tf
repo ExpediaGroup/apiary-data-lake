@@ -175,13 +175,13 @@ variable "apiary_assume_roles" {
 }
 
 variable "apiary_consumer_iamroles" {
-  description = "AWS IAM roles allowed read access to managed Apiary S3 buckets."
+  description = "AWS IAM roles allowed unrestricted read access to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
 }
 
 variable "apiary_consumer_prefix_iamroles" {
-  description = "AWS IAM roles allowed read access to certain prefixes in managed Apiary S3 buckets."
+  description = "AWS IAM roles allowed unrestricted read access to certain prefixes in managed Apiary S3 buckets."
   type        = map(any)
   default     = {}
 }
