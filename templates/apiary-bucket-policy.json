@@ -54,6 +54,20 @@
         },
 %{endfor}
 %{endif}
+%{for prefix, role_list in consumer_prefix_roles ~}
+        {
+          "Sid": "Apiary consumer_prefix_iamroles policy",
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": ${jsonencode([for role in role_list: trim(role, " ")])}
+          },
+          "Action": [
+            "s3:GetObject",
+            "s3:GetObjectAcl"
+          ],
+          "Resource": "arn:aws:s3::${bucket_name}/${trim(prefix," /")}/*"
+        },
+%{endfor ~}
 %{endif}
 %{if deny_iamroles != ""}
         {

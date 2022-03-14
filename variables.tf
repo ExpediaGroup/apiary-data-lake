@@ -180,6 +180,12 @@ variable "apiary_consumer_iamroles" {
   default     = []
 }
 
+variable "apiary_consumer_prefix_iamroles" {
+  description = "AWS IAM roles allowed read access to certain prefixes in managed Apiary S3 buckets."
+  type        = map(any)
+  default     = {}
+}
+
 variable "apiary_producer_iamroles" {
   description = "AWS IAM roles allowed write access to managed Apiary S3 buckets."
   type        = map(any)
