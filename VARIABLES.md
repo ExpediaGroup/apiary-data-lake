@@ -186,7 +186,7 @@ is a list of IAM roles that has unrestricted read access to objects under that S
 
 An example entry looks like:
 ```
-consumer_prefix_iamroles = {
+apiary_consumer_prefix_iamroles = {
   sandbox = {
     "prefix1/with/several/levels" = [
       "arn:aws:iam::<account_id>:role/<iam_role_1>",
