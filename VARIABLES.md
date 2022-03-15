@@ -292,5 +292,5 @@ Each semicolon-demlimited section will create a new statement entry in the bucke
     ]        
 ```
 #### Interactions with `apiary_consumer_iamroles` and `apiary_consumer_prefix_iamroles`
-- Note that any IAM roles in `apiary_consumer_iamroles` would not be subject to the restrictions from `customer_condition`, and so could read any S3 object, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `false`, or if there is no `data-type` tag of `image*`.
-- Note that any IAM roles in `apiary_consumer_prefix_iamroles` would not be subject to the restrictions from `customer_condition` for the schema and prefixes specified in the map, and so could read any S3 object under those prefixes, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `false`, or if there is no `data-type` tag of `image*`.
+- Note that any IAM roles in `apiary_consumer_iamroles` would not be subject to the restrictions from `apiary_customer_condition`, and so could read any S3 object, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `true`, or if there is no `data-type` tag of `image*`.
+- Note that any IAM roles in `apiary_consumer_prefix_iamroles` would not be subject to the restrictions from `apiary_customer_condition` for the schemas and prefixes specified in the map, and so could read any S3 object under those prefixes, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `true`, or if there is no `data-type` tag of `image*`.
