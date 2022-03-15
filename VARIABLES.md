@@ -180,7 +180,7 @@ apiary_consumer_iamroles = [
 
 ### apiary_consumer_prefix_iamroles
 
-A map of map of list of IAM roles.  Each top-level map entry is the name of an Apiary managed schema. Each entry in that map, is an S3 prefix in that schema. The value of that map entry
+A map of map of list of IAM roles.  Each top-level map entry is the name of an Apiary managed schema. Each entry in that map is an S3 prefix in that schema. The value of that map entry
 is a list of IAM roles that has unrestricted read access to objects under that S3 prefix. These roles are not subject to any restrictions imposed by
 `apiary_customer_condition` policies.
 
@@ -210,8 +210,8 @@ consumer_prefix_iamroles = {
 
 ### apiary_customer_condition
 
-A string that defines a list of conditions that restrict which objects in an Apiary schema's S3 bucket may be read cross-a count by accounts in the `customer_accounts` list.
-The string is a semicolon-delimted list of comma-delimited strings that specify conditions that are valid in AWS S3 bucket policy 
+A string that defines a list of conditions that restrict which objects in an Apiary schema's S3 bucket may be read cross-account by accounts in the `customer_accounts` list.
+The string is a semicolon-delimited list of comma-delimited strings that specify conditions that are valid in AWS S3 bucket policy 
 [Condition](https://docs.aws.amazon.com/AmazonS3/latest/userguide/amazon-s3-policy-keys.html) sections.  This condition is applied to every Apiary schema's S3 bucket policy.
 
 An example entry to limit access to:
@@ -229,7 +229,7 @@ apiary_customer_condition = <<EOF
 EOF
 ``` 
 
-Each semicolon-demlimted section will create a new statement entry in the bucket policy's `Statement` array. Each comma-delimited section will create an entry in the 
+Each semicolon-demlimited section will create a new statement entry in the bucket policy's `Statement` array. Each comma-delimited section will create an entry in the 
 `Condition` section of the `Statement` entry.  For the above example, the `Statement` and `Condition` entries would be:
 ```
     "Statement": [
@@ -248,7 +248,7 @@ Each semicolon-demlimted section will create a new statement entry in the bucket
                 "s3:GetObject",
                 "s3:GetObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::apiary-112945290135-us-east-1-<schema_name>/*",
+            "Resource": "arn:aws:s3:::apiary-<account_num>-<region>-<schema_name>/*",
             "Condition": {
                 "StringEquals": {
                     "s3:ExistingObjectTag/data-sensitivity": "false"
@@ -276,10 +276,10 @@ Each semicolon-demlimted section will create a new statement entry in the bucket
                 "s3:GetObject",
                 "s3:GetObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::apiary-112945290135-us-east-1-<schema_name>/*",
+            "Resource": "arn:aws:s3:::apiary-<account_num>-<region>-<schema_name>/*",
             "Condition": {
                 "StringLike": {
-                    "s3:ExistingObjectTag/type": "image*"
+                    "s3:ExistingObjectTag/data-type": "image*"
                 },
                 "IpAddress": {                    
                     "aws:VpcSourceIp": [
@@ -293,4 +293,4 @@ Each semicolon-demlimted section will create a new statement entry in the bucket
 ```
 #### Interactions with `apiary_consumer_iamroles` and `apiary_consumer_prefix_iamroles`
 - Note that any IAM roles in `apiary_consumer_iamroles` would not be subject to the restrictions from `customer_condition`, and so could read any S3 object, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `false`, or if there is no `data-type` tag of `image*`.
-- Note that any IAM roles in `apiary_consumer_prefix_iamroles` would not be subject to the restrictions from `customer_condition` for the schema and prefixes specified in the map, and so could read any S3 object, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `false`, or if there is no `data-type` tag of `image*`.
+- Note that any IAM roles in `apiary_consumer_prefix_iamroles` would not be subject to the restrictions from `customer_condition` for the schema and prefixes specified in the map, and so could read any S3 object under those prefixes, even if they don't have a `data-sensitivity` tag, or if the `data-sensitivity` tag is `false`, or if there is no `data-type` tag of `image*`.
