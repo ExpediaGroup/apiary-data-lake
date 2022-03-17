@@ -182,7 +182,7 @@ variable "apiary_consumer_iamroles" {
 
 variable "apiary_consumer_prefix_iamroles" {
   description = "AWS IAM roles allowed unrestricted read access to certain prefixes in managed Apiary S3 buckets."
-  type        = map(any)
+  type        = map(map(list(string)))
   default     = {}
 }
 
