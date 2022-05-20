@@ -211,6 +211,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES"
             value = var.disallow_incompatible_col_type_changes
           }
+          env {
+            name  = "MYSQL_CONNECTION_POOL_SIZE"
+            value = var.hms_rw_db_connection_pool_size
+          }
+          env {
+            name  = "HMS_AUTOGATHER_STATS"
+            value = var.hms_autogather_stats
+          }
 
           liveness_probe {
             tcp_socket {
