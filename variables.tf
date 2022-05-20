@@ -593,5 +593,22 @@ variable "rds_family" {
   type        = string
   default     = "aurora5.6"
 }
-  
-  
+
+variable "hms_autogather_stats" {
+  description = "Read-write Hive metastore setting to enable/disable statistics auto-gather on table/partition creation."
+  type        = bool
+  default     = true
+}
+
+variable "hms_ro_db_connection_pool_size" {
+  description = "Read-only Hive metastore setting for size of the MySQL connection pool. Default is 10."
+  type        = number
+  default     = 10
+}
+
+variable "hms_rw_db_connection_pool_size" {
+  description = "Read-write Hive metastore setting for size of the MySQL connection pool. Default is 10."
+  type        = number
+  default     = 10
+}
+

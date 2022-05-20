@@ -171,6 +171,14 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
             name  = "HMS_MAX_THREADS"
             value = local.hms_ro_maxthreads
           }
+          env {
+            name  = "MYSQL_CONNECTION_POOL_SIZE"
+            value = var.hms_ro_db_connection_pool_size
+          }
+          env {
+            name  = "HMS_AUTOGATHER_STATS"
+            value = "false"
+          }
 
           liveness_probe {
             tcp_socket {

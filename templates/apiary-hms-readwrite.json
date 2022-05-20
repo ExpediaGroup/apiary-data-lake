@@ -208,8 +208,16 @@
        "value": "${system_schema_name}"
      },
      {
-      "name": "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES",
-      "value": "${disallow_incompatible_col_type_changes}"
+       "name": "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES",
+       "value": "${disallow_incompatible_col_type_changes}"
+     },
+     {
+       "name": "MYSQL_CONNECTION_POOL_SIZE",
+       "value": "${hms_rw_db_connection_pool_size}"
+     },
+     {
+       "name": "HMS_AUTOGATHER_STATS",
+       "value": "${hms_autogather_stats}"
      }
     ]
   }
