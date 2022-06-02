@@ -93,7 +93,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
           env {
             name  = "MYSQL_DB_HOST"
-            value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host
+            value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host
           }
           env {
             name  = "MYSQL_DB_NAME"
