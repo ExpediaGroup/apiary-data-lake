@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
   }
 
   spec {
-    replicas = var.ro_k8s_replica_count
+    replicas = var.hms_ro_k8s_replica_count
     selector {
       match_labels = {
         name = "${local.hms_alias}-readonly"
@@ -228,10 +228,10 @@ resource "kubernetes_horizontal_pod_autoscaler" "hms_readonly" {
   }
 
   spec {
-    min_replicas = var.ro_k8s_replica_count
-    max_replicas = var.ro_k8s_max_replica_count
+    min_replicas = var.hms_ro_k8s_replica_count
+    max_replicas = var.hms_ro_k8s_max_replica_count
 
-    target_cpu_utilization_percentage = var.ro_target_cpu_percentage
+    target_cpu_utilization_percentage = var.hms_ro_target_cpu_percentage
 
     scale_target_ref {
       api_version = "apps/v1"

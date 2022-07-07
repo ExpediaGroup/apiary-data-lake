@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
   }
 
   spec {
-    replicas = var.rw_k8s_replica_count
+    replicas = var.hms_rw_k8s_replica_count
     selector {
       match_labels = {
         name = "${local.hms_alias}-readwrite"
