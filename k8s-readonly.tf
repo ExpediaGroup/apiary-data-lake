@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
   }
 
   spec {
-    replicas = 3
+    replicas = var.hms_ro_k8s_replica_count
     selector {
       match_labels = {
         name = "${local.hms_alias}-readonly"
@@ -215,6 +215,28 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           name = var.k8s_docker_registry_secret
         }
       }
+    }
+  }
+}
+
+resource "kubernetes_horizontal_pod_autoscaler" "hms_readonly" {
+  count = var.hms_instance_type == "k8s" && var.enable_autoscaling ? 1 : 0
+
+  metadata {
+    name      = "${local.hms_alias}-readonly"
+    namespace = var.metastore_namespace
+  }
+
+  spec {
+    min_replicas = var.hms_ro_k8s_replica_count
+    max_replicas = var.hms_ro_k8s_max_replica_count
+
+    target_cpu_utilization_percentage = var.hms_ro_target_cpu_percentage
+
+    scale_target_ref {
+      api_version = "apps/v1"
+      kind        = "Deployment"
+      name        = kubernetes_deployment.apiary_hms_readonly[0].metadata[0].name
     }
   }
 }

@@ -344,6 +344,36 @@ variable "hms_ro_ecs_task_count" {
   default     = "3"
 }
 
+variable "hms_rw_k8s_replica_count" {
+  description = "Initial Number of read/write Hive Metastore k8s pod replicas to create."
+  type        = number
+  default     = 3
+}
+
+variable "hms_ro_k8s_replica_count" {
+  description = "Initial Number of read only Hive Metastore k8s pod replicas to create."
+  type        = number
+  default     = 3
+}
+
+variable "hms_ro_k8s_max_replica_count" {
+  description = "Max Number of read only Hive Metastore k8s pod replicas to create."
+  type        = number
+  default     = 10
+}
+
+variable "enable_autoscaling" {
+  description = "Enable read only Hive Metastore k8s horizontal pod autoscaling"
+  type        = bool
+  default     = false
+}
+
+variable "hms_ro_target_cpu_percentage" {
+  description = "Read only Hive Metastore autoscaling threshold for CPU target usage."
+  type        = number
+  default     = 60
+}
+
 variable "elb_timeout" {
   description = "Idle timeout for Apiary ELB."
   type        = string
@@ -586,7 +616,7 @@ variable "enable_dashboard" {
   description = "make EKS & ECS dashboard optional"
   type        = bool
   default     = true
-}  
+}
 
 variable "rds_family" {
   description = "RDS family"
