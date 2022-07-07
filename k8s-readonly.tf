@@ -236,7 +236,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "hms_readonly" {
     scale_target_ref {
       api_version = "apps/v1"
       kind        = "Deployment"
-      name        = kubernetes_deployment.hms_readonly[0].metadata[0].name
+      name        = kubernetes_deployment.apiary_hms_readonly[0].metadata[0].name
     }
   }
 }
