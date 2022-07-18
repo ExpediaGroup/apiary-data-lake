@@ -90,7 +90,7 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   publicly_accessible          = false
   apply_immediately            = var.db_apply_immediately
   monitoring_interval          = var.db_enhanced_monitoring_interval
-  monitoring_role_arn          = var.db_enhanced_monitoring_interval > 0 ? aws_iam_role.rds_enhanced_monitoring : null
+  monitoring_role_arn          = var.db_enhanced_monitoring_interval > 0 ? aws_iam_role.rds_enhanced_monitoring[0].arn : null
   performance_insights_enabled = var.db_enable_performance_insights
   tags                         = var.apiary_tags
 

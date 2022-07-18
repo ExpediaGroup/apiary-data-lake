@@ -229,6 +229,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
-  role       = aws_iam_role.rds_enhanced_monitoring.name
+  count      = var.db_enhanced_monitoring_interval > 0 ? 1 : 0
+  role       = aws_iam_role.rds_enhanced_monitoring[count.index].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
