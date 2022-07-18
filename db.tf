@@ -82,13 +82,17 @@ resource "aws_rds_cluster" "apiary_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
-  count                = var.external_database_host == "" ? var.db_instance_count : 0
-  identifier           = "${local.instance_alias}-instance-${count.index}"
-  cluster_identifier   = aws_rds_cluster.apiary_cluster[0].id
-  instance_class       = var.db_instance_class
-  db_subnet_group_name = aws_db_subnet_group.apiarydbsg[0].name
-  publicly_accessible  = false
-  tags                 = var.apiary_tags
+  count                        = var.external_database_host == "" ? var.db_instance_count : 0
+  identifier                   = "${local.instance_alias}-instance-${count.index}"
+  cluster_identifier           = aws_rds_cluster.apiary_cluster[0].id
+  instance_class               = var.db_instance_class
+  db_subnet_group_name         = aws_db_subnet_group.apiarydbsg[0].name
+  publicly_accessible          = false
+  apply_immediately            = var.db_apply_immediately
+  monitoring_interval          = var.db_enhanced_monitoring_interval
+  monitoring_role_arn          = var.db_enhanced_monitoring_interval > 0 ? aws_iam_role.rds_enhanced_monitoring : null
+  performance_insights_enabled = var.db_enable_performance_insights
+  tags                         = var.apiary_tags
 
   lifecycle {
     create_before_destroy = true
