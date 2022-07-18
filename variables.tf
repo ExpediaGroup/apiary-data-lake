@@ -642,3 +642,14 @@ variable "hms_rw_db_connection_pool_size" {
   default     = 10
 }
 
+variable "db_enable_performance_insights" {
+  description = "Enable RDS Performance Insights"
+  type        = bool
+  default     = false
+}
+
+variable "db_enhanced_monitoring_interval" {
+  description = "RDS monitoring interval (in seconds) for enhanced monitoring.  Valid values are 0, 1, 5, 10, 15, 30, 60. Default is 0."
+  type        = number
+  default     = 0
+}

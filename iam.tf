@@ -206,3 +206,30 @@ resource "aws_iam_role_policy" "s3_data_for_s3_inventory" {
 }
 EOF
 }
+
+resource "aws_iam_role" "rds_enhanced_monitoring" {
+  count = var.db_enhanced_monitoring_interval > 0 ? 1 : 0
+  name  = "${local.instance_alias}-rds-enhanced-monitoring-${var.aws_region}"
+
+  assume_role_policy = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement": [
+     {
+       "Sid": "",
+       "Effect": "Allow",
+       "Principal": {
+         "Service": "monitoring.rds.amazonaws.com"
+       },
+       "Action": "sts:AssumeRole"
+     }
+   ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
+  count      = var.db_enhanced_monitoring_interval > 0 ? 1 : 0
+  role       = aws_iam_role.rds_enhanced_monitoring[count.index].name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+}
