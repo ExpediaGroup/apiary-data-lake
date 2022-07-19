@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.14.1] - 2022-07-19
+### Fixed
+- Fix k8s metastore cpu limits.
+
 ## [6.14.0] - 2022-07-18
 ### Added
 - Add support for enabling RDS Performance Insights and Enhanced Monitoring.  Both will apply to both reader and writer RDS instances.

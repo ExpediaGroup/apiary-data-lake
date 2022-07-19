@@ -204,9 +204,11 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
 
           resources {
             limits {
+              cpu    = local.k8s_ro_cpu_limit
               memory = "${var.hms_ro_heapsize}Mi"
             }
             requests {
+              cpu    = local.k8s_ro_cpu
               memory = "${var.hms_ro_heapsize}Mi"
             }
           }
