@@ -51,6 +51,12 @@ locals {
   hms_rw_minthreads = max(25, ceil((var.hms_rw_heapsize * 12.5) / 100))
   hms_rw_maxthreads = max(100, ceil((var.hms_rw_heapsize * 50) / 100))
 
+  k8s_ro_cpu       = var.hms_ro_cpu / 1024
+  k8s_ro_cpu_limit = (var.hms_ro_cpu / 1024) * 1.25
+
+  k8s_rw_cpu       = var.hms_rw_cpu / 1024
+  k8s_rw_cpu_limit = (var.hms_rw_cpu / 1024) * 1.25
+
   hms_alias = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
 
   ro_ingress_cidr = var.ingress_cidr
