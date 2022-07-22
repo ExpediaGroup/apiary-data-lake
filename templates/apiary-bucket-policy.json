@@ -89,9 +89,7 @@
         {
             "Sid": "Apiary consumer iamrole permissions",
             "Effect": "Allow",
-            "Principal": {
-                "AWS": [ "${consumer_iamroles}" ]
-            },
+            "Principal": "*",
             "Action": [
                 "s3:GetBucketLocation",
                 "s3:GetObject",
@@ -102,7 +100,12 @@
             "Resource": [
                 "arn:aws:s3:::${bucket_name}",
                 "arn:aws:s3:::${bucket_name}/*"
-            ]
+            ],
+            "Condition": {
+              "StringLike": {
+                "aws:PrincipalArn": [ "${consumer_iamroles}" ]
+              }
+            }
         },
 %{endif}
 %{if producer_iamroles != ""}
