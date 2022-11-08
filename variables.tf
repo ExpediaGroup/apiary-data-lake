@@ -655,7 +655,7 @@ variable "db_enhanced_monitoring_interval" {
 }
 
 variable "hms_additional_environment_variables" {
-  description = "Hive metastore additional environment variables"
+  description = "Additional environment variables for Hive metastore."
   type        = map(any)
   default     = {}
 }
