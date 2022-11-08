@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.14.3] - 2022-11-08
+### Added
+- Add variable to set custom environment variables for the Hive Metastore
+
 ## [6.14.2] - 2022-07-19
 ### Changed
 - Add support for wildcards in consumer iam roles.
