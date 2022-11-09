@@ -221,8 +221,8 @@
      }
 %{ for env_key, env_value in hms_additional_vars }
         ,{
-          "name": ${env_key},
-          "value": ${env_value}
+          "name": "${env_key}",
+          "value": "${env_value}"
         }
 %{ endfor }
     ]
