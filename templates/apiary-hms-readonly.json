@@ -167,6 +167,12 @@
         "name": "HMS_AUTOGATHER_STATS",
         "value": "false"
       }
+%{ for env_key, env_value in hms_additional_vars }
+     ,{
+        "name": "${env_key}",
+        "value": "${env_value}"
+      }
+%{ endfor }
    ]
   }
 ]
