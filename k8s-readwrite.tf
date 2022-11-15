@@ -219,6 +219,14 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
             name  = "HMS_AUTOGATHER_STATS"
             value = var.hms_autogather_stats
           }
+          dynamic "env" {
+            for_each = var.hms_additional_environment_variables
+
+            content {
+              name  = env.key
+              value = env.value
+            }
+          }
 
           liveness_probe {
             tcp_socket {

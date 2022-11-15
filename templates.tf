@@ -4,10 +4,8 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-data "template_file" "hms_readwrite" {
-  template = file("${path.module}/templates/apiary-hms-readwrite.json")
-
-  vars = {
+locals{
+  hms_readwrite_template = templatefile("${path.module}/templates/apiary-hms-readwrite.json", {
     mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_db_name              = "${var.apiary_database_name}"
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
@@ -17,6 +15,7 @@ data "template_file" "hms_readwrite" {
     hms_maxthreads             = local.hms_ro_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
+    hms_additional_vars        = var.hms_additional_environment_variables
     region                     = "${var.aws_region}"
     loggroup                   = "${join("", aws_cloudwatch_log_group.apiary_ecs.*.name)}"
     hive_metastore_log_level   = "${var.hms_log_level}"
@@ -62,13 +61,9 @@ data "template_file" "hms_readwrite" {
     mysql_permissions      = "ALL"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
-  }
-}
+  })
 
-data "template_file" "hms_readonly" {
-  template = file("${path.module}/templates/apiary-hms-readonly.json")
-
-  vars = {
+  hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
     mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host}"
     mysql_db_name              = "${var.apiary_database_name}"
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
@@ -78,6 +73,7 @@ data "template_file" "hms_readonly" {
     hms_maxthreads             = local.hms_rw_maxthreads
     hms_docker_image           = "${var.hms_docker_image}"
     hms_docker_version         = "${var.hms_docker_version}"
+    hms_additional_vars        = var.hms_additional_environment_variables
     region                     = "${var.aws_region}"
     loggroup                   = "${join("", aws_cloudwatch_log_group.apiary_ecs.*.name)}"
     hive_metastore_log_level   = "${var.hms_log_level}"
@@ -107,5 +103,5 @@ data "template_file" "hms_readonly" {
     mysql_write_db         = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
-  }
+  })
 }
