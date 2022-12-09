@@ -92,6 +92,10 @@
         "value": "${hive_metastore_access_mode}"
       },
       {
+        "name": "ENABLE_RANGER_PLUGIN",
+        "value": "${enable_ranger_plugin}"
+      },
+      {
         "name": "HADOOP_HEAPSIZE",
         "value": "${hms_heapsize}"
       },
