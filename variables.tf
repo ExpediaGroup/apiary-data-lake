@@ -659,3 +659,15 @@ variable "hms_additional_environment_variables" {
   type        = map(any)
   default     = {}
 }
+
+variable "enable_hms_readwrite_ranger_plugin" {
+  description = "Enable ranger plugin on ReadWrite Hive Metastore"
+  type        = string
+  default     = "true"
+}
+
+variable "enable_hms_readonly_ranger_plugin" {
+  description = "Enable ranger plugin on Readonly Hive Metastore"
+  type        = string
+  default     = "false"
+}
