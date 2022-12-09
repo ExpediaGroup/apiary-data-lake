@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.15.1] - 2022-12-09
+### Added
+- Add variables `enable_hms_readwrite_ranger_plugin` and `enable_hms_readonly_ranger_plugin` for enabling/disabling Ranger plugin on Hive Metastore.
+
 ## [6.15.0] - 2022-11-15
 ### Added
 - Add variable to set custom environment variables for the Hive Metastore
