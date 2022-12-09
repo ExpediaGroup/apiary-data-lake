@@ -10,7 +10,7 @@ locals{
     mysql_db_name              = "${var.apiary_database_name}"
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_rw_user.arn}"
     hive_metastore_access_mode = "readwrite"
-    enable_ranger_plugin       = var.enable_readwrite_ranger_plugin
+    enable_ranger_plugin       = var.enable_hms_readwrite_ranger_plugin
     hms_heapsize               = "${var.hms_rw_heapsize}"
     hms_minthreads             = local.hms_ro_minthreads
     hms_maxthreads             = local.hms_ro_maxthreads
@@ -69,7 +69,7 @@ locals{
     mysql_db_name              = "${var.apiary_database_name}"
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     hive_metastore_access_mode = "readonly"
-    enable_ranger_plugin       = var.enable_readwonly_ranger_plugin
+    enable_ranger_plugin       = var.enable_hms_readonly_ranger_plugin
     hms_heapsize               = "${var.hms_ro_heapsize}"
     hms_minthreads             = local.hms_rw_minthreads
     hms_maxthreads             = local.hms_rw_maxthreads
