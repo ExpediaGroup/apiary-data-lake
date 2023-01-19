@@ -78,7 +78,8 @@ resource "aws_rds_cluster" "apiary_cluster" {
   apply_immediately                   = var.db_apply_immediately
   db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.apiary_rds_param_group.name
   storage_encrypted                   = var.encrypt_db
-
+  engine                              = "aurora-mysql"
+  engine_version                      = "5.7.mysql_aurora.2.11.0"
   lifecycle {
     create_before_destroy = true
   }
