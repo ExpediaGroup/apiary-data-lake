@@ -64,6 +64,7 @@ resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
 resource "aws_rds_cluster" "apiary_cluster" {
   count                               = var.external_database_host == "" ? 1 : 0
   cluster_identifier_prefix           = "${local.instance_alias}-cluster"
+  engine                              = "aurora-mysql"
   engine_version                      = var.rds_engine_version
   database_name                       = var.apiary_database_name
   master_username                     = var.db_master_username
