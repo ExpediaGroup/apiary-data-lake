@@ -624,6 +624,12 @@ variable "rds_family" {
   default     = "aurora-mysql5.7"
 }
 
+variable "rds_engine_version" {
+  description = "RDS engine version"
+  type        = string
+  default     = "5.7.mysql_aurora.2.11.0"
+}
+
 variable "hms_autogather_stats" {
   description = "Read-write Hive metastore setting to enable/disable statistics auto-gather on table/partition creation."
   type        = bool
