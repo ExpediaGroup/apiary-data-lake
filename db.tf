@@ -86,7 +86,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   count                                 = var.external_database_host == "" ? var.db_instance_count : 0
-  identifier_prefix                     = "${local.instance_alias}-instance"
+  identifier_prefix                     = "${local.instance_alias}-instance-${count.index}"
   cluster_identifier                    = aws_rds_cluster.apiary_cluster[0].id
   engine                                = "aurora-mysql"
   instance_class                        = var.db_instance_class
