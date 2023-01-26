@@ -63,7 +63,7 @@ resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
 
 resource "aws_rds_cluster" "apiary_cluster" {
   count                               = var.external_database_host == "" ? 1 : 0
-  cluster_identifier                  = "${local.instance_alias}-cluster"
+  cluster_identifier_prefix           = "${local.instance_alias}-cluster"
   database_name                       = var.apiary_database_name
   master_username                     = var.db_master_username
   master_password                     = random_string.db_master_password[0].result
@@ -85,7 +85,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
 
 resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   count                                 = var.external_database_host == "" ? var.db_instance_count : 0
-  identifier                            = "${local.instance_alias}-instance-${count.index}"
+  identifier_prefix                     = "${local.instance_alias}-instance-${count.index}"
   cluster_identifier                    = aws_rds_cluster.apiary_cluster[0].id
   instance_class                        = var.db_instance_class
   db_subnet_group_name                  = aws_db_subnet_group.apiarydbsg[0].name
