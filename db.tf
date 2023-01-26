@@ -87,6 +87,7 @@ resource "aws_rds_cluster_instance" "apiary_cluster_instance" {
   count                                 = var.external_database_host == "" ? var.db_instance_count : 0
   identifier_prefix                     = "${local.instance_alias}-instance"
   cluster_identifier                    = aws_rds_cluster.apiary_cluster[0].id
+  engine_version                        = var.engine_version
   instance_class                        = var.db_instance_class
   db_subnet_group_name                  = aws_db_subnet_group.apiarydbsg[0].name
   publicly_accessible                   = false
