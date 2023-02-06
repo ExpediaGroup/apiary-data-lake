@@ -624,10 +624,10 @@ variable "rds_family" {
   default     = "aurora-mysql5.7"
 }
 
-variable "rds_engine_version" {
+variable "rds_engine" {
   description = "RDS engine version"
   type        = string
-  default     = "5.7.mysql_aurora.2.11.0"
+  default     = "aurora-mysql"
 }
 
 variable "hms_autogather_stats" {
