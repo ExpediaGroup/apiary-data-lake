@@ -621,7 +621,13 @@ variable "enable_dashboard" {
 variable "rds_family" {
   description = "RDS family"
   type        = string
-  default     = "aurora5.6"
+  default     = "aurora-mysql5.7"
+}
+
+variable "rds_engine" {
+  description = "RDS engine version"
+  type        = string
+  default     = "aurora-mysql"
 }
 
 variable "hms_autogather_stats" {
