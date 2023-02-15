@@ -344,3 +344,15 @@ variable "s3_lifecycle_policy_transition_period" {
   type        = "string"
   default     = "30"
 }
+
+variable "rds_family" {
+  description = "RDS family"
+  type        = "string"
+  default     = "aurora-mysql5.7"
+}
+
+variable "rds_engine" {
+  description = "RDS engine version"
+  type        = "string"
+  default     = "aurora-mysql"
+}
