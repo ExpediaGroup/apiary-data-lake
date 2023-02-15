@@ -84,6 +84,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   tags                                = "${var.apiary_tags}"
   final_snapshot_identifier           = "${local.instance_alias}-cluster-final-${random_id.snapshot_id.hex}"
   iam_database_authentication_enabled = true
+  db_cluster_parameter_group_name     = "${aws_rds_cluster_parameter_group.apiary_rds_param_group.name}"
   apply_immediately                   = "${var.db_apply_immediately}"
 
   lifecycle {
