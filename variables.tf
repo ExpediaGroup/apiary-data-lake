@@ -356,3 +356,9 @@ variable "rds_engine" {
   type        = "string"
   default     = "aurora-mysql"
 }
+
+variable "rds_max_allowed_packet" {
+  description = "RDS/MySQL setting for parameter 'max_allowed_packet' in bytes. Default is 128MB (Note that MySQL default is 4MB)."
+  type        = "string"
+  default     = "134217728"
+}
