@@ -7,9 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Upgrade apiary RDS version from `aurora5.6` to `aurora-mysql5.7` 
 
-## [2.0.2-rds-upgrade] - 2023-02-15
-### Changed
-- Upgrade apiary RDS version from `aurora5.6` to `aurora-mysql5.7` 
+## [2.0.3] - 2019-06-07
+
+### Added
+- Pass `var.aws_region` to `null_resource.mysql_ro_user`
 
 ## [2.0.2] - 2019-06-06
 
