@@ -3,7 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.0.2-rds-upgrade] - 2023-01-15
+## [2.0.3-rds-upgrade] - 2023-02-17
+### Changed
+- Upgrade apiary RDS version from `aurora5.6` to `aurora-mysql5.7` 
+
+## [2.0.2-rds-upgrade] - 2023-02-15
 ### Changed
 - Upgrade apiary RDS version from `aurora5.6` to `aurora-mysql5.7` 
 
