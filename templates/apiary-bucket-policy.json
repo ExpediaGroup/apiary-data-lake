@@ -39,7 +39,11 @@
             "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
             "Principal": {
+%{if conditional_consumer_iamroles == ""}
                 "AWS": [ "${customer_principal}" ]
+%{else}
+                "AWS": [ "${customer_principal}", "${conditional_consumer_iamroles}" ]
+%{endif}
             },
             "Condition": {
               ${condition}
@@ -87,7 +91,7 @@
 %{endif}
 %{if consumer_iamroles != ""}
         {
-            "Sid": "Apiary consumer iamrole permissions",
+            "Sid": "Apiary consumer iamrole permissions with unrestricted access",
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
