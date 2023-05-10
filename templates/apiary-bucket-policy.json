@@ -87,7 +87,7 @@
 %{endif}
 %{if consumer_iamroles != ""}
         {
-            "Sid": "Apiary consumer iamrole permissions",
+            "Sid": "Apiary consumer iamrole permissions with full access",
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
@@ -107,6 +107,32 @@
               }
             }
         },
+%{endif}
+%{if conditional_consumer_iamroles != "" && consumer_condition != ""}
+%{for condition in split(";",consumer_condition)}
+        {
+            "Sid": "Apiary consumer iamroles based on a condition",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+              "s3:GetBucketLocation",
+              "s3:GetObject",
+              "s3:GetObjectAcl",
+              "s3:GetBucketAcl",
+              "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${bucket_name}",
+                "arn:aws:s3:::${bucket_name}/*"
+            ],
+            "Condition": {
+              "StringLike": {
+                "aws:PrincipalArn": [ "${conditional_consumer_iamroles}" ],
+                ${condition}
+              }
+            }
+        },
+%{endfor}
 %{endif}
 %{if producer_iamroles != ""}
         {

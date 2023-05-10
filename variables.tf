@@ -139,7 +139,13 @@ variable "apiary_customer_accounts" {
 }
 
 variable "apiary_customer_condition" {
-  description = "IAM policy condition applied to customer account s3 object access."
+  description = "IAM policy condition applied to customer account for s3 object access."
+  type        = string
+  default     = ""
+}
+
+variable "apiary_consumer_condition" {
+  description = "IAM policy condition applied to consumer IAM Roles for s3 object access."
   type        = string
   default     = ""
 }
@@ -176,6 +182,12 @@ variable "apiary_assume_roles" {
 
 variable "apiary_consumer_iamroles" {
   description = "AWS IAM roles allowed unrestricted read access to managed Apiary S3 buckets."
+  type        = list(string)
+  default     = []
+}
+
+variable "apiary_conditional_consumer_iamroles" {
+  description = "AWS IAM roles allowed read access based on custom conditions to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
 }
