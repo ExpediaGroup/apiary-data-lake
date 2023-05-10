@@ -29,9 +29,9 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           name = "${local.hms_alias}-readwrite"
         }
         annotations = {
-          ad.datadoghq.com/hms-readwrite.check_names: ["prometheus"]
-          ad.datadoghq.com/hms-readwrite.init_configs: [{}]
-          ad.datadoghq.com/hms-readwrite.instances: [
+          "ad.datadoghq.com/hms-readwrite.check_names": ["prometheus"]
+          "ad.datadoghq.com/hms-readwrite.init_configs": [{}]
+          "ad.datadoghq.com/hms-readwrite.instances": [
               {
                 "prometheus_url": "http://%%host%%:8080/actuator/prometheus",
                 "namespace": "hms-readwrite",
