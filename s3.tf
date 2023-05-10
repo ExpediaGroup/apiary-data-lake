@@ -14,7 +14,6 @@ locals {
       #if apiary_shared_schemas is empty or contains current schema, allow customer accounts to access this bucket.
       customer_principal            = (length(var.apiary_shared_schemas) == 0 || contains(var.apiary_shared_schemas, schema["schema_name"])) && schema["customer_accounts"] != "" ? join("\",\"", formatlist("arn:aws:iam::%s:root", split(",", schema["customer_accounts"]))) : ""
       customer_condition            = var.apiary_customer_condition
-      consumer_condition            = var.apiary_consumer_condition
       bucket_name                   = schema["data_bucket"]
       encryption                    = schema["encryption"]
       kms_key_arn                   = schema["encryption"] == "aws:kms" ? aws_kms_key.apiary_kms[schema["schema_name"]].arn : ""
