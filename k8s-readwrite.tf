@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           name = "${local.hms_alias}-readwrite"
         }
         annotations = {
-          "ad.datadoghq.com/hms-readwrite.check_names": "['prometheus']"
+          "ad.datadoghq.com/hms-readwrite.check_names": "[prometheus]"
           "ad.datadoghq.com/hms-readwrite.init_configs": "[{}]"
           "ad.datadoghq.com/hms-readwrite.instances": [
               {
