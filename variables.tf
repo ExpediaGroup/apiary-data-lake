@@ -181,7 +181,7 @@ variable "apiary_consumer_iamroles" {
 }
 
 variable "apiary_conditional_consumer_iamroles" {
-  description = "AWS IAM roles allowed conditional read access based on apiary_consumer_condition to managed Apiary S3 buckets."
+  description = "AWS IAM roles allowed conditional read access based on apiary_customer_condition to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
 }
