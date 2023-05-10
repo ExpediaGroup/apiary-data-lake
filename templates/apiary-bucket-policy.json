@@ -87,7 +87,7 @@
 %{endif}
 %{if consumer_iamroles != ""}
         {
-            "Sid": "Apiary consumer iamrole permissions with full access",
+            "Sid": "Apiary consumer iamrole permissions with unrestricted access",
             "Effect": "Allow",
             "Principal": "*",
             "Action": [
