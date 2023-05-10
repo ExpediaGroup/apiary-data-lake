@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.17.0] - 2023-05-10
 ### Added
-- New block in every S3 bucket policy called `conditional_consumer_iamroles`. It allows S3 read access to certain IAM Roles based on an `apiary_consumer_condition`.
+- New block in every S3 bucket policy called `conditional_consumer_iamroles`. It allows S3 read access to certain IAM Roles based on an `apiary_customer_condition`.
 
 ## [6.16.0] - 2023-02-10
 ### Changed
