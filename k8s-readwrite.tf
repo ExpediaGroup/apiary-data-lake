@@ -30,38 +30,38 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
         }
         annotations = {
           ad.datadoghq.com/hms-readwrite.check_names:
-          ["prometheus"]
+            ["prometheus"]
           ad.datadoghq.com/hms-readwrite.init_configs:
-          [{}]
+            [{}]
           ad.datadoghq.com/hms-readwrite.instances:
-          [
-            {
-              "prometheus_url": "http://%%host%%:8080/actuator/prometheus",
-              "namespace": "hms-readwrite",
-              "metrics": [
-                "metrics_init_total_count_tables_value",
-                "metrics_init_total_count_dbs_value",
-                "metrics_memory_heap_used_value",
-                "metrics_init_total_count_partitions_value",
-                "metrics_memory_heap_max_value",
-                "metrics_threads_count_value",
-                "metrics_classloading_loaded_value"
-              ],
-              "type_overrides": {
-                "metrics_init_total_count_dbs_value": "gauge",
-                "metrics_init_total_count_tables_value": "gauge",
-                "metrics_memory_heap_used_value": "gauge",
-                "metrics_init_total_count_partitions_value": "gauge",
-                "metrics_memory_heap_max_value": "gauge",
-                "metrics_threads_count_value": "gauge",
-                "metrics_classloading_loaded_value": "gauge"
-              },
-              "send_histograms_buckets": true,
-              "send_monotonic_counter": true,
-              "send_distribution_buckets": true,
-              "send_distribution_counts_as_monotonic": true
-            }
-          ]
+            [
+              {
+                "prometheus_url": "http://%%host%%:8080/actuator/prometheus",
+                "namespace": "hms-readwrite",
+                "metrics": [
+                  "metrics_init_total_count_tables_value",
+                  "metrics_init_total_count_dbs_value",
+                  "metrics_memory_heap_used_value",
+                  "metrics_init_total_count_partitions_value",
+                  "metrics_memory_heap_max_value",
+                  "metrics_threads_count_value",
+                  "metrics_classloading_loaded_value"
+                ],
+                "type_overrides": {
+                  "metrics_init_total_count_dbs_value": "gauge",
+                  "metrics_init_total_count_tables_value": "gauge",
+                  "metrics_memory_heap_used_value": "gauge",
+                  "metrics_init_total_count_partitions_value": "gauge",
+                  "metrics_memory_heap_max_value": "gauge",
+                  "metrics_threads_count_value": "gauge",
+                  "metrics_classloading_loaded_value": "gauge"
+                },
+                "send_histograms_buckets": true,
+                "send_monotonic_counter": true,
+                "send_distribution_buckets": true,
+                "send_distribution_counts_as_monotonic": true
+              }
+            ]
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
