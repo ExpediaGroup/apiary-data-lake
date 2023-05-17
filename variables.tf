@@ -672,44 +672,17 @@ variable "hms_additional_environment_variables" {
   default     = {}
 }
 
-variable "metrics_classloading_loaded" {
-  description = "Number of JVM classes loaded at a given point of time."
-  type        = string
-  default     = "metrics_classloading_loaded_value"
+variable "datadog_metrics_hms_readwrite_readonly" {
+  description = "Prometheus Metrics sent to datadog"
+  type        = list(string)
+  default = [
+    "metrics_classloading_loaded_value*",
+    "metrics_threads_count_value*",
+    "metrics_memory_heap_max_value*",
+    "metrics_init_total_count_tables_value",
+    "metrics_init_total_count_dbs_value",
+    "metrics_memory_heap_used_value",
+    "metrics_init_total_count_partitions_value*"
+  ]
 }
 
-variable "metrics_threads_count" {
-  description = "Number of threads running concurrently"
-  type        = string
-  default     = "metrics_threads_count_value"
-}
-
-variable "metrics_memory_heap_max" {
-  description = "Total Heap memory available."
-  type        = string
-  default     = "metrics_memory_heap_max_value"
-}
-
-variable "metrics_init_total_count_tables" {
-  description = "Number of tables created."
-  type        = string
-  default     = "metrics_init_total_count_tables_value"
-}
-
-variable "metrics_init_total_count_dbs" {
-  description = "Number of Databases created."
-  type        = string
-  default     = "metrics_init_total_count_dbs_value"
-}
-
-variable "metrics_memory_heap_used" {
-  description = "Total heap memory currently used."
-  type        = string
-  default     = "metrics_memory_heap_used_value"
-}
-
-variable "metrics_init_total_count_partitions" {
-  description = "Number of partitions created."
-  type        = string
-  default     = "metrics_init_total_count_partitions_value"
-}
