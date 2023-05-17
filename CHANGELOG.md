@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [6.17.1] - 2023-05-15
+## [6.17.1] - 2023-05-17
 ### Added
 - Added the annotations to push Prometheus metrics for Hive Metastore R/W and R/O to Datadog UI.
 
@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Update RDS default version from `aurora5.6` to `aurora-mysql5.7`
 
-## [6.15.0] - 2022-11-17
+## [6.15.0] - 2022-11-15
 ### Added
 - Add variable to set custom environment variables for the Hive Metastore
 
