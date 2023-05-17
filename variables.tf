@@ -671,3 +671,46 @@ variable "hms_additional_environment_variables" {
   type        = map(any)
   default     = {}
 }
+
+
+variable "metrics_classloading_loaded_value" {
+  description = ""
+  type        = string
+  default     = "metrics_classloading_loaded_value"
+}
+
+variable "metrics_threads_count_value" {
+  description = ""
+  type        = string
+  default     = "metrics_threads_count_value"
+}
+
+variable "metrics_memory_heap_max_value" {
+  description = ""
+  type        = string
+  default     = "metrics_memory_heap_max_value"
+}
+
+variable "metrics_init_total_count_tables_value" {
+  description = ""
+  type        = string
+  default     = "metrics_init_total_count_tables_value"
+}
+
+variable "metrics_init_total_count_dbs_value" {
+  description = ""
+  type        = string
+  default     = "metrics_init_total_count_dbs_value"
+}
+
+variable "metrics_memory_heap_used_value" {
+  description = ""
+  type        = string
+  default     = "metrics_memory_heap_used_value"
+}
+
+variable "metrics_init_total_count_partitions_value" {
+  description = ""
+  type        = string
+  default     = "metrics_init_total_count_partitions_value"
+}

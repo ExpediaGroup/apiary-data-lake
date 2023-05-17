@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - Update RDS default version from `aurora5.6` to `aurora-mysql5.7`
 
-## [6.15.0] - 2022-11-15
+## [6.15.0] - 2022-11-17
 ### Added
 - Add variable to set custom environment variables for the Hive Metastore
 
