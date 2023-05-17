@@ -672,7 +672,6 @@ variable "hms_additional_environment_variables" {
   default     = {}
 }
 
-
 variable "metrics_classloading_loaded" {
   description = "Number of JVM classes loaded at a given point of time."
   type        = string
