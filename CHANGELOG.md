@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.18.0] - 2023-05-17
+### Added
+- Added the annotations to push Prometheus metrics for Hive Metastore R/W and R/O to Datadog UI.
+
 ## [6.17.0] - 2023-05-10
 ### Added
 - New block in every S3 bucket policy called `conditional_consumer_iamroles`. It allows S3 read access to certain IAM Roles based on an `apiary_customer_condition`.

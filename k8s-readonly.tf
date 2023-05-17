@@ -29,6 +29,9 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           name = "${local.hms_alias}-readonly"
         }
         annotations = {
+          "ad.datadoghq.com/hms-readonly.check_names": "[\"prometheus\"]"
+          "ad.datadoghq.com/hms-readonly.init_configs": "[{}]"
+          "ad.datadoghq.com/hms-readonly.instances":"[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readonly\", \"metrics\": [ ${var.metrics_classloading_loaded}, ${var.metrics_init_total_count_dbs}, ${var.metrics_memory_heap_used}, ${var.metrics_init_total_count_partitions}, ${var.metrics_memory_heap_max}, ${var.metrics_threads_count}], \"type_overrides\": { ${var.metrics_init_total_count_dbs}: \"gauge\", ${var.metrics_init_total_count_tables}: \"gauge\", ${var.metrics_memory_heap_used}: \"gauge\", ${var.metrics_init_total_count_partitions}: \"gauge\", ${var.metrics_memory_heap_max}: \"gauge\", ${var.metrics_threads_count}: \"gauge\", ${var.metrics_classloading_loaded}: \"gauge\" }, \"send_histograms_buckets\": true, \"send_monotonic_counter\": true, \"send_distribution_buckets\": true, \"send_distribution_counts_as_monotonic\": true }]"
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readonly.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
