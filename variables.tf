@@ -673,43 +673,43 @@ variable "hms_additional_environment_variables" {
 }
 
 
-variable "metrics_classloading_loaded_value" {
+variable "metrics_classloading_loaded" {
   description = ""
   type        = string
   default     = "metrics_classloading_loaded_value"
 }
 
-variable "metrics_threads_count_value" {
+variable "metrics_threads_count" {
   description = ""
   type        = string
   default     = "metrics_threads_count_value"
 }
 
-variable "metrics_memory_heap_max_value" {
+variable "metrics_memory_heap_max" {
   description = ""
   type        = string
   default     = "metrics_memory_heap_max_value"
 }
 
-variable "metrics_init_total_count_tables_value" {
+variable "metrics_init_total_count_tables" {
   description = ""
   type        = string
   default     = "metrics_init_total_count_tables_value"
 }
 
-variable "metrics_init_total_count_dbs_value" {
+variable "metrics_init_total_count_dbs" {
   description = ""
   type        = string
   default     = "metrics_init_total_count_dbs_value"
 }
 
-variable "metrics_memory_heap_used_value" {
+variable "metrics_memory_heap_used" {
   description = ""
   type        = string
   default     = "metrics_memory_heap_used_value"
 }
 
-variable "metrics_init_total_count_partitions_value" {
+variable "metrics_init_total_count_partitions" {
   description = ""
   type        = string
   default     = "metrics_init_total_count_partitions_value"
