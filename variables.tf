@@ -682,7 +682,7 @@ variable "datadog_metrics_hms_readwrite_readonly" {
     "metrics_init_total_count_tables_value",
     "metrics_init_total_count_dbs_value",
     "metrics_memory_heap_used_value",
-    "metrics_init_total_count_partitions_value*"
+    "metrics_init_total_count_partitions_value"
   ]
 }
 
