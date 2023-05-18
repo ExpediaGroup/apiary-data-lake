@@ -31,7 +31,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
         annotations = {
           "ad.datadoghq.com/hms-readwrite.check_names": "[\"prometheus\"]"
           "ad.datadoghq.com/hms-readwrite.init_configs": "[{}]"
-          "ad.datadoghq.com/hms-readwrite.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"",  var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { ${var.datadog_metrics_hms_readwrite_readonly[0]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[1]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[2]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[3]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[4]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[5]}: \"gauge\", ${var.datadog_metrics_hms_readwrite_readonly[6]}: \"gauge\" }}]"
+          "ad.datadoghq.com/hms-readwrite.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]"
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
