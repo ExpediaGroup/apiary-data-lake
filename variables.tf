@@ -676,9 +676,9 @@ variable "datadog_metrics_hms_readwrite_readonly" {
   description = "Prometheus Metrics sent to datadog"
   type        = list(string)
   default = [
-    "metrics_classloading_loaded_value*",
-    "metrics_threads_count_value*",
-    "metrics_memory_heap_max_value*",
+    "metrics_classloading_loaded_value",
+    "metrics_threads_count_value",
+    "metrics_memory_heap_max_value",
     "metrics_init_total_count_tables_value",
     "metrics_init_total_count_dbs_value",
     "metrics_memory_heap_used_value",
