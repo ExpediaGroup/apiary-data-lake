@@ -686,3 +686,8 @@ variable "datadog_metrics_hms_readwrite_readonly" {
   ]
 }
 
+variable "datadog_metrics_enabled" {
+  description = "If enabled it will send metrics to Datadog"
+  type        = bool
+  default     = true
+}
