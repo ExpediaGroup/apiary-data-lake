@@ -673,7 +673,7 @@ variable "hms_additional_environment_variables" {
 }
 
 variable "datadog_metrics_hms_readwrite_readonly" {
-  description = "Prometheus Metrics sent to datadog"
+  description = "HMS metrics to be sent to Datadog."
   type        = list(string)
   default = [
     "metrics_classloading_loaded_value",
