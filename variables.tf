@@ -685,3 +685,9 @@ variable "datadog_metrics_hms_readwrite_readonly" {
     "metrics_init_total_count_partitions_value"
   ]
 }
+
+variable "datadog_metrics_enabled" {
+  description = "Enable Datadog metrics for HMS"
+  type        = bool
+  default     = true
+}
