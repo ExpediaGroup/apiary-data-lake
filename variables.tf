@@ -689,5 +689,5 @@ variable "datadog_metrics_hms_readwrite_readonly" {
 variable "datadog_metrics_enabled" {
   description = "Enable Datadog metrics for HMS"
   type        = bool
-  default     = true
+  default     = false
 }
