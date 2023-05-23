@@ -691,3 +691,9 @@ variable "datadog_metrics_enabled" {
   type        = bool
   default     = false
 }
+
+variable "datadog_metrics_port" {
+  description = "Port in which metrics will be send for Datadog"
+  type        = string
+  default     = "8080"
+}
