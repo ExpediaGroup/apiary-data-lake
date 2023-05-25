@@ -671,3 +671,29 @@ variable "hms_additional_environment_variables" {
   type        = map(any)
   default     = {}
 }
+
+variable "datadog_metrics_hms_readwrite_readonly" {
+  description = "HMS metrics to be sent to Datadog."
+  type        = list(string)
+  default = [
+    "metrics_classloading_loaded_value",
+    "metrics_threads_count_value",
+    "metrics_memory_heap_max_value",
+    "metrics_init_total_count_tables_value",
+    "metrics_init_total_count_dbs_value",
+    "metrics_memory_heap_used_value",
+    "metrics_init_total_count_partitions_value"
+  ]
+}
+
+variable "datadog_metrics_enabled" {
+  description = "Enable Datadog metrics for HMS"
+  type        = bool
+  default     = false
+}
+
+variable "datadog_metrics_port" {
+  description = "Port in which metrics will be send for Datadog"
+  type        = string
+  default     = "8080"
+}
