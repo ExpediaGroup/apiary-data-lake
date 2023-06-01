@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.18.2] - 2023-06-01
+### Fixed
+- `conditional_consumer_iamroles` were not able to list objects within a buckets.
+
 ## [6.18.1] - 2023-05-30
 ### Changed
 - Added `conditional_consumer_iamroles` in principles even when customer_condition is empty.
