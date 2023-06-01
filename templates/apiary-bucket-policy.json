@@ -7,7 +7,11 @@
             "Sid": "Apiary customer account bucket permissions",
             "Effect": "Allow",
             "Principal": {
+%{if conditional_consumer_iamroles == ""}
                 "AWS": [ "${customer_principal}" ]
+%{else}
+                "AWS": [ "${customer_principal}", "${conditional_consumer_iamroles}" ]
+%{endif}
             },
             "Action": [
                 "s3:GetBucketLocation",
