@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.18.3] - 2023-06-16
 ### Changed
-- Updated the annotations to include `EGAP` env for `Hive Metastore R/W and R/O` to Datadog UI.
+- Updated the annotations to include instance_name for `Hive Metastore R/W and R/O` to Datadog UI.
 
 ## [6.18.2] - 2023-06-01
 ### Fixed
