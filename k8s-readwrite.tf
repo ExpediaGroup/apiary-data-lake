@@ -29,9 +29,9 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           name = "${local.hms_alias}-readwrite"
         }
         annotations = {
-          "ad.datadoghq.com/hms-${var.instance_name}${local.dash}readwrite.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
-          "ad.datadoghq.com/hms-${var.instance_name}${local.dash}readwrite.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
-          "ad.datadoghq.com/hms-${var.instance_name}${local.dash}readwrite.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
+          "ad.datadoghq.com/${local.hms_alias}-readwrite.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
+          "ad.datadoghq.com/${local.hms_alias}-readwrite.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
+          "ad.datadoghq.com/${local.hms_alias}-readwrite.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
