@@ -27,7 +27,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
       metadata {
         labels = {
           name = "${local.hms_alias}-readwrite"
-        } // hms-analytics-readwrite or hms-readwrite and ${local.hms_alias} = hms-
+        }
         annotations = {
           "ad.datadoghq.com/hms-${var.instance_name}${local.dash}readwrite.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
           "ad.datadoghq.com/hms-${var.instance_name}${local.dash}readwrite.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
