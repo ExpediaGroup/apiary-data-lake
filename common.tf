@@ -58,7 +58,7 @@ locals {
   k8s_rw_cpu_limit = (var.hms_rw_cpu / 1024) * 1.25
 
   hms_alias = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
-  dash = var.instance_name == "analytics" ? "-" : ""
+  dash = var.instance_name != "" ? "-" : ""
 
   ro_ingress_cidr = var.ingress_cidr
   rw_ingress_cidr = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
