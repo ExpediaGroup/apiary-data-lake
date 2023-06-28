@@ -224,7 +224,7 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
           env {
             name  = "LIMIT_PARTITION_REQUEST_NUMBER"
-            value = var.hms_ro_request_partition_limit == "" ? "" : var.hms_ro_request_partition_limit
+            value = var.hms_rw_request_partition_limit == "" ? "" : var.hms_rw_request_partition_limit
           }
           dynamic "env" {
             for_each = var.hms_additional_environment_variables
