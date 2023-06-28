@@ -218,6 +218,10 @@
      {
        "name": "HMS_AUTOGATHER_STATS",
        "value": "${hms_autogather_stats}"
+     },
+     {
+       "name": "LIMIT_PARTITION_REQUEST_NUMBER",
+       "value": "${hms_rw_request_partition_limit}"
      }
 %{ for env_key, env_value in hms_additional_vars }
     ,{

@@ -45,7 +45,7 @@ locals{
     disallow_incompatible_col_type_changes = var.disallow_incompatible_col_type_changes
     hms_autogather_stats                   = var.hms_autogather_stats
     hms_rw_db_connection_pool_size         = var.hms_rw_db_connection_pool_size
-
+    hms_rw_request_partition_limit         = var.hms_rw_request_partition_limit == "" ? "" : var.hms_rw_request_partition_limit
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1"}"
 
@@ -93,6 +93,7 @@ locals{
     ldap_secret_arn           = "${var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)}"
 
     hms_ro_db_connection_pool_size = var.hms_ro_db_connection_pool_size
+    hms_ro_request_partition_limit = var.hms_ro_request_partition_limit == "" ? "" : var.hms_ro_request_partition_limit
 
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("\",\"", concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"

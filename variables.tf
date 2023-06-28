@@ -697,3 +697,15 @@ variable "datadog_metrics_port" {
   type        = string
   default     = "8080"
 }
+
+variable "hms_rw_request_partition_limit" {
+  description = "Read-write Hive metastore setting for size of the Hive metastore limit of request partitions."
+  type        = string
+  default     = ""
+}
+
+variable "hms_ro_request_partition_limit" {
+  description = "Read-Only Hive metastore setting for size of the Hive metastore limit of request partitions."
+  type        = string
+  default     = ""
+}
