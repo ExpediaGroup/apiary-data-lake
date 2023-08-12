@@ -5,7 +5,7 @@
  */
 
 resource "kubernetes_deployment" "apiary_hms_housekeeper" {
-  count = var.hms_instance_type == "k8s" && var.enable_hms_housekeeper ? 1 : 0
+  count = var.hms_instance_type == "k8s" && var.enable_hive_housekeeper ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-housekeeper"
     namespace = var.metastore_namespace
