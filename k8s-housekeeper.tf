@@ -16,7 +16,7 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
   }
 
   spec {
-    replicas = var.hms_rw_k8s_replica_count
+    replicas = 1
     selector {
       match_labels = {
         name = "${local.hms_alias}-housekeeper"
