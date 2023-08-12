@@ -102,6 +102,12 @@ variable "enable_hive_metastore_metrics" {
   default     = false
 }
 
+variable "enable_hive_housekeeper" {
+  description = "Enable Hive Metastore lock house keeper."
+  type        = bool
+  default     = false
+}
+
 variable "apiary_shared_schemas" {
   description = "Schema names which are accessible from read-only metastore, default is all schemas."
   type        = list(any)
