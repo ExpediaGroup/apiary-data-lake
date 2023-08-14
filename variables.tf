@@ -102,7 +102,7 @@ variable "enable_hive_metastore_metrics" {
   default     = false
 }
 
-variable "enable_hive_housekeeper" {
+variable "enable_hms_housekeeper" {
   description = "Enable Hive Metastore lock house keeper."
   type        = bool
   default     = false
