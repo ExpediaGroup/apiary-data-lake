@@ -29,6 +29,9 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
           name = "${local.hms_alias}-housekeeper"
         }
         annotations = {
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
@@ -175,12 +178,12 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
 
           resources {
             limits {
-              cpu    = local.k8s_rw_cpu_limit
-              memory = "${var.hms_rw_heapsize}Mi"
+              cpu    = 512
+              memory = "1024Mi"
             }
             requests {
-              cpu    = local.k8s_rw_cpu
-              memory = "${var.hms_rw_heapsize}Mi"
+              cpu    = 512
+              memory = "1024Mi"
             }
           }
         }
