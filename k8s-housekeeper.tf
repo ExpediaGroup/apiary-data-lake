@@ -178,12 +178,12 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
 
           resources {
             limits {
-              cpu    = 1.25
-              memory = "1024Mi"
+              cpu    = 0.5
+              memory = "4096Mi"
             }
             requests {
-              cpu    = 1
-              memory = "1024Mi"
+              cpu    = 0.5
+              memory = "4096Mi"
             }
           }
         }
