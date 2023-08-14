@@ -103,7 +103,7 @@ variable "enable_hive_metastore_metrics" {
 }
 
 variable "enable_hms_housekeeper" {
-  description = "Enable Hive Metastore lock house keeper."
+  description = "Enable HMS lock house keeper. When enabled, this creates a new HMS instance for housekeeping."
   type        = bool
   default     = false
 }
