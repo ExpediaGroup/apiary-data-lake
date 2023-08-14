@@ -5,7 +5,7 @@
  */
 
 resource "kubernetes_deployment" "apiary_hms_housekeeper" {
-  count = var.hms_instance_type == "k8s" && var.enable_hive_housekeeper ? 1 : 0
+  count = var.hms_instance_type == "k8s" && var.enable_hms_housekeeper ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-housekeeper"
     namespace = var.metastore_namespace
@@ -183,15 +183,7 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
           }
           env {
             name  = "ENABLE_HIVE_LOCK_HOUSE_KEEPER"
-            value = var.enable_hive_housekeeper ? "true" : ""
-          }
-          dynamic "env" {
-            for_each = var.hms_additional_environment_variables
-
-            content {
-              name  = env.key
-              value = env.value
-            }
+            value = var.enable_hms_housekeeper ? "true" : ""
           }
 
           liveness_probe {
