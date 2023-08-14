@@ -29,9 +29,6 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
           name = "${local.hms_alias}-housekeeper"
         }
         annotations = {
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
           "iam.amazonaws.com/role" = aws_iam_role.apiary_hms_readwrite.name
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
@@ -130,40 +127,8 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
             value = local.instance_alias
           }
           env {
-            name  = "SNS_ARN"
-            value = var.enable_metadata_events ? join("", aws_sns_topic.apiary_metadata_events.*.arn) : ""
-          }
-          env {
-            name  = "TABLE_PARAM_FILTER"
-            value = var.enable_metadata_events ? var.table_param_filter : ""
-          }
-          env {
-            name  = "ENABLE_METRICS"
-            value = var.enable_hive_metastore_metrics ? "1" : ""
-          }
-          env {
             name  = "HIVE_METASTORE_LOG_LEVEL"
             value = var.hms_log_level
-          }
-          env {
-            name  = "RANGER_SERVICE_NAME"
-            value = "${local.instance_alias}-metastore"
-          }
-          env {
-            name  = "RANGER_POLICY_MANAGER_URL"
-            value = var.ranger_policy_manager_url
-          }
-          env {
-            name  = "RANGER_AUDIT_SOLR_URL"
-            value = var.ranger_audit_solr_url
-          }
-          env {
-            name  = "ATLAS_KAFKA_BOOTSTRAP_SERVERS"
-            value = var.atlas_kafka_bootstrap_servers
-          }
-          env {
-            name  = "ATLAS_CLUSTER_NAME"
-            value = local.final_atlas_cluster_name
           }
           env {
             name  = "LDAP_URL"
