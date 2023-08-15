@@ -122,32 +122,12 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
             value = var.aws_region
           }
           env {
-            name  = "HIVE_DB_NAMES"
-            value = join(",", local.schemas_info[*]["schema_name"])
-          }
-          env {
             name  = "INSTANCE_NAME"
             value = local.instance_alias
           }
           env {
             name  = "HIVE_METASTORE_LOG_LEVEL"
             value = var.hms_log_level
-          }
-          env {
-            name  = "LDAP_URL"
-            value = var.ldap_url
-          }
-          env {
-            name  = "LDAP_CA_CERT"
-            value = var.ldap_ca_cert
-          }
-          env {
-            name  = "LDAP_BASE"
-            value = var.ldap_base
-          }
-          env {
-            name  = "LDAP_SECRET_ARN"
-            value = var.ldap_url == "" ? "" : join("", data.aws_secretsmanager_secret.ldap_user.*.arn)
           }
           env {
             name  = "ENABLE_HIVE_LOCK_HOUSE_KEEPER"
