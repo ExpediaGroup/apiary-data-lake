@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [6.19.0] - 2023-08-16
 ### Added
-- Added variable `enable_hive_housekeeper` to support hive metastore lock house keeper.
+- Added variable `enable_hms_housekeeper ` to support hive metastore lock house keeper.
 
 ## [6.18.4] - 2023-06-28
 ### Added
