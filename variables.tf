@@ -102,6 +102,12 @@ variable "enable_hive_metastore_metrics" {
   default     = false
 }
 
+variable "enable_hms_housekeeper" {
+  description = "Enable HMS lock house keeper. When enabled, this creates a new HMS instance for housekeeping."
+  type        = bool
+  default     = false
+}
+
 variable "apiary_shared_schemas" {
   description = "Schema names which are accessible from read-only metastore, default is all schemas."
   type        = list(any)
