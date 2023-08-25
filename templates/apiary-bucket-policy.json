@@ -43,7 +43,7 @@
         },
 %{else}
 %{for condition in split(";",customer_condition)}
-%{if length(trim(condition)) > 0 }
+%{if length(trim(condition, " ")) > 0 }
         {
             "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
