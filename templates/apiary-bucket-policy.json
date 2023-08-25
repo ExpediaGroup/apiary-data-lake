@@ -43,6 +43,7 @@
         },
 %{else}
 %{for condition in split(";",customer_condition)}
+%{if length(trimspace(condition)) > 0 }
         {
             "Sid": "Apiary customer account object permissions",
             "Effect": "Allow",
@@ -64,6 +65,7 @@
                 "arn:aws:s3:::${bucket_name}/*"
             ]
         },
+%{endif}
 %{endfor}
 %{endif}
 %{for prefix, role_list in consumer_prefix_roles ~}
