@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_deployment" "apiary_hms_housekeeper" {
+resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
   count = var.hms_instance_type == "k8s" && var.enable_hms_housekeeper ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-housekeeper"
@@ -157,11 +157,11 @@ resource "kubernetes_deployment" "apiary_hms_housekeeper" {
           }
 
           resources {
-            limits {
+            limits = {
               cpu    = 0.5
               memory = "2048Mi"
             }
-            requests {
+            requests = {
               cpu    = 0.5
               memory = "2048Mi"
             }
