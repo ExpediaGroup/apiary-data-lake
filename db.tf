@@ -10,7 +10,7 @@ resource "aws_db_subnet_group" "apiarydbsg" {
   subnet_ids  = var.private_subnets
   description = "Apiary DB Subnet Group"
 
-  tags = merge(map("Name", "Apiary DB Subnet Group"), var.apiary_tags)
+  tags = merge(tomap({"Name"="Apiary DB Subnet Group"}), var.apiary_tags)
 }
 
 resource "aws_security_group" "db_sg" {
@@ -50,7 +50,7 @@ resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
   name        = "${local.instance_alias}-param-group"
   family      = var.rds_family # Needs to be kept in sync with aws_rds_cluster.apiary_cluster.engine and version
   description = "Apiary-specific Aurora parameters"
-  tags        = merge(map("Name", "${local.instance_alias}-param-group"), var.apiary_tags)
+  tags        = merge(tomap({"Name"="${local.instance_alias}-param-group"}), var.apiary_tags)
 
   parameter {
     name  = "max_allowed_packet"
@@ -123,9 +123,10 @@ resource "aws_secretsmanager_secret_version" "apiary_mysql_master_credentials" {
   count     = var.external_database_host == "" ? 1 : 0
   secret_id = aws_secretsmanager_secret.apiary_mysql_master_credentials[0].id
   secret_string = jsonencode(
-    map(
-      "username", var.db_master_username,
-      "password", random_string.db_master_password[0].result
+    tomap({
+      "username"=var.db_master_username,
+      "password"=random_string.db_master_password[0].result
+      }
     )
   )
 }
