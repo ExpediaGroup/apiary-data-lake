@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_deployment" "apiary_hms_readonly" {
+resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
@@ -218,11 +218,11 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
 
           resources {
-            limits {
+            limits = {
               cpu    = local.k8s_ro_cpu_limit
               memory = "${var.hms_ro_heapsize}Mi"
             }
-            requests {
+            requests = {
               cpu    = local.k8s_ro_cpu
               memory = "${var.hms_ro_heapsize}Mi"
             }
