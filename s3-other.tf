@@ -167,7 +167,7 @@ resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
 resource "aws_s3_bucket" "apiary_access_logs_hive" {
   count  = local.enable_apiary_s3_log_hive ? 1 : 0
   bucket = local.apiary_s3_hive_logs_bucket
-  tags   = merge(map("Name", local.apiary_s3_hive_logs_bucket), var.apiary_tags)
+  tags   = merge(tomap({"Name"=local.apiary_s3_hive_logs_bucket}), var.apiary_tags)
   policy = <<EOF
 {
   "Version":"2012-10-17",
