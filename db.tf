@@ -72,7 +72,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   preferred_backup_window             = var.db_backup_window
   preferred_maintenance_window        = var.db_maintenance_window
   db_subnet_group_name                = aws_db_subnet_group.apiarydbsg[0].name
-  vpc_security_group_ids              = compact(concat(list(aws_security_group.db_sg[0].id), var.apiary_rds_additional_sg))
+  vpc_security_group_ids              = compact(concat(tolist([aws_security_group.db_sg[0].id]), var.apiary_rds_additional_sg))
   tags                                = var.apiary_tags
   final_snapshot_identifier           = "${local.instance_alias}-cluster-final-${random_id.snapshot_id[0].hex}"
   iam_database_authentication_enabled = true
