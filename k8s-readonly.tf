@@ -283,5 +283,5 @@ resource "kubernetes_service" "hms_readonly" {
 
 data "aws_lb" "k8s_hms_ro_lb" {
   count = var.hms_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
-  name  = split("-", split(".", kubernetes_service.hms_readonly.0.load_balancer_ingress.0.hostname).0).0
+  name  = split("-", split(".", kubernetes_service.hms_readonly.status.0.load_balancer.0.ingress.0.hostname).0).0
 }
