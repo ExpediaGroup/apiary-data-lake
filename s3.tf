@@ -38,7 +38,6 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket        = each.value["data_bucket"]
-  acl           = "private"
   request_payer = "BucketOwner"
   policy        = local.bucket_policy_map[each.key]
   tags = merge(tomap({"Name"=each.value["data_bucket"]}),
@@ -121,6 +120,15 @@ resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
   rule {
     object_ownership = "BucketOwnerEnforced"
   }
+}
+
+resource "aws_s3_bucket_acl" "apiary_data_bucket" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  depends_on = [aws_s3_bucket_ownership_controls.apiary_bucket[each.key]]
+  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_notification" "data_events" {
