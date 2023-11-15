@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_deployment" "apiary_hms_readwrite" {
+resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readwrite"
@@ -258,11 +258,11 @@ resource "kubernetes_deployment" "apiary_hms_readwrite" {
           }
 
           resources {
-            limits {
+            limits   = {
               cpu    = local.k8s_rw_cpu_limit
               memory = "${var.hms_rw_heapsize}Mi"
             }
-            requests {
+            requests = {
               cpu    = local.k8s_rw_cpu
               memory = "${var.hms_rw_heapsize}Mi"
             }
@@ -301,5 +301,5 @@ resource "kubernetes_service" "hms_readwrite" {
 
 data "aws_lb" "k8s_hms_rw_lb" {
   count = var.hms_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
-  name  = split("-", split(".", kubernetes_service.hms_readwrite.0.load_balancer_ingress.0.hostname).0).0
+  name  = split("-", split(".", kubernetes_service.hms_readwrite[0].status.0.load_balancer.0.ingress.0.hostname).0).0
 }

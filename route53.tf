@@ -46,7 +46,7 @@ resource "aws_route53_record" "hms_readwrite" {
   zone_id = aws_route53_zone.apiary[0].id
   type    = "CNAME"
   ttl     = "300"
-  records = kubernetes_service.hms_readwrite[0].load_balancer_ingress.*.hostname
+  records = kubernetes_service.hms_readwrite[0].status.0.load_balancer.0.ingress.*.hostname
 }
 
 resource "aws_route53_record" "hms_readonly" {
@@ -56,5 +56,5 @@ resource "aws_route53_record" "hms_readonly" {
   zone_id = aws_route53_zone.apiary[0].id
   type    = "CNAME"
   ttl     = "300"
-  records = kubernetes_service.hms_readonly[0].load_balancer_ingress.*.hostname
+  records = kubernetes_service.hms_readonly[0].status.0.load_balancer.0.ingress.*.hostname
 }

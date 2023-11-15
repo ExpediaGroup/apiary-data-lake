@@ -41,7 +41,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   acl           = "private"
   request_payer = "BucketOwner"
   policy        = local.bucket_policy_map[each.key]
-  tags = merge(map("Name", each.value["data_bucket"]),
+  tags = merge(tomap({"Name"=each.value["data_bucket"]}),
     var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
 

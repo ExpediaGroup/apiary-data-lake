@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_deployment" "apiary_hms_readonly" {
+resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.hms_alias}-readonly"
@@ -218,11 +218,11 @@ resource "kubernetes_deployment" "apiary_hms_readonly" {
           }
 
           resources {
-            limits {
+            limits = {
               cpu    = local.k8s_ro_cpu_limit
               memory = "${var.hms_ro_heapsize}Mi"
             }
-            requests {
+            requests = {
               cpu    = local.k8s_ro_cpu
               memory = "${var.hms_ro_heapsize}Mi"
             }
@@ -253,7 +253,7 @@ resource "kubernetes_horizontal_pod_autoscaler" "hms_readonly" {
     scale_target_ref {
       api_version = "apps/v1"
       kind        = "Deployment"
-      name        = kubernetes_deployment.apiary_hms_readonly[0].metadata[0].name
+      name        = kubernetes_deployment_v1.apiary_hms_readonly[0].metadata[0].name
     }
   }
 }
@@ -283,5 +283,5 @@ resource "kubernetes_service" "hms_readonly" {
 
 data "aws_lb" "k8s_hms_ro_lb" {
   count = var.hms_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
-  name  = split("-", split(".", kubernetes_service.hms_readonly.0.load_balancer_ingress.0.hostname).0).0
+  name  = split("-", split(".", kubernetes_service.hms_readonly[0].status.0.load_balancer.0.ingress.0.hostname).0).0
 }
