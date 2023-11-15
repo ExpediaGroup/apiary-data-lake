@@ -94,8 +94,9 @@ resource "aws_s3_bucket_ownership_controls" "apiary_inventory_bucket" {
 }
 
 resource "aws_s3_bucket_acl" "apiary_inventory_bucket" {
-  depends_on = [aws_s3_bucket_ownership_controls.apiary_inventory_bucket]
-  bucket = aws_s3_bucket.apiary_inventory_bucket.id
+  count  = var.s3_enable_inventory == true ? 1 : 0
+  depends_on = [aws_s3_bucket_ownership_controls.apiary_inventory_bucket[0]]
+  bucket = aws_s3_bucket.apiary_inventory_bucket[0].id
   acl    = "private"
 }
 
