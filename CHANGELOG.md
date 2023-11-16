@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Changed `k8s` API to work with provider 2.x
 - Changed Terraform `map` to `tomap` to make it work with newer TF provider(The map function was deprecated in Terraform v0.12 and is no longer available).
 - Upgrade AWS provider to `4.x`.
+- Removed bucket `ACL` as when bucket `object_ownership` set to `BucketOwnerEnforced`, it's disabled `ACL`.
   
 ## [6.19.1] - 2023-08-25
 ### Fixed
