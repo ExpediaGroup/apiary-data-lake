@@ -93,6 +93,13 @@ resource "aws_s3_bucket_ownership_controls" "apiary_inventory_bucket" {
   }
 }
 
+resource "aws_s3_bucket_acl" "apiary_inventory_bucket" {
+  count  = var.s3_enable_inventory == true ? 1 : 0
+  depends_on = [aws_s3_bucket_ownership_controls.apiary_inventory_bucket[0]]
+  bucket = aws_s3_bucket.apiary_inventory_bucket[0].id
+  acl    = "private"
+}
+
 resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_s3_logs_bucket
