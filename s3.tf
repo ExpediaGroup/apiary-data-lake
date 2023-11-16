@@ -122,14 +122,6 @@ resource "aws_s3_bucket_ownership_controls" "apiary_bucket" {
   }
 }
 
-resource "aws_s3_bucket_acl" "apiary_data_bucket" {
-  for_each = {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-  }
-  bucket = aws_s3_bucket.apiary_data_bucket[each.key].id
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_notification" "data_events" {
   for_each = var.enable_data_events ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema if lookup(schema, "enable_data_events_sqs", "0") == "0"
