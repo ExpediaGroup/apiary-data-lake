@@ -362,3 +362,9 @@ variable "rds_max_allowed_packet" {
   type        = "string"
   default     = "134217728"
 }
+
+variable "datadog_key_secret_name" {
+  description = "SecretsManager secret name containing a DataDog API key"
+  type        = string
+  default     = "dd-analytics-platform-starburst"
+}
