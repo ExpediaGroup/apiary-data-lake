@@ -63,5 +63,28 @@
         "value": "${enable_metrics}"
      }
     ]
+  },
+  {
+    "name": "datadog-agent",
+    "image": "public.ecr.aws/datadog/agent:latest",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${loggroup}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "/"
+      }
+    },
+    "environment": [
+      {
+        "name": "DD_API_KEY",
+        "value": "${datadog_secret_key}"
+      },
+      {
+        "name": "ECS_FARGATE",
+        "value": "true"
+      }
+    ]
   }
 ]
