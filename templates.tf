@@ -62,7 +62,7 @@ data "template_file" "hms_readonly" {
     enable_metrics           = "${var.enable_hive_metastore_metrics}"
     shared_schemas           = "${join(",",var.apiary_shared_schemas)}"
     instance_name            = "${local.instance_alias}"
-    datadog_secret_key = "${data.aws_secretsmanager_secret_version.datadog_key.secret_string}"
+    datadog_secret_key       = "${data.aws_secretsmanager_secret_version.datadog_key.secret_string}"
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${ var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},",join("\",\"",concat(data.aws_secretsmanager_secret.docker_registry.*.arn)))}"
   }
