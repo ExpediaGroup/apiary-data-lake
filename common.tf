@@ -53,7 +53,11 @@ data "aws_secretsmanager_secret_version" "datadog_key" {
   secret_id = "${data.aws_secretsmanager_secret.datadog_key.id}"
 }
 
+data "external" "datadog_key" {
+  program = ["echo", "${data.aws_secretsmanager_secret_version.datadog_key.secret_string}"]
+}
+
 provider "datadog" {
-  api_key = "${data.aws_secretsmanager_secret_version.datadog_key.secret_string}"
-  app_key = "${data.aws_secretsmanager_secret_version.datadog_key.secret_string}"
+  api_key = "${data.external.datadog_key.result["api_key"]}"
+  app_key = "${data.external.datadog_key.result["app_key"]}"
 }
