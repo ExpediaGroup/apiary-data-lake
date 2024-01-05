@@ -106,3 +106,16 @@ locals{
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
   })
 }
+
+data "template_file" "datadog-agent" {
+  template = file("${path.module}/templates/datadog-agent.json")
+
+  vars = {
+    region              = var.aws_region
+    loggroup            = var.hms_instance_type == "ecs" ? join("", aws_cloudwatch_log_group.waggledance_ecs.*.name) : ""
+    datadog_secret_key = jsondecode(data.aws_secretsmanager_secret_version.datadog_key[0].secret_string).api_key
+    wd_instance_type = var.hms_instance_type
+    metrics_port = var.datadog_metrics_port
+    datadog_agent_version = var.datadog_agent_version
+  }
+}

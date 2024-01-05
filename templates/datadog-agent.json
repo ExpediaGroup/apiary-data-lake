@@ -1,0 +1,31 @@
+,
+{
+  "name": "datadog-agent",
+  "image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
+  "essential": true,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-group": "${loggroup}",
+      "awslogs-region": "${region}",
+      "awslogs-stream-prefix": "/"
+    }
+  },
+  "environment": [
+    {
+      "name": "DD_API_KEY",
+      "value": "${datadog_secret_key}"
+    },
+    {
+      "name": "ECS_FARGATE",
+      "value": "true"
+    }
+  ],
+  "healthCheck": {
+    "command": ["CMD-SHELL", "curl -f http://localhost:18000/actuator/health || exit 1"],
+    "interval": 5,
+    "retries": 3,
+    "startPeriod": 60,
+    "timeout": 5
+  }
+}

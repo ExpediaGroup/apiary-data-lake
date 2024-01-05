@@ -78,3 +78,13 @@ data "aws_route53_zone" "apiary_zone" {
   name   = var.apiary_domain_name
   vpc_id = var.vpc_id
 }
+
+data "aws_secretsmanager_secret" "datadog_key" {
+  count = length(var.datadog_key_secret_name) == 0 ? 0 : 1
+  name  = var.datadog_key_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "datadog_key" {
+  count = length(var.datadog_key_secret_name) == 0 ? 0 : 1
+  secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
+}
