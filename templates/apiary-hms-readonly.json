@@ -19,7 +19,7 @@
             "awslogs-stream-prefix": "/"
         }
     },
-  "dockerLabels",: {
+  "dockerLabels": {
     "com.datadoghq.ad.instances": "[{ \"openmetrics_endpoint\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readonly_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\"], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\"}  }]",
     "com.datadoghq.ad.check_names": "[\"openmetrics\"]",
     "com.datadoghq.ad.init_configs": "[{}]"
