@@ -42,6 +42,8 @@ data "template_file" "hms_readwrite" {
 
     #to instruct ECS to use repositoryCredentials for private docker registry
     docker_auth = "${ var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},",join("",data.aws_secretsmanager_secret.docker_registry.*.arn))}"
+    datadog_secret_key       = "${data.external.datadog_key.result["api_key"]}"
+
   }
 }
 
