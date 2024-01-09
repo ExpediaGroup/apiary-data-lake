@@ -252,7 +252,7 @@ variable "enable_gluesync" {
 variable "enable_metadata_events" {
   description = "Enable Hive Metastore SNS listener."
   type        = "string"
-  default     = ""
+  default     = "true"
 }
 
 variable "table_param_filter" {
