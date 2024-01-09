@@ -704,6 +704,23 @@ variable "datadog_metrics_port" {
   default     = "8080"
 }
 
+variable "datadog_key_secret_name" {
+  description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
+  type        = string
+}
+
+variable "datadog_agent_version" {
+  description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
+  type        = string
+  default     = "7.46.0-jmx"
+}
+
+variable "include_datadog_agent" {
+  description = "Whether to include the datadog-agent container. This is only applicable to ECS deployments."
+  type        = bool
+  default     = false
+}
+
 variable "hms_rw_request_partition_limit" {
   description = "Read-write Hive metastore setting for size of the Hive metastore limit of request partitions."
   type        = string
