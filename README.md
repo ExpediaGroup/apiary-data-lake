@@ -41,6 +41,11 @@ module "apiary" {
   apiary_log_bucket        = "s3-logs-bucket"
   db_instance_class        = "db.t2.medium"
   db_backup_retention      = "7"
+  
+  # Enable datadog for monitoring
+  datadog_key_secret_name  = "datadog-secret-key-name"
+  include_datadog_agent    = true
+
   apiary_managed_schemas   = [
     {
         schema_name = "db1",
