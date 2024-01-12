@@ -707,6 +707,7 @@ variable "datadog_metrics_port" {
 variable "datadog_key_secret_name" {
   description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
   type        = string
+  default     = null
 }
 
 variable "datadog_agent_version" {
