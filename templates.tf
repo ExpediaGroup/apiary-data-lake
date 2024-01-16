@@ -71,7 +71,7 @@ data "template_file" "hms_readonly" {
 }
 
 data "template_file" "datadog-agent" {
-  template = file("${path.module}/templates/datadog-agent.json")
+  template = "${file("${path.module}/templates/datadog-agent.json")}"
 
   vars = {
     region                = var.aws_region
