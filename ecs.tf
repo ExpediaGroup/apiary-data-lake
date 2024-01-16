@@ -99,9 +99,9 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
 }
 
 output "hms_readonly_rendered" {
-  value = data.template_file.hms_readonly.rendered
+  value = "${data.template_file.hms_readonly.rendered}"
 }
 
 output "datadog_agent_rendered" {
-  value = var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""
+  value = "${var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""}"
 }
