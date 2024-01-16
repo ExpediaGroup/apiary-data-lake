@@ -77,7 +77,6 @@ data "template_file" "datadog-agent" {
     region                = "${var.aws_region}"
     loggroup              = "${aws_cloudwatch_log_group.apiary_ecs.name}"
     datadog_secret_key    = "${var.datadog_key_secret_name == "" ? "" : chomp(data.external.datadog_key.result["api_key"])}"
-    metrics_port          = "${var.metrics_port}"
     datadog_agent_version = "${var.datadog_agent_version}"
   }
 }
