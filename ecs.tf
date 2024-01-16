@@ -97,3 +97,11 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
     registry_arn = "${aws_service_discovery_service.hms_readonly.arn}"
   }
 }
+
+output "hms_readonly_rendered" {
+  value = data.template_file.hms_readonly.rendered
+}
+
+output "datadog_agent_rendered" {
+  value = var.include_datadog_agent ? data.template_file.datadog-agent.rendered : ""
+}
