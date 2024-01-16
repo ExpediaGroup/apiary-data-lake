@@ -74,10 +74,10 @@ data "template_file" "datadog-agent" {
   template = "${file("${path.module}/templates/datadog-agent.json")}"
 
   vars = {
-    region                = var.aws_region
-    loggroup              =  "${aws_cloudwatch_log_group.apiary_ecs.name}"
-    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
-    metrics_port          = var.metrics_port
-    datadog_agent_version = var.datadog_agent_version
+    region                = "${var.aws_region}"
+    loggroup              = "${aws_cloudwatch_log_group.apiary_ecs.name}"
+    datadog_secret_key    = length("${var.datadog_key_secret_name}") > 0 ? chomp("${data.external.datadog_key.result["api_key"]}") : ""
+    metrics_port          = "${var.metrics_port}"
+    datadog_agent_version = "${var.datadog_agent_version}"
   }
 }
