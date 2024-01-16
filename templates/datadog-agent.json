@@ -1,0 +1,36 @@
+,
+  {
+    "name": "datadog-agent",
+    "image": "public.ecr.aws/datadog/agent:7.46.0-jmx",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${loggroup}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "/"
+      }
+    },
+    "environment": [
+      {
+        "name": "DD_API_KEY",
+        "value": "${datadog_secret_key}"
+      },
+      {
+        "name": "ECS_FARGATE",
+        "value": "true"
+      },
+      {
+        "name": "DD_APM_ENABLED",
+        "value": "true"
+      },
+      {
+        "name": "DD_APM_NON_LOCAL_TRAFFIC",
+        "value": "true"
+      },
+      {
+        "name": "DD_SITE",
+        "value": "datadoghq.com"
+      }
+    ]
+  }
