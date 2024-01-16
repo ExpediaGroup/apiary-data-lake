@@ -371,18 +371,18 @@ variable "datadog_key_secret_name" {
 
 variable "metrics_port" {
   description = "Port in which metrics will be send for Datadog"
-  type        = string
+  type        = "string"
   default     = "8080"
 }
 
 variable "datadog_agent_version" {
   description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
-  type        = string
+  type        = "string"
   default     = "7.46.0-jmx"
 }
 
 variable "include_datadog_agent" {
   description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
-  type        = bool
-  default     = true
+  type        = "string"
+  default     = "true"
 }
