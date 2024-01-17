@@ -1,7 +1,7 @@
 ,
 {
     "name": "datadog-agent",
-    "image": "public.ecr.aws/datadog/agent:7.50.3-jmx",
+    "image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
     "essential": true,
     "logConfiguration": {
       "logDriver": "awslogs",
