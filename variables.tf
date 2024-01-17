@@ -378,7 +378,7 @@ variable "metrics_port" {
 variable "datadog_agent_version" {
   description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
   type        = "string"
-  default     = "7.50.3-jmx"
+  default     = "7.46.0-jmx"
 }
 
 variable "include_datadog_agent" {
