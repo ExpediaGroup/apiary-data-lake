@@ -1,5 +1,4 @@
-[
-  {
+{
     "name": "apiary-hms-readwrite",
     "image": "${hms_docker_image}:${hms_docker_version}",
     ${docker_auth}
@@ -128,5 +127,5 @@
         "value": "${enable_metrics}"
      }
     ]
-  }
-]
+}
+
