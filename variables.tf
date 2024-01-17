@@ -56,7 +56,7 @@ variable "apiary_log_prefix" {
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = "string"
-  default     = "yes"
+  default     = ""
 }
 
 variable "apiary_shared_schemas" {
@@ -384,5 +384,5 @@ variable "datadog_agent_version" {
 variable "include_datadog_agent" {
   description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
   type        = "string"
-  default     = "true"
+  default     = "false"
 }
