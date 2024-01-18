@@ -723,19 +723,19 @@ variable "enable_sysctl_config_in_eks" {
 }
 
 variable "tcp_keepalive_time" {
-  description = "Sets net.ipv4.tcp_keepalive_time (seconds), enable via 'enable_sysctl_config'."
+  description = "Sets net.ipv4.tcp_keepalive_time (seconds)."
   type        = number
   default     = 200
 }
 
 variable "tcp_keepalive_intvl" {
-  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds), enable via 'enable_sysctl_config'."
+  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds)."
   type        = number
   default     = 30
 }
 
 variable "tcp_keepalive_probes" {
-  description = "Sets net.ipv4.tcp_keepalive_probes (number), enable via 'enable_sysctl_config'."
+  description = "Sets net.ipv4.tcp_keepalive_probes (number)."
   type        = number
   default     = 2
 }
