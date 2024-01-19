@@ -715,3 +715,27 @@ variable "hms_ro_request_partition_limit" {
   type        = string
   default     = ""
 }
+
+variable "enable_sysctl_config_in_eks" {
+  description = "Enable sysctl configuration for Hive Metastore. For EKS you need to allow this on your cluster (https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ check EKS version for details). Also see tcp_keepalive_* variables."
+  type        = bool
+  default     = false
+}
+
+variable "tcp_keepalive_time" {
+  description = "Sets net.ipv4.tcp_keepalive_time (seconds)."
+  type        = number
+  default     = 200
+}
+
+variable "tcp_keepalive_intvl" {
+  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds)."
+  type        = number
+  default     = 30
+}
+
+variable "tcp_keepalive_probes" {
+  description = "Sets net.ipv4.tcp_keepalive_probes (number)."
+  type        = number
+  default     = 2
+}

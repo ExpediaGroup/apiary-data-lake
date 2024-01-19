@@ -52,6 +52,20 @@
         "name": "nofile"
       }
     ],
+    "systemControls": [
+      {
+        "namespace": "net.ipv4.tcp_keepalive_time",
+        "value": "${tcp_keepalive_time}"
+      },
+      {
+        "namespace": "net.ipv4.tcp_keepalive_intvl",
+        "value": "${tcp_keepalive_intvl}"
+      },
+      {
+        "namespace": "net.ipv4.tcp_keepalive_probes",
+        "value": "${tcp_keepalive_probes}"
+      }
+    ],
     "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
