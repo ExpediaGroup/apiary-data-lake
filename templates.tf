@@ -61,6 +61,9 @@ locals{
     mysql_permissions      = "ALL"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
+    tcp_keepalive_time     = var.tcp_keepalive_time
+    tcp_keepalive_intvl    = var.tcp_keepalive_intvl
+    tcp_keepalive_probes   = var.tcp_keepalive_probes
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -104,5 +107,8 @@ locals{
     mysql_write_db         = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
+    tcp_keepalive_time     = var.tcp_keepalive_time
+    tcp_keepalive_intvl    = var.tcp_keepalive_intvl
+    tcp_keepalive_probes   = var.tcp_keepalive_probes
   })
 }
