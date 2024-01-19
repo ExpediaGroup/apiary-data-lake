@@ -47,15 +47,15 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
           content {
             sysctl {
               name="net.ipv4.tcp_keepalive_time"
-              value="${var.tcp_keepalive_time}"
+              value= var.tcp_keepalive_time
             }
             sysctl {
               name="net.ipv4.tcp_keepalive_intvl"
-              value="${var.tcp_keepalive_intvl}"
+              value= var.tcp_keepalive_intvl
             }
             sysctl {
               name="net.ipv4.tcp_keepalive_probes"
-              value="${var.tcp_keepalive_probes}"
+              value= var.tcp_keepalive_probes
             }
           }
         }
