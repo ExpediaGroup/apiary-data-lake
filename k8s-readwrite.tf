@@ -45,16 +45,18 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
         dynamic "security_context"  {
           for_each = var.enable_sysctl_config_in_eks ? ["enabled"] : []
           content {
-            sysctl = [{
+            sysctl {
               name="net.ipv4.tcp_keepalive_time"
               value="${var.tcp_keepalive_time}"
-            },{
+            }
+            sysctl {
               name="net.ipv4.tcp_keepalive_intvl"
               value="${var.tcp_keepalive_intvl}"
-            },{
+            }
+            sysctl {
               name="net.ipv4.tcp_keepalive_probes"
               value="${var.tcp_keepalive_probes}"
-            }]
+            }
           }
         }
         dynamic "init_container" {
