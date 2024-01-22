@@ -386,3 +386,10 @@ variable "include_datadog_agent" {
   type        = "string"
   default     = "false"
 }
+
+variable "instance_type" {
+  description = "Whether to include the datadog-agent container alongside waggledance. This is only applicable to ECS deployments."
+  type        = "string"
+  default     = "ecs"
+}
+
