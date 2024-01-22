@@ -74,3 +74,96 @@ EOF
 
   tags = "${var.apiary_tags}"
 }
+
+resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {
+  #count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.apiary_task_exec.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "ecr_permission_for_task" {
+  #count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.apiary_task_readonly.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+
+resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {
+  #count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.apiary_task_exec.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "ecr_permission_for_task" {
+  #count = var.wd_instance_type == "ecs" ? 1 : 0
+  name  = "ecr-permission"
+  role  = aws_iam_role.apiary_task_readwrite.id
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
