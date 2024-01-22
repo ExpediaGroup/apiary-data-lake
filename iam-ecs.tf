@@ -98,7 +98,7 @@ resource "aws_iam_role_policy" "ecr_permission_for_task_exec" {
 EOF
 }
 
-resource "aws_iam_role_policy" "ecr_permission_for_task" {
+resource "aws_iam_role_policy" "ro_ecr_permission_for_task" {
   count = "${var.instance_type == "ecs" ? 1 : 0}"
   name  = "ecr-permission"
   role  = "${aws_iam_role.apiary_task_readonly.id}"
@@ -121,7 +121,7 @@ resource "aws_iam_role_policy" "ecr_permission_for_task" {
 EOF
 }
 
-resource "aws_iam_role_policy" "ecr_permission_for_task" {
+resource "aws_iam_role_policy" "rw_ecr_permission_for_task" {
   count = "${var.instance_type == "ecs" ? 1 : 0}"
   name  = "ecr-permission"
   role  = "${aws_iam_role.apiary_task_readwrite.id}"
