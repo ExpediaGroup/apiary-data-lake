@@ -284,3 +284,9 @@ resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
   dimensions                = "${local.dimensions[count.index]}"
   alarm_actions             = ["${aws_sns_topic.apiary_ops_sns.arn}"]
 }
+
+resource "aws_cloudwatch_log_group" "ecs" {
+  count = var.instance_type == "ecs" ? 1 : 0
+  name  = local.instance_alias
+  tags  = var.apiary_tags
+}
