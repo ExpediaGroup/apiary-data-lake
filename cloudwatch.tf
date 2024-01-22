@@ -286,7 +286,7 @@ resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs" {
-  count = var.instance_type == "ecs" ? 1 : 0
-  name  = local.instance_alias
-  tags  = var.apiary_tags
+  count = "${var.instance_type == "ecs" ? 1 : 0}"
+  name  = "${local.instance_alias}"
+  tags  = "${var.apiary_tags}"
 }
