@@ -78,3 +78,23 @@ data "aws_route53_zone" "apiary_zone" {
   name   = var.apiary_domain_name
   vpc_id = var.vpc_id
 }
+
+data "aws_secretsmanager_secret" "datadog_key" {
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  name  = var.datadog_key_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "datadog_key" {
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
+}
+
+data "external" "datadog_key" {
+  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  program = ["echo", "${data.aws_secretsmanager_secret_version.datadog_key[0].secret_string}"]
+}
+
+provider "datadog" {
+  api_key  = chomp(data.external.datadog_key[0].result["api_key"])
+  app_key  = chomp(data.external.datadog_key[0].result["app_key"])
+}

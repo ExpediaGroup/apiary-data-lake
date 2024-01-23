@@ -4,6 +4,12 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+resource "aws_cloudwatch_log_group" "ecs" {
+  count = var.hms_instance_type == "ecs" ? 1 : 0
+  name  = local.instance_alias
+  tags  = var.apiary_tags
+}
+
 data "template_file" "s3_widgets" {
   count = length(local.schemas_info)
 

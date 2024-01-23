@@ -61,6 +61,13 @@ locals{
     mysql_permissions      = "ALL"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
+
+    # Datadog variables
+    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
+    wd_instance_type      = var.hms_instance_type
+    metrics_port          = var.datadog_metrics_port
+    datadog_agent_version = var.datadog_agent_version
+    datadog_agent_enabled = var.datadog_agent_enabled
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -104,5 +111,12 @@ locals{
     mysql_write_db         = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : var.external_database_host}"
     mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
+
+    # Datadog variables
+    datadog_agent_enabled = var.datadog_agent_enabled
+    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
+    wd_instance_type      = var.hms_instance_type
+    metrics_port          = var.datadog_metrics_port
+    datadog_agent_version = var.datadog_agent_version
   })
 }

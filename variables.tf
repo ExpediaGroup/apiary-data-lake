@@ -715,3 +715,21 @@ variable "hms_ro_request_partition_limit" {
   type        = string
   default     = ""
 }
+
+variable "datadog_key_secret_name" {
+  description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
+  type        = string
+  default     = null
+}
+
+variable "datadog_agent_version" {
+  description = "Version of the Datadog Agent running in the ECS cluster. This is only applicable to ECS deployments."
+  type        = string
+  default     = "7.50.3-jmx"
+}
+
+variable "datadog_agent_enabled" {
+  description = "Whether to include the datadog-agent container. This is only applicable to ECS deployments."
+  type        = bool
+  default     = false
+}
