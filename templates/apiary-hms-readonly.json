@@ -78,6 +78,13 @@
       "name": "DD_SITE",
       "value": "datadoghq.com"
     }
-    ]
+    ],
+    "healthCheck": {
+	  "command": ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"],
+	  "interval": 5,
+	  "retries": 3,
+	  "startPeriod": 60,
+	  "timeout": 5
+	},
 }
 
