@@ -85,6 +85,6 @@
 	  "retries": 3,
 	  "startPeriod": 60,
 	  "timeout": 5
-	},
+	}
 }
 
