@@ -19,7 +19,7 @@
         }
     },
     "dockerLabels": {
-        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readonly_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\"], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\"}  }]",
+        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readwrite_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\"], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\"}  }]",
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
         "com.datadoghq.ad.init_configs": "[{}]"
     },
