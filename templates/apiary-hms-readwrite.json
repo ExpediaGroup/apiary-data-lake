@@ -19,9 +19,9 @@
         }
     },
     "dockerLabels": {
-        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readwrite_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\", \"metrics*\", \"process*\", \"jvm*\", \"init*\", \"threads*\", \"memory*\", \"hive*\"], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\"}  }]",
+        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/metrics\", \"namespace\": \"hms_readwrite_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\", \"metrics*\", \"process*\", \"jvm*\", \"init*\", \"threads*\", \"memory*\", \"hive*\"], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\"}  }]",
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
-        "com.datadoghq.ad.init_configs": "[{\"is_jmx\": true, \"collect_default_metrics\": true]"
+        "com.datadoghq.ad.init_configs": "[{}]"
     },
     "portMappings": [
       {
