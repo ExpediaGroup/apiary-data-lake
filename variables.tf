@@ -735,7 +735,7 @@ variable "datadog_agent_enabled" {
 }
 
 variable "common_producer_iamroles" {
-  description = "General read-write access to managed Apiary S3 buckets."
+  description = "AWS IAM roles allowed read-write access to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
 }
