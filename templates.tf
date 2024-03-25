@@ -68,6 +68,7 @@ locals{
     metrics_port          = var.datadog_metrics_port
     datadog_agent_version = var.datadog_agent_version
     datadog_agent_enabled = var.datadog_agent_enabled
+    datadog_tags          = local.datadog_tags
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -118,5 +119,6 @@ locals{
     wd_instance_type      = var.hms_instance_type
     metrics_port          = var.datadog_metrics_port
     datadog_agent_version = var.datadog_agent_version
+    datadog_tags          = local.datadog_tags
   })
 }
