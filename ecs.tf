@@ -65,6 +65,8 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
   service_registries {
     registry_arn = aws_service_discovery_service.hms_readwrite[0].arn
   }
+
+  tags = var.apiary_tags
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
@@ -90,4 +92,6 @@ resource "aws_ecs_service" "apiary_hms_readonly_service" {
   service_registries {
     registry_arn = aws_service_discovery_service.hms_readonly[0].arn
   }
+
+  tags = var.apiary_tags
 }
