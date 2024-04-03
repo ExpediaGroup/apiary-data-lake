@@ -7,7 +7,7 @@
 resource "aws_s3_bucket" "apiary_inventory_bucket" {
   count  = var.s3_enable_inventory == true ? 1 : 0
   bucket = local.s3_inventory_bucket
-  tags   = merge(tomap({"Name"="${local.s3_inventory_bucket}"}), "${var.apiary_tags}")
+  tags   = merge(tomap({"Name"="${local.s3_inventory_bucket}"}), var.apiary_tags)
   policy = <<EOF
 {
   "Version":"2012-10-17",

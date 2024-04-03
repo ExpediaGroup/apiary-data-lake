@@ -9,7 +9,7 @@ resource "aws_vpc_endpoint_service" "hms_readonly" {
   network_load_balancer_arns = compact(concat(aws_lb.apiary_hms_ro_lb.*.arn, data.aws_lb.k8s_hms_ro_lb.*.arn))
   acceptance_required        = false
   allowed_principals         = formatlist("arn:aws:iam::%s:root", var.apiary_customer_accounts)
-  tags                       = merge(tomap({"Name"="${local.instance_alias}-hms-readonly"}), "${var.apiary_tags}")
+  tags                       = merge(tomap({"Name"="${local.instance_alias}-hms-readonly"}), var.apiary_tags)
 }
 
 resource "aws_vpc_endpoint_connection_notification" "hms_readonly" {
@@ -24,7 +24,7 @@ resource "aws_vpc_endpoint_service" "hms_readwrite" {
   network_load_balancer_arns = compact(concat(aws_lb.apiary_hms_rw_lb.*.arn, data.aws_lb.k8s_hms_rw_lb.*.arn))
   acceptance_required        = false
   allowed_principals         = distinct(compact(concat(local.assume_allowed_principals, local.producer_allowed_principals)))
-  tags                       = merge(tomap({"Name"="${local.instance_alias}-hms-readwrite"}), "${var.apiary_tags}")
+  tags                       = merge(tomap({"Name"="${local.instance_alias}-hms-readwrite"}), var.apiary_tags)
 }
 
 resource "aws_vpc_endpoint_connection_notification" "hms_readwrite" {
