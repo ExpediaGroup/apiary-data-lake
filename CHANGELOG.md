@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.1.1] - 2024-04-02
+## [7.1.1] - 2024-04-03
 ### Fixed
 - Renamed variable from `common_producer_iamroles` to `apiary_common_producer_iamroles` to make the name consistently.
 - Change default value for `datadog_key_secret_name` from `null` to `""`.
