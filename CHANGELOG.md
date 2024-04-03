@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.1.1] - 2024-04-03
 ### Fixed
-- Renamed variable from `common_producer_iamroles` to `apiary_common_producer_iamroles` to make the name consistently.
+- Renamed variable from `common_producer_iamroles` to `apiary_common_producer_iamroles` to make the name consistent.
 - Change default value for `datadog_key_secret_name` from `null` to `""`.
 
 ## [7.1.0] - 2024-03-21
