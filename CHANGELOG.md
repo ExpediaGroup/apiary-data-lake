@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.1.2] - 2024-04-03
+### Fixed
+- Added provider source for `datadog`.
+
 ## [7.1.1] - 2024-04-03
 ### Fixed
 - Renamed variable from `common_producer_iamroles` to `apiary_common_producer_iamroles` to make the name consistent.
