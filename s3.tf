@@ -25,7 +25,7 @@ locals {
       client_roles                  = replace(lookup(schema, "client_roles", ""), ",", "\",\"")
       governance_iamroles           = join("\",\"", var.apiary_governance_iamroles)
       consumer_prefix_roles         = lookup(var.apiary_consumer_prefix_iamroles, schema["schema_name"], {})
-      common_producer_iamroles      = join("\",\"", var.common_producer_iamroles)
+      common_producer_iamroles      = join("\",\"", var.apiary_common_producer_iamroles)
     })
   }
 }

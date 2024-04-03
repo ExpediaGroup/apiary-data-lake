@@ -719,7 +719,7 @@ variable "hms_ro_request_partition_limit" {
 variable "datadog_key_secret_name" {
   description = "Name of the secret containing the DataDog API key. This needs to be created manually in AWS secrets manager. This is only applicable to ECS deployments."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "datadog_agent_version" {
@@ -734,7 +734,7 @@ variable "datadog_agent_enabled" {
   default     = false
 }
 
-variable "common_producer_iamroles" {
+variable "apiary_common_producer_iamroles" {
   description = "AWS IAM roles allowed read-write access to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
