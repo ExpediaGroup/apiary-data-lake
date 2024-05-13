@@ -40,7 +40,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
       }
 
       spec {
-        service_account_name            = kubernetes_service_account.hms_readonly[0].metadata.0.name
+        service_account_name            = kubernetes_service_account_v1.hms_readonly[0].metadata.0.name
         automount_service_account_token = true
         dynamic "init_container" {
           for_each = var.external_database_host == "" ? ["enabled"] : []
