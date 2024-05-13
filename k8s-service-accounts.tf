@@ -52,7 +52,7 @@ resource "kubernetes_secret_v1" "hms_readonly" {
   ]
 }
 
-resource "kubernetes_service_account" "s3_inventory" {
+resource "kubernetes_service_account_v1" "s3_inventory" {
   count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name      = "${local.instance_alias}-s3-inventory"
