@@ -29,7 +29,7 @@ resource "kubernetes_cron_job" "apiary_inventory" {
               name = "${local.instance_alias}-s3-inventory"
             }
             annotations = {
-              "iam.amazonaws.com/role" = aws_iam_role.apiary_s3_inventory.name
+              "iam.amazonaws.com/role" = var.oidc_provider == "" ? aws_iam_role.apiary_s3_inventory.name : null
             }
           }
 

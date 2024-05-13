@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.1.5] - 2024-05-13
+### Fixed
+- Fixed k8s IRSA.
+- Changed k8s service account creation to compatible with newer version kubernetes provider.(eks 1.24 and later, create service account no longer create account token automatically)
+
 ## [7.1.4] - 2024-05-06
 ### Fixed
 - Change provider version for `kubernetes`.
