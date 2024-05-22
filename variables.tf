@@ -268,6 +268,12 @@ variable "db_maintenance_window" {
   default     = "wed:03:00-wed:04:00"
 }
 
+variable "db_copy_tags_to_snapshot" {
+    description = "Copy all Cluster tags to snapshots."
+    type        = bool
+    default     = true
+}
+
 variable "encrypt_db" {
   description = "Specifies whether the DB cluster is encrypted"
   type        = bool
