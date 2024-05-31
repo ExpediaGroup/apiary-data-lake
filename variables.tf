@@ -21,6 +21,12 @@ variable "apiary_domain_name" {
   default     = ""
 }
 
+variable "apiary_domain_private_zone" {
+  description = "Apiary domain zone private"
+  type        = bool
+  default     = true
+}
+
 variable "ecs_domain_extension" {
   description = "Domain name to use for hosted zone created by ECS service discovery."
   type        = string
