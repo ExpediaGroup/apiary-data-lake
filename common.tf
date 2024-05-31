@@ -78,7 +78,6 @@ data "aws_vpc" "apiary_vpc" {
 data "aws_route53_zone" "apiary_zone" {
   count        = local.enable_route53_records ? 1 : 0
   name         = var.apiary_domain_name
-  vpc_id       = var.vpc_id
   private_zone = var.apiary_domain_private_zone
 }
 
