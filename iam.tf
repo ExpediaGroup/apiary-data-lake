@@ -59,7 +59,8 @@ resource "aws_iam_role" "apiary_hms_readonly" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readonly"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readonly",
+           "${var.oidc_provider}:aud": "sts.amazonaws.com"
          }
        }
      },
@@ -109,7 +110,8 @@ resource "aws_iam_role" "apiary_hms_readwrite" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readwrite"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.hms_alias}-readwrite",
+           "${var.oidc_provider}:aud": "sts.amazonaws.com"
          }
        }
      },
@@ -159,7 +161,8 @@ resource "aws_iam_role" "apiary_s3_inventory" {
        "Action": "sts:AssumeRoleWithWebIdentity",
        "Condition": {
          "StringEquals": {
-           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.instance_alias}-s3-inventory"
+           "${var.oidc_provider}:sub": "system:serviceaccount:${var.metastore_namespace}:${local.instance_alias}-s3-inventory",
+           "${var.oidc_provider}:aud": "sts.amazonaws.com"
          }
        }
      },
