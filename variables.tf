@@ -21,6 +21,12 @@ variable "apiary_domain_name" {
   default     = ""
 }
 
+variable "apiary_domain_private_zone" {
+  description = "Apiary domain zone private"
+  type        = bool
+  default     = true
+}
+
 variable "ecs_domain_extension" {
   description = "Domain name to use for hosted zone created by ECS service discovery."
   type        = string
@@ -266,6 +272,12 @@ variable "db_maintenance_window" {
   description = "Preferred maintenance window for the RDS Metastore DB in UTC."
   type        = string
   default     = "wed:03:00-wed:04:00"
+}
+
+variable "db_copy_tags_to_snapshot" {
+    description = "Copy all Cluster tags to snapshots."
+    type        = bool
+    default     = true
 }
 
 variable "encrypt_db" {
