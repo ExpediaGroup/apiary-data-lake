@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.1.8] - 2024-06-19
+### Added
+- `hms_housekeeper_additional_environment_variables` variable to provide ability to add a list of environment variables in `hms-housekeeper` deployment.
+
 ## [7.1.7] - 2024-06-04
 ### Fixed
 - Fixed k8s IRSA.

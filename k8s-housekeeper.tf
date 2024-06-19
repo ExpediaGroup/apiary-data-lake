@@ -133,6 +133,14 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
             name  = "ENABLE_HIVE_LOCK_HOUSE_KEEPER"
             value = var.enable_hms_housekeeper ? "true" : ""
           }
+          dynamic "env" {
+            for_each = var.hms_housekeeper_additional_environment_variables
+
+            content {
+              name  = env.key
+              value = env.value
+            }
+          }
 
           liveness_probe {
             tcp_socket {
