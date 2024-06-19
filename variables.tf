@@ -690,6 +690,12 @@ variable "hms_additional_environment_variables" {
   default     = {}
 }
 
+variable "hms_housekeeper_additional_environment_variables" {
+  description = "Additional environment variables for Hive metastore."
+  type        = map(any)
+  default     = {}
+}
+
 variable "datadog_metrics_hms_readwrite_readonly" {
   description = "HMS metrics to be sent to Datadog."
   type        = list(string)
