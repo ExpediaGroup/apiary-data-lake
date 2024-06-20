@@ -111,7 +111,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
           }
           env {
             name  = "HADOOP_HEAPSIZE"
-            value = local.hms_rw_heapsize
+            value = "1740"
           }
           env {
             name  = "AWS_REGION"
