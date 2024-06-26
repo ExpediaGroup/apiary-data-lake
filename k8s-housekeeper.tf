@@ -133,6 +133,17 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
             name  = "ENABLE_HIVE_LOCK_HOUSE_KEEPER"
             value = var.enable_hms_housekeeper ? "true" : ""
           }
+
+          env {
+            name  = "DATANUCLEUS_CONNECTION_POOLING_TYPE"
+            value = var.hms_rw_datanucleus_connection_pooling_type
+          }
+
+          env {
+            name  = "DATANUCLEUS_CONNECTION_POOL_MAX_POOLSIZE"
+            value = var.hms_housekeeper_db_connection_pool_size
+          }
+
           dynamic "env" {
             for_each = var.hms_housekeeper_additional_environment_variables
 
