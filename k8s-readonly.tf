@@ -201,10 +201,8 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
           }
 
           dynamic "env" {
-            for_each = {
-              for k, v in var.hms_ro_datanucleus_connection_pool_config :
-              k => v if v != null
-            }
+            for_each = var.hms_ro_datanucleus_connection_pool_config
+
             content {
               name  = env.key
               value = env.value
