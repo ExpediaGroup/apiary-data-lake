@@ -175,10 +175,6 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
             value = local.hms_ro_maxthreads
           }
           env {
-            name  = "MYSQL_CONNECTION_POOL_SIZE"
-            value = var.hms_ro_db_connection_pool_size
-          }
-          env {
             name  = "HMS_AUTOGATHER_STATS"
             value = "false"
           }
@@ -186,8 +182,26 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
             name  = "LIMIT_PARTITION_REQUEST_NUMBER"
             value = var.hms_ro_request_partition_limit == "" ? "" : var.hms_ro_request_partition_limit
           }
+          env {
+            name  = "DATANUCLEUS_CONNECTION_POOLING_TYPE"
+            value = var.hms_ro_datanucleus_connection_pooling_type
+          }
+          env {
+            name  = "DATANUCLEUS_CONNECTION_POOL_MAX_POOLSIZE"
+            value = var.hms_ro_db_connection_pool_size
+          }
+
           dynamic "env" {
             for_each = var.hms_additional_environment_variables
+
+            content {
+              name  = env.key
+              value = env.value
+            }
+          }
+
+          dynamic "env" {
+            for_each = var.hms_ro_datanucleus_connection_pool_config
 
             content {
               name  = env.key

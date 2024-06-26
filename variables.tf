@@ -661,15 +661,21 @@ variable "hms_autogather_stats" {
 }
 
 variable "hms_ro_db_connection_pool_size" {
-  description = "Read-only Hive metastore setting for size of the MySQL connection pool. Default is 10."
+  description = "Read-only Hive metastore setting for max size of the MySQL connection pool. Default is 10."
   type        = number
   default     = 10
 }
 
 variable "hms_rw_db_connection_pool_size" {
-  description = "Read-write Hive metastore setting for size of the MySQL connection pool. Default is 10."
+  description = "Read-write Hive metastore setting for max size of the MySQL connection pool. Default is 10."
   type        = number
   default     = 10
+}
+
+variable "hms_housekeeper_db_connection_pool_size" {
+  description = "HMS Housekeeper setting for max size of the MySQL connection pool. Default is 5."
+  type        = number
+  default     = 5
 }
 
 variable "db_enable_performance_insights" {
@@ -756,4 +762,28 @@ variable "apiary_common_producer_iamroles" {
   description = "AWS IAM roles allowed read-write access to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
+}
+
+variable "hms_ro_datanucleus_connection_pooling_type" {
+  description = "The Datanucleus connection pool type: Valid types are BoneCP, HikariCP, c3p0, dbcp, dbcp2"
+  type    = string
+  default = "HikariCP"
+}
+
+variable "hms_rw_datanucleus_connection_pooling_type" {
+  description = "The Datanucleus connection pool type: Valid types are BoneCP, HikariCP, c3p0, dbcp, dbcp2"
+  type    = string
+  default = "HikariCP"
+}
+
+variable "hms_ro_datanucleus_connection_pool_config" {
+  description = "A map of env vars supported by Apiary docker image that can configure the chosen Datanucleus connection pool"
+  type = map(any)
+  default = {}
+}
+
+variable "hms_rw_datanucleus_connection_pool_config" {
+  description = "A map of env vars supported by Apiary docker image that can configure the chosen Datanucleus connection pool"  
+  type = map(any)
+  default = {}
 }
