@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.2.1] - 2024-07-01
+### Added
+- Issue where requests can hit 10min connection timeout, TCP keepalive prevents NLB closing idle connections. Similar to the issue explained here: https://paramount.tech/blog/2021/07/26/mitigation-of-connection-reset-in-aws.html
+
 ## [7.2.0] - 2024-06-26
 ### Added
 - Added `hms_ro_datanucleus_connection_pooling_type`, `hms_rw_datanucleus_connection_pooling_type`, `hms_ro_datanucleus_connection_pool_config`, `hms_rw_datanucleus_connection_pool_config`, `hms_housekeeper_db_connection_pool_size` variables to allow specifying the pooling driver and its config

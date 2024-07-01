@@ -787,3 +787,27 @@ variable "hms_rw_datanucleus_connection_pool_config" {
   type = map(any)
   default = {}
 }
+
+variable "enable_tcp_keepalive" {
+  description = "Enable tcp keepalive settings on the hms pods"
+  type        = bool
+  default     = false
+}
+
+variable "tcp_keepalive_time" {
+  description = "Sets net.ipv4.tcp_keepalive_time (seconds)."
+  type        = number
+  default     = 200
+}
+
+variable "tcp_keepalive_intvl" {
+  description = "Sets net.ipv4.tcp_keepalive_intvl (seconds)."
+  type        = number
+  default     = 30
+}
+
+variable "tcp_keepalive_probes" {
+  description = "Sets net.ipv4.tcp_keepalive_probes (number)."
+  type        = number
+  default     = 2
+}

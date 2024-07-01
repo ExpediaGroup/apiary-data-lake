@@ -69,6 +69,9 @@ locals{
     datadog_agent_version = var.datadog_agent_version
     datadog_agent_enabled = var.datadog_agent_enabled
     datadog_tags          = local.datadog_tags
+    tcp_keepalive_time     = var.tcp_keepalive_time
+    tcp_keepalive_intvl    = var.tcp_keepalive_intvl
+    tcp_keepalive_probes   = var.tcp_keepalive_probes
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -120,5 +123,8 @@ locals{
     metrics_port          = var.datadog_metrics_port
     datadog_agent_version = var.datadog_agent_version
     datadog_tags          = local.datadog_tags
+    tcp_keepalive_time     = var.tcp_keepalive_time
+    tcp_keepalive_intvl    = var.tcp_keepalive_intvl
+    tcp_keepalive_probes   = var.tcp_keepalive_probes
   })
 }
