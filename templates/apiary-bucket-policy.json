@@ -219,7 +219,7 @@
                     "aws:SecureTransport": "false"
                 }
             }
-        }
+        },
 %{if encryption == "AES256"}
         {
             "Sid": "DenyKMSAndDSSE",
