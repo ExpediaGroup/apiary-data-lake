@@ -244,7 +244,7 @@
                 "s3:x-amz-server-side-encryption-customer-algorithm": "false"
               }
             }
-        },
+        }
 %{else}
         {
           "Sid": "DenyNonKMS",
@@ -269,19 +269,7 @@
               "s3:x-amz-server-side-encryption-aws-kms-key-id": "${kms_key_arn}"
             }
           }
-        },
-%{endif}
-        {
-            "Sid": "DenyUnEncryptedObjectUploads",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::${bucket_name}/*",
-            "Condition": {
-                "Null": {
-                    "s3:x-amz-server-side-encryption": "true"
-                }
-            }
         }
+%{endif}
     ]
 }
