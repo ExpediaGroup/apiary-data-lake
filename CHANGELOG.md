@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.2.2] - 2024-07-24
+### Fixed
+- [Issue 266](https://github.com/ExpediaGroup/apiary-data-lake/issues/266) Apiary bucket policies over-enforce encryption
+
 ## [7.2.1] - 2024-07-01
 ### Added
 - Issue where requests can hit 10min connection timeout, TCP keepalive prevents NLB closing idle connections. Similar to the issue explained here: https://paramount.tech/blog/2021/07/26/mitigation-of-connection-reset-in-aws.html

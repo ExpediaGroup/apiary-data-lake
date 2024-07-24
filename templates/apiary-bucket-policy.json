@@ -220,6 +220,32 @@
                 }
             }
         },
+%{if encryption == "AES256"}
+        {
+            "Sid": "DenyKMSAndDSSE",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::${bucket_name}/*",
+            "Condition": {
+              "StringLike": {
+                "s3:x-amz-server-side-encryption": "aws:kms*"
+              }
+            }
+        },
+        {
+            "Sid": "DenySSEC",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::${bucket_name}/*",
+            "Condition": {
+              "Null": {
+                "s3:x-amz-server-side-encryption-customer-algorithm": "false"
+              }
+            }
+        }
+%{else}
         {
             "Sid": "DenyIncorrectEncryptionHeader",
             "Effect": "Deny",
@@ -228,11 +254,10 @@
             "Resource": "arn:aws:s3:::${bucket_name}/*",
             "Condition": {
                 "StringNotEquals": {
-                    "s3:x-amz-server-side-encryption": "${encryption}"
+                    "s3:x-amz-server-side-encryption": "aws:kms"
                 }
             }
         },
-%{if kms_key_arn != ""}
         {
           "Sid": "DenyWrongKMSKey",
           "Effect": "Deny",
@@ -245,7 +270,6 @@
             }
           }
         },
-%{endif}
         {
             "Sid": "DenyUnEncryptedObjectUploads",
             "Effect": "Deny",
@@ -258,5 +282,6 @@
                 }
             }
         }
+%{endif}
     ]
 }
