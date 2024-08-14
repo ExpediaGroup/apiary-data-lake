@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "kubernetes_cron_job" "apiary_inventory" {
+resource "kubernetes_cron_job_v1" "apiary_inventory" {
   count = (var.s3_enable_inventory && var.hms_instance_type == "k8s") ? 1 : 0
   metadata {
     name      = "${local.instance_alias}-s3-inventory"
