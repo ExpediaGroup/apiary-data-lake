@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.2.3] - 2024-08-14
+### Fixed
+- Changed terraform cron job api from `kubernetes_cron_job` to `kubernetes_cron_job_v1` to compatible with eks v1.25 and later.
+
 ## [7.2.2] - 2024-07-24
 ### Fixed
 - [Issue 266](https://github.com/ExpediaGroup/apiary-data-lake/issues/266) Apiary bucket policies over-enforce encryption
