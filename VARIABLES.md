@@ -348,10 +348,7 @@ apiary_managed_schemas = [
    schema_name = "sandbox"
    ...
    deny_global_write_access = true,
-   producer_roles = [
-    "arn:aws:iam::000000000:role/role-1",
-    "arn:aws:iam::000000000:role/role-2"
-   ]
+   producer_roles = "arn:aws:iam::000000000:role/role-1,arn:aws:iam::000000000:role/role-2"
   }
 ]
 ```

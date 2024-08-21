@@ -820,6 +820,6 @@ variable "deny_global_write_access" {
 
 variable "producer_roles" {
   description = "List of roles that are able to write into the bucket. See VARIABLES.md for more information."
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = ""
 }

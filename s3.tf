@@ -27,7 +27,7 @@ locals {
       consumer_prefix_roles         = lookup(var.apiary_consumer_prefix_iamroles, schema["schema_name"], {})
       common_producer_iamroles      = join("\",\"", var.apiary_common_producer_iamroles)
       deny_global_write_access      = lookup(schema, "deny_global_write_access", var.deny_global_write_access)
-      producer_roles                = join("\",\"", lookup(schema, "producer_roles", var.producer_roles))
+      producer_roles                = lookup(schema, "producer_roles", var.producer_roles)
     })
   }
 }
