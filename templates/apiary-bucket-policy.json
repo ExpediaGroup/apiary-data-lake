@@ -85,7 +85,7 @@
 %{endif}
 %{endfor ~}
 %{endif}
-%{if deny_global_write_access == true && producer_roles != "" }
+%{if deny_global_write_access == "true" && producer_roles != "" }
         {
             "Sid": "Deny write permissions to everything except the specified roles",
             "Effect": "Deny",
