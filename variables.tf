@@ -819,7 +819,7 @@ variable "deny_global_write_access" {
 }
 
 variable "producer_roles" {
-  description = "List of roles that are able to write into the bucket. See VARIABLES.md for more information."
+  description = "Comma separated list of roles that are able to write into the bucket. See VARIABLES.md for more information."
   type        = string
   default     = ""
 }
