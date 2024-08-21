@@ -335,3 +335,23 @@ common_producer_iamroles = [
   ...
 ]
 ```
+
+### Deny global writes to bucket - `deny_global_write_access` and `producer_roles`
+
+Write access is granted by default for roles within the same AWS account. If you would like to protect the bucket so only writes certain roles you can use `deny_global_write_access` and `producer_roles`.
+
+If you would like to protect all buckets you can set the default variable `deny_global_write_access` to `true`. However, enabling only one bucket looks like this:
+
+```
+apiary_managed_schemas = [
+  {
+   schema_name = "sandbox"
+   ...
+   deny_global_write_access = true,
+   producer_roles = [
+    "arn:aws:iam::000000000:role/role-1",
+    "arn:aws:iam::000000000:role/role-2"
+   ]
+  }
+]
+```
