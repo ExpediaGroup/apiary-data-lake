@@ -85,6 +85,23 @@
 %{endif}
 %{endfor ~}
 %{endif}
+%{if deny_global_write_access == "true" && producer_roles != "" }
+        {
+            "Sid": "Deny write permissions to everything except the specified roles",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": [
+                "s3:Put*",
+                "s3:Delete*"
+            ],
+            "Resource": "arn:aws:s3:::${bucket_name}/*",
+            "Condition": {
+              "StringNotLike": {
+                "aws:PrincipalArn": [ "${producer_roles}" ]
+              }
+            }
+        },
+%{endif}
 %{if deny_iamroles != ""}
         {
             "Sid": "Local role deny permissions",

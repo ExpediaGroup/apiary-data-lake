@@ -811,3 +811,15 @@ variable "tcp_keepalive_probes" {
   type        = number
   default     = 2
 }
+
+variable "deny_global_write_access" {
+  description = "Deny all write permissions from the S3 bucket except producer_roles. See VARIABLES.md for more information."
+  type        = bool
+  default     = false
+}
+
+variable "producer_roles" {
+  description = "Comma separated list of roles that are able to write into the bucket. See VARIABLES.md for more information."
+  type        = string
+  default     = ""
+}
