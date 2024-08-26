@@ -65,10 +65,10 @@ resource "kubernetes_service_account_v1" "s3_inventory" {
 
 resource "kubernetes_secret_v1" "s3_inventory" {
   metadata {
-    name        = "${local.hms_alias}-s3-inventory"
+    name        = "${local.instance_alias}-s3-inventory"
     namespace   = var.metastore_namespace
     annotations = {
-      "kubernetes.io/service-account.name"      ="${local.hms_alias}-s3-inventory"
+      "kubernetes.io/service-account.name"      ="${local.instance_alias}-s3-inventory"
       "kubernetes.io/service-account.namespace" = var.metastore_namespace
     }
   }
