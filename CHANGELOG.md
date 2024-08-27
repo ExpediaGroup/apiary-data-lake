@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.2] - 2024-08-27
+### Fixed
+- Fixed schema deny exception policy.
+- Added `apiary_governance_iamroles` into deny exception policy.
+- Added new variable `apiary_tagging_service_iamroles` to handle tagging service IAM roles in deny exception policy.
+- Added new variable `system_schema_producer_iamroles` to support system schema producer IAM roles.
+
 ## [7.3.1] - 2024-08-26
 ### Fixed
 - Fixed incorrect `s3-inventory` service account secret binding.
