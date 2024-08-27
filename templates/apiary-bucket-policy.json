@@ -227,7 +227,7 @@
             }
         },
 %{endif}
-%{if governance_iamroles != ""}
+%{if deny_exception_iamroles == "" && governance_iamroles != ""}
         {
             "Sid": "Apiary governance iamrole permissions",
             "Effect": "Allow",
