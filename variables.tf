@@ -818,8 +818,8 @@ variable "system_schema_producer_iamroles" {
   default     = []
 }
 
-variable "apiary_tagging_service_iamroles" {
-  description = "AWS IAM roles allowed read-write access to managed Apiary S3 buckets."
+variable "apiary_managed_service_iamroles" {
+  description = "apiary managed service IAM Roles read-write access to managed Apiary S3 buckets."
   type        = list(string)
   default     = []
 }

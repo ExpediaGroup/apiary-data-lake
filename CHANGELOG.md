@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 - Fixed schema deny exception policy.
 - Added `apiary_governance_iamroles` into deny exception policy.
-- Added new variable `apiary_tagging_service_iamroles` to handle tagging service IAM roles in deny exception policy.
+- Added new variable `apiary_managed_service_iamroles` to handle tagging service IAM roles in deny exception policy.
 - Added new variable `system_schema_producer_iamroles` to support system schema producer IAM roles.
 
 ## [7.3.1] - 2024-08-26
