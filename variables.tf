@@ -814,8 +814,8 @@ variable "tcp_keepalive_probes" {
 
 variable "system_schema_producer_iamroles" {
   description = "AWS IAM roles allowed write access to APIARY system schema"
-  type        = map(any)
-  default     = {}
+  type        = list(string)
+  default     = []
 }
 
 variable "apiary_tagging_service_iamroles" {
