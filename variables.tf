@@ -812,14 +812,14 @@ variable "tcp_keepalive_probes" {
   default     = 2
 }
 
-variable "deny_global_write_access" {
-  description = "Deny all write permissions from the S3 bucket except producer_roles. See VARIABLES.md for more information."
-  type        = bool
-  default     = false
+variable "system_schema_producer_iamroles" {
+  description = "AWS IAM roles allowed write access to APIARY system schema"
+  type        = list(string)
+  default     = []
 }
 
-variable "producer_roles" {
-  description = "Comma separated list of roles that are able to write into the bucket. See VARIABLES.md for more information."
-  type        = string
-  default     = ""
+variable "apiary_managed_service_iamroles" {
+  description = "apiary managed service IAM Roles read-write access to managed Apiary S3 buckets."
+  type        = list(string)
+  default     = []
 }
