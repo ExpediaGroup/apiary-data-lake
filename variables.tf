@@ -817,3 +817,15 @@ variable "tcp_keepalive_probes" {
   type        = number
   default     = 2
 }
+
+variable "system_schema_producer_iamroles" {
+  description = "AWS IAM roles allowed write access to APIARY system schema"
+  type        = list(string)
+  default     = []
+}
+
+variable "apiary_managed_service_iamroles" {
+  description = "apiary managed service IAM Roles read-write access to managed Apiary S3 buckets."
+  type        = list(string)
+  default     = []
+}

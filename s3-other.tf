@@ -241,15 +241,43 @@ resource "aws_s3_bucket" "apiary_system" {
         ]
     },
 %{endif}
+%{if length(var.system_schema_producer_iamroles) > 0}
+    {
+        "Sid": "system schema customer account permissions",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [ "${join("\",\"", var.system_schema_producer_iamroles)}" ]
+        },
+        "Action": [
+            "s3:GetBucketLocation",
+            "s3:GetObject",
+            "s3:GetObjectAcl",
+            "s3:GetBucketAcl",
+            "s3:ListBucket",
+            "s3:PutObject",
+            "s3:PutObjectAcl",
+            "s3:DeleteObject",
+            "s3:GetBucketVersioning",
+            "s3:PutBucketVersioning",
+            "s3:ReplicateObject",
+            "s3:ReplicateDelete",
+            "s3:ObjectOwnerOverrideToBucketOwner"
+        ],
+        "Resource": [
+            "arn:aws:s3:::${local.apiary_system_bucket}",
+            "arn:aws:s3:::${local.apiary_system_bucket}/*"
+        ]
+    },
+%{endif}
     {
       "Sid": "DenyUnSecureCommunications",
       "Effect": "Deny",
       "Principal": {"AWS": "*"},
       "Action": "s3:*",
       "Resource": [
-        "arn:aws:s3:::${local.apiary_system_bucket}",
-        "arn:aws:s3:::${local.apiary_system_bucket}/*"
-        ],
+          "arn:aws:s3:::${local.apiary_system_bucket}",
+          "arn:aws:s3:::${local.apiary_system_bucket}/*"
+      ],
       "Condition": {
         "Bool": {
           "aws:SecureTransport": "false"

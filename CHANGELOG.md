@@ -3,9 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.2.4] - 2024-08-15
+## [7.3.3] - 2024-08-28
 ### Added
 - Parameter(s3_enable_inventory_tables) to enable/disable s3 inventory tables and cron-job.
+
+
+## [7.3.2] - 2024-08-27
+### Fixed
+- Fixed schema deny exception policy.
+- Added `apiary_governance_iamroles` into deny exception policy.
+- Added new variable `apiary_managed_service_iamroles` to handle tagging service IAM roles in deny exception policy.
+- Added new variable `system_schema_producer_iamroles` to support system schema producer IAM roles.
+
+## [7.3.1] - 2024-08-26
+### Fixed
+- Fixed incorrect `s3-inventory` service account secret binding.
+
+## [7.3.0] - 2024-08-20
+### Added
+- If apiary_managed_schemas has `deny_global_write_access` enabled, only `producer_roles` will be able to write in the specified schema.
 
 ## [7.2.3] - 2024-08-14
 ### Fixed
