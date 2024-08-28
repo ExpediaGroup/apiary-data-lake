@@ -69,10 +69,6 @@ resource "kubernetes_cron_job_v1" "apiary_inventory" {
                 value = var.s3_enable_inventory
               }
               env {
-                name  = "ENABLE_S3_INVENTORY_TABLES"
-                value = var.s3_enable_inventory_tables
-              }
-              env {
                 name  = "APIARY_S3_INVENTORY_TABLE_FORMAT"
                 value = var.s3_inventory_format
               }
