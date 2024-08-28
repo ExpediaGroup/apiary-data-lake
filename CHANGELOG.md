@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Parameter(s3_enable_inventory_tables) to enable/disable s3 inventory tables and cron-job.
 
-
 ## [7.3.2] - 2024-08-27
 ### Fixed
 - Fixed schema deny exception policy.
