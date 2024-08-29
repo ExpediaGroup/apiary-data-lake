@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.4] - 2024-08-29
+### Added
+- Add `s3:ListBucketMultipartUploads`, `s3:ListMultipartUploadParts`, and `s3:AbortMultipartUpload` in `apiary-bucket-policy.json`. 
+
 ## [7.3.3] - 2024-08-28
 ### Added
 - Parameter(s3_enable_inventory_tables) to enable/disable s3 inventory tables and cron-job.
