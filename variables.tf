@@ -275,9 +275,9 @@ variable "db_maintenance_window" {
 }
 
 variable "db_copy_tags_to_snapshot" {
-    description = "Copy all Cluster tags to snapshots."
-    type        = bool
-    default     = true
+  description = "Copy all Cluster tags to snapshots."
+  type        = bool
+  default     = true
 }
 
 variable "encrypt_db" {
@@ -449,6 +449,12 @@ variable "s3_enable_inventory" {
   description = "Enable S3 inventory configuration."
   type        = bool
   default     = false
+}
+
+variable "s3_enable_inventory_tables" {
+  description = "Enable s3 inventory tables and cronjob"
+  type        = bool
+  default     = true
 }
 
 variable "s3_inventory_format" {
@@ -783,7 +789,7 @@ variable "hms_ro_datanucleus_connection_pool_config" {
 }
 
 variable "hms_rw_datanucleus_connection_pool_config" {
-  description = "A map of env vars supported by Apiary docker image that can configure the chosen Datanucleus connection pool"  
+  description = "A map of env vars supported by Apiary docker image that can configure the chosen Datanucleus connection pool"
   type = map(any)
   default = {}
 }

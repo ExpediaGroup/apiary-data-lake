@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.3] - 2024-08-28
+### Added
+- Parameter(s3_enable_inventory_tables) to enable/disable s3 inventory tables and cron-job.
+
 ## [7.3.2] - 2024-08-27
 ### Fixed
 - Fixed schema deny exception policy.
