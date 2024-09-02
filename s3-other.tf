@@ -243,7 +243,7 @@ resource "aws_s3_bucket" "apiary_system" {
 %{endif}
 %{if length(var.system_schema_producer_iamroles) > 0}
     {
-        "Sid": "system schema customer account permissions",
+        "Sid": "system schema producer account permissions",
         "Effect": "Allow",
         "Principal": {
           "AWS": [ "${join("\",\"", var.system_schema_producer_iamroles)}" ]
