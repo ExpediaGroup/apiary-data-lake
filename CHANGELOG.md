@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.5] - 2024-09-02
+### Added
+- Use unique SID in IAM Policy.
+
 ## [7.3.4] - 2024-08-29
 ### Added
 - Add `s3:ListBucketMultipartUploads`, `s3:ListMultipartUploadParts`, and `s3:AbortMultipartUpload` in `apiary-bucket-policy.json`. 
