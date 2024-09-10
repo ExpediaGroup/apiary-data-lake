@@ -132,11 +132,6 @@ EOF
 
     abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
 
-    transition {
-      days          = 30
-      storage_class = "INTELLIGENT_TIERING"
-    }
-
     expiration {
       days = var.s3_log_expiry
     }

@@ -138,6 +138,12 @@ variable "external_database_host" {
   default     = ""
 }
 
+variable "external_database_host_readonly" {
+  description = "External Metastore database host readonly to support legacy installations"
+  type        = string
+  default     = ""
+}
+
 variable "enable_vpc_endpoint_services" {
   description = "Enable metastore NLB, Route53 entries VPC access and VPC endpoint services, for cross-account access."
   type        = bool

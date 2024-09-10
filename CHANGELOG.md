@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.6] - 2024-09-10
+### Added
+- Added new variable `external_database_host_readonly` to handle externel mysql readonly host.
+### Removed
+- Removed s3 log bucket `INTELLIGENT_TIERING` transistion to reduce extra cost on access log transfer storage class type as log bucket has expiration configured.
+
 ## [7.3.5] - 2024-09-02
 ### Added
 - Use unique SID in IAM Policy.
