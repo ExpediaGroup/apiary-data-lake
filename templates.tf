@@ -75,7 +75,7 @@ locals{
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
-    mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : var.external_database_host}"
+    mysql_db_host              = "${var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.reader_endpoint) : coalesce(var.external_database_host_readonly,var.external_database_host)}"
     mysql_db_name              = "${var.apiary_database_name}"
     mysql_secret_arn           = "${data.aws_secretsmanager_secret.db_ro_user.arn}"
     hive_metastore_access_mode = "readonly"
