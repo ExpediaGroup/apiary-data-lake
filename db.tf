@@ -47,6 +47,7 @@ resource "random_string" "db_master_password" {
 }
 
 resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
+  count       = var.external_database_host == "" ? 1 : 0
   name        = "${local.instance_alias}-param-group"
   family      = var.rds_family # Needs to be kept in sync with aws_rds_cluster.apiary_cluster.engine and version
   description = "Apiary-specific Aurora parameters"
