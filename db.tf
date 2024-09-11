@@ -47,6 +47,7 @@ resource "random_string" "db_master_password" {
 }
 
 resource "aws_rds_cluster_parameter_group" "apiary_rds_param_group" {
+  count       = var.external_database_host == "" ? 1 : 0
   name        = "${local.instance_alias}-param-group"
   family      = var.rds_family # Needs to be kept in sync with aws_rds_cluster.apiary_cluster.engine and version
   description = "Apiary-specific Aurora parameters"
@@ -77,7 +78,7 @@ resource "aws_rds_cluster" "apiary_cluster" {
   final_snapshot_identifier           = "${local.instance_alias}-cluster-final-${random_id.snapshot_id[0].hex}"
   iam_database_authentication_enabled = true
   apply_immediately                   = var.db_apply_immediately
-  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.apiary_rds_param_group.name
+  db_cluster_parameter_group_name     = aws_rds_cluster_parameter_group.apiary_rds_param_group[0].name
   storage_encrypted                   = var.encrypt_db
   copy_tags_to_snapshot               = var.db_copy_tags_to_snapshot
   lifecycle {
