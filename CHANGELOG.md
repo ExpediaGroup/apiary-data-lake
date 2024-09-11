@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.9] - 2024-09-11
+### Fixed
+- Correct `MYSQL_DB_HOST` in readonly container.
+
 ## [7.3.8] - 2024-09-11
 ### Fixed
 - Enable `apiary_db_para_group` only when `external_database_host` not specified.
