@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.7] - 2024-09-10
+### Fixed
+- Set `db_instance_class` default to `db.t4g.medium`.
+- Set `db_backup_retention` default to `7`.
+
 ## [7.3.6] - 2024-09-10
 ### Added
 - Added new variable `external_database_host_readonly` to handle externel mysql readonly host.

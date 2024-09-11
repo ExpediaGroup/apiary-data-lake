@@ -249,6 +249,7 @@ variable "db_ro_secret_name" {
 variable "db_instance_class" {
   description = "Instance type for the RDS Metastore DB."
   type        = string
+  default     = "db.t4g.medium"
 }
 
 variable "db_instance_count" {
@@ -260,6 +261,7 @@ variable "db_instance_count" {
 variable "db_backup_retention" {
   description = "The number of days to retain backups for the RDS Metastore DB."
   type        = string
+  default     = "7"
 }
 
 variable "db_apply_immediately" {
