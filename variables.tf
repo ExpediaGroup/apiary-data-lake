@@ -396,7 +396,7 @@ variable "hms_ro_k8s_max_replica_count" {
 
 variable "hms_rw_node_affinity" {
   type = list(object({
-    node_selector_terms = list(object({
+    node_selector_term = list(object({
       key      = string
       operator = string
       values   = list(string)
@@ -417,7 +417,7 @@ variable "hms_rw_tolerations" {
 
 variable "hms_ro_node_affinity" {
   type = list(object({
-    node_selector_terms = list(object({
+    node_selector_term = list(object({
       key      = string
       operator = string
       values   = list(string)
