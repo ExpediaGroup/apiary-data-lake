@@ -394,6 +394,48 @@ variable "hms_ro_k8s_max_replica_count" {
   default     = 10
 }
 
+variable "hms_rw_node_affinity" {
+  type = list(object({
+    node_selector_terms = list(object({
+      key      = string
+      operator = string
+      values   = list(string)
+    }))
+  }))
+  default = []  # Default to an empty list
+}
+
+variable "hms_rw_tolerations" {
+  type = list(object({
+    effect             = string
+    key                = string
+    operator           = string
+    value              = string
+  }))
+  default = []
+}
+
+variable "hms_ro_node_affinity" {
+  type = list(object({
+    node_selector_terms = list(object({
+      key      = string
+      operator = string
+      values   = list(string)
+    }))
+  }))
+  default = []
+}
+
+variable "hms_ro_tolerations" {
+  type = list(object({
+    effect             = string
+    key                = string
+    operator           = string
+    value              = string
+  }))
+  default = []
+}
+
 variable "enable_autoscaling" {
   description = "Enable read only Hive Metastore k8s horizontal pod autoscaling"
   type        = bool
