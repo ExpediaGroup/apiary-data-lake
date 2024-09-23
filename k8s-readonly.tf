@@ -43,13 +43,13 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
         service_account_name            = kubernetes_service_account_v1.hms_readonly[0].metadata.0.name
         automount_service_account_token = true
 
-        dynamic "tolerations" {
+        dynamic "toleration" {
           for_each = var.hms_ro_tolerations
           content {
-            effect             = lookup(tolerations.value, "effect", null)
-            key                = lookup(tolerations.value, "key", null)
-            operator           = lookup(tolerations.value, "operator", null)
-            value              = lookup(tolerations.value, "value", null)
+            effect             = lookup(toleration.value, "effect", null)
+            key                = lookup(toleration.value, "key", null)
+            operator           = lookup(toleration.value, "operator", null)
+            value              = lookup(toleration.value, "value", null)
           }
         }
 
@@ -58,13 +58,13 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
           content {
             node_affinity {
               required_during_scheduling_ignored_during_execution {
-                dynamic "node_selector_terms" {
-                  for_each = lookup(affinity.value, "node_selector_terms", [])
+                dynamic "node_selector_term" {
+                  for_each = lookup(affinity.value, "node_selector_term", [])
                   content {
                     match_expressions {
-                      key      = lookup(node_selector_terms.value, "key", null)
-                      operator = lookup(node_selector_terms.value, "operator", null)
-                      values   = lookup(node_selector_terms.value, "values", [])
+                      key      = lookup(node_selector_term.value, "key", null)
+                      operator = lookup(node_selector_term.value, "operator", null)
+                      values   = lookup(node_selector_term.value, "values", [])
                     }
                   }
                 }
