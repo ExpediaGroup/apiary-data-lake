@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.4.0] - 2024-09-25
+### Added
+- Added variables `hms_rw_tolerations` and `hms_ro_tolerations` to specify tolerations for the HMS ro and rw pods
+- Added variables `hms_rw_node_affinity` and `hms_ro_node_affinity` to specify node affinities for the HMS ro and rw pods
+
 ## [7.3.9] - 2024-09-11
 ### Fixed
 - Correct `MYSQL_DB_HOST` in readonly container.
