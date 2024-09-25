@@ -395,6 +395,23 @@ variable "hms_ro_k8s_max_replica_count" {
 }
 
 variable "hms_rw_node_affinity" {
+  description = <<EOF
+Adds a list of node affinities for the HMS readwrite pods. For example if you
+have a pool of workers with the following label "pool=metastore" you
+can add an affinity to these workers like this:
+
+hms_ro_node_affinity = [
+  {
+    node_selector_term = [
+      {
+        key      = "pool"
+        operator = "In"
+        values   = ["metastore"]
+      }
+    ]
+  }
+]
+EOF  
   type = list(object({
     node_selector_term = list(object({
       key      = string
@@ -406,6 +423,20 @@ variable "hms_rw_node_affinity" {
 }
 
 variable "hms_rw_tolerations" {
+  description = <<EOF
+Adds a list of tolerations for the HMS readwrite pods. For example if you
+have a pool of workers with the following taints "pool=metastore:NoSchedule" you
+can add a toleration like this:
+
+hms_rw_tolerations = [
+  {
+    key      = "pool"
+    operator = "Equal"
+    value    = "metastore"
+    effect   = "NoSchedule"
+  }
+]
+EOF
   type = list(object({
     effect             = string
     key                = string
@@ -416,6 +447,23 @@ variable "hms_rw_tolerations" {
 }
 
 variable "hms_ro_node_affinity" {
+  description = <<EOF
+Adds a list of node affinities for the HMS readonly pods. For example if you
+have a pool of workers with the following label "pool=metastore" you
+can add an affinity to these workers like this:
+
+hms_ro_node_affinity = [
+  {
+    node_selector_term = [
+      {
+        key      = "pool"
+        operator = "In"
+        values   = ["metastore"]
+      }
+    ]
+  }
+]
+EOF
   type = list(object({
     node_selector_term = list(object({
       key      = string
@@ -427,6 +475,20 @@ variable "hms_ro_node_affinity" {
 }
 
 variable "hms_ro_tolerations" {
+  description = <<EOF
+Adds a list of tolerations for the HMS readonly pods. For example if you
+have a pool of workers with the following taints "pool=metastore:NoSchedule" you
+can add a toleration like this:
+
+hms_rw_tolerations = [
+  {
+    key      = "pool"
+    operator = "Equal"
+    value    = "metastore"
+    effect   = "NoSchedule"
+  }
+]
+EOF  
   type = list(object({
     effect             = string
     key                = string
