@@ -16,6 +16,13 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
   }
 
   spec {
+    strategy {
+      type = "RollingUpdate"
+      rolling_update {
+        max_surge       = var.hms_rw_k8s_rolling_update_strategy.max_surge
+        max_unavailable = var.hms_rw_k8s_rolling_update_strategy.max_unavailable
+      }
+    }    
     replicas = var.hms_rw_k8s_replica_count
     selector {
       match_labels = {
@@ -365,4 +372,25 @@ resource "kubernetes_service" "hms_readwrite" {
 data "aws_lb" "k8s_hms_rw_lb" {
   count = var.hms_instance_type == "k8s" && var.enable_vpc_endpoint_services ? 1 : 0
   name  = split("-", split(".", kubernetes_service.hms_readwrite[0].status.0.load_balancer.0.ingress.0.hostname).0).0
+}
+
+resource "kubernetes_pod_disruption_budget_v1" "hms_readwrite" {
+  count = var.hms_instance_type == "k8s" && var.hms_rw_k8s_pdb_settings.enabled ? 1 : 0
+
+  metadata {
+    name = "${local.hms_alias}-readwrite"
+    namespace = var.metastore_namespace
+  }
+
+  spec {
+    selector {
+      match_labels = {
+        name = "${local.hms_alias}-readwrite"
+      }
+    }
+
+    # set max_unavailable to 1 by default if PDB is created
+    max_unavailable = var.hms_rw_k8s_pdb_settings.max_unavailable != null ? var.hms_rw_k8s_pdb_settings.max_unavailable : "1"
+    min_available   = var.hms_rw_k8s_pdb_settings.min_available != null ? var.hms_rw_k8s_pdb_settings.min_available : null
+  }
 }

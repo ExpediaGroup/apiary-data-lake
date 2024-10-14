@@ -15,9 +15,21 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 1.1"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
     datadog = {
-      source = "DataDog/datadog"
+      source  = "datadog/datadog"
       version = "3.25.0"
+    }
+    template = {
+      source = "hashicorp/template"
+      version = "~> 2.2"
     }
   }
 }
