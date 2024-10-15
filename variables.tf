@@ -394,6 +394,58 @@ variable "hms_ro_k8s_max_replica_count" {
   default     = 10
 }
 
+variable "hms_ro_k8s_rolling_update_strategy" {
+  description = "Rolling update strategy settings for HMS RO including max_surge and max_unavailable"
+  type = object({
+    max_surge       = string
+    max_unavailable = string
+  })
+  default = {
+    max_surge       = "25%"
+    max_unavailable = "25%"
+  }
+}
+
+variable "hms_rw_k8s_rolling_update_strategy" {
+  description = "Rolling update strategy settings for HMS RW including max_surge and max_unavailable"
+  type = object({
+    max_surge       = string
+    max_unavailable = string
+  })
+  default = {
+    max_surge       = "25%"
+    max_unavailable = "25%"
+  }
+}
+
+variable "hms_ro_k8s_pdb_settings" {
+  description = "PDB settings for HMS RO including enable flag, maxUnavailable, and minAvailable."
+  type = object({
+    enabled         = bool
+    max_unavailable = string
+    min_available   = string
+  })
+  default = {
+    enabled         = false
+    max_unavailable = null
+    min_available   = null
+  }
+}
+
+variable "hms_rw_k8s_pdb_settings" {
+  description = "PDB settings for HMS RW including enable flag, maxUnavailable, and minAvailable."
+  type = object({
+    enabled         = bool
+    max_unavailable = string
+    min_available   = string
+  })
+  default = {
+    enabled         = false
+    max_unavailable = null
+    min_available   = null
+  }
+}
+
 variable "hms_rw_node_affinity" {
   description = <<EOF
 Adds a list of node affinities for the HMS readwrite pods. For example if you
