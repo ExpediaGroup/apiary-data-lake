@@ -15,6 +15,14 @@ variable "apiary_tags" {
   type        = map(any)
 }
 
+variable "apiary_extra_tags" {
+  description = "Additional tags for Apiary S3 buckets to avoid  intelligent tiering lifecycle policy to be applied."
+  type        = map(string)
+  default     = {
+    "AWS_S3_013" = "DISABLE"
+  }
+}
+
 variable "apiary_domain_name" {
   description = "Apiary domain name for Route 53."
   type        = string
