@@ -96,7 +96,7 @@ resource "aws_s3_bucket" "apiary_managed_logs_bucket" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = local.apiary_s3_logs_bucket
   acl    = "log-delivery-write"
-  tags   = merge(tomap({"Name"=local.apiary_s3_logs_bucket}), var.apiary_tags)
+  tags   = merge(tomap({"Name"=local.apiary_s3_logs_bucket, "AWS_S3_013"="DISABLE"}), var.apiary_tags)
   policy = <<EOF
 {
   "Version":"2012-10-17",
