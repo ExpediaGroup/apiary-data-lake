@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.5.1] - 2024-10-21
 ### Added
-- Set tag to disable S3 logs intelligent tiering lifecycle policy.
+- Added variable to add extra tags to s3 buckets
 
 ## [7.5.0] - 2024-10-15
 ### Added
