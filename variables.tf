@@ -15,6 +15,12 @@ variable "apiary_tags" {
   type        = map(any)
 }
 
+variable "apiary_extra_tags_s3" {
+  description = "Additional tags for Apiary S3 buckets."
+  type        = map(any)
+  default     = {}
+}
+
 variable "apiary_domain_name" {
   description = "Apiary domain name for Route 53."
   type        = string

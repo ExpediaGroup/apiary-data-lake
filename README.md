@@ -30,6 +30,7 @@ module "apiary" {
   aws_region               = "us-west-2"
   instance_name            = "test"
   apiary_tags              = "${var.tags}"
+  apiary_extra_tags_s3     = "${var.extra_tags_s3}"
   private_subnets          = ["subnet1", "subnet2", "subnet3"]
   vpc_id                   = "vpc-123456"
   hms_docker_image         = "${aws_account}.dkr.ecr.${aws_region}.amazonaws.com/apiary-metastore"
