@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.6.0] - 2024-10-24
+### Fixed
+- Added condition for `k8s` service account secret creation.
+### Added
+- Added new variable `ecs_platform_version` to handle ECS platform version update.
+- Added new variable `ecs_requires_compatibilities` to support overwriting compatibilities(when with `EC2`, CPU will not able beyond to `8`, and Memorry can not beyond `60G`).
+
 ## [7.5.1] - 2024-10-22
 ### Added
 - Added `apiary_extra_tags_s3` variable to add s3 buckets extra tags.

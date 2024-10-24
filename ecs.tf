@@ -24,7 +24,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   network_mode             = "awsvpc"
   memory                   = var.hms_rw_heapsize
   cpu                      = var.hms_rw_cpu
-  requires_compatibilities = ["EC2", "FARGATE"]
+  requires_compatibilities = var.ecs_requires_compatibilities
   container_definitions    = local.hms_readwrite_template
   tags                     = var.apiary_tags
 }
@@ -37,19 +37,20 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   network_mode             = "awsvpc"
   memory                   = var.hms_ro_heapsize
   cpu                      = var.hms_ro_cpu
-  requires_compatibilities = ["EC2", "FARGATE"]
+  requires_compatibilities = var.ecs_requires_compatibilities
   container_definitions    = local.hms_readonly_template
   tags                     = var.apiary_tags
 }
 
 resource "aws_ecs_service" "apiary_hms_readwrite_service" {
-  count           = var.hms_instance_type == "ecs" ? 1 : 0
-  depends_on      = [aws_lb_target_group.apiary_hms_rw_tg]
-  name            = "${local.instance_alias}-hms-readwrite-service"
-  launch_type     = "FARGATE"
-  cluster         = aws_ecs_cluster.apiary[0].id
-  task_definition = aws_ecs_task_definition.apiary_hms_readwrite[0].arn
-  desired_count   = var.hms_rw_ecs_task_count
+  count            = var.hms_instance_type == "ecs" ? 1 : 0
+  depends_on       = [aws_lb_target_group.apiary_hms_rw_tg]
+  name             = "${local.instance_alias}-hms-readwrite-service"
+  launch_type      = "FARGATE"
+  platform_version = var.ecs_platform_version
+  cluster          = aws_ecs_cluster.apiary[0].id
+  task_definition  = aws_ecs_task_definition.apiary_hms_readwrite[0].arn
+  desired_count    = var.hms_rw_ecs_task_count
 
   load_balancer {
     target_group_arn = aws_lb_target_group.apiary_hms_rw_tg[0].arn
@@ -70,13 +71,14 @@ resource "aws_ecs_service" "apiary_hms_readwrite_service" {
 }
 
 resource "aws_ecs_service" "apiary_hms_readonly_service" {
-  count           = var.hms_instance_type == "ecs" ? 1 : 0
-  depends_on      = [aws_lb_target_group.apiary_hms_ro_tg]
-  name            = "${local.instance_alias}-hms-readonly-service"
-  launch_type     = "FARGATE"
-  cluster         = aws_ecs_cluster.apiary[0].id
-  task_definition = aws_ecs_task_definition.apiary_hms_readonly[0].arn
-  desired_count   = var.hms_ro_ecs_task_count
+  count            = var.hms_instance_type == "ecs" ? 1 : 0
+  depends_on       = [aws_lb_target_group.apiary_hms_ro_tg]
+  name             = "${local.instance_alias}-hms-readonly-service"
+  launch_type      = "FARGATE"
+  platform_version = var.ecs_platform_version
+  cluster          = aws_ecs_cluster.apiary[0].id
+  task_definition  = aws_ecs_task_definition.apiary_hms_readonly[0].arn
+  desired_count    = var.hms_ro_ecs_task_count
 
   load_balancer {
     target_group_arn = aws_lb_target_group.apiary_hms_ro_tg[0].arn

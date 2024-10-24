@@ -10,6 +10,7 @@ resource "kubernetes_service_account_v1" "hms_readwrite" {
 }
 
 resource "kubernetes_secret_v1" "hms_readwrite" {
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name        = "${local.hms_alias}-readwrite"
     namespace   = var.metastore_namespace
@@ -37,6 +38,7 @@ resource "kubernetes_service_account_v1" "hms_readonly" {
 }
 
 resource "kubernetes_secret_v1" "hms_readonly" {
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name        = "${local.hms_alias}-readonly"
     namespace   = var.metastore_namespace
@@ -64,6 +66,7 @@ resource "kubernetes_service_account_v1" "s3_inventory" {
 }
 
 resource "kubernetes_secret_v1" "s3_inventory" {
+  count = var.hms_instance_type == "k8s" ? 1 : 0
   metadata {
     name        = "${local.instance_alias}-s3-inventory"
     namespace   = var.metastore_namespace
