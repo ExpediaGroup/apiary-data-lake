@@ -138,6 +138,47 @@ EOF
   }
 }
 
+resource "aws_s3_bucket" "s3_logs_checkpoint" {
+  bucket = local.apiary_s3_logs_checkpoint_bucket
+  acl    = "log-delivery-write"
+  tags   = merge(tomap({"Name"="s3_logs_checkpoint"}), var.apiary_tags, var.apiary_extra_tags_s3)
+  policy = <<EOF
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Sid": "DenyUnSecureCommunications",
+      "Effect": "Deny",
+      "Principal": {"AWS": "*"},
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::s3_logs_checkpoint",
+        "arn:aws:s3:::s3_logs_checkpoint/*"
+        ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+EOF
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  lifecycle_rule {
+    enabled = true
+
+    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "apiary_managed_logs_bucket" {
   count  = local.enable_apiary_s3_log_management ? 1 : 0
   bucket = aws_s3_bucket.apiary_managed_logs_bucket[0].bucket
