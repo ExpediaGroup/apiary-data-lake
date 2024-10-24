@@ -999,3 +999,9 @@ variable "apiary_managed_service_iamroles" {
   type        = list(string)
   default     = []
 }
+
+variable "ecs_platform_version" {
+  description = "ECS Service Platform Version"
+  type        = string
+  default     = "LATEST"
+}
