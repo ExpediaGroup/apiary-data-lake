@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [7.6.0] - 2024-10-24
 ### Fixed
 - Added condition for `k8s` service account secret creation.
+### Added
 - Added new variable `ecs_platform_version` to handle ECS platform version update.
 - Added new variable `ecs_requires_compatibilities` to support overwriting compatibilities(when with `EC2`, CPU will not able beyond to `8`, and Memorry can not beyond `60G`).
 
