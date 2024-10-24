@@ -1005,3 +1005,9 @@ variable "ecs_platform_version" {
   type        = string
   default     = "LATEST"
 }
+
+variable "ecs_requires_compatibilities" {
+  description = "ECS task definition requires compatibilities, default EC2; FARGATE"
+  type        = list(string)
+  default     = ["EC2", "FARGATE"]
+}
