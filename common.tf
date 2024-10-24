@@ -42,6 +42,7 @@ locals {
   enable_apiary_s3_log_management = var.apiary_log_bucket == "" ? true : false
   enable_apiary_s3_log_hive       = var.apiary_log_bucket == "" && var.enable_apiary_s3_log_hive ? true : false
   apiary_s3_logs_bucket           = local.enable_apiary_s3_log_management ? "${local.apiary_bucket_prefix}-s3-logs" : ""
+  apiary_s3_logs_checkpoint_bucket= "${local.apiary_bucket_prefix}-s3-logs-checkpoint"
   apiary_s3_hive_logs_bucket      = local.enable_apiary_s3_log_management ? "${local.apiary_s3_logs_bucket}-hive" : ""
   apiary_system_bucket            = "${local.apiary_bucket_prefix}-${replace(var.system_schema_name, "_", "-")}"
 
