@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.6.1] - 2024-10-29
+### Added
+- Updated Openmetric to prometheus in DockerLabels in ECS.
+
 ## [7.6.0] - 2024-10-24
 ### Fixed
 - Added condition for `k8s` service account secret creation.
