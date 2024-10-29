@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.6.1] - 2024-10-29
 ### Updated
-- Updated Openmetric to prometheus in DockerLabels in ECS.
+- Changed Openmetric to prometheus in DockerLabels in ECS.
 
 ## [7.6.0] - 2024-10-24
 ### Fixed
