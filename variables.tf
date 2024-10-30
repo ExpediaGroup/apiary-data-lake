@@ -1003,11 +1003,11 @@ variable "apiary_managed_service_iamroles" {
 variable "ecs_platform_version" {
   description = "ECS Service Platform Version"
   type        = string
-  default     = "LATEST"
+  default     = "1.4.0"
 }
 
 variable "ecs_requires_compatibilities" {
   description = "ECS task definition requires compatibilities, default EC2; FARGATE"
   type        = list(string)
-  default     = ["EC2", "FARGATE"]
+  default     = ["FARGATE"]
 }
