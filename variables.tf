@@ -1011,3 +1011,16 @@ variable "ecs_requires_compatibilities" {
   type        = list(string)
   default     = ["EC2", "FARGATE"]
 }
+
+variable "hms_readwrite_namespace" {
+  description = "ECS readwrite namespace"
+  type        = string
+  default     = "hms_readwrite"
+}
+
+variable "hms_readonly_namespace" {
+  description = "ECS readonly namespace"
+  type        = string
+  default     = "hms_readonly"
+}
+
