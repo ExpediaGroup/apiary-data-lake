@@ -9,8 +9,9 @@ locals {
   apiary_bucket_prefix             = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   apiary_assume_role_bucket_prefix = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
   enable_route53_records           = var.apiary_domain_name == "" ? false : true
-
-  datadog_tags = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
+  hms_readwrite_namespace          = var.hms_readwrite_namespace
+  hms_readonly_namespace           = var.hms_readonly_namespace
+  datadog_tags                     = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
   #
   # Create a new list of maps with some extra attributes needed later
   #

@@ -452,6 +452,19 @@ variable "hms_rw_k8s_pdb_settings" {
   }
 }
 
+variable "hms_readwrite_namespace" {
+  description = "ECS readwrite namespace"
+  type        = string
+  default     = "hms_readwrite"
+}
+
+variable "hms_readonly_namespace" {
+  description = "ECS readonly namespace"
+  type        = string
+  default     = "hms_readonly"
+}
+
+
 variable "hms_rw_node_affinity" {
   description = <<EOF
 Adds a list of node affinities for the HMS readwrite pods. For example if you
@@ -1012,15 +1025,4 @@ variable "ecs_requires_compatibilities" {
   default     = ["EC2", "FARGATE"]
 }
 
-variable "hms_readwrite_namespace" {
-  description = "ECS readwrite namespace"
-  type        = string
-  default     = "hms_readwrite"
-}
-
-variable "hms_readonly_namespace" {
-  description = "ECS readonly namespace"
-  type        = string
-  default     = "hms_readonly"
-}
 
