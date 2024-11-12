@@ -47,6 +47,7 @@ locals{
     hms_autogather_stats                   = var.hms_autogather_stats
     hms_rw_db_connection_pool_size         = var.hms_rw_db_connection_pool_size
     hms_rw_request_partition_limit         = var.hms_rw_request_partition_limit == "" ? "" : var.hms_rw_request_partition_limit
+    datadog_metrics_hms_readwrite_readonly = var.datadog_metrics_hms_readwrite_readonly
     #to instruct docker to turn off upgrading hive db schema when using external database
     external_database = "${var.external_database_host == "" ? "" : "1"}"
 
@@ -129,5 +130,6 @@ locals{
     tcp_keepalive_probes    = var.tcp_keepalive_probes
     hms_readwrite_namespace = var.hms_readwrite_namespace
     hms_readonly_namespace  = var.hms_readonly_namespace
+    datadog_metrics_hms_readwrite_readonly = var.datadog_metrics_hms_readwrite_readonly
   })
 }

@@ -75,7 +75,7 @@
         }
     },
     "dockerLabels": {
-        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${var.datadog_metrics_hms_readwrite_readonly} )}] }]"
+        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${datadog_metrics_hms_readwrite_readonly} )}] }]"
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
         "com.datadoghq.ad.init_configs": "[{}]"
     },
