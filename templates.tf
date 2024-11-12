@@ -27,7 +27,8 @@ locals{
     table_param_filter         = var.enable_metadata_events ? var.table_param_filter : ""
     enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
-
+    hms_readwrite_namespace    = "${var.hms_readwrite_namespace}"
+    hms_readonly_namespace     = "${var.hms_readonly_namespace}"
     ranger_service_name                    = "${local.instance_alias}-metastore"
     ranger_policy_manager_url              = "${var.ranger_policy_manager_url}"
     ranger_audit_solr_url                  = "${var.ranger_audit_solr_url}"
