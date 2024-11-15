@@ -1,282 +1,282 @@
 [
-  %{ if init_container_enabled }
-{
-  "name": "mysql-setup",
-  "essential": false,
-  "image": "${hms_docker_image}:${hms_docker_version}",
-  ${docker_auth}
-"logConfiguration": {
-"logDriver": "awslogs",
-"options": {
-"awslogs-group": "${loggroup}",
-"awslogs-region": "${region}",
-"awslogs-stream-prefix": "/"
-}
-},
-"environment": [
-{
-"name": "MYSQL_HOST",
-"value": "${mysql_db_host}"
-},
-{
-"name": "MYSQL_DB",
-"value": "${mysql_db_name}"
-},
-{
-"name": "MYSQL_PERMISSIONS",
-"value": "${mysql_permissions}"
-}
-],
-"secrets": [
-{
-"valueFrom": "${mysql_master_cred_arn}",
-"name": "MYSQL_MASTER_CREDS"
-},
-{
-"valueFrom": "${mysql_user_cred_arn}",
-"name": "MYSQL_USER_CREDS"
-}
-],
-"command": ["sh", "/allow-grant.sh"]
-},
-%{ endif }
-{
-"name": "apiary-hms-readwrite",
-"image": "${hms_docker_image}:${hms_docker_version}",
-${docker_auth}
-"essential": true,
-"ulimits": [
-{
-"softLimit": ${nofile_ulimit},
-"hardLimit": ${nofile_ulimit},
-"name": "nofile"
-}
-],
-"systemControls": [
-{
-"namespace": "net.ipv4.tcp_keepalive_time",
-"value": "${tcp_keepalive_time}"
-},
-{
-"namespace": "net.ipv4.tcp_keepalive_intvl",
-"value": "${tcp_keepalive_intvl}"
-},
-{
-"namespace": "net.ipv4.tcp_keepalive_probes",
-"value": "${tcp_keepalive_probes}"
-}
-],
-"logConfiguration": {
-"logDriver": "awslogs",
-"options": {
-"awslogs-group": "${loggroup}",
-"awslogs-region": "${region}",
-"awslogs-stream-prefix": "/"
-}
-},
-"dockerLabels": {
-"com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readwrite_namespace}\", \"metrics\": [${join(\",\", var.datadog_metrics_hms_readwrite_readonly)}] }]"
-"com.datadoghq.ad.check_names": "[\"prometheus\"]",
-"com.datadoghq.ad.init_configs": "[{}]"
-},
-"portMappings": [
-{
-"containerPort": 9083,
-"hostPort": 9083
-}
-],
 %{ if init_container_enabled }
-"dependsOn": [
-{
-"containerName": "mysql-setup",
-"condition": "SUCCESS"
-}
-],
+  {
+    "name": "mysql-setup",
+    "essential": false,
+    "image": "${hms_docker_image}:${hms_docker_version}",
+    ${docker_auth}
+    "logConfiguration": {
+       "logDriver": "awslogs",
+       "options": {
+           "awslogs-group": "${loggroup}",
+           "awslogs-region": "${region}",
+           "awslogs-stream-prefix": "/"
+       }
+     },
+    "environment": [
+       {
+          "name": "MYSQL_HOST",
+          "value": "${mysql_db_host}"
+       },
+       {
+          "name": "MYSQL_DB",
+          "value": "${mysql_db_name}"
+       },
+       {
+          "name": "MYSQL_PERMISSIONS",
+          "value": "${mysql_permissions}"
+       }
+    ],
+    "secrets": [
+       {
+          "valueFrom": "${mysql_master_cred_arn}",
+          "name": "MYSQL_MASTER_CREDS"
+       },
+       {
+          "valueFrom": "${mysql_user_cred_arn}",
+          "name": "MYSQL_USER_CREDS"
+       }
+    ],
+    "command": ["sh", "/allow-grant.sh"]
+  },
 %{ endif }
-"environment":[
-{
-"name": "MYSQL_DB_HOST",
-"value": "${mysql_db_host}"
-},
-{
-"name": "MYSQL_DB_NAME",
-"value": "${mysql_db_name}"
-},
-{
-"name": "MYSQL_SECRET_ARN",
-"value": "${mysql_secret_arn}"
-},
-{
-"name": "HIVE_METASTORE_ACCESS_MODE",
-"value": "${hive_metastore_access_mode}"
-},
-{
-"name": "HADOOP_HEAPSIZE",
-"value": "${hms_heapsize}"
-},
-{
-"name": "AWS_REGION",
-"value": "${region}"
-},
-{
-"name": "HIVE_DB_NAMES",
-"value": "${managed_schemas}"
-},
-{
-"name": "INSTANCE_NAME",
-"value": "${instance_name}"
-},
-{
-"name": "SNS_ARN",
-"value": "${sns_arn}"
-},
-{
-"name": "TABLE_PARAM_FILTER",
-"value": "${table_param_filter}"
-},
-{
-"name": "ENABLE_GLUESYNC",
-"value": "${enable_gluesync}"
-},
-{
-"name": "GLUE_PREFIX",
-"value": "${gluedb_prefix}"
-},
-{
-"name": "RANGER_SERVICE_NAME",
-"value": "${ranger_service_name}"
-},
-{
-"name": "RANGER_POLICY_MANAGER_URL",
-"value": "${ranger_policy_manager_url}"
-},
-{
-"name": "RANGER_AUDIT_SOLR_URL",
-"value": "${ranger_audit_solr_url}"
-},
-{
-"name": "RANGER_AUDIT_DB_URL",
-"value": "${ranger_audit_db_url}"
-},
-{
-"name": "RANGER_AUDIT_SECRET_ARN",
-"value": "${ranger_audit_secret_arn}"
-},
-{
-"name": "ATLAS_KAFKA_BOOTSTRAP_SERVERS",
-"value": "${atlas_kafka_bootstrap_servers}"
-},
-{
-"name": "ATLAS_CLUSTER_NAME",
-"value": "${atlas_cluster_name}"
-},
-{
-"name": "LDAP_URL",
-"value": "${ldap_url}"
-},
-{
-"name": "LDAP_CA_CERT",
-"value": "${ldap_ca_cert}"
-},
-{
-"name": "LDAP_BASE",
-"value": "${ldap_base}"
-},
-{
-"name": "LDAP_SECRET_ARN",
-"value": "${ldap_secret_arn}"
-},
-{
-"name": "HIVE_METASTORE_LOG_LEVEL",
-"value": "${hive_metastore_log_level}"
-},
-{
-"name": "EXTERNAL_DATABASE",
-"value": "${external_database}"
-},
-{
-"name": "ENABLE_METRICS",
-"value": "${enable_metrics}"
-},
-{
-"name": "KAFKA_BOOTSTRAP_SERVERS",
-"value": "${kafka_bootstrap_servers}"
-},
-{
-"name": "KAFKA_TOPIC_NAME",
-"value": "${kafka_topic_name}"
-},
-{
-"name": "ENABLE_S3_INVENTORY",
-"value": "${s3_enable_inventory}"
-},
-{
-"name": "ENABLE_S3_LOGS",
-"value": "${s3_enable_logs}"
-},
-{
-"name": "HMS_MIN_THREADS",
-"value": "${hms_minthreads}"
-},
-{
-"name": "HMS_MAX_THREADS",
-"value": "${hms_maxthreads}"
-},
-{
-"name": "APIARY_SYSTEM_SCHEMA",
-"value": "${system_schema_name}"
-},
-{
-"name": "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES",
-"value": "${disallow_incompatible_col_type_changes}"
-},
-{
-"name": "MYSQL_CONNECTION_POOL_SIZE",
-"value": "${hms_rw_db_connection_pool_size}"
-},
-{
-"name": "HMS_AUTOGATHER_STATS",
-"value": "${hms_autogather_stats}"
-},
-{
-"name": "LIMIT_PARTITION_REQUEST_NUMBER",
-"value": "${hms_rw_request_partition_limit}"
-}
+  {
+    "name": "apiary-hms-readwrite",
+    "image": "${hms_docker_image}:${hms_docker_version}",
+    ${docker_auth}
+    "essential": true,
+    "ulimits": [
+      {
+        "softLimit": ${nofile_ulimit},
+        "hardLimit": ${nofile_ulimit},
+        "name": "nofile"
+      }
+    ],
+    "systemControls": [
+      {
+        "namespace": "net.ipv4.tcp_keepalive_time",
+        "value": "${tcp_keepalive_time}"
+      },
+      {
+        "namespace": "net.ipv4.tcp_keepalive_intvl",
+        "value": "${tcp_keepalive_intvl}"
+      },
+      {
+        "namespace": "net.ipv4.tcp_keepalive_probes",
+        "value": "${tcp_keepalive_probes}"
+      }
+    ],
+  "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${loggroup}",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "/"
+        }
+    },
+    "dockerLabels": {
+        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readwrite_namespace}\", \"metrics\": [${join(\",\", var.datadog_metrics_hms_readwrite_readonly)}] }]"
+        "com.datadoghq.ad.check_names": "[\"prometheus\"]",
+        "com.datadoghq.ad.init_configs": "[{}]"
+    },
+    "portMappings": [
+      {
+        "containerPort": 9083,
+        "hostPort": 9083
+      }
+    ],
+%{ if init_container_enabled }
+    "dependsOn": [
+      {
+        "containerName": "mysql-setup",
+        "condition": "SUCCESS"
+      }
+    ],
+%{ endif }
+    "environment":[
+      {
+        "name": "MYSQL_DB_HOST",
+        "value": "${mysql_db_host}"
+      },
+      {
+        "name": "MYSQL_DB_NAME",
+        "value": "${mysql_db_name}"
+      },
+      {
+        "name": "MYSQL_SECRET_ARN",
+        "value": "${mysql_secret_arn}"
+      },
+      {
+        "name": "HIVE_METASTORE_ACCESS_MODE",
+        "value": "${hive_metastore_access_mode}"
+      },
+      {
+        "name": "HADOOP_HEAPSIZE",
+        "value": "${hms_heapsize}"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "${region}"
+      },
+      {
+        "name": "HIVE_DB_NAMES",
+        "value": "${managed_schemas}"
+      },
+      {
+        "name": "INSTANCE_NAME",
+        "value": "${instance_name}"
+      },
+      {
+        "name": "SNS_ARN",
+        "value": "${sns_arn}"
+      },
+      {
+        "name": "TABLE_PARAM_FILTER",
+        "value": "${table_param_filter}"
+      },
+      {
+        "name": "ENABLE_GLUESYNC",
+        "value": "${enable_gluesync}"
+      },
+      {
+        "name": "GLUE_PREFIX",
+        "value": "${gluedb_prefix}"
+      },
+      {
+        "name": "RANGER_SERVICE_NAME",
+        "value": "${ranger_service_name}"
+      },
+      {
+        "name": "RANGER_POLICY_MANAGER_URL",
+        "value": "${ranger_policy_manager_url}"
+      },
+      {
+        "name": "RANGER_AUDIT_SOLR_URL",
+        "value": "${ranger_audit_solr_url}"
+      },
+      {
+        "name": "RANGER_AUDIT_DB_URL",
+        "value": "${ranger_audit_db_url}"
+      },
+      {
+        "name": "RANGER_AUDIT_SECRET_ARN",
+        "value": "${ranger_audit_secret_arn}"
+      },
+      {
+        "name": "ATLAS_KAFKA_BOOTSTRAP_SERVERS",
+        "value": "${atlas_kafka_bootstrap_servers}"
+      },
+      {
+        "name": "ATLAS_CLUSTER_NAME",
+        "value": "${atlas_cluster_name}"
+      },
+      {
+        "name": "LDAP_URL",
+        "value": "${ldap_url}"
+      },
+      {
+        "name": "LDAP_CA_CERT",
+        "value": "${ldap_ca_cert}"
+      },
+      {
+        "name": "LDAP_BASE",
+        "value": "${ldap_base}"
+      },
+      {
+        "name": "LDAP_SECRET_ARN",
+        "value": "${ldap_secret_arn}"
+      },
+      {
+        "name": "HIVE_METASTORE_LOG_LEVEL",
+        "value": "${hive_metastore_log_level}"
+      },
+      {
+        "name": "EXTERNAL_DATABASE",
+        "value": "${external_database}"
+      },
+      {
+        "name": "ENABLE_METRICS",
+        "value": "${enable_metrics}"
+      },
+      {
+        "name": "KAFKA_BOOTSTRAP_SERVERS",
+        "value": "${kafka_bootstrap_servers}"
+      },
+      {
+        "name": "KAFKA_TOPIC_NAME",
+        "value": "${kafka_topic_name}"
+      },
+      {
+        "name": "ENABLE_S3_INVENTORY",
+        "value": "${s3_enable_inventory}"
+      },
+      {
+        "name": "ENABLE_S3_LOGS",
+        "value": "${s3_enable_logs}"
+      },
+      {
+        "name": "HMS_MIN_THREADS",
+        "value": "${hms_minthreads}"
+      },
+      {
+        "name": "HMS_MAX_THREADS",
+        "value": "${hms_maxthreads}"
+      },
+      {
+        "name": "APIARY_SYSTEM_SCHEMA",
+        "value": "${system_schema_name}"
+      },
+      {
+        "name": "DISALLOW_INCOMPATIBLE_COL_TYPE_CHANGES",
+        "value": "${disallow_incompatible_col_type_changes}"
+      },
+      {
+        "name": "MYSQL_CONNECTION_POOL_SIZE",
+        "value": "${hms_rw_db_connection_pool_size}"
+      },
+      {
+        "name": "HMS_AUTOGATHER_STATS",
+        "value": "${hms_autogather_stats}"
+      },
+      {
+        "name": "LIMIT_PARTITION_REQUEST_NUMBER",
+        "value": "${hms_rw_request_partition_limit}"
+      }
 %{ for env_key, env_value in hms_additional_vars }
-,{
-"name": "${env_key}",
-"value": "${env_value}"
-}
+     ,{
+        "name": "${env_key}",
+        "value": "${env_value}"
+      }
 %{ endfor }
-]
-}
+   ]
+  }
 %{ if datadog_agent_enabled }
-,{
-"name": "datadog-agent",
-"image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
-"essential": true,
-"logConfiguration": {
-"logDriver": "awslogs",
-"options": {
-"awslogs-group": "${loggroup}",
-"awslogs-region": "${region}",
-"awslogs-stream-prefix": "/"
-}
-},
-"environment": [
-{
-"name": "DD_API_KEY",
-"value": "${datadog_secret_key}"
-},
-{
-"name": "ECS_FARGATE",
-"value": "true"
-},
-{
-"name": "DD_TAGS",
-"value": "${datadog_tags}"
-}
-]
-}
+  ,{
+    "name": "datadog-agent",
+    "image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${loggroup}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "/"
+      }
+    },
+    "environment": [
+      {
+        "name": "DD_API_KEY",
+        "value": "${datadog_secret_key}"
+      },
+      {
+        "name": "ECS_FARGATE",
+        "value": "true"
+      },
+      {
+        "name": "DD_TAGS",
+        "value": "${datadog_tags}"
+      }
+    ]
+  }
 %{ endif }
 ]
