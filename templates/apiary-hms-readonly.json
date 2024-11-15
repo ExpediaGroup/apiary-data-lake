@@ -12,7 +12,7 @@
            "awslogs-region": "${region}",
            "awslogs-stream-prefix": "/"
        }
-    },
+     },
     "environment": [
        {
           "name": "MYSQL_HOST",
@@ -29,12 +29,12 @@
     ],
     "secrets": [
        {
-          "valueFrom": "${mysql_master_cred_arn}",
-          "name": "MYSQL_MASTER_CREDS"
+         "valueFrom": "${mysql_master_cred_arn}",
+         "name": "MYSQL_MASTER_CREDS"
        },
        {
-          "valueFrom": "${mysql_user_cred_arn}",
-          "name": "MYSQL_USER_CREDS"
+         "valueFrom": "${mysql_user_cred_arn}",
+         "name": "MYSQL_USER_CREDS"
        }
     ],
     "command": ["sh", "/allow-grant.sh"]
@@ -66,7 +66,7 @@
         "value": "${tcp_keepalive_probes}"
       }
     ],
-    "logConfiguration": {
+   "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
             "awslogs-group": "${loggroup}",
