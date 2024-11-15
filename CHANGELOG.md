@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.7.0] - 2024-11-12
+### Changed
+- Updated the hms namespaces for metrics for both readwrite and readonly.
+
 ## [7.6.1] - 2024-10-30
 ### Changed
 - Changed Openmetric to Prometheus in DockerLabels in ECS.
@@ -53,7 +57,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.3.4] - 2024-08-29
 ### Added
-- Add `s3:ListBucketMultipartUploads`, `s3:ListMultipartUploadParts`, and `s3:AbortMultipartUpload` in `apiary-bucket-policy.json`. 
+- Add `s3:ListBucketMultipartUploads`, `s3:ListMultipartUploadParts`, and `s3:AbortMultipartUpload` in `apiary-bucket-policy.json`.
 
 ## [7.3.3] - 2024-08-28
 ### Added
@@ -142,7 +146,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Changed Terraform `map` to `tomap` to make it work with newer TF provider(The map function was deprecated in Terraform v0.12 and is no longer available).
 - Upgrade AWS provider to `4.x`.
 - Removed bucket `ACL` as when bucket `object_ownership` set to `BucketOwnerEnforced`, it's disabled `ACL`.
-  
+
 ## [6.19.1] - 2023-08-25
 ### Fixed
 - `customer_condition` to ignore trailing semicolon.
@@ -437,9 +441,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - *THIS IS A BREAKING CHANGE.* When deploying `6.0.0` on an existing Apiary deployment, the following procedure must be followed:
   - See the `migrate.py` script in the `scripts` folder.
   - This script is used to migrate an Apiary Terraform state file from using `count` for resource indexing to using
-      `for_each`, which is how apiary-data-lake v6.0.0+ handles indexed resources.  Without this script, doing an `apply`
-      will want to destroy all your S3 resources and then recreate them because they are stored in the `.tfstate` file
-      differently.  
+    `for_each`, which is how apiary-data-lake v6.0.0+ handles indexed resources.  Without this script, doing an `apply`
+    will want to destroy all your S3 resources and then recreate them because they are stored in the `.tfstate` file
+    differently.
   - The migration script needs some external packages installed (see `migrate_requirements.txt`) and then should run in either Python 2.7+ or Python 3.6+.
   - This procedure assumes you have a Terraform app called `apiary-terraform-app` that is the application using this module.
   - Upgrade `apiary-terraform-app` to `apiary-data-lake` v5.3.2.  This will necessitate using Terraform 0.12+ and
@@ -456,7 +460,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
     - If your app is setting `s3_block_public_access`, remove reference to that variable.  Public access blocks are now mandatory.
     - If your app is setting any of the following variables that changed type to `bool`, change the passed value to `true` or `false`:
       - `db_apply_immediately`, `enable_hive_metastore_metrics`, `enable_gluesync`,
-      - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`  
+      - `enable_metadata_events`, `enable_data_events`, `enable_s3_paid_metrics`
       - If current code is setting those to `"1"` (or anything non-blank), change to `true.`  If setting to `""`, change to `false`.
   - Now run a plan of your `apiary-terraform-app` that is using `apiary-data-lake` v6.0.0.  It should show no changes needed.
   - Now run an apply of the code.
@@ -656,4 +660,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Option to send Hive Metastore metrics to CloudWatch - see [#4](https://github.com/ExpediaGroup/apiary-metastore-docker/issues/4).
 - Option to use external MySQL database (to support legacy installations) - see [#48](https://github.com/ExpediaGroup/apiary-metastore/issues/48).
 - Option to associate multiple VPCs to Service Discovery namespace - see
-[#66](https://github.com/ExpediaGroup/apiary-metastore/issues/66)
+  [#66](https://github.com/ExpediaGroup/apiary-metastore/issues/66)

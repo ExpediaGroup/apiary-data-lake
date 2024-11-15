@@ -9,25 +9,26 @@ locals {
   apiary_bucket_prefix             = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   apiary_assume_role_bucket_prefix = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
   enable_route53_records           = var.apiary_domain_name == "" ? false : true
-
-  datadog_tags = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
+  hms_readwrite_namespace          = var.hms_readwrite_namespace
+  hms_readonly_namespace           = var.hms_readonly_namespace
+  datadog_tags                     = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
   #
   # Create a new list of maps with some extra attributes needed later
   #
   schemas_info = [
-    for schema in var.apiary_managed_schemas : merge(
-      {
-        encryption : lookup(schema, "encryption", "AES256"),
-        resource_suffix : replace(schema["schema_name"], "_", "-"),
-        data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
-        customer_accounts : lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts))
-        s3_lifecycle_policy_transition_period : lookup(schema, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
-        # Need to change the default "null" value of s3_object_expiration_days to a number so we can compare it
-        # later to s3_lifecycle_policy_transition_period without getting a TF error.  However, TF is doing weird things
-        # when comparing them as actual "number" type (-1), so use a string type ("-1"), which works as expected.
-        s3_object_expiration_days_num : coalesce(lookup(schema, "s3_object_expiration_days", "-1"), "-1")
-        s3_storage_class = lookup(schema, "s3_storage_class", var.s3_storage_class)
-      },
+  for schema in var.apiary_managed_schemas : merge(
+    {
+      encryption : lookup(schema, "encryption", "AES256"),
+      resource_suffix : replace(schema["schema_name"], "_", "-"),
+      data_bucket : "${local.apiary_bucket_prefix}-${replace(schema["schema_name"], "_", "-")}"
+      customer_accounts : lookup(schema, "customer_accounts", join(",", var.apiary_customer_accounts))
+      s3_lifecycle_policy_transition_period : lookup(schema, "s3_lifecycle_policy_transition_period", var.s3_lifecycle_policy_transition_period)
+      # Need to change the default "null" value of s3_object_expiration_days to a number so we can compare it
+      # later to s3_lifecycle_policy_transition_period without getting a TF error.  However, TF is doing weird things
+      # when comparing them as actual "number" type (-1), so use a string type ("-1"), which works as expected.
+      s3_object_expiration_days_num : coalesce(lookup(schema, "s3_object_expiration_days", "-1"), "-1")
+      s3_storage_class = lookup(schema, "s3_storage_class", var.s3_storage_class)
+    },
     schema)
   ]
 

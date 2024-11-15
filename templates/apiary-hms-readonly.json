@@ -1,230 +1,230 @@
 [
-%{ if init_container_enabled }
-  {
-    "name": "mysql-setup",
-    "essential": false,
-    "image": "${hms_docker_image}:${hms_docker_version}",
-    ${docker_auth}
-    "logConfiguration": {
-       "logDriver": "awslogs",
-       "options": {
-           "awslogs-group": "${loggroup}",
-           "awslogs-region": "${region}",
-           "awslogs-stream-prefix": "/"
-       }
-     },
-    "environment": [
-       {
-          "name": "MYSQL_HOST",
-          "value": "${mysql_write_db}"
-       },
-       {
-          "name": "MYSQL_DB",
-          "value": "${mysql_db_name}"
-       },
-       {
-          "name": "MYSQL_PERMISSIONS",
-          "value": "${mysql_permissions}"
-       }
-    ],
-    "secrets": [
-       {
-         "valueFrom": "${mysql_master_cred_arn}",
-         "name": "MYSQL_MASTER_CREDS"
-       },
-       {
-         "valueFrom": "${mysql_user_cred_arn}",
-         "name": "MYSQL_USER_CREDS"
-       }
-    ],
-    "command": ["sh", "/allow-grant.sh"]
-  },
+  %{ if init_container_enabled }
+{
+  "name": "mysql-setup",
+  "essential": false,
+  "image": "${hms_docker_image}:${hms_docker_version}",
+  ${docker_auth}
+"logConfiguration": {
+"logDriver": "awslogs",
+"options": {
+"awslogs-group": "${loggroup}",
+"awslogs-region": "${region}",
+"awslogs-stream-prefix": "/"
+}
+},
+"environment": [
+{
+"name": "MYSQL_HOST",
+"value": "${mysql_write_db}"
+},
+{
+"name": "MYSQL_DB",
+"value": "${mysql_db_name}"
+},
+{
+"name": "MYSQL_PERMISSIONS",
+"value": "${mysql_permissions}"
+}
+],
+"secrets": [
+{
+"valueFrom": "${mysql_master_cred_arn}",
+"name": "MYSQL_MASTER_CREDS"
+},
+{
+"valueFrom": "${mysql_user_cred_arn}",
+"name": "MYSQL_USER_CREDS"
+}
+],
+"command": ["sh", "/allow-grant.sh"]
+},
 %{ endif }
-  {
-    "name": "apiary-hms-readonly",
-    "image": "${hms_docker_image}:${hms_docker_version}",
-    ${docker_auth}
-    "essential": true,
-    "ulimits": [
-      {
-        "softLimit": ${nofile_ulimit},
-        "hardLimit": ${nofile_ulimit},
-        "name": "nofile"
-      }
-    ],
-    "systemControls": [
-      {
-        "namespace": "net.ipv4.tcp_keepalive_time",
-        "value": "${tcp_keepalive_time}"
-      },
-      {
-        "namespace": "net.ipv4.tcp_keepalive_intvl",
-        "value": "${tcp_keepalive_intvl}"
-      },
-      {
-        "namespace": "net.ipv4.tcp_keepalive_probes",
-        "value": "${tcp_keepalive_probes}"
-     }
-    ],
-  "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-            "awslogs-group": "${loggroup}",
-            "awslogs-region": "${region}",
-            "awslogs-stream-prefix": "/"
-        }
-    },
-    "dockerLabels": {
-        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"hms_readonly_legacy\", \"metrics\": [\"metrics_classloading_loaded_value\", \"metrics_threads_count_value\", \"metrics_memory_heap_max_value\", \"metrics_init_total_count_tables_value\", \"metrics_init_total_count_dbs_value\", \"metrics_memory_heap_used_value\", \"metrics_init_total_count_partitions_value\", \"jvm_threads_current\", \"jvm_threads_started_total\", \"jvm_memory_bytes_used\", \"jvm_memory_bytes_init\", \"jvm_gc_collection_seconds_count\", \"jvm_gc_collection_seconds\", \"process_cpu_seconds_total\", \"java_lang_operatingsystem_processcpuload\", \"java_lang_operatingsystem_processcputime\", \"metrics_threads_runnable_count_value\", \"metrics_threads_waiting_count_value\", \"java_lang_memory_heapmemoryusage_used\", \"metrics_memory_heap_init_value\", \"metrics_api_get_partition_by_name_count\", \"metrics_api_get_partitions_by_names_count\", \"metrics_api_get_partition_names_count\", \"metrics_api_get_partitions_by_expr_count\", \"metrics_api_get_partitions_count\", \"metrics_api_get_partition_count\", \"metrics_api_get_partitions_by_filter_count\", \"metrics_api_add_partitions_count\", \"metrics_api_add_partitions_req_count\", \"metrics_api_drop_partition_by_name_count\", \"metrics_api_add_partition_count\", \"metrics_api_alter_partitions_count\", \"metrics_api_create_table_count\", \"metrics_api_alter_table_with_cascade_count\", \"metrics_api_get_table_meta_count\", \"metrics_api_get_table_metas_count\", \"metrics_api_get_table_count\", \"metrics_api_alter_table_count\", \"metrics_api_get_tables_count\", \"metrics_api_get_all_tables_count\", \"metrics_api_drop_table_count\", \"metrics_api_get_multi_table_count\", \"metrics_api_get_database_count\", \"metrics_api_get_all_databases_count\", \"metrics_api_get_databases_count\", \"metrics_api_create_function_count\", \"metrics_api_getmetaconf_count\", \"metrics_api_alter_table_with_environment_context_count\", \"metrics_api_delete_column_statistics_by_table_count\", \"metrics_api_get_functions_count\", \"metrics_api_get_function_count\", \"metrics_api_shutdown_count\", \"metrics_api_flushcache_count\", \"metrics_api_get_indexes_count\", \"metrics_api_get_config_value_count\", \"metrics_api_set_ugi_count\", \"metrics_api_get_all_functions_count\", \"metrics_api_get_table_req_95thpercentile\", \"metrics_api_get_table_req_50thpercentile\", \"metrics_api_get_table_req_count\", \"metrics_api_get_table_req_max\", \"metrics_api_get_databases_count\", \"metrics_api_get_databases_95thpercentile\", \"metrics_api_get_databases_50thpercentile\", \"metrics_api_get_databases_max\", \"metrics_api_get_partitions_95thpercentile\", \"metrics_api_get_partitions_50thpercentile\", \"metrics_api_get_partitions_count\", \"metrics_api_get_partitions_max\", \"metrics_api_get_partitions_50thpercentile\", \"metrics_api_get_table_req_50thpercentile\", \"metrics_api_get_database_95thpercentile\", \"metrics_api_get_database_50thpercentile\", \"metrics_kafka_listener_failures_count\", \"metrics_kafka_listener_successes_count\", \"metrics_api_get_table_objects_by_name_req_max\" ], \"type_overrides\": { \"metrics_classloading_loaded_value\": \"gauge\", \"metrics_threads_count_value\": \"gauge\", \"metrics_memory_heap_max_value\": \"gauge\", \"metrics_init_total_count_tables_value\": \"gauge\", \"metrics_init_total_count_dbs_value\": \"gauge\", \"metrics_memory_heap_used_value\": \"gauge\", \"metrics_init_total_count_partitions_value\": \"gauge\", \"jvm_threads_current\": \"gauge\", \"jvm_threads_started_total\": \"gauge\", \"jvm_memory_bytes_used\": \"gauge\", \"jvm_memory_bytes_init\": \"gauge\", \"jvm_gc_collection_seconds_count\": \"gauge\", \"jvm_gc_collection_seconds\": \"gauge\", \"process_cpu_seconds_total\": \"gauge\", \"java_lang_operatingsystem_processcpuload\": \"gauge\", \"java_lang_operatingsystem_processcputime\": \"gauge\", \"metrics_threads_runnable_count_value\": \"gauge\", \"metrics_threads_waiting_count_value\": \"gauge\", \"java_lang_memory_heapmemoryusage_used\": \"gauge\", \"metrics_memory_heap_init_value\": \"gauge\", \"metrics_api_get_partition_by_name_count\": \"gauge\", \"metrics_api_get_partitions_by_names_count\": \"gauge\", \"metrics_api_get_partition_names_count\": \"gauge\", \"metrics_api_get_partitions_by_expr_count\": \"gauge\", \"metrics_api_get_partitions_count\": \"gauge\", \"metrics_api_get_partition_count\": \"gauge\", \"metrics_api_get_partitions_by_filter_count\": \"gauge\", \"metrics_api_add_partitions_count\": \"gauge\", \"metrics_api_add_partitions_req_count\": \"gauge\", \"metrics_api_drop_partition_by_name_count\": \"gauge\", \"metrics_api_add_partition_count\": \"gauge\", \"metrics_api_alter_partitions_count\": \"gauge\", \"metrics_api_create_table_count\": \"gauge\", \"metrics_api_alter_table_with_cascade_count\": \"gauge\", \"metrics_api_get_table_meta_count\": \"gauge\", \"metrics_api_get_table_metas_count\": \"gauge\", \"metrics_api_get_table_count\": \"gauge\", \"metrics_api_alter_table_count\": \"gauge\", \"metrics_api_get_tables_count\": \"gauge\", \"metrics_api_get_all_tables_count\": \"gauge\", \"metrics_api_drop_table_count\": \"gauge\", \"metrics_api_get_multi_table_count\": \"gauge\", \"metrics_api_get_database_count\": \"gauge\", \"metrics_api_get_all_databases_count\": \"gauge\", \"metrics_api_get_databases_count\": \"gauge\", \"metrics_api_create_function_count\": \"gauge\", \"metrics_api_getmetaconf_count\": \"gauge\", \"metrics_api_alter_table_with_environment_context_count\": \"gauge\", \"metrics_api_delete_column_statistics_by_table_count\": \"gauge\", \"metrics_api_get_functions_count\": \"gauge\", \"metrics_api_get_function_count\": \"gauge\", \"metrics_api_shutdown_count\": \"gauge\", \"metrics_api_flushcache_count\": \"gauge\", \"metrics_api_get_indexes_count\": \"gauge\", \"metrics_api_get_config_value_count\": \"gauge\", \"metrics_api_set_ugi_count\": \"gauge\", \"metrics_api_get_all_functions_count\": \"gauge\", \"metrics_api_get_table_req_95thpercentile\": \"gauge\", \"metrics_api_get_table_req_50thpercentile\": \"gauge\", \"metrics_api_get_table_req_count\": \"gauge\", \"metrics_api_get_table_req_max\": \"gauge\", \"metrics_api_get_databases_count\": \"gauge\", \"metrics_api_get_databases_95thpercentile\": \"gauge\", \"metrics_api_get_databases_50thpercentile\": \"gauge\", \"metrics_api_get_databases_max\": \"gauge\", \"metrics_api_get_partitions_95thpercentile\": \"gauge\", \"metrics_api_get_partitions_50thpercentile\": \"gauge\", \"metrics_api_get_partitions_count\": \"gauge\", \"metrics_api_get_partitions_max\": \"gauge\", \"metrics_api_get_partitions_50thpercentile\": \"gauge\", \"metrics_api_get_table_req_50thpercentile\": \"gauge\",\"metrics_api_get_database_95thpercentile\": \"gauge\",\"metrics_api_get_database_50thpercentile\": \"gauge\", \"metrics_kafka_listener_failures_count\": \"gauge\", \"metrics_kafka_listener_successes_count\": \"gauge\", \"metrics_api_get_table_objects_by_name_req_max\": \"gauge\"} }]",
-        "com.datadoghq.ad.check_names": "[\"prometheus\"]",
-        "com.datadoghq.ad.init_configs": "[{}]"
-    },
-    "portMappings": [
-      {
-        "containerPort": 9083,
-        "hostPort": 9083
-      }
-    ],
+{
+"name": "apiary-hms-readonly",
+"image": "${hms_docker_image}:${hms_docker_version}",
+${docker_auth}
+"essential": true,
+"ulimits": [
+{
+"softLimit": ${nofile_ulimit},
+"hardLimit": ${nofile_ulimit},
+"name": "nofile"
+}
+],
+"systemControls": [
+{
+"namespace": "net.ipv4.tcp_keepalive_time",
+"value": "${tcp_keepalive_time}"
+},
+{
+"namespace": "net.ipv4.tcp_keepalive_intvl",
+"value": "${tcp_keepalive_intvl}"
+},
+{
+"namespace": "net.ipv4.tcp_keepalive_probes",
+"value": "${tcp_keepalive_probes}"
+}
+],
+"logConfiguration": {
+"logDriver": "awslogs",
+"options": {
+"awslogs-group": "${loggroup}",
+"awslogs-region": "${region}",
+"awslogs-stream-prefix": "/"
+}
+},
+"dockerLabels": {
+"com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${datadog_metrics_hms_readwrite_readonly} )}] }]"
+"com.datadoghq.ad.check_names": "[\"prometheus\"]",
+"com.datadoghq.ad.init_configs": "[{}]"
+},
+"portMappings": [
+{
+"containerPort": 9083,
+"hostPort": 9083
+}
+],
 %{ if init_container_enabled }
-    "dependsOn": [
-      {
-        "containerName": "mysql-setup",
-        "condition": "SUCCESS"
-      }
-    ],
+"dependsOn": [
+{
+"containerName": "mysql-setup",
+"condition": "SUCCESS"
+}
+],
 %{ endif }
-    "environment":[
-      {
-        "name": "MYSQL_DB_HOST",
-        "value": "${mysql_db_host}"
-      },
-      {
-        "name": "MYSQL_DB_NAME",
-        "value": "${mysql_db_name}"
-      },
-      {
-        "name": "MYSQL_SECRET_ARN",
-        "value": "${mysql_secret_arn}"
-      },
-      {
-        "name": "HIVE_METASTORE_ACCESS_MODE",
-        "value": "${hive_metastore_access_mode}"
-      },
-      {
-        "name": "HADOOP_HEAPSIZE",
-        "value": "${hms_heapsize}"
-      },
-      {
-        "name": "AWS_REGION",
-        "value": "${region}"
-      },
-      {
-        "name": "HIVE_DB_WHITELIST",
-        "value": "${shared_schemas}"
-      },
-      {
-        "name": "INSTANCE_NAME",
-        "value": "${instance_name}"
-      },
-      {
-        "name": "RANGER_SERVICE_NAME",
-        "value": "${ranger_service_name}"
-      },
-      {
-        "name": "RANGER_POLICY_MANAGER_URL",
-        "value": "${ranger_policy_manager_url}"
-      },
-      {
-        "name": "RANGER_AUDIT_SOLR_URL",
-        "value": "${ranger_audit_solr_url}"
-      },
-      {
-        "name": "RANGER_AUDIT_DB_URL",
-        "value": "${ranger_audit_db_url}"
-      },
-      {
-        "name": "RANGER_AUDIT_SECRET_ARN",
-        "value": "${ranger_audit_secret_arn}"
-      },
-      {
-        "name": "LDAP_URL",
-        "value": "${ldap_url}"
-      },
-      {
-        "name": "LDAP_CA_CERT",
-        "value": "${ldap_ca_cert}"
-      },
-      {
-        "name": "LDAP_BASE",
-        "value": "${ldap_base}"
-      },
-      {
-        "name": "LDAP_SECRET_ARN",
-        "value": "${ldap_secret_arn}"
-      },
-      {
-        "name": "HIVE_METASTORE_LOG_LEVEL",
-        "value": "${hive_metastore_log_level}"
-      },
-      {
-        "name": "ENABLE_METRICS",
-        "value": "${enable_metrics}"
-      },
-      {
-        "name": "HMS_MIN_THREADS",
-        "value": "${hms_minthreads}"
-      },
-      {
-        "name": "HMS_MAX_THREADS",
-        "value": "${hms_maxthreads}"
-      },
-      {
-        "name": "MYSQL_CONNECTION_POOL_SIZE",
-        "value": "${hms_ro_db_connection_pool_size}"
-      },
-      {
-        "name": "HMS_AUTOGATHER_STATS",
-        "value": "false"
-      },
-      {
-        "name": "LIMIT_PARTITION_REQUEST_NUMBER",
-        "value": "${hms_ro_request_partition_limit}"
-      }
+"environment":[
+{
+"name": "MYSQL_DB_HOST",
+"value": "${mysql_db_host}"
+},
+{
+"name": "MYSQL_DB_NAME",
+"value": "${mysql_db_name}"
+},
+{
+"name": "MYSQL_SECRET_ARN",
+"value": "${mysql_secret_arn}"
+},
+{
+"name": "HIVE_METASTORE_ACCESS_MODE",
+"value": "${hive_metastore_access_mode}"
+},
+{
+"name": "HADOOP_HEAPSIZE",
+"value": "${hms_heapsize}"
+},
+{
+"name": "AWS_REGION",
+"value": "${region}"
+},
+{
+"name": "HIVE_DB_WHITELIST",
+"value": "${shared_schemas}"
+},
+{
+"name": "INSTANCE_NAME",
+"value": "${instance_name}"
+},
+{
+"name": "RANGER_SERVICE_NAME",
+"value": "${ranger_service_name}"
+},
+{
+"name": "RANGER_POLICY_MANAGER_URL",
+"value": "${ranger_policy_manager_url}"
+},
+{
+"name": "RANGER_AUDIT_SOLR_URL",
+"value": "${ranger_audit_solr_url}"
+},
+{
+"name": "RANGER_AUDIT_DB_URL",
+"value": "${ranger_audit_db_url}"
+},
+{
+"name": "RANGER_AUDIT_SECRET_ARN",
+"value": "${ranger_audit_secret_arn}"
+},
+{
+"name": "LDAP_URL",
+"value": "${ldap_url}"
+},
+{
+"name": "LDAP_CA_CERT",
+"value": "${ldap_ca_cert}"
+},
+{
+"name": "LDAP_BASE",
+"value": "${ldap_base}"
+},
+{
+"name": "LDAP_SECRET_ARN",
+"value": "${ldap_secret_arn}"
+},
+{
+"name": "HIVE_METASTORE_LOG_LEVEL",
+"value": "${hive_metastore_log_level}"
+},
+{
+"name": "ENABLE_METRICS",
+"value": "${enable_metrics}"
+},
+{
+"name": "HMS_MIN_THREADS",
+"value": "${hms_minthreads}"
+},
+{
+"name": "HMS_MAX_THREADS",
+"value": "${hms_maxthreads}"
+},
+{
+"name": "MYSQL_CONNECTION_POOL_SIZE",
+"value": "${hms_ro_db_connection_pool_size}"
+},
+{
+"name": "HMS_AUTOGATHER_STATS",
+"value": "false"
+},
+{
+"name": "LIMIT_PARTITION_REQUEST_NUMBER",
+"value": "${hms_ro_request_partition_limit}"
+}
 %{ for env_key, env_value in hms_additional_vars }
-     ,{
-        "name": "${env_key}",
-        "value": "${env_value}"
-      }
+,{
+"name": "${env_key}",
+"value": "${env_value}"
+}
 %{ endfor }
-   ]
-  }
+]
+}
 %{ if datadog_agent_enabled }
-  ,{
-    "name": "datadog-agent",
-    "image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
-    "essential": true,
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${loggroup}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "/"
-      }
-    },
-    "environment": [
-      {
-        "name": "DD_API_KEY",
-        "value": "${datadog_secret_key}"
-      },
-      {
-        "name": "ECS_FARGATE",
-        "value": "true"
-      },
-      {
-        "name": "DD_TAGS",
-        "value": "${datadog_tags}"
-      }
-    ]
-  }
+,{
+"name": "datadog-agent",
+"image": "public.ecr.aws/datadog/agent:${datadog_agent_version}",
+"essential": true,
+"logConfiguration": {
+"logDriver": "awslogs",
+"options": {
+"awslogs-group": "${loggroup}",
+"awslogs-region": "${region}",
+"awslogs-stream-prefix": "/"
+}
+},
+"environment": [
+{
+"name": "DD_API_KEY",
+"value": "${datadog_secret_key}"
+},
+{
+"name": "ECS_FARGATE",
+"value": "true"
+},
+{
+"name": "DD_TAGS",
+"value": "${datadog_tags}"
+}
+]
+}
 %{ endif }
 ]
