@@ -64,9 +64,9 @@
       {
         "namespace": "net.ipv4.tcp_keepalive_probes",
         "value": "${tcp_keepalive_probes}"
-      }
+     }
     ],
-   "logConfiguration": {
+  "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
             "awslogs-group": "${loggroup}",
