@@ -6,36 +6,36 @@
     "image": "${hms_docker_image}:${hms_docker_version}",
     ${docker_auth}
     "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${loggroup}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "/"
-      }
+       "logDriver": "awslogs",
+       "options": {
+          "awslogs-group": "${loggroup}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "/"
+       }
     },
     "environment": [
-      {
-        "name": "MYSQL_HOST",
-        "value": "${mysql_write_db}"
-      },
-      {
-        "name": "MYSQL_DB",
-        "value": "${mysql_db_name}"
-      },
-      {
-        "name": "MYSQL_PERMISSIONS",
-        "value": "${mysql_permissions}"
-      }
+       {
+          "name": "MYSQL_HOST",
+          "value": "${mysql_write_db}"
+       },
+       {
+          "name": "MYSQL_DB",
+         "value": "${mysql_db_name}"
+       },
+       {
+          "name": "MYSQL_PERMISSIONS",
+          "value": "${mysql_permissions}"
+       }
     ],
     "secrets": [
-      {
-        "valueFrom": "${mysql_master_cred_arn}",
-        "name": "MYSQL_MASTER_CREDS"
-      },
-      {
-        "valueFrom": "${mysql_user_cred_arn}",
-        "name": "MYSQL_USER_CREDS"
-      }
+       {
+          "valueFrom": "${mysql_master_cred_arn}",
+          "name": "MYSQL_MASTER_CREDS"
+       },
+       {
+          "valueFrom": "${mysql_user_cred_arn}",
+          "name": "MYSQL_USER_CREDS"
+       }
     ],
     "command": ["sh", "/allow-grant.sh"]
   },
@@ -67,12 +67,12 @@
       }
     ],
     "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${loggroup}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "/"
-      }
+       "logDriver": "awslogs",
+       "options": {
+          "awslogs-group": "${loggroup}",
+          "awslogs-region": "${region}",
+          "awslogs-stream-prefix": "/"
+        }
     },
     "dockerLabels": {
       "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${datadog_metrics_hms_readwrite_readonly} )}] }]"
