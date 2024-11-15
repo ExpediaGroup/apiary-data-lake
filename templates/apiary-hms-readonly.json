@@ -8,9 +8,9 @@
     "logConfiguration": {
        "logDriver": "awslogs",
        "options": {
-          "awslogs-group": "${loggroup}",
-          "awslogs-region": "${region}",
-          "awslogs-stream-prefix": "/"
+           "awslogs-group": "${loggroup}",
+           "awslogs-region": "${region}",
+           "awslogs-stream-prefix": "/"
        }
     },
     "environment": [
@@ -20,7 +20,7 @@
        },
        {
           "name": "MYSQL_DB",
-         "value": "${mysql_db_name}"
+          "value": "${mysql_db_name}"
        },
        {
           "name": "MYSQL_PERMISSIONS",
@@ -67,17 +67,17 @@
       }
     ],
     "logConfiguration": {
-       "logDriver": "awslogs",
-       "options": {
-          "awslogs-group": "${loggroup}",
-          "awslogs-region": "${region}",
-          "awslogs-stream-prefix": "/"
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${loggroup}",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "/"
         }
     },
     "dockerLabels": {
-      "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${datadog_metrics_hms_readwrite_readonly} )}] }]"
-      "com.datadoghq.ad.check_names": "[\"prometheus\"]",
-      "com.datadoghq.ad.init_configs": "[{}]"
+        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_readonly_namespace}\", \"metrics\": [${join(\",\", ${datadog_metrics_hms_readwrite_readonly} )}] }]"
+        "com.datadoghq.ad.check_names": "[\"prometheus\"]",
+        "com.datadoghq.ad.init_configs": "[{}]"
     },
     "portMappings": [
       {
@@ -191,12 +191,12 @@
         "value": "${hms_ro_request_partition_limit}"
       }
 %{ for env_key, env_value in hms_additional_vars }
-      ,{
+     ,{
         "name": "${env_key}",
         "value": "${env_value}"
       }
 %{ endfor }
-    ]
+   ]
   }
 %{ if datadog_agent_enabled }
   ,{
