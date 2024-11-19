@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readwrite" {
   memory                   = var.hms_rw_heapsize
   cpu                      = var.hms_rw_cpu
   requires_compatibilities = var.ecs_requires_compatibilities
-  container_definitions    = local.hms_readwrite_template
+  container_definitions    = jsonencode(local.hms_readwrite_template)
   tags                     = var.apiary_tags
 }
 
@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "apiary_hms_readonly" {
   memory                   = var.hms_ro_heapsize
   cpu                      = var.hms_ro_cpu
   requires_compatibilities = var.ecs_requires_compatibilities
-  container_definitions    = local.hms_readonly_template
+  container_definitions    = jsonencode(local.hms_readonly_template)
   tags                     = var.apiary_tags
 }
 
