@@ -64,6 +64,8 @@ locals {
 
   ro_ingress_cidr = var.ingress_cidr
   rw_ingress_cidr = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
+  hms_metrics                = join("\",\"", var.datadog_metrics_hms_readwrite_readonly)
+  hms_metrics_type_overrides = join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)
 }
 
 data "aws_iam_account_alias" "current" {}
