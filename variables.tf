@@ -455,13 +455,13 @@ variable "hms_rw_k8s_pdb_settings" {
 variable "hms_readwrite_namespace" {
   description = "ECS readwrite namespace"
   type        = string
-  default     = "hms_readwrite"
+  default     = "hms_readwrite_legacy"
 }
 
 variable "hms_readonly_namespace" {
   description = "ECS readonly namespace"
   type        = string
-  default     = "hms_readonly"
+  default     = "hms_readonly_legacy"
 }
 
 
