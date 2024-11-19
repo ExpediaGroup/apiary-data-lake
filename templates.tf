@@ -27,8 +27,7 @@ locals{
     table_param_filter         = var.enable_metadata_events ? var.table_param_filter : ""
     enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
-    hms_readwrite_namespace    = "${var.hms_readwrite_namespace}"
-    hms_readonly_namespace     = "${var.hms_readonly_namespace}"
+    hms_metrics_namespace      = "${var.hms_ecs_metrics_readwrite_namespace}"
     ranger_service_name                    = "${local.instance_alias}-metastore"
     ranger_policy_manager_url              = "${var.ranger_policy_manager_url}"
     ranger_audit_solr_url                  = "${var.ranger_audit_solr_url}"
@@ -130,8 +129,7 @@ locals{
     tcp_keepalive_time      = var.tcp_keepalive_time
     tcp_keepalive_intvl     = var.tcp_keepalive_intvl
     tcp_keepalive_probes    = var.tcp_keepalive_probes
-    hms_readwrite_namespace = var.hms_readwrite_namespace
-    hms_readonly_namespace  = var.hms_readonly_namespace
+    hms_metrics_namespace   = "${var.hms_ecs_metrics_readonly_namespace}"
     datadog_metrics_hms_readwrite_readonly = var.datadog_metrics_hms_readwrite_readonly
     hms_metrics                = local.hms_metrics
     hms_metrics_type_overrides = local.hms_metrics_type_overrides

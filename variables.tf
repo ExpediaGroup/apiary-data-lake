@@ -452,18 +452,29 @@ variable "hms_rw_k8s_pdb_settings" {
   }
 }
 
-variable "hms_readwrite_namespace" {
+variable "hms_ecs_metrics_readwrite_namespace" {
   description = "ECS readwrite namespace"
   type        = string
-  default     = "hms_readwrite_legacy"
+  default     = "hmsreadwritelegacy"
 }
 
-variable "hms_readonly_namespace" {
+variable "hms_ecs_metrics_readonly_namespace" {
   description = "ECS readonly namespace"
   type        = string
-  default     = "hms_readonly_legacy"
+  default     = "hmsreadonlylegacy"
 }
 
+variable "hms_k8s_metrics_readwrite_namespace" {
+  description = "ECS readwrite namespace"
+  type        = string
+  default     = "hms_readwrite"
+}
+
+variable "hms_k8s_metrics_readonly_namespace" {
+  description = "ECS readonly namespace"
+  type        = string
+  default     = "hms_readonly"
+}
 
 variable "hms_rw_node_affinity" {
   description = <<EOF
