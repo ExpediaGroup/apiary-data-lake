@@ -12,7 +12,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
   - `hms_ecs_metrics_readonly_namespace`
   - `hms_k8s_metrics_readwrite_namespace`
   - `hms_k8s_metrics_readonly_namespace`
-  - `hms_ro_tolerations`
 
 ## [7.6.1] - 2024-10-30
 ### Changed
