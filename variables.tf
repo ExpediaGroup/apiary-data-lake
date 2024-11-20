@@ -452,6 +452,30 @@ variable "hms_rw_k8s_pdb_settings" {
   }
 }
 
+variable "hms_ecs_metrics_readwrite_namespace" {
+  description = "ECS readwrite metrics namespace"
+  type        = string
+  default     = "hms_readwrite_legacy"
+}
+
+variable "hms_ecs_metrics_readonly_namespace" {
+  description = "ECS readonly metrics namespace"
+  type        = string
+  default     = "hms_readonly_legacy"
+}
+
+variable "hms_k8s_metrics_readwrite_namespace" {
+  description = "K8s readwrite metrics namespace"
+  type        = string
+  default     = "hms_readwrite"
+}
+
+variable "hms_k8s_metrics_readonly_namespace" {
+  description = "K8s readonly metrics namespace"
+  type        = string
+  default     = "hms_readonly"
+}
+
 variable "hms_rw_node_affinity" {
   description = <<EOF
 Adds a list of node affinities for the HMS readwrite pods. For example if you
@@ -528,30 +552,6 @@ EOF
       operator = string
       values   = list(string)
     }))
-  }))
-  default = []
-}
-
-variable "hms_ro_tolerations" {
-  description = <<EOF
-Adds a list of tolerations for the HMS readonly pods. For example if you
-have a pool of workers with the following taints "pool=metastore:NoSchedule" you
-can add a toleration like this:
-
-hms_rw_tolerations = [
-  {
-    key      = "pool"
-    operator = "Equal"
-    value    = "metastore"
-    effect   = "NoSchedule"
-  }
-]
-EOF  
-  type = list(object({
-    effect             = string
-    key                = string
-    operator           = string
-    value              = string
   }))
   default = []
 }
@@ -879,16 +879,99 @@ variable "hms_housekeeper_additional_environment_variables" {
 }
 
 variable "datadog_metrics_hms_readwrite_readonly" {
-  description = "HMS metrics to be sent to Datadog."
+  description = "HMS metrics to be sent to Datadog for both Readonly and Readwrite"
   type        = list(string)
-  default = [
-    "metrics_classloading_loaded_value",
-    "metrics_threads_count_value",
+  default     = [
+    "metrics_classloading_loaded_value", 
+    "metrics_threads_count_value", 
     "metrics_memory_heap_max_value",
-    "metrics_init_total_count_tables_value",
-    "metrics_init_total_count_dbs_value",
-    "metrics_memory_heap_used_value",
-    "metrics_init_total_count_partitions_value"
+    "metrics_init_total_count_tables_value", 
+    "metrics_init_total_count_dbs_value", 
+    "metrics_memory_heap_used_value", 
+    "metrics_init_total_count_partitions_value", 
+    "jvm_threads_current", "jvm_threads_started_total", 
+    "jvm_memory_bytes_used", "jvm_memory_bytes_init", 
+    "jvm_gc_collection_seconds_count", 
+    "jvm_gc_collection_seconds", 
+    "process_cpu_seconds_total", 
+    "java_lang_operatingsystem_processcpuload", 
+    "java_lang_operatingsystem_processcputime", 
+    "metrics_threads_runnable_count_value", 
+    "metrics_threads_waiting_count_value", 
+    "java_lang_memory_heapmemoryusage_used", 
+    "metrics_memory_heap_init_value", 
+    "metrics_api_get_partition_by_name_count", 
+    "metrics_api_get_partitions_by_names_count", 
+    "metrics_api_get_partition_names_count", 
+    "metrics_api_get_partitions_by_expr_count", 
+    "metrics_api_get_partitions_count", 
+    "metrics_api_get_partition_count", 
+    "metrics_api_get_partitions_by_filter_count",  
+    "metrics_api_get_partitions_by_filter_50thpercentile", 
+    "metrics_api_get_partitions_by_filter_95thpercentile", 
+    "metrics_api_get_partitions_by_filter_999thpercentile", 
+    "metrics_api_add_partitions_count", 
+    "metrics_api_add_partitions_req_count",
+    "metrics_api_drop_partition_by_name_count", 
+    "metrics_api_add_partition_count", 
+    "metrics_api_alter_partitions_count", 
+    "metrics_api_create_table_count", 
+    "metrics_api_alter_table_with_cascade_count", 
+    "metrics_api_get_table_meta_count", 
+    "metrics_api_get_table_metas_count", 
+    "metrics_api_get_table_count", 
+    "metrics_api_alter_table_count", 
+    "metrics_api_get_tables_count", 
+    "metrics_api_get_all_tables_count", 
+    "metrics_api_drop_table_count", 
+    "metrics_api_get_multi_table_count", 
+    "metrics_api_get_database_count", 
+    "metrics_api_get_all_databases_count", 
+    "metrics_api_get_databases_count", 
+    "metrics_api_create_function_count", 
+    "metrics_api_getmetaconf_count", 
+    "metrics_api_alter_table_with_environment_context_count", 
+    "metrics_api_delete_column_statistics_by_table_count", 
+    "metrics_api_get_functions_count", 
+    "metrics_api_get_function_count", 
+    "metrics_api_shutdown_count", 
+    "metrics_api_flushcache_count", 
+    "metrics_api_get_indexes_count", 
+    "metrics_api_get_config_value_count", 
+    "metrics_api_set_ugi_count", 
+    "metrics_api_get_all_functions_count",
+    "metrics_api_get_table_req_50thpercentile", 
+    "metrics_api_get_table_req_95thpercentile", 
+    "metrics_api_get_table_req_999thpercentile", 
+    "metrics_api_get_table_req_count", 
+    "metrics_api_get_table_req_max", 
+    "metrics_api_get_databases_count", 
+    "metrics_api_get_databases_50thpercentile", 
+    "metrics_api_get_databases_95thpercentile", 
+    "metrics_api_get_databases_999thpercentile", 
+    "metrics_api_get_databases_max", 
+    "metrics_api_get_partitions_50thpercentile", 
+    "metrics_api_get_partitions_95thpercentile", 
+    "metrics_api_get_partitions_999thpercentile", 
+    "metrics_api_get_partitions_count", 
+    "metrics_api_get_partitions_max", 
+    "metrics_api_get_partitions_50thpercentile", 
+    "metrics_api_get_partitions_95thpercentile", 
+    "metrics_api_get_partitions_999thpercentile", 
+    "metrics_api_get_database_50thpercentile", 
+    "metrics_api_get_database_95thpercentile", 
+    "metrics_api_get_database_999thpercentile", 
+    "metrics_kafka_listener_failures_count", 
+    "metrics_kafka_listener_successes_count", 
+    "metrics_api_get_table_objects_by_name_req_max", 
+    "metrics_open_connections_count", 
+    "java_lang_memory_heapmemoryusage_max", 
+    "metrics_memory_non_heap_used_value", 
+    "metrics_memory_non_heap_max_value", 
+    "java_lang_garbagecollector_lastgcinfo_duration", 
+    "metrics_jvm_pause_warn_threshold_count", 
+    "metrics_jvm_pause_extrasleeptime_count", 
+    "metrics_threads_deadlock_count_value"
   ]
 }
 
@@ -1010,4 +1093,28 @@ variable "ecs_requires_compatibilities" {
   description = "ECS task definition requires compatibilities, default EC2; FARGATE"
   type        = list(string)
   default     = ["EC2", "FARGATE"]
+}
+
+variable "hms_ro_tolerations" {
+  description = <<EOF
+  Adds a list of tolerations for the HMS readonly pods. For example if you
+have a pool of workers with the following taints "pool=metastore:NoSchedule" you
+can add a toleration like this:
+
+hms_rw_tolerations = [
+  {
+    key      = "pool"
+    operator = "Equal"
+    value    = "metastore"
+    effect   = "NoSchedule"
+  }
+]
+EOF
+  type = list(object({
+    effect             = string
+    key                = string
+    operator           = string
+    value              = string
+  }))
+  default = []
 }

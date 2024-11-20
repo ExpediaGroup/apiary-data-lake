@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.7.0] - 2024-11-19
+### Changed
+- Updated the hms namespaces for metrics for both readwrite and readonly.
+### Added
+- Added following variables:
+  - `hms_ecs_metrics_readwrite_namespace`
+  - `hms_ecs_metrics_readonly_namespace`
+  - `hms_k8s_metrics_readwrite_namespace`
+  - `hms_k8s_metrics_readonly_namespace`
+
 ## [7.6.1] - 2024-10-30
 ### Changed
 - Changed Openmetric to Prometheus in DockerLabels in ECS.

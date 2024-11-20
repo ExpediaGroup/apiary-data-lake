@@ -9,8 +9,7 @@ locals {
   apiary_bucket_prefix             = "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${data.aws_region.current.name}"
   apiary_assume_role_bucket_prefix = [for assumerole in var.apiary_assume_roles : "${local.instance_alias}-${data.aws_caller_identity.current.account_id}-${lookup(assumerole, "allow_cross_region_access", false) ? "*" : data.aws_region.current.name}"]
   enable_route53_records           = var.apiary_domain_name == "" ? false : true
-
-  datadog_tags = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
+  datadog_tags                     = join(" ", formatlist("%s:%s", keys(var.apiary_tags), values(var.apiary_tags)))
   #
   # Create a new list of maps with some extra attributes needed later
   #
@@ -63,6 +62,8 @@ locals {
 
   ro_ingress_cidr = var.ingress_cidr
   rw_ingress_cidr = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
+  hms_metrics                = join("\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
+  hms_metrics_type_overrides = join("\\\": \\\"gauge\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
 }
 
 data "aws_iam_account_alias" "current" {}
