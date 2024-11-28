@@ -74,6 +74,39 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   }
 }
 
+resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  bucket = each.value["data_bucket"]
+  versioning_configuration {
+    status = lookup(each.value, "s3_versioning_enabled", "Disabled")
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_lifecycle" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  bucket = each.value["data_bucket"]
+  rule {
+    id     = "expire-noncurrent-versions-days"
+    status = lookup(each.value, "noncurrent_version_expiration_days", "Disabled")
+
+    noncurrent_version_expiration {
+      noncurrent_days = lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days)
+    }
+  }
+  rule {
+    id     = "expire-noncurrent-versions-number"
+    status = lookup(each.value, "newer_noncurrent_versions", "Disabled")
+
+    noncurrent_version_expiration {
+      newer_noncurrent_versions = lookup(each.value, "newer_noncurrent_versions", var.newer_noncurrent_versions)
+    }
+  }
+}
+
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
   for_each = var.s3_enable_inventory == true ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
