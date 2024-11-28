@@ -1095,6 +1095,18 @@ variable "ecs_requires_compatibilities" {
   default     = ["EC2", "FARGATE"]
 }
 
+variable "noncurrent_version_expiration_days" {
+  description = "Number of days (TTL) before objects are expired. Bucket need to have versioning enabled."
+  type        = number
+  default     = 7
+}
+
+variable "newer_noncurrent_versions" {
+  description = "Number of noncurrent versions Amazon S3 will retain. Must be a non-zero positive integer. Bucket need to have versioning enabled."
+  type        = number
+  default     = 3
+}
+
 variable "hms_ro_tolerations" {
   description = <<EOF
   Adds a list of tolerations for the HMS readonly pods. For example if you
