@@ -94,7 +94,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
     status = lookup(each.value, "noncurrent_version_expiration_days", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
-      noncurrent_days = lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days)
+      noncurrent_days = tonumber(lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days))
     }
   }
   rule {
@@ -102,7 +102,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
     status = lookup(each.value, "newer_noncurrent_versions", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
-      newer_noncurrent_versions = lookup(each.value, "newer_noncurrent_versions", var.newer_noncurrent_versions)
+      newer_noncurrent_versions = tonumber(lookup(each.value, "newer_noncurrent_versions", var.newer_noncurrent_versions))
     }
   }
 }
