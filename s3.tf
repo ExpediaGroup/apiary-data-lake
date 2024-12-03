@@ -89,23 +89,26 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket = each.value["data_bucket"]
+  # Rule only enabled when expiration days are set
   rule {
     id     = "expire-noncurrent-versions-days"
-    status = lookup(each.value, "noncurrent_version_expiration_days", "") != "" ? "Enabled" : "Disabled"
+    status = lookup(each.value, "noncurrent_version_expiration_days", "") != "" && lookup(each.value, "newer_noncurrent_versions", "") == "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
       noncurrent_days = tonumber(lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days))
     }
   }
+  # Rule enabled when expiration days and versions are set
   rule {
     id     = "expire-noncurrent-versions-number"
     status = lookup(each.value, "newer_noncurrent_versions", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
       newer_noncurrent_versions = tonumber(lookup(each.value, "newer_noncurrent_versions", var.newer_noncurrent_versions))
+      noncurrent_days           = tonumber(lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days))
     }
   }
-}
+} 
 
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
   for_each = var.s3_enable_inventory == true ? {
