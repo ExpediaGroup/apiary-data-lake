@@ -89,23 +89,23 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket = each.value["data_bucket"]
-  # Rule only enabled when expiration days are set
+  # Rule enabled when expiration max days is set
   rule {
     id     = "expire-noncurrent-versions-days"
-    status = lookup(each.value, "noncurrent_version_expiration_days", "") != "" && lookup(each.value, "newer_noncurrent_versions", "") == "" ? "Enabled" : "Disabled"
+    status = lookup(each.value, "s3_versioning_expiration_days", "") != "" && lookup(each.value, "s3_versioning_max_versions_retained", "") == "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
-      noncurrent_days = tonumber(lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days))
+      noncurrent_days = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
     }
   }
-  # Rule enabled when expiration days and versions are set
+  # Rule enabled when expiration max days and versions are set
   rule {
-    id     = "expire-noncurrent-versions-number"
-    status = lookup(each.value, "newer_noncurrent_versions", "") != "" ? "Enabled" : "Disabled"
+    id     = "expire-noncurrent-versions-number-and-days"
+    status = lookup(each.value, "s3_versioning_max_versions_retained", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
-      newer_noncurrent_versions = tonumber(lookup(each.value, "newer_noncurrent_versions", var.newer_noncurrent_versions))
-      noncurrent_days           = tonumber(lookup(each.value, "s3_noncurrent_version_expiration_days", var.noncurrent_version_expiration_days))
+      newer_noncurrent_versions = tonumber(lookup(each.value, "s3_versioning_max_versions_retained", var.s3_versioning_max_versions_retained))
+      noncurrent_days           = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
     }
   }
 } 
