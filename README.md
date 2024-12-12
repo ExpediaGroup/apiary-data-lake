@@ -57,7 +57,13 @@ module "apiary" {
         admin_roles = "role1_arn,role2_arn" //kms key management will be restricted to these roles.
         client_roles = "role3_arn,role4_arn" //s3 bucket read/write and kms key usage will be restricted to these roles.
         customer_accounts = "account_id1,account_id2" //this will override module level apiary_customer_accounts
-    }
+    },
+    {
+        schema_name = "db_s3_versioning_enabled",
+        s3_versioning_enabled = "Enabled", // Enabled/Disabled/Suspended. Once enabled it can only be suspended
+        s3_versioning_expiration_days = 2, // If Enabled, default 7
+        s3_versioning_max_versions_allowed = 1
+    },
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]
   # single policy with multiple conditions will use AND operator
