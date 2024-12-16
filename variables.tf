@@ -1101,12 +1101,6 @@ variable "s3_versioning_expiration_days" {
   default     = 7
 }
 
-variable "s3_versioning_max_versions_retained" {
-  description = "Number of noncurrent versions Amazon S3 will retain. Must be a non-zero positive integer. Bucket need to have versioning enabled."
-  type        = number
-  default     = 3
-}
-
 variable "hms_ro_tolerations" {
   description = <<EOF
   Adds a list of tolerations for the HMS readonly pods. For example if you

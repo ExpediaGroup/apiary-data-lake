@@ -61,8 +61,7 @@ module "apiary" {
     {
         schema_name = "db_s3_versioning_enabled",
         s3_versioning_enabled = "Enabled", // Enabled/Disabled/Suspended. Once enabled it can only be suspended
-        s3_versioning_expiration_days = 2, // If Enabled, default 7
-        s3_versioning_max_versions_allowed = 1
+        s3_versioning_expiration_days = 2  // If Enabled, default 7
     },
   ]
   apiary_customer_accounts = ["aws_account_no_1", "aws_account_no_2"]

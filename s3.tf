@@ -92,20 +92,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
   # Rule enabled when expiration max days is set
   rule {
     id     = "expire-noncurrent-versions-days"
-    status = lookup(each.value, "s3_versioning_expiration_days", "") != "" && lookup(each.value, "s3_versioning_max_versions_retained", "") == "" ? "Enabled" : "Disabled"
+    status = lookup(each.value, "s3_versioning_expiration_days", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
       noncurrent_days = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
-    }
-  }
-  # Rule enabled when expiration max days and versions are set
-  rule {
-    id     = "expire-noncurrent-versions-number-and-days"
-    status = lookup(each.value, "s3_versioning_max_versions_retained", "") != "" ? "Enabled" : "Disabled"
-
-    noncurrent_version_expiration {
-      newer_noncurrent_versions = tonumber(lookup(each.value, "s3_versioning_max_versions_retained", var.s3_versioning_max_versions_retained))
-      noncurrent_days           = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
     }
   }
 } 
