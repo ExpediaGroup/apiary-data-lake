@@ -1126,7 +1126,7 @@ EOF
 }
 
 variable "enable_splunk_logging" {
-  description = "Enable sending longs to Splunk"
+  description = "Enable sending longs to Splunk. When enabling we also need splunk_hec_token, splunk_hec_host and splunk_index."
   type        = bool
   default     = false
 }
