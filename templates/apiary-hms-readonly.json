@@ -66,14 +66,27 @@
         "value": "${tcp_keepalive_probes}"
      }
     ],
-  "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-            "awslogs-group": "${loggroup}",
-            "awslogs-region": "${region}",
-            "awslogs-stream-prefix": "/"
-        }
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${loggroup}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "/"
+      }
     },
+  %{ if enable_splunk_logging }
+    ,
+    "logConfiguration": {
+      "logDriver": "splunk",
+      "options": {
+        "splunk-token": "${splunk_hec_token}",
+        "splunk-url": "${splunk_hec_url}",
+        "splunk-source": "apiary-hms-readonly-logs",
+        "splunk-sourcetype": "hms-logs",
+        "splunk-index": "${splunk_index}"
+}
+    }
+  %{ endif },
     "dockerLabels": {
         "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_metrics_namespace}\", \"metrics\": [\"${hms_metrics}\"],\"type_overrides\":{\"${hms_metrics_type_overrides}\": \"gauge\"} }]",
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
