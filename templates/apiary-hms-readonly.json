@@ -75,7 +75,6 @@
       }
     },
   %{ if enable_splunk_logging }
-    ,
     "logConfiguration": {
       "logDriver": "splunk",
       "options": {
@@ -84,7 +83,7 @@
         "splunk-source": "apiary-hms-readonly-logs",
         "splunk-sourcetype": "hms-logs",
         "splunk-index": "${splunk_hec_index}"
-}
+      }
     }
   %{ endif },
     "dockerLabels": {
