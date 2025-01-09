@@ -68,13 +68,17 @@
     ],
     "logConfiguration": {
       "logDriver": "%{ if enable_splunk_logging }splunk%{ else }awslogs%{ endif }",
-      "options": %{ if enable_splunk_logging %} {
+      "options": %{
+        if enable_splunk_logging
+        %}{
           "splunk-token": "${splunk_hec_token}",
           "splunk-url": "${splunk_hec_host}",
           "splunk-source": "apiary-hms-readonly-logs",
           "splunk-sourcetype": "hms-logs",
           "splunk-index": "${splunk_hec_index}"
-        } %{ else %} {
+        }%{
+        else
+        %}{
           "awslogs-group": "${loggroup}",
           "awslogs-region": "${region}",
           "awslogs-stream-prefix": "/"
