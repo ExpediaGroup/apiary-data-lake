@@ -73,8 +73,9 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "/"
       }
-    },
+    }
 %{ if enable_splunk_logging }
+    ,
     "logConfiguration": {
       "logDriver": "splunk",
       "options": {
