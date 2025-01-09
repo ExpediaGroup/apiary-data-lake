@@ -137,5 +137,11 @@ locals{
     hms_metrics_namespace   = "${var.hms_ecs_metrics_readonly_namespace}"
     hms_metrics                = local.hms_metrics
     hms_metrics_type_overrides = local.hms_metrics_type_overrides
+
+    // Splunk configuration
+    enable_splunk_logging      = var.enable_splunk_logging
+    splunk_hec_host            = var.splunk_hec_host
+    splunk_hec_token           = var.splunk_hec_token
+    splunk_hec_index           = var.splunk_hec_index
   })
 }
