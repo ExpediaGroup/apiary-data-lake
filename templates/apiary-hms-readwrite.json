@@ -67,11 +67,20 @@
       }
     ],
     "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
+        "logDriver": "${enable_splunk_logging ? "splunk" : "awslogs"}",
+        "options": ${enable_splunk_logging ?
+          jsonencode({
+            "splunk-token": "${splunk_hec_token}",
+            "splunk-url": "${splunk_hec_host}",
+            "splunk-source": "apiary-hms-readonly-logs",
+            "splunk-sourcetype": "hms-logs",
+            "splunk-index": "${splunk_hec_index}"
+          }) :
+          jsonencode({
             "awslogs-group": "${loggroup}",
             "awslogs-region": "${region}",
             "awslogs-stream-prefix": "/"
+          })
         }
     },
     "dockerLabels": {
