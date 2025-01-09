@@ -83,7 +83,7 @@
         "splunk-url": "${splunk_hec_url}",
         "splunk-source": "apiary-hms-readonly-logs",
         "splunk-sourcetype": "hms-logs",
-        "splunk-index": "${splunk_index}"
+        "splunk-index": "${splunk_hec_index}"
 }
     }
   %{ endif },

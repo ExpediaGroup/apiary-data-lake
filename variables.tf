@@ -1143,7 +1143,7 @@ variable "splunk_hec_host" {
   default     = ""
 }
 
-variable "splunk_index" {
+variable "splunk_hec_index" {
   description = "The index in Splunk where logs will be stored. This is used to organize and manage logs within Splunk."
   type        = string
   default     = ""
