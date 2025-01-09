@@ -74,7 +74,7 @@
         "awslogs-stream-prefix": "/"
       }
     },
-  %{ if enable_splunk_logging }
+%{ if enable_splunk_logging }
     "logConfiguration": {
       "logDriver": "splunk",
       "options": {
@@ -85,7 +85,7 @@
         "splunk-index": "${splunk_hec_index}"
       }
     }
-  %{ endif },
+%{ endif },
     "dockerLabels": {
         "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_metrics_namespace}\", \"metrics\": [\"${hms_metrics}\"],\"type_overrides\":{\"${hms_metrics_type_overrides}\": \"gauge\"} }]",
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
