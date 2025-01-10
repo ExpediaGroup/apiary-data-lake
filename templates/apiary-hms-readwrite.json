@@ -67,11 +67,20 @@
       }
     ],
     "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
+        "logDriver": "${enable_splunk_logging ? "splunk" : "awslogs"}",
+        "options": ${enable_splunk_logging ?
+          jsonencode({
+            "splunk-token": "${splunk_hec_token}",
+            "splunk-url": "${splunk_hec_host}",
+            "splunk-source": "apiary-hms-readwrite-logs",
+            "splunk-sourcetype": "hms-logs",
+            "splunk-index": "${splunk_hec_index}"
+          }) :
+          jsonencode({
             "awslogs-group": "${loggroup}",
             "awslogs-region": "${region}",
             "awslogs-stream-prefix": "/"
+          })
         }
     },
     "dockerLabels": {
@@ -93,6 +102,16 @@
       }
     ],
 %{ endif }
+     "healthCheck": {
+        "command": [
+            "CMD-SHELL",
+            "curl -f http://localhost:8080/actuator/health || exit 1"
+          ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+    },
     "environment":[
      {
         "name": "MYSQL_DB_HOST",

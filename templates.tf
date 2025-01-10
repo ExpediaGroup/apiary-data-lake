@@ -57,23 +57,29 @@ locals{
     s3_enable_logs = local.enable_apiary_s3_log_hive ? "1" : ""
 
     # Template vars for init container
-    init_container_enabled = var.external_database_host == "" ? true : false
-    mysql_permissions      = "ALL"
-    mysql_master_cred_arn  = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
-    mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_rw_user.arn
+    init_container_enabled     = var.external_database_host == "" ? true : false
+    mysql_permissions          = "ALL"
+    mysql_master_cred_arn      = var.external_database_host == "" ? aws_secretsmanager_secret.apiary_mysql_master_credentials[0].arn : null
+    mysql_user_cred_arn        = data.aws_secretsmanager_secret.db_rw_user.arn
 
     # Datadog variables
-    datadog_secret_key    = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
-    wd_instance_type      = var.hms_instance_type
-    metrics_port          = var.datadog_metrics_port
-    datadog_agent_version = var.datadog_agent_version
-    datadog_agent_enabled = var.datadog_agent_enabled
-    datadog_tags          = local.datadog_tags
-    tcp_keepalive_time    = var.tcp_keepalive_time
-    tcp_keepalive_intvl   = var.tcp_keepalive_intvl
-    tcp_keepalive_probes  = var.tcp_keepalive_probes
+    datadog_secret_key         = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
+    wd_instance_type           = var.hms_instance_type
+    metrics_port               = var.datadog_metrics_port
+    datadog_agent_version      = var.datadog_agent_version
+    datadog_agent_enabled      = var.datadog_agent_enabled
+    datadog_tags               = local.datadog_tags
+    tcp_keepalive_time         = var.tcp_keepalive_time
+    tcp_keepalive_intvl        = var.tcp_keepalive_intvl
+    tcp_keepalive_probes       = var.tcp_keepalive_probes
     hms_metrics                = local.hms_metrics
     hms_metrics_type_overrides = local.hms_metrics_type_overrides
+
+    // Splunk configuration
+    enable_splunk_logging      = var.enable_splunk_logging
+    splunk_hec_host            = var.splunk_hec_host
+    splunk_hec_token           = var.splunk_hec_token
+    splunk_hec_index           = var.splunk_hec_index
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -131,5 +137,11 @@ locals{
     hms_metrics_namespace   = "${var.hms_ecs_metrics_readonly_namespace}"
     hms_metrics                = local.hms_metrics
     hms_metrics_type_overrides = local.hms_metrics_type_overrides
+
+    // Splunk configuration
+    enable_splunk_logging      = var.enable_splunk_logging
+    splunk_hec_host            = var.splunk_hec_host
+    splunk_hec_token           = var.splunk_hec_token
+    splunk_hec_index           = var.splunk_hec_index
   })
 }

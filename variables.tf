@@ -1124,3 +1124,28 @@ EOF
   }))
   default = []
 }
+
+variable "enable_splunk_logging" {
+  description = "Enable sending longs to Splunk. When enabling we also need splunk_hec_token, splunk_hec_host and splunk_index."
+  type        = bool
+  default     = false
+}
+
+variable "splunk_hec_token" {
+  description = "The token used for authentication with the Splunk HTTP Event Collector (HEC). This is required for sending logs to Splunk. Compatible with both EC2 and FARGATE ECS task definitions."
+  type        = string
+  default     = ""
+}
+
+variable "splunk_hec_host" {
+  description = "The hostname or URL of the Splunk HTTP Event Collector (HEC) endpoint to which logs will be sent."
+  type        = string
+  default     = ""
+}
+
+variable "splunk_hec_index" {
+  description = "The index in Splunk where logs will be stored. This is used to organize and manage logs within Splunk."
+  type        = string
+  default     = ""
+}
+
