@@ -72,7 +72,7 @@
           jsonencode({
             "splunk-token": "${splunk_hec_token}",
             "splunk-url": "${splunk_hec_host}",
-            "splunk-source": "apiary-hms-readwrite-logs",
+            "splunk-source": "apiary-hms-readwrite-logs${splunk_env}",
             "splunk-sourcetype": "hms-logs",
             "splunk-index": "${splunk_hec_index}"
           }) :
