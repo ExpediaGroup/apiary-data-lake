@@ -80,6 +80,7 @@ locals{
     splunk_hec_host            = var.splunk_hec_host
     splunk_hec_token           = var.splunk_hec_token
     splunk_hec_index           = var.splunk_hec_index
+    splunk_env                 = var.splunk_env
   })
 
   hms_readonly_template = templatefile("${path.module}/templates/apiary-hms-readonly.json", {
@@ -143,5 +144,7 @@ locals{
     splunk_hec_host            = var.splunk_hec_host
     splunk_hec_token           = var.splunk_hec_token
     splunk_hec_index           = var.splunk_hec_index
+    splunk_env                 = var.splunk_env
+
   })
 }

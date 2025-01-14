@@ -1149,3 +1149,8 @@ variable "splunk_hec_index" {
   default     = ""
 }
 
+variable "splunk_env" {
+  description = "Environment in which the Splunk server is sending logs from."
+  type        = string
+  default     = ""
+}
