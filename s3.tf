@@ -50,34 +50,11 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
     target_prefix = "${var.apiary_log_prefix}${each.value["data_bucket"]}/"
   }
-
-  lifecycle_rule {
-    id      = "cost_optimization"
-    enabled = true
-
-    abort_incomplete_multipart_upload_days = var.s3_lifecycle_abort_incomplete_multipart_upload_days
-
-    dynamic "transition" {
-      for_each = each.value["s3_object_expiration_days_num"] == "-1" || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days_num"] ? [1] : []
-      content {
-        days          = each.value["s3_lifecycle_policy_transition_period"]
-        storage_class = each.value["s3_storage_class"]
-      }
-    }
-
-    dynamic "expiration" {
-      for_each = each.value["s3_object_expiration_days_num"] != "-1" ? [1] : []
-      content {
-        days = each.value["s3_object_expiration_days_num"]
-      }
-    }
-  }
 }
 
 resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-    if lookup(schema, "s3_versioning_enabled", "") != ""
   }
   bucket = each.value["data_bucket"]
   versioning_configuration {
@@ -88,16 +65,34 @@ resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
 resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_lifecycle" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-    if lookup(schema, "s3_versioning_enabled", "") != ""
   }
   bucket = each.value["data_bucket"]
-  # Rule enabled when expiration max days is set
+  # Rule for s3 versioning expiration
   rule {
     id     = "expire-noncurrent-versions-days"
     status = lookup(each.value, "s3_versioning_enabled", "") != "" ? "Enabled" : "Disabled"
 
     noncurrent_version_expiration {
       noncurrent_days = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
+    }
+  }
+  # Rule s3 intelligent tiering transition
+  rule {
+    id     = "cost_optimization_transition"
+    status = each.value["s3_object_expiration_days_num"] == "-1" || each.value["s3_lifecycle_policy_transition_period"] < each.value["s3_object_expiration_days_num"] ? "Enabled" : "Disabled"
+
+    transition {
+      days          = each.value["s3_lifecycle_policy_transition_period"]
+      storage_class = each.value["s3_storage_class"]
+    }
+  }
+  # Rule s3 object expiration
+  rule {
+    id     = "cost_optimization_expiration"
+    status = each.value["s3_object_expiration_days_num"] != "-1" ? "Enabled" : "Disabled"
+
+    expiration {
+      days = each.value["s3_object_expiration_days_num"]
     }
   }
 } 
