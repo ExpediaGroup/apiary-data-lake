@@ -87,6 +87,7 @@ resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
 resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_lifecycle" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+    if lookup(schema, "s3_versioning_enabled", "") != ""
   }
   bucket = each.value["data_bucket"]
   # Rule enabled when expiration max days is set
