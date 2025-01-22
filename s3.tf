@@ -77,6 +77,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
 resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
   for_each = {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+    if lookup(schema, "s3_versioning_enabled", "") != ""
   }
   bucket = each.value["data_bucket"]
   versioning_configuration {
