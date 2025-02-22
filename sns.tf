@@ -96,7 +96,9 @@ resource "aws_sqs_queue" "apiary_managed_logs_queue" {
       "Action": "sqs:SendMessage",
       "Resource": "arn:aws:sqs:*:*:${local.instance_alias}-s3-logs-queue",
       "Condition":{
-          "ArnEquals":{"aws:SourceArn":"arn:aws:s3:::${local.apiary_s3_logs_bucket}"}
+          "ArnEquals":{
+              "aws:SourceArn": ${local.s3_logs_bucket_list}
+          }
       }
     }
   ]
