@@ -585,6 +585,12 @@ variable "rw_ingress_cidr" {
   default     = []
 }
 
+variable "create_glue_databases" {
+  description = "Create glue databases with terraform even when gluesync is disabled."
+  type        = bool
+  default     = false
+}
+
 variable "enable_gluesync" {
   description = "Enable metadata sync from Hive to the Glue catalog."
   type        = bool

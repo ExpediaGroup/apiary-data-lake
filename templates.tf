@@ -25,6 +25,7 @@ locals{
     instance_name              = "${local.instance_alias}"
     sns_arn                    = var.enable_metadata_events ? join("", aws_sns_topic.apiary_metadata_events.*.arn) : ""
     table_param_filter         = var.enable_metadata_events ? var.table_param_filter : ""
+    disable_glue_db_init       = var.create_glue_databases ? "1" : ""
     enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
     hms_metrics_namespace      = "${var.hms_ecs_metrics_readwrite_namespace}"
