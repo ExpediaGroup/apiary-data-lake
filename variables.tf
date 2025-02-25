@@ -586,7 +586,7 @@ variable "rw_ingress_cidr" {
 }
 
 variable "create_glue_databases" {
-  description = "Create glue databases with terraform even when gluesync is disabled."
+  description = "Create glue databases with terraform independent of gluesync."
   type        = bool
   default     = false
 }
