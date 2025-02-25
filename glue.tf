@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-resource "aws_glue_catalog_database" "example" {
+resource "aws_glue_catalog_database" "apiary_glue_database" {
   for_each = var.create_glue_databases ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
