@@ -202,6 +202,14 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
             value = var.hms_log_level
           }
           env {
+            name  = "ENABLE_GLUESYNC"
+            value = var.enable_gluesync
+          }
+          env {
+            name  = "GLUE_PREFIX"
+            value = local.gluedb_prefix
+          }
+          env {
             name  = "RANGER_SERVICE_NAME"
             value = "${local.instance_alias}-metastore"
           }
