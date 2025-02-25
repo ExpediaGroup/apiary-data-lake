@@ -9,7 +9,7 @@ resource "aws_glue_catalog_database" "apiary_glue_database" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
 
-  location_uri = "s3://${aws_s3_bucket.apiary_data_bucket[each.key].id}"
+  location_uri = "s3://${aws_s3_bucket.apiary_data_bucket[each.key].id}/"
   name         = "${local.gluedb_prefix}${each.key}"
   description  = "Managed by Apiary terraform"
 }
