@@ -585,6 +585,12 @@ variable "rw_ingress_cidr" {
   default     = []
 }
 
+variable "disable_glue_db_init" {
+  description = "Glue databases are created programatically by default in hms-readwrite bootstrap init action. Setting this variable to true will disable the hms-readwrite bootstrap init action and create Glue databases via Terraform."
+  type        = bool
+  default     = false
+}
+
 variable "enable_gluesync" {
   description = "Enable metadata sync from Hive to the Glue catalog."
   type        = bool

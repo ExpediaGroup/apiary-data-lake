@@ -22,7 +22,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
         max_surge       = var.hms_rw_k8s_rolling_update_strategy.max_surge
         max_unavailable = var.hms_rw_k8s_rolling_update_strategy.max_unavailable
       }
-    }    
+    }
     replicas = var.hms_rw_k8s_replica_count
     selector {
       match_labels = {
@@ -36,13 +36,13 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
           name = "${local.hms_alias}-readwrite"
         }
         annotations = {
-          "ad.datadoghq.com/${local.hms_alias}-readwrite.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
+          "ad.datadoghq.com/${local.hms_alias}-readwrite.check_names"  = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
           "ad.datadoghq.com/${local.hms_alias}-readwrite.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
-          "ad.datadoghq.com/${local.hms_alias}-readwrite.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"${var.hms_k8s_metrics_readwrite_namespace}\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
-          "iam.amazonaws.com/role" = var.oidc_provider == "" ? aws_iam_role.apiary_hms_readwrite.name : null
-          "prometheus.io/path"     = "/metrics"
-          "prometheus.io/port"     = "8080"
-          "prometheus.io/scrape"   = "true"
+          "ad.datadoghq.com/${local.hms_alias}-readwrite.instances"    = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"${var.hms_k8s_metrics_readwrite_namespace}\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
+          "iam.amazonaws.com/role"                                     = var.oidc_provider == "" ? aws_iam_role.apiary_hms_readwrite.name : null
+          "prometheus.io/path"                                         = "/metrics"
+          "prometheus.io/port"                                         = "8080"
+          "prometheus.io/scrape"                                       = "true"
         }
       }
 
@@ -53,10 +53,10 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
         dynamic "toleration" {
           for_each = var.hms_rw_tolerations
           content {
-            effect             = lookup(toleration.value, "effect", null)
-            key                = lookup(toleration.value, "key", null)
-            operator           = lookup(toleration.value, "operator", null)
-            value              = lookup(toleration.value, "value", null)
+            effect   = lookup(toleration.value, "effect", null)
+            key      = lookup(toleration.value, "key", null)
+            operator = lookup(toleration.value, "operator", null)
+            value    = lookup(toleration.value, "value", null)
           }
         }
 
@@ -80,7 +80,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
           }
         }
 
-        dynamic "security_context"  {
+        dynamic "security_context" {
           for_each = var.enable_tcp_keepalive ? ["enabled"] : []
           content {
             sysctl {
@@ -202,8 +202,12 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
             value = var.hms_log_level
           }
           env {
+            name  = "DISABLE_GLUE_DB_INIT"
+            value = var.disable_glue_db_init ? "1" : ""
+          }
+          env {
             name  = "ENABLE_GLUESYNC"
-            value = var.enable_gluesync
+            value = var.enable_gluesync ? "1" : ""
           }
           env {
             name  = "GLUE_PREFIX"
@@ -294,7 +298,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
             name  = "DATANUCLEUS_CONNECTION_POOL_MAX_POOLSIZE"
             value = var.hms_rw_db_connection_pool_size
           }
-          
+
           dynamic "env" {
             for_each = var.hms_additional_environment_variables
 
@@ -336,7 +340,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
           }
 
           resources {
-            limits   = {
+            limits = {
               cpu    = local.k8s_rw_cpu_limit
               memory = "${var.hms_rw_heapsize}Mi"
             }
@@ -386,7 +390,7 @@ resource "kubernetes_pod_disruption_budget_v1" "hms_readwrite" {
   count = var.hms_instance_type == "k8s" && var.hms_rw_k8s_pdb_settings.enabled ? 1 : 0
 
   metadata {
-    name = "${local.hms_alias}-readwrite"
+    name      = "${local.hms_alias}-readwrite"
     namespace = var.metastore_namespace
   }
 
