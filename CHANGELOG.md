@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.9.5] - 2025-02-26
+### Added
+- Add option to provision glue databases using terraform instead of metastore startup.
+
 ## [7.9.4] - 2025-02-26
 ### Fixed
 - Added `abort_incomplete_multipart_upload` rule into `aws_s3_bucket_lifecycle_configuration` object.
