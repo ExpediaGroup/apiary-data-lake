@@ -96,13 +96,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
       storage_class = each.value["s3_storage_class"]
     }
   }
-  # Rule s3 object expiration
+  # Rule s3 object expiration - days cannot be negative
   rule {
     id     = "cost_optimization_expiration"
     status = each.value["s3_object_expiration_days_num"] != "-1" ? "Enabled" : "Disabled"
 
     expiration {
-      days = each.value["s3_object_expiration_days_num"]
+      days = each.value["s3_object_expiration_days_num"] != "-1" ? each.value["s3_object_expiration_days_num"] : "0"
     }
   }
 } 
