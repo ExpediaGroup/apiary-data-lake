@@ -108,6 +108,12 @@ variable "s3_logs_sqs_receive_wait_time_seconds" {
   default     = 10
 }
 
+variable "s3_logs_buckets_csv" {
+  description = "This is the s3 logs buckets separated by comma where the s3 logs sqs should receive event notifications from f.i: 'bucketname1,bucketname2...'"
+  type        = string
+  default     = ""
+}
+
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = bool
@@ -583,6 +589,12 @@ variable "rw_ingress_cidr" {
   description = "Read-Write metastore ingress CIDR list. If not set, defaults to `var.ingress_cidr`."
   type        = list(string)
   default     = []
+}
+
+variable "create_lf_resource" {
+  description = "Register data buckets in LakeFormation."
+  type        = bool
+  default     = false
 }
 
 variable "disable_glue_db_init" {

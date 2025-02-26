@@ -13,7 +13,7 @@ terraform {
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = ">= 5.17.0"
     }
     external = {
       source  = "hashicorp/external"
@@ -28,7 +28,7 @@ terraform {
       version = "3.25.0"
     }
     template = {
-      source = "hashicorp/template"
+      source  = "hashicorp/template"
       version = "~> 2.2"
     }
   }
