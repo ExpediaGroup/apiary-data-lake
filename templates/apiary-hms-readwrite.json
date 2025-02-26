@@ -154,6 +154,10 @@
         "value": "${table_param_filter}"
      },
      {
+        "name": "DISABLE_GLUE_DB_INIT",
+        "value": "${disable_glue_db_init}"
+     },
+     {
         "name": "ENABLE_GLUESYNC",
         "value": "${enable_gluesync}"
      },
