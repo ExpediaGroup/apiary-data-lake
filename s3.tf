@@ -68,6 +68,15 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   }
   bucket = each.value["data_bucket"]
+  # Rule for s3 incomplete multipart upload expiration
+  rule {
+    id     = "expire-incomplete-multipart-uploads"
+    status = "Enabled"
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = var.s3_lifecycle_abort_incomplete_multipart_upload_days
+    }
+  }
   # Rule for s3 versioning expiration
   rule {
     id     = "expire-noncurrent-versions-days"
