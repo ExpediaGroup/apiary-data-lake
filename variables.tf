@@ -585,6 +585,12 @@ variable "rw_ingress_cidr" {
   default     = []
 }
 
+variable "create_lf_resource" {
+  description = "Register data buckets in LakeFormation."
+  type        = bool
+  default     = false
+}
+
 variable "disable_glue_db_init" {
   description = "Glue databases are created programatically by default in hms-readwrite bootstrap init action. Setting this variable to true will disable the hms-readwrite bootstrap init action and create Glue databases via Terraform."
   type        = bool
