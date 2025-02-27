@@ -60,12 +60,12 @@ locals {
 
   hms_alias = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
 
-  ro_ingress_cidr = var.ingress_cidr
-  rw_ingress_cidr = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
+  ro_ingress_cidr            = var.ingress_cidr
+  rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
   hms_metrics                = join("\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
   hms_metrics_type_overrides = join("\\\": \\\"gauge\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
 
-  s3_log_buckets  = concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets)
+  s3_log_buckets = compact(concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets))
 }
 
 data "aws_iam_account_alias" "current" {}
@@ -90,16 +90,16 @@ data "aws_secretsmanager_secret" "datadog_key" {
 }
 
 data "aws_secretsmanager_secret_version" "datadog_key" {
-  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  count     = length(var.datadog_key_secret_name) > 0 ? 1 : 0
   secret_id = data.aws_secretsmanager_secret.datadog_key[0].id
 }
 
 data "external" "datadog_key" {
-  count = length(var.datadog_key_secret_name) > 0 ? 1 : 0
+  count   = length(var.datadog_key_secret_name) > 0 ? 1 : 0
   program = ["echo", "${data.aws_secretsmanager_secret_version.datadog_key[0].secret_string}"]
 }
 
 provider "datadog" {
-  api_key  = chomp(data.external.datadog_key[0].result["api_key"])
-  app_key  = chomp(data.external.datadog_key[0].result["app_key"])
+  api_key = chomp(data.external.datadog_key[0].result["api_key"])
+  app_key = chomp(data.external.datadog_key[0].result["app_key"])
 }
