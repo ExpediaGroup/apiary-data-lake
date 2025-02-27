@@ -98,7 +98,7 @@ resource "aws_sqs_queue" "apiary_managed_logs_queue" {
       "Condition":{
           "ArnEquals":{
             "aws:SourceArn": [
-              "${join("\",\"", formatlist("arn:aws:s3:::%s"),local.s3_log_buckets)}"
+              "${join("\",\"", formatlist("arn:aws:s3:::%s", local.s3_log_buckets))}"
             ]
       }
     }
