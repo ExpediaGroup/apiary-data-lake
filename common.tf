@@ -64,6 +64,8 @@ locals {
   rw_ingress_cidr = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
   hms_metrics                = join("\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
   hms_metrics_type_overrides = join("\\\": \\\"gauge\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
+
+  s3_log_buckets  = concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets)
 }
 
 data "aws_iam_account_alias" "current" {}

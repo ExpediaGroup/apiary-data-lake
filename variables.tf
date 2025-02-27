@@ -1166,3 +1166,9 @@ variable "splunk_env" {
   type        = string
   default     = ""
 }
+
+variable "additional_s3_log_buckets" {
+  description = "Additional S3 log buckets"
+  type        = list(string)
+  default     = []
+}
