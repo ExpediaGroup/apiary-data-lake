@@ -14,6 +14,7 @@ resource "aws_lakeformation_resource" "apiary_data_bucket" {
 }
 
 resource "aws_lakeformation_resource" "apiary_system_bucket" {
-  arn location_uri = aws_s3_bucket.apiary_system.id
+  arn = aws_s3_bucket.apiary_system.id
+
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
