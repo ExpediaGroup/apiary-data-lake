@@ -22,8 +22,8 @@ resource "aws_lakeformation_resource" "apiary_system_bucket" {
 locals {
   lf_schema_customer_accounts = [
     for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_customer_accounts) : {
-      schema_name = pair[0].key
-      account_id  = pair[1].key
+      schema_name = pair[0]
+      account_id  = pair[1]
     }
   ]
 }
