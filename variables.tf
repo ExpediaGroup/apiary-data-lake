@@ -156,6 +156,12 @@ variable "enable_vpc_endpoint_services" {
   default     = true
 }
 
+variable "lf_customer_accounts" {
+  description = "AWS account IDs granted describe permissions on all glue databases using LakeFormation."
+  type        = list(string)
+  default     = []
+}
+
 variable "apiary_customer_accounts" {
   description = "AWS account IDs for clients of this Metastore."
   type        = list(string)
