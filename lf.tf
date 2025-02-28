@@ -19,17 +19,24 @@ resource "aws_lakeformation_resource" "apiary_system_bucket" {
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
 
+locals {
+  lf_schema_customer_accounts = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_customer_accounts) : {
+      schema_name = pair[0].key
+      account_id  = pair[1].key
+    }
+  ]
+}
 
 #LF policy allowing cross account access
 resource "aws_lakeformation_permissions" "glue_db_prems" {
-  count = length(var.lf_customer_accounts)
-  for_each = var.disable_glue_db_init ? {
-    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
-  } : {}
-  principal   = var.lf_customer_accounts[count.index]
+  for_each = var.disable_glue_db_init ? tomap({
+    for schema_account in local.lf_schema_customer_accounts : "${schema_account.schema_name}.${schema_account.account_id}" => schema_account
+  }) : {}
+  principal   = each.value.account_id
   permissions = ["DESCRIBE"]
 
   database {
-    name = each.key
+    name = each.value.schema_name
   }
 }
