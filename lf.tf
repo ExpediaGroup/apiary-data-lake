@@ -20,13 +20,14 @@ resource "aws_lakeformation_resource" "apiary_system_bucket" {
 }
 
 #add LF permissions for metastore iam role
+#required for gluesync to update glue tables when hybrid access is disabled
 resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
   for_each = var.create_lf_resource ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
 
   principal   = aws_iam_role.apiary_hms_readwrite.arn
-  permissions = ["CREATE_TABLE", "ALTER", "DROP"]
+  permissions = ["DESCRIBE", "ALTER", "DROP"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
