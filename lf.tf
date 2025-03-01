@@ -18,3 +18,18 @@ resource "aws_lakeformation_resource" "apiary_system_bucket" {
 
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
+
+#add LF permissions for metastore iam role
+resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
+  for_each = var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["CREATE_TABLE", "ALTER", "DROP"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    wildcard      = true
+  }
+}
