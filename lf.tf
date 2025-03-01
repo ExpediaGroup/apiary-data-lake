@@ -41,6 +41,6 @@ resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
   permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
-    name = aws_glue_catalog_database.apiary_system_glue_database.name
+    name = aws_glue_catalog_database.apiary_system_glue_database[0].name
   }
 }
