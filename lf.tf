@@ -36,6 +36,9 @@ resource "aws_lakeformation_permissions" "glue_db_prems" {
   principal   = each.value.account_id
   permissions = ["DESCRIBE"]
 
+  #required for cross account access, to create resource link in the other account
+  permissions_with_grant_option = ["DESCRIBE"]
+
   database {
     name = each.value.schema_name
   }
