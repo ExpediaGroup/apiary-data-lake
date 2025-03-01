@@ -34,3 +34,16 @@ resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
     wildcard      = true
   }
 }
+
+resource "aws_lakeformation_permissions" "hms_db_permissions" {
+  for_each = var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["DESCRIBE", "CREATE_TABLE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+  }
+}
