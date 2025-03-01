@@ -33,3 +33,12 @@ resource "aws_lakeformation_permissions" "hms_db_permissions" {
     name = aws_glue_catalog_database.apiary_glue_database[each.key].name
   }
 }
+
+resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["DESCRIBE", "CREATE_TABLE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_system_glue_database.name
+  }
+}
