@@ -1177,13 +1177,13 @@ variable "additional_s3_log_buckets" {
   description = "Additional S3 log buckets"
   type        = list(string)
   default     = []
+}
 
 variable "hms_enable_hive3" {
   description = "Enable HMS version 3 running side by side along the main one."
   type        = bool
   default     = false
 }
-
 
 variable "hms_docker_image_hive3" {
   description = "Docker image ID for the Hive Metastore."
