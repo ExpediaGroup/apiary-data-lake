@@ -1177,4 +1177,32 @@ variable "additional_s3_log_buckets" {
   description = "Additional S3 log buckets"
   type        = list(string)
   default     = []
+
+variable "hms_enable_hive3" {
+  description = "Enable HMS version 3 running side by side along the main one."
+  type        = bool
+  default     = false
+}
+
+
+variable "hms_docker_image_hive3" {
+  description = "Docker image ID for the Hive Metastore."
+  type        = string
+}
+
+variable "hms_docker_version_hive3" {
+  description = "Version of the Docker image for the Hive Metastore."
+  type        = string
+}
+
+variable "external_database_host_hive3" {
+  description = "External Metastore database host."
+  type        = string
+  default     = ""
+}
+
+variable "external_database_host_readonly_hive3" {
+  description = "External Metastore database host."
+  type        = string
+  default     = ""
 }
