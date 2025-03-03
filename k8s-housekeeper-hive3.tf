@@ -7,11 +7,11 @@
 resource "kubernetes_deployment_v1" "apiary_hms_housekeeper_hive3" {
   count = var.hms_instance_type == "k8s" && var.enable_hms_housekeeper && var.hms_enable_hive3 ? 1 : 0
   metadata {
-    name      = "${local.hms_alias}-housekeeper"
+    name      = "${local.hms_alias}-housekeeper-hive3"
     namespace = var.metastore_namespace
 
     labels = {
-      name = "${local.hms_alias}-housekeeper"
+      name = "${local.hms_alias}-housekeeper-hive3"
     }
   }
 
@@ -19,19 +19,19 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper_hive3" {
     replicas = 1
     selector {
       match_labels = {
-        name = "${local.hms_alias}-housekeeper"
+        name = "${local.hms_alias}-housekeeper-hive3"
       }
     }
 
     template {
       metadata {
         labels = {
-          name = "${local.hms_alias}-housekeeper"
+          name = "${local.hms_alias}-housekeeper-hive3"
         }
         annotations = {
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
-          "ad.datadoghq.com/${local.hms_alias}-housekeeper.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper-hive3.check_names" = var.datadog_metrics_enabled ? "[\"prometheus\"]" : null
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper-hive3.init_configs" = var.datadog_metrics_enabled ? "[{}]" : null
+          "ad.datadoghq.com/${local.hms_alias}-housekeeper-hive3.instances" = var.datadog_metrics_enabled ? "[{ \"prometheus_url\": \"http://%%host%%:${var.datadog_metrics_port}/actuator/prometheus\", \"namespace\": \"hms_readwrite\", \"metrics\": [ \"${join("\",\"", var.datadog_metrics_hms_readwrite_readonly)}\" ] , \"type_overrides\": { \"${join("\": \"gauge\",\"", var.datadog_metrics_hms_readwrite_readonly)}\": \"gauge\"} }]" : null
           "iam.amazonaws.com/role" = var.oidc_provider == "" ? aws_iam_role.apiary_hms_readwrite.name : null
           "prometheus.io/path"     = "/metrics"
           "prometheus.io/port"     = "8080"
@@ -89,7 +89,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper_hive3" {
 
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
-          name  = "${local.hms_alias}-housekeeper"
+          name  = "${local.hms_alias}-housekeeper-hive3"
           port {
             container_port = var.hive_metastore_port
           }
