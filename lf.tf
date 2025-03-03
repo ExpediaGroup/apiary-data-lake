@@ -14,12 +14,13 @@ resource "aws_lakeformation_resource" "apiary_data_bucket" {
 }
 
 resource "aws_lakeformation_resource" "apiary_system_bucket" {
-  arn = aws_s3_bucket.apiary_system.arn
+  count = var.create_lf_resource ? 1 : 0
+  arn   = aws_s3_bucket.apiary_system.arn
 
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
 
-#add LF permissions for metastore iam role
+#Add LF permissions for metastore iam role
 #required for gluesync to update glue tables when hybrid access is disabled
 resource "aws_lakeformation_permissions" "hms_db_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? {
