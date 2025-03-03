@@ -15,6 +15,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * Gluesync  - A metastore event listener to replay Hive metadata events in a Glue catalog.
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
   * Grafana dashboard - If deployed in EKS, a Grafana dashboard will be created that shows S3 bucket sizes for each Apiary bucket.
+  * Lake Formation - Databases will be synced in Lake formation as resources to enhance access control.
 
 ## Variables
 Please refer to [VARIABLES.md](VARIABLES.md).
