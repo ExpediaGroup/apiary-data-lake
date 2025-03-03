@@ -214,18 +214,6 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite_hive3" {
             value = local.gluedb_prefix
           }
           env {
-            name  = "RANGER_SERVICE_NAME"
-            value = "${local.instance_alias}-metastore"
-          }
-          env {
-            name  = "RANGER_POLICY_MANAGER_URL"
-            value = var.ranger_policy_manager_url
-          }
-          env {
-            name  = "RANGER_AUDIT_SOLR_URL"
-            value = var.ranger_audit_solr_url
-          }
-          env {
             name  = "ATLAS_KAFKA_BOOTSTRAP_SERVERS"
             value = var.atlas_kafka_bootstrap_servers
           }

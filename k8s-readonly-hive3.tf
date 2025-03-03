@@ -195,18 +195,6 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly_hive3" {
             value = var.hms_log_level
           }
           env {
-            name  = "RANGER_SERVICE_NAME"
-            value = "${local.instance_alias}-metastore"
-          }
-          env {
-            name  = "RANGER_POLICY_MANAGER_URL"
-            value = var.ranger_policy_manager_url
-          }
-          env {
-            name  = "RANGER_AUDIT_SOLR_URL"
-            value = var.ranger_audit_solr_url
-          }
-          env {
             name  = "LDAP_URL"
             value = var.ldap_url
           }
