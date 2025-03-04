@@ -217,8 +217,8 @@
                 "arn:aws:s3:::${bucket_name}/*/metadata/*.json",
                 "arn:aws:s3:::${bucket_name}/*/metadata/*.avro"
             ]
-        }
-        %{endif}
+        },
+%{endif}
 %{if deny_exception_iamroles == "" && common_producer_iamroles != ""}
         {
             "Sid": "General read-write iamrole permissions",
