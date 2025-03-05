@@ -70,7 +70,7 @@ resource "aws_lakeformation_permissions" "catalog_client_permissions" {
 }
 
 resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
-  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_client_arns) : {}
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_client_arns) : []
 
   principal   = each.key
   permissions = ["DESCRIBE"]
