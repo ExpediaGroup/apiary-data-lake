@@ -45,3 +45,26 @@ resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
     name = aws_glue_catalog_database.apiary_system_glue_database[0].name
   }
 }
+
+locals {
+  catalog_client_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_client_arns) : {
+      schema_name = pair[0].key
+      client_arn  = pair[1].key
+    }
+  ]
+}
+
+resource "aws_lakeformation_permissions" "catalog_client_permissions" {
+  for_each = var.create_lf_resource ? tomap({
+    for schema in local.catalog_client_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.client_arn
+  permissions = ["DESCRIBE"]
+
+  table {
+    name     = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard = true
+  }
+}
