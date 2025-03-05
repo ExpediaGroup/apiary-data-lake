@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [7.10.2] - 2025-03-05
 ### Added
 - Variable to configure catalog client ARNs.
+- Add table permissions for metastore IAM role to fix issues with few clients.
 
 ## [7.10.1] - 2025-03-04
 ### Added
