@@ -64,7 +64,7 @@ resource "aws_lakeformation_permissions" "catalog_client_permissions" {
   permissions = ["DESCRIBE"]
 
   table {
-    name     = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
-    wildcard = true
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard      = true
   }
 }
