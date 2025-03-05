@@ -49,8 +49,8 @@ resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
 locals {
   catalog_client_schemas = [
     for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_client_arns) : {
-      schema_name = pair[0].key
-      client_arn  = pair[1].key
+      schema_name = pair[0]
+      client_arn  = pair[1]
     }
   ]
 }
