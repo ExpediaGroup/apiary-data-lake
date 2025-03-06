@@ -35,6 +35,20 @@ resource "aws_lakeformation_permissions" "hms_db_permissions" {
   }
 }
 
+resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["ALL"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    wildcard      = true
+  }
+}
+
 resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
   count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
@@ -43,5 +57,52 @@ resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
 
   database {
     name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+  }
+}
+
+resource "aws_lakeformation_permissions" "hms_system_tbl_permissions" {
+  count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["ALL"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+    wildcard      = true
+  }
+}
+
+locals {
+  catalog_client_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_client_arns) : {
+      schema_name = pair[0]
+      client_arn  = pair[1]
+    }
+  ]
+}
+
+resource "aws_lakeformation_permissions" "catalog_client_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.catalog_client_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.client_arn
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_client_arns) : []
+
+  principal   = each.key
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+    wildcard      = true
   }
 }

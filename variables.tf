@@ -597,6 +597,12 @@ variable "lf_hybrid_access_enabled" {
   default     = true
 }
 
+variable "lf_catalog_client_arns" {
+  description = "AWS IAM role ARNs granted describe permissions on all glue databases and tables using LakeFormation."
+  type        = list(string)
+  default     = []
+}
+
 variable "disable_glue_db_init" {
   description = "Glue databases are created programatically by default in hms-readwrite bootstrap init action. Setting this variable to true will disable the hms-readwrite bootstrap init action and create Glue databases via Terraform."
   type        = bool
