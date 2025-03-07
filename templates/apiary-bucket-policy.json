@@ -18,9 +18,7 @@
                 "s3:GetBucketAcl",
                 "s3:ListBucket"
             ],
-            "Resource": [
-                "arn:aws:s3:::${bucket_name}"
-            ]
+            "Resource": "arn:aws:s3:::${bucket_name}"
         },
 %{if customer_condition == ""}
         {
@@ -37,9 +35,7 @@
                 "s3:GetObject",
                 "s3:GetObjectAcl"
             ],
-            "Resource": [
-                "arn:aws:s3:::${bucket_name}/*"
-            ]
+            "Resource": "arn:aws:s3:::${bucket_name}/*"
         },
 %{else}
 %{for condition in split(";",customer_condition)}
@@ -61,9 +57,7 @@
                 "s3:GetObject",
                 "s3:GetObjectAcl"
             ],
-            "Resource": [
-                "arn:aws:s3:::${bucket_name}/*"
-            ]
+            "Resource": "arn:aws:s3:::${bucket_name}/*"
         },
 %{endif}
 %{endfor}
