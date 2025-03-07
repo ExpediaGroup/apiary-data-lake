@@ -49,6 +49,20 @@ resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
   }
 }
 
+resource "aws_lakeformation_permissions" "hms_loc_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["DATA_LOCATION_ACCESS"]
+
+  data_location {
+    arn = aws_lakeformation_resource.apiary_data_bucket[each.key].arn
+  }
+}
+
+
 resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
   count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
@@ -69,6 +83,17 @@ resource "aws_lakeformation_permissions" "hms_system_tbl_permissions" {
   table {
     database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
     wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+
+  principal   = aws_iam_role.apiary_hms_readwrite.arn
+  permissions = ["DATA_LOCATION_ACCESS"]
+
+  data_location {
+    arn = aws_lakeformation_resource.apiary_system_bucket.arn
   }
 }
 
