@@ -93,7 +93,7 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
   permissions = ["DATA_LOCATION_ACCESS"]
 
   data_location {
-    arn = aws_lakeformation_resource.apiary_system_bucket.arn
+    arn = aws_lakeformation_resource.apiary_system_bucket[0].arn
   }
 }
 
