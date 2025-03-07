@@ -87,7 +87,7 @@ resource "aws_lakeformation_permissions" "hms_system_tbl_permissions" {
 }
 
 resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
-  for_each = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+  count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
   principal   = aws_iam_role.apiary_hms_readwrite.arn
   permissions = ["DATA_LOCATION_ACCESS"]
