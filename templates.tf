@@ -28,7 +28,7 @@ locals{
     disable_glue_db_init       = var.disable_glue_db_init ? "1" : ""
     enable_gluesync            = var.enable_gluesync ? "1" : ""
     gluedb_prefix              = "${local.gluedb_prefix}"
-    hms_metrics_namespace      = "${var.hms_ecs_metrics_readwrite_namespace}"
+    hms_metrics_namespace      = var.hms_ecs_metrics_readwrite_namespace
     ranger_service_name                    = "${local.instance_alias}-metastore"
     ranger_policy_manager_url              = "${var.ranger_policy_manager_url}"
     ranger_audit_solr_url                  = "${var.ranger_audit_solr_url}"
@@ -127,18 +127,18 @@ locals{
     mysql_user_cred_arn    = data.aws_secretsmanager_secret.db_ro_user.arn
 
     # Datadog variables
-    datadog_agent_enabled   = var.datadog_agent_enabled
-    datadog_secret_key      = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
-    wd_instance_type        = var.hms_instance_type
-    metrics_port            = var.datadog_metrics_port
-    datadog_agent_version   = var.datadog_agent_version
-    datadog_tags            = local.datadog_tags
-    tcp_keepalive_time      = var.tcp_keepalive_time
-    tcp_keepalive_intvl     = var.tcp_keepalive_intvl
-    tcp_keepalive_probes    = var.tcp_keepalive_probes
-    hms_metrics_namespace   = "${var.hms_ecs_metrics_readonly_namespace}"
-    hms_metrics                = local.hms_metrics
-    hms_metrics_type_overrides = local.hms_metrics_type_overrides
+    datadog_agent_enabled      = var.datadog_agent_enabled
+    datadog_secret_key         = length(var.datadog_key_secret_name) > 0 ? chomp(data.external.datadog_key[0].result["api_key"]) : ""
+    wd_instance_type           = var.hms_instance_type
+    metrics_port               = var.datadog_metrics_port
+    datadog_agent_version      = var.datadog_agent_version
+    datadog_tags               = local.datadog_tags
+    tcp_keepalive_time         = var.tcp_keepalive_time
+    tcp_keepalive_intvl        = var.tcp_keepalive_intvl
+    tcp_keepalive_probes       = var.tcp_keepalive_probes
+    hms_metrics_namespace      = var.hms_ecs_metrics_readonly_namespace
+    hms_metrics                = jsonencode(local.hms_metrics)
+    hms_metrics_type_overrides = jsonencode(local.hms_metrics_type_overrides)
 
     // Splunk configuration
     enable_splunk_logging      = var.enable_splunk_logging
