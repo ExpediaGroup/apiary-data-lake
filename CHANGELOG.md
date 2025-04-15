@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.15] - 2025-05-23
+### Changed
+- Allow more flexibility when configuring datadog in `datadog_metrics_hms_readwrite_readonly` variable by giving an option to rename and change the type of each metric.
+
 ## [7.10.14] - 2025-05-22
 ### Changed
 - Optional variable to disable glue database prefix.
