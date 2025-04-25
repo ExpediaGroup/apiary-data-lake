@@ -104,6 +104,12 @@ locals {
       client_arn  = pair[1]
     }
   ]
+  customer_account_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.apiary_customer_accounts) : {
+      schema_name      = pair[0]
+      customer_account = pair[1]
+    }
+  ]
 }
 
 resource "aws_lakeformation_permissions" "catalog_client_permissions" {
@@ -122,6 +128,32 @@ resource "aws_lakeformation_permissions" "catalog_client_permissions" {
 
 resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_client_arns) : []
+
+  principal   = each.key
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "customer_account_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.catalog_client_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.customer_account
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.apiary_customer_accounts) : []
 
   principal   = each.key
   permissions = ["DESCRIBE"]
