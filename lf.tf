@@ -140,7 +140,7 @@ resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
 
 resource "aws_lakeformation_permissions" "customer_account_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
-    for schema in local.catalog_client_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
+    for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
   }) : {}
 
   principal   = each.value.customer_account
