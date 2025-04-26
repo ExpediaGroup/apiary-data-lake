@@ -138,28 +138,44 @@ resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
   }
 }
 
-resource "aws_lakeformation_permissions" "customer_account_permissions" {
+# resource "aws_lakeformation_permissions" "customer_account_permissions" {
+#   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+#     for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
+#   }) : {}
+
+#   principal   = each.value.customer_account
+#   permissions = ["DESCRIBE"]
+
+#   table {
+#     database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+#     wildcard      = true
+#   }
+# }
+
+# resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
+#   for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.apiary_customer_accounts) : []
+
+#   principal   = each.key
+#   permissions = ["DESCRIBE"]
+
+#   table {
+#     database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+#     wildcard      = true
+#   }
+# }
+
+#grant permissions using aws cli as terraform is too slow to reconile LF permissions
+resource "null_resource" "customer_account_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
     for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
   }) : {}
 
-  principal   = each.value.customer_account
-  permissions = ["DESCRIBE"]
-
-  table {
-    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
-    wildcard      = true
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/customer_lf_desc_perms.sh"
   }
-}
-
-resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
-  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.apiary_customer_accounts) : []
-
-  principal   = each.key
-  permissions = ["DESCRIBE"]
-
-  table {
-    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
-    wildcard      = true
+  environment = {
+    AWS_REGION        = data.aws_region.current.name
+    DATABASE_NAME     = each.value.schema_name
+    PRINCIPAL_ACCOUNT = each.value.customer_account
   }
 }
