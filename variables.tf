@@ -603,6 +603,12 @@ variable "lf_catalog_client_arns" {
   default     = []
 }
 
+variable "lf_customer_accounts" {
+  description = "AWS account IDs granted describe permissions on all glue databases using LakeFormation."
+  type        = list(string)
+  default     = []
+}
+
 variable "disable_glue_db_init" {
   description = "Glue databases are created programatically by default in hms-readwrite bootstrap init action. Setting this variable to true will disable the hms-readwrite bootstrap init action and create Glue databases via Terraform."
   type        = bool
