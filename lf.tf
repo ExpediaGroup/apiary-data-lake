@@ -165,3 +165,30 @@ resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
     wildcard      = true
   }
 }
+
+resource "aws_lakeformation_permissions" "all_principals_tbl_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = "${data.aws_caller_identity.current.account_id}:IAMPrincipals"
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    wildcard      = true
+  }
+
+}
+
+resource "aws_lakeformation_permissions" "all_principals_system_tbl_permissions" {
+  count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+
+  principal   = "${data.aws_caller_identity.current.account_id}:IAMPrincipals"
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+    wildcard      = true
+  }
+}
