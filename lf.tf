@@ -165,20 +165,3 @@ resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
     wildcard      = true
   }
 }
-
-#grant permissions using aws cli as terraform is too slow to reconile LF permissions
-# resource "null_resource" "customer_account_permissions" {
-#   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
-#     for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
-#   }) : {}
-
-#   provisioner "local-exec" {
-#     command = "${path.module}/scripts/customer_lf_desc_perms.sh"
-
-#     environment = {
-#       AWS_REGION        = data.aws_region.current.name
-#       DATABASE_NAME     = each.value.schema_name
-#       PRINCIPAL_ACCOUNT = each.value.customer_account
-#     }
-#   }
-# }
