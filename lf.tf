@@ -143,8 +143,9 @@ resource "aws_lakeformation_permissions" "customer_account_permissions" {
     for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
   }) : {}
 
-  principal   = each.value.customer_account
-  permissions = ["DESCRIBE"]
+  principal                     = each.value.customer_account
+  permissions                   = ["DESCRIBE"]
+  permissions_with_grant_option = ["DESCRIBE"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
@@ -155,8 +156,9 @@ resource "aws_lakeformation_permissions" "customer_account_permissions" {
 resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_customer_accounts) : []
 
-  principal   = each.key
-  permissions = ["DESCRIBE"]
+  principal                     = each.key
+  permissions                   = ["DESCRIBE"]
+  permissions_with_grant_option = ["DESCRIBE"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
