@@ -172,10 +172,11 @@ resource "null_resource" "customer_account_permissions" {
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/customer_lf_desc_perms.sh"
-  }
-  environment = {
-    AWS_REGION        = data.aws_region.current.name
-    DATABASE_NAME     = each.value.schema_name
-    PRINCIPAL_ACCOUNT = each.value.customer_account
+
+    environment = {
+      AWS_REGION        = data.aws_region.current.name
+      DATABASE_NAME     = each.value.schema_name
+      PRINCIPAL_ACCOUNT = each.value.customer_account
+    }
   }
 }
