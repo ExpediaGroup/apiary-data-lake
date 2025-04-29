@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.4] - 2025-04-28
+### Added
+- Variable to configure Lakeformation customer accounts.
+
 ## [7.10.3] - 2025-03-07
 ### Added
 - Add data location permissions for metastore IAM role.
