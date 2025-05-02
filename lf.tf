@@ -202,6 +202,8 @@ resource "aws_lakeformation_permissions" "customer_account_permissions" {
    }
  }
 
+# Catalog Producer permissions
+
 resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
     for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
@@ -211,7 +213,7 @@ resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
   permissions = ["ALL", "DESCRIBE"]
 
   database {
-    name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
   }
 }
 
