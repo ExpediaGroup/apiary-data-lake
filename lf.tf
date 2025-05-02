@@ -202,6 +202,32 @@ resource "aws_lakeformation_permissions" "customer_account_permissions" {
    }
  }
 
+resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.producer_arn
+  permissions = ["ALL", "DESCRIBE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+  }
+}
+
+resource "aws_lakeformation_permissions" "catalog_producer_db_system_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.producer_arn
+  permissions = ["ALL", "DESCRIBE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+  }
+}
+
 resource "aws_lakeformation_permissions" "catalog_producer_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
     for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
