@@ -26,7 +26,6 @@ resource "aws_security_group" "db_sg" {
     cidr_blocks = data.aws_vpc.apiary_vpc.cidr_block_associations.*.cidr_block
   }
 
-
   egress {
     from_port   = 0
     to_port     = 0
