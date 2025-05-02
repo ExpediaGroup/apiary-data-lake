@@ -98,10 +98,18 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
 }
 
 locals {
+  # Read clients
   catalog_client_schemas = [
     for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_client_arns) : {
       schema_name = pair[0]
       client_arn  = pair[1]
+    }
+  ]
+  # Write producers
+  catalog_producer_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_producer_arns) : {
+      schema_name = pair[0]
+      producer_arn  = pair[1]
     }
   ]
 }
@@ -125,6 +133,32 @@ resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
 
   principal   = each.key
   permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "catalog_producer_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.producer_arn
+  permissions = ["ALL"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "catalog_producer_system_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_producer_arns) : []
+
+  principal   = each.key
+  permissions = ["ALL"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name

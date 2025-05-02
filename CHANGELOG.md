@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.10.4] - 2025-03-18
+## [7.10.5] - 2025-05-02
 ### Added
-- Apiary Hive Metastore database security group opened to be accessible by AWS services like Glue.
+- Add catalog producer roles with access to ALL Glue databases.
 
 ## [7.10.3] - 2025-03-07
 ### Added
