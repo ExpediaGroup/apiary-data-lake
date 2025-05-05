@@ -210,7 +210,7 @@ resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
   }) : {}
 
   principal   = each.value.producer_arn
-  permissions = ["ALL", "DESCRIBE"]
+  permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
     name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
@@ -223,7 +223,7 @@ resource "aws_lakeformation_permissions" "catalog_producer_db_system_permissions
   }) : {}
 
   principal   = each.value.producer_arn
-  permissions = ["ALL", "DESCRIBE"]
+  permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
     name = aws_glue_catalog_database.apiary_system_glue_database[0].name
