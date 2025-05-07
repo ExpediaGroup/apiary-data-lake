@@ -9,3 +9,15 @@ output "hms_readwrite_load_balancers" {
 output "managed_database_host" {
   value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : ""
 }
+
+output "glue_database_names" {
+  value = [
+    for db in aws_glue_catalog_database.apiary_glue_database : db.name
+  ]
+}
+
+output "glue_database_location_uris" {
+  value = [
+    for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri
+  ]
+}
