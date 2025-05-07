@@ -10,18 +10,6 @@ output "managed_database_host" {
   value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : ""
 }
 
-locals {
-  # schemas_info_map = tomap({
-  #   for schema in local.schemas_info : "${schema["schema_name"]}" => {
-  #     "encryption" = schema["encryption"]
-  #     "location"   = aws_glue_catalog_database.apiary_glue_database[schema["schema_name"]].location_uri
-  #   }
-  # })
-
-  schemas_info_map = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema }
-
-}
-
 //export non-kms glue databases
 output "glue_database_names" {
   value = [
