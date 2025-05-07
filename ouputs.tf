@@ -12,12 +12,12 @@ output "managed_database_host" {
 
 output "glue_database_names" {
   value = [
-    for db in aws_glue_catalog_database.apiary_glue_database : db.name
+    for db in aws_glue_catalog_database.apiary_glue_database : db.name if local.schemas_info[db.name]["encryption"] == "AES256"
   ]
 }
 
 output "glue_database_location_uris" {
   value = [
-    for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri
+    for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri if local.schemas_info[db.name]["encryption"] == "AES256"
   ]
 }
