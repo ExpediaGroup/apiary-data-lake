@@ -21,14 +21,18 @@ locals {
   schemas_info_map = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema }
 
 }
+
+//export non-kms glue databases
 output "glue_database_names" {
   value = [
     for db in aws_glue_catalog_database.apiary_glue_database : db.name if local.schemas_info_map[db.name]["encryption"] == "AES256"
   ]
+  depends_on = [aws_s3_bucket.apiary_data_bucket]
 }
 
 output "glue_database_location_uris" {
   value = [
     for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri if local.schemas_info_map[db.name]["encryption"] == "AES256"
   ]
+  depends_on = [aws_s3_bucket.apiary_data_bucket]
 }
