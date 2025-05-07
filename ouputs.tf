@@ -10,14 +10,25 @@ output "managed_database_host" {
   value = var.external_database_host == "" ? join("", aws_rds_cluster.apiary_cluster.*.endpoint) : ""
 }
 
+locals {
+  # schemas_info_map = tomap({
+  #   for schema in local.schemas_info : "${schema["schema_name"]}" => {
+  #     "encryption" = schema["encryption"]
+  #     "location"   = aws_glue_catalog_database.apiary_glue_database[schema["schema_name"]].location_uri
+  #   }
+  # })
+
+  schemas_info_map = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema }
+
+}
 output "glue_database_names" {
   value = [
-    for db in aws_glue_catalog_database.apiary_glue_database : db.name if local.schemas_info[db.name]["encryption"] == "AES256"
+    for db in aws_glue_catalog_database.apiary_glue_database : db.name if local.schemas_info_map[db.name]["encryption"] == "AES256"
   ]
 }
 
 output "glue_database_location_uris" {
   value = [
-    for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri if local.schemas_info[db.name]["encryption"] == "AES256"
+    for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri if local.schemas_info_map[db.name]["encryption"] == "AES256"
   ]
 }
