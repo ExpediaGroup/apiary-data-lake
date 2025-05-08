@@ -202,6 +202,19 @@ resource "aws_lakeformation_permissions" "all_principals_system_tbl_permissions"
   }
 }
 
+resource "aws_lakeformation_permissions" "all_principals_default_tbl_permissions" {
+  count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+
+  principal   = "${data.aws_caller_identity.current.account_id}:IAMPrincipals"
+  permissions = ["DESCRIBE"]
+
+  table {
+    database_name = "default"
+    wildcard      = true
+  }
+}
+
+
 # Catalog Producer permissions
 
 resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
