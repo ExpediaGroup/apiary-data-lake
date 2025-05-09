@@ -38,49 +38,45 @@ resource "aws_s3control_storage_lens_configuration" "lens" {
         detailed_status_code_metrics {
           enabled = var.storage_lens_config.bucket_level.detailed_status_code_metrics
         }
-
       }
     }
 
     dynamic "include" {
-        for_each = var.storage_lens_config.include.enabled ? [1] : []
-        content {
-            buckets = length(var.storage_lens_config.include.buckets) > 0 ? var.storage_lens_config.include.buckets : [ for schema in local.schemas_info : schema.data_bucket ]
-            regions = [var.aws_region]
-        }
+      for_each = var.storage_lens_config.include.enabled ? [1] : []
+      content {
+        buckets = length(var.storage_lens_config.include.buckets) > 0 ? var.storage_lens_config.include.buckets : [for schema in local.schemas_info : schema.data_bucket]
+        regions = [var.aws_region]
+      }
     }
 
     dynamic "include" {
-        for_each = var.storage_lens_config.exclude.enabled ? [1] : []
-        content {
-            buckets = length(var.storage_lens_config.exclude.buckets) > 0 ? var.storage_lens_config.exclude.buckets : [ for schema in local.schemas_info : schema.data_bucket ]
-            regions = [var.aws_region]
-        }
+      for_each = var.storage_lens_config.exclude.enabled ? [1] : []
+      content {
+        buckets = length(var.storage_lens_config.exclude.buckets) > 0 ? var.storage_lens_config.exclude.buckets : [for schema in local.schemas_info : schema.data_bucket]
+        regions = [var.aws_region]
+      }
     }
 
     dynamic "data_export" {
-        for_each = var.storage_lens_config.data_export.enabled ? [1] : []
+      for_each = var.storage_lens_config.data_export.enabled ? [1] : []
 
-        content {
-            s3_bucket_destination {
-            account_id = data.aws_caller_identity.current.account_id
-            arn = var.storage_lens_config.data_export.destination_bucket_arn != "" ?
-                var.storage_lens_config.data_export.destination_bucket_arn :
-                aws_s3_bucket.apiary_system.arn
+      content {
+        s3_bucket_destination {
+          account_id = data.aws_caller_identity.current.account_id
+          arn        = var.storage_lens_config.data_export.destination_bucket_arn != "" ? var.storage_lens_config.data_export.destination_bucket_arn : aws_s3_bucket.apiary_system.arn
 
-            format                = var.storage_lens_config.data_export.format
-            output_schema_version = "V_1"
+          format                = var.storage_lens_config.data_export.format
+          output_schema_version = "V_1"
 
-            encryption {
-                sse_s3 {}
-            }
-            }
-
-            cloud_watch_metrics {
-                enabled = true
-            }
+          encryption {
+            sse_s3 {}
+          }
         }
-    }
 
+        cloud_watch_metrics {
+          enabled = true
+        }
+      }
+    }
   }
 }

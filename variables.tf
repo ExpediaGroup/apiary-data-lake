@@ -1221,13 +1221,11 @@ variable "storage_lens_config" {
     include = object({
       enabled = bool
       buckets = list(string)
-      regions = list(string)
     })
 
     exclude = object({
       enabled = bool
       buckets = list(string)
-      regions = list(string)
     })
 
     data_export = object({
