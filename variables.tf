@@ -1196,3 +1196,85 @@ variable "additional_s3_log_buckets" {
   type        = list(string)
   default     = []
 }
+
+variable "storage_lens_config" {
+  description = "Configuration for the S3 Storage Lens dashboard."
+  type = object({
+    enabled   = bool
+    config_id = string
+    account_level = object({
+      activity_metrics                      = bool
+      advanced_cost_optimization_metrics    = bool
+      advanced_data_protection_metrics      = bool
+      detailed_status_code_metrics          = bool
+    })
+    bucket_level = object({
+      activity_metrics                      = bool
+      advanced_cost_optimization_metrics    = bool
+      advanced_data_protection_metrics      = bool
+      detailed_status_code_metrics          = bool
+      prefix_level = object({
+        enabled = bool
+      })
+    })
+
+    include = object({
+      enabled = bool
+      buckets = list(string)
+      regions = list(string)
+    })
+
+    exclude = object({
+      enabled = bool
+      buckets = list(string)
+      regions = list(string)
+    })
+
+    data_export = object({
+      enabled                 = bool
+      format                  = string
+      destination_bucket_arn = string
+    })
+
+  })
+
+  default = {
+    config_id = "apiary-data-lake"
+
+    account_level = {
+      activity_metrics                   = true
+      advanced_cost_optimization_metrics = false
+      advanced_data_protection_metrics   = false
+      detailed_status_code_metrics       = true
+    }
+
+    bucket_level = {
+      activity_metrics                   = true
+      advanced_cost_optimization_metrics = true
+      advanced_data_protection_metrics   = true
+      detailed_status_code_metrics       = false
+      prefix_level = {
+        enabled = true
+      }
+    }
+
+    include = {
+      enabled = false
+      buckets = []
+      regions = []
+    }
+
+    exclude = {
+      enabled = false
+      buckets = []
+      regions = []
+    }
+
+    data_export = {
+      enabled                 = false
+      format                  = "CSV"
+      destination_bucket_arn = ""
+    }
+
+  }  
+}
