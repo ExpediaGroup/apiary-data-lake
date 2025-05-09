@@ -1239,35 +1239,33 @@ variable "storage_lens_config" {
   })
 
   default = {
+    enabled   = false
     config_id = "apiary-data-lake"
-
     account_level = {
-      activity_metrics                   = true
+      activity_metrics                   = false
       advanced_cost_optimization_metrics = false
       advanced_data_protection_metrics   = false
-      detailed_status_code_metrics       = true
+      detailed_status_code_metrics       = false
     }
 
     bucket_level = {
-      activity_metrics                   = true
-      advanced_cost_optimization_metrics = true
-      advanced_data_protection_metrics   = true
+      activity_metrics                   = false
+      advanced_cost_optimization_metrics = false
+      advanced_data_protection_metrics   = false
       detailed_status_code_metrics       = false
       prefix_level = {
-        enabled = true
+        enabled = false
       }
     }
 
     include = {
       enabled = false
       buckets = []
-      regions = []
     }
 
     exclude = {
       enabled = false
       buckets = []
-      regions = []
     }
 
     data_export = {
@@ -1275,6 +1273,5 @@ variable "storage_lens_config" {
       format                  = "CSV"
       destination_bucket_arn = ""
     }
-
   }  
 }
