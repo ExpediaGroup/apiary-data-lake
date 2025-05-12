@@ -231,11 +231,9 @@ resource "aws_lakeformation_permissions" "catalog_producer_db_permissions" {
 }
 
 resource "aws_lakeformation_permissions" "catalog_producer_db_system_permissions" {
-  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
-    for schema in local.catalog_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
-  }) : {}
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_catalog_producer_arns) : []
 
-  principal   = each.value.producer_arn
+  principal   = each.key
   permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
