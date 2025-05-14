@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.9] - 2025-05-14
+### Added
+- Added outputs for apiary data buckets arns and apiary system bucket arn
+
 ## [7.10.8] - 2025-05-12
 ### Changed
 - Fix catalog producer roles access to system Glue database.
