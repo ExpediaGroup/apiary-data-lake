@@ -108,6 +108,12 @@ variable "s3_logs_sqs_receive_wait_time_seconds" {
   default     = 10
 }
 
+variable "s3_logs_customer_accounts" {
+  description = "AWS account IDs allowed to access s3 access logs."
+  type        = list(string)
+  default     = []
+}
+
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = bool
@@ -673,6 +679,12 @@ variable "s3_inventory_customer_accounts" {
   description = "AWS account IDs allowed to access s3 inventory database."
   type        = list(string)
   default     = []
+}
+
+variable "s3_inventory_expiration_days" {
+  description = "Apiary Inventory buckets object expiration days."
+  type        = number
+  default     = 7
 }
 
 variable "ranger_policy_manager_url" {
