@@ -3,10 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.10.9] - 2025-05-13
+## [7.10.10] - 2025-05-14
 ### Added
 - Added variable `s3_logs_customer_accounts` to support allowing read access on s3 logs bucket.
 - Added varialbe `s3_inventory_expiration_days` to support s3 inventory bucket lifecycle.
+
+## [7.10.9] - 2025-05-14
+### Added
+- Added outputs for apiary data buckets arns and apiary system bucket arn
 
 ## [7.10.8] - 2025-05-12
 ### Changed
