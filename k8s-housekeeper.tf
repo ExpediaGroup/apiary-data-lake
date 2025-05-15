@@ -42,6 +42,17 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
       spec {
         service_account_name            = kubernetes_service_account_v1.hms_readwrite[0].metadata.0.name
         automount_service_account_token = true
+
+        dynamic "volume" {
+          for_each = length(trimspace(var.hms_housekeeper_k8s_log4j_properties)) > 0 ? [1] : []
+          content {
+            name = "log4j-config"
+            config_map {
+              name = "${local.hms_alias}-housekeeper-log4j-properties"
+            }
+          }
+        }
+
         dynamic "init_container" {
           for_each = var.external_database_host == "" ? ["enabled"] : []
           content {
@@ -90,6 +101,16 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
         container {
           image = "${var.hms_docker_image}:${var.hms_docker_version}"
           name  = "${local.hms_alias}-housekeeper"
+
+          dynamic "volume_mount" {
+            for_each = length(trimspace(var.hms_housekeeper_k8s_log4j_properties)) > 0 ? [1] : []
+            content {
+              name       = "log4j-config"
+              mount_path = "/etc/hive/conf/hive-log4j2.properties"
+              sub_path   = "hive-log4j2.properties"
+            }
+          }
+
           port {
             container_port = var.hive_metastore_port
           }
@@ -191,5 +212,18 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_config_map_v1" "housekeeper_log4j_config" {
+  count = var.hms_instance_type == "k8s" && length(trimspace(var.hms_housekeeper_k8s_log4j_properties)) > 0 ? 1 : 0
+
+  metadata {
+    name      = "${local.hms_alias}-housekeeper-log4j-properties"
+    namespace = var.metastore_namespace
+  }
+
+  data = {
+    "hive-log4j2.properties" = var.hms_housekeeper_k8s_log4j_properties
   }
 }
