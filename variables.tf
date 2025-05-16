@@ -1208,3 +1208,21 @@ variable "additional_s3_log_buckets" {
   type        = list(string)
   default     = []
 }
+
+variable "hms_ro_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary readonly metastore."
+  type        = string
+  default     = ""
+}
+
+variable "hms_rw_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary readwrite metastore."
+  type        = string
+  default     = ""
+}
+
+variable "hms_housekeeper_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary housekeeper metastore."
+  type        = string
+  default     = ""
+}

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.11] - 2025-05-16
+### Added
+- Added variables to support adding custom log4j configuration for readonly,readwrite and housekeeper hms when deployed in Kubernetes.
+
 ## [7.10.10] - 2025-05-14
 ### Added
 - Added variable `s3_logs_customer_accounts` to support allowing read access on s3 logs bucket.

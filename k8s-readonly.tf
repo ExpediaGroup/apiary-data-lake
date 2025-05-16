@@ -287,6 +287,15 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
             period_seconds        = 20
           }
 
+          dynamic "volume_mount" {
+            for_each = length(trimspace(var.hms_ro_k8s_log4j_properties)) > 0 ? [1] : []
+            content {
+              name       = "log4j-config"
+              mount_path = "/etc/hive/conf/hive-log4j2.properties"
+              sub_path   = "hive-log4j2.properties"
+            }
+          }
+
           resources {
             limits = {
               cpu    = local.k8s_ro_cpu_limit
@@ -298,6 +307,17 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
             }
           }
         }
+
+        dynamic "volume" {
+          for_each = length(trimspace(var.hms_ro_k8s_log4j_properties)) > 0 ? [1] : []
+          content {
+            name = "log4j-config"
+            config_map {
+              name = "${local.hms_alias}-readonly-log4j-properties"
+            }
+          }
+        }
+
         image_pull_secrets {
           name = var.k8s_docker_registry_secret
         }
@@ -374,5 +394,17 @@ resource "kubernetes_pod_disruption_budget_v1" "hms_readonly" {
     # set max_unavailable to 1 by default if PDB is created
     max_unavailable = var.hms_ro_k8s_pdb_settings.max_unavailable != null ? var.hms_ro_k8s_pdb_settings.max_unavailable : "1"
     min_available   = var.hms_ro_k8s_pdb_settings.min_available != null ? var.hms_ro_k8s_pdb_settings.min_available : null
+  }
+}
+
+resource "kubernetes_config_map" "k8s_hms_ro_log4j_properties" {
+  count = var.hms_instance_type == "k8s" && length(trimspace(var.hms_ro_k8s_log4j_properties)) > 0 ? 1 : 0
+  metadata {
+    name      = "${local.hms_alias}-readonly-log4j-properties"
+    namespace = var.metastore_namespace
+  }
+
+  data = {
+    "hive-log4j2.properties" = var.hms_ro_k8s_log4j_properties
   }
 }
