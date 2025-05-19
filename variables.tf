@@ -615,6 +615,12 @@ variable "lf_catalog_producer_arns" {
   default     = []
 }
 
+variable "lf_catalog_glue_sync_arn" {
+  description = "AWS IAM role ARN for glue sync to update table metadata."
+  type        = string
+  default     = ""
+}
+
 variable "lf_customer_accounts" {
   description = "AWS account IDs granted describe permissions on all glue databases using LakeFormation."
   type        = list(string)
