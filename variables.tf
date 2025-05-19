@@ -616,7 +616,7 @@ variable "lf_catalog_producer_arns" {
 }
 
 variable "lf_catalog_glue_sync_arn" {
-  description = "AWS IAM role ARN for glue sync to update table metadata."
+  description = "AWS IAM role ARN for glue sync to update table metadata. If empty, aws_iam_role.apiary_hms_readwrite.arn will be used."
   type        = string
   default     = ""
 }

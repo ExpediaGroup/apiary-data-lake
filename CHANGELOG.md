@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.13] - 2025-05-19
+### Added
+- Backwards compatibility with `var.lf_catalog_glue_sync_arn`.
+
 ## [7.10.12] - 2025-05-19
 ### Added
 - Changed from LF permissions `aws_iam_role.apiary_hms_readwrite.arn` to `var.lf_catalog_glue_sync_arn`.

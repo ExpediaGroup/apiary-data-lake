@@ -27,7 +27,7 @@ resource "aws_lakeformation_permissions" "hms_db_permissions" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
@@ -40,7 +40,7 @@ resource "aws_lakeformation_permissions" "hms_tbl_permissions" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["ALL", "DESCRIBE"]
 
   table {
@@ -54,7 +54,7 @@ resource "aws_lakeformation_permissions" "hms_loc_permissions" {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
   } : {}
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["DATA_LOCATION_ACCESS"]
 
   data_location {
@@ -66,7 +66,7 @@ resource "aws_lakeformation_permissions" "hms_loc_permissions" {
 resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
   count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["DESCRIBE", "CREATE_TABLE"]
 
   database {
@@ -77,7 +77,7 @@ resource "aws_lakeformation_permissions" "hms_system_db_permissions" {
 resource "aws_lakeformation_permissions" "hms_system_tbl_permissions" {
   count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["ALL", "DESCRIBE"]
 
   table {
@@ -89,7 +89,7 @@ resource "aws_lakeformation_permissions" "hms_system_tbl_permissions" {
 resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
   count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
 
-  principal   = var.lf_catalog_glue_sync_arn
+  principal   = local.lf_catalog_glue_sync_arn
   permissions = ["DATA_LOCATION_ACCESS"]
 
   data_location {
