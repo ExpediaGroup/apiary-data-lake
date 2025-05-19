@@ -67,6 +67,8 @@ locals {
   hms_metrics_type_overrides = join("\\\": \\\"gauge\\\",\\\"", var.datadog_metrics_hms_readwrite_readonly)
 
   s3_log_buckets = compact(concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets))
+
+  lf_catalog_glue_sync_arn = var.lf_catalog_glue_sync_arn != "" ? var.lf_catalog_glue_sync_arn : aws_iam_role.apiary_hms_readwrite.arn
 }
 
 data "aws_iam_account_alias" "current" {}
