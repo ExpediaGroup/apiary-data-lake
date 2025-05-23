@@ -72,9 +72,7 @@ locals {
 
   hms_metrics_type_overrides = {
     for m in var.datadog_metrics_hms_readwrite_readonly :
-    (m.rename != null ? m.rename : m.name) => (
-      m.type != null ? m.type : "gauge"
-    )
+    (m.rename != null ? m.rename : m.name) => m.type if m.type != null    
   }
 
   s3_log_buckets = compact(concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets))
