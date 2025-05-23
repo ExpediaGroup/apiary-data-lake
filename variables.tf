@@ -639,6 +639,12 @@ variable "enable_gluesync" {
   default     = false
 }
 
+variable "disable_gluedb_prefix" {
+  description = "(Optional) Disable using instance name as Glue database prefix."
+  type        = bool
+  default     = false
+}
+
 variable "enable_metadata_events" {
   description = "Enable Hive Metastore SNS listener."
   type        = bool

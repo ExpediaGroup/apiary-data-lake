@@ -31,7 +31,7 @@ locals {
   ]
   schemas_info_map = { for schema in local.schemas_info : "${schema["schema_name"]}" => schema }
 
-  gluedb_prefix                   = var.instance_name == "" ? "" : "${var.instance_name}_"
+  gluedb_prefix                   = var.disable_gluedb_prefix ? "" : var.instance_name == "" ? "" : "${var.instance_name}_"
   cw_arn                          = "arn:aws:swf:${var.aws_region}:${data.aws_caller_identity.current.account_id}:action/actions/AWS_EC2.InstanceId.Reboot/1.0"
   assume_allowed_principals       = split(",", join(",", [for role in var.apiary_assume_roles : join(",", [for principal in role.principals : replace(principal, "/:role.*/", ":root")])]))
   producer_allowed_principals     = split(",", join(",", values(var.apiary_producer_iamroles)))
