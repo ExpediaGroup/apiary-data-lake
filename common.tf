@@ -66,9 +66,7 @@ locals {
 
   hms_metrics = [
     for m in var.datadog_metrics_hms_readwrite_readonly : (
-      m.rename != null
-      ? { m.name = m.rename }
-      : m.name
+      m.rename != null ? m.rename : m.name
     )
   ]
 
