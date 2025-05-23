@@ -14,14 +14,14 @@ output "managed_database_host" {
 output "glue_database_names" {
   value = compact(concat([
     for db in aws_glue_catalog_database.apiary_glue_database : db.name if local.schemas_info_map[db.name]["encryption"] == "AES256"
-  ], [aws_glue_catalog_database.apiary_system_glue_database[0].name]))
+  ], var.disable_glue_db_init ? [aws_glue_catalog_database.apiary_system_glue_database[0].name] : []))
   depends_on = [aws_s3_bucket.apiary_data_bucket]
 }
 
 output "glue_database_location_uris" {
   value = compact(concat([
     for db in aws_glue_catalog_database.apiary_glue_database : db.location_uri if local.schemas_info_map[db.name]["encryption"] == "AES256"
-  ], [aws_glue_catalog_database.apiary_system_glue_database[0].location_uri]))
+  ], var.disable_glue_db_init ? [aws_glue_catalog_database.apiary_system_glue_database[0].location_uri] : []))
   depends_on = [aws_s3_bucket.apiary_data_bucket]
 }
 
