@@ -16,6 +16,7 @@ For more information please refer to the main [Apiary](https://github.com/Expedi
   * Metastore authorization - A metastore pre-event listener to handle authorization using Ranger.
   * Grafana dashboard - If deployed in EKS, a Grafana dashboard will be created that shows S3 bucket sizes for each Apiary bucket.
   * Lake Formation - Databases will be synced in Lake formation as resources to enhance access control.
+  * Custom Log4j Configuration - When deployed in Kubernetes, custom Log4j properties can be provided for read-only, read/write, and housekeeper metastores either inline or from files.
 
 ## Variables
 Please refer to [VARIABLES.md](VARIABLES.md).
@@ -74,6 +75,21 @@ module "apiary" {
     "StringLike": {"s3:ExistingObjectTag/type": "image*" }
   EOF
   ingress_cidr             = ["10.0.0.0/8"]
+  # Custom Log4j properties (for Kubernetes deployment)
+  # You can use heredoc syntax for inline configuration
+  hms_ro_k8s_log4j_properties = <<EOF
+rootLogger.level = INFO
+appender.console.type = Console
+appender.console.name = console
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = %d{ISO8601} %p [%t] %c{1}: %m%n
+  EOF
+  
+  # Or you can load configuration from external files (recommended for complex configurations)
+  hms_rw_k8s_log4j_properties = file("${path.module}/files/rw-hive-log4j2.properties")
+  
+  # Using file function to read from a file
+  hms_housekeeper_k8s_log4j_properties = file("${path.module}/files/housekeeper-hive-log4j2.properties")
   apiary_assume_roles      = [
     {
         name = "client_name"

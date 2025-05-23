@@ -108,6 +108,12 @@ variable "s3_logs_sqs_receive_wait_time_seconds" {
   default     = 10
 }
 
+variable "s3_logs_customer_accounts" {
+  description = "AWS account IDs allowed to access s3 access logs."
+  type        = list(string)
+  default     = []
+}
+
 variable "enable_hive_metastore_metrics" {
   description = "Enable sending Hive Metastore metrics to CloudWatch."
   type        = bool
@@ -609,6 +615,12 @@ variable "lf_catalog_producer_arns" {
   default     = []
 }
 
+variable "lf_catalog_glue_sync_arn" {
+  description = "AWS IAM role ARN for glue sync to update table metadata. If empty, aws_iam_role.apiary_hms_readwrite.arn will be used."
+  type        = string
+  default     = ""
+}
+
 variable "lf_customer_accounts" {
   description = "AWS account IDs granted describe permissions on all glue databases using LakeFormation."
   type        = list(string)
@@ -679,6 +691,12 @@ variable "s3_inventory_customer_accounts" {
   description = "AWS account IDs allowed to access s3 inventory database."
   type        = list(string)
   default     = []
+}
+
+variable "s3_inventory_expiration_days" {
+  description = "Apiary Inventory buckets object expiration days."
+  type        = number
+  default     = 7
 }
 
 variable "ranger_policy_manager_url" {
@@ -1201,4 +1219,22 @@ variable "additional_s3_log_buckets" {
   description = "Additional S3 log buckets"
   type        = list(string)
   default     = []
+}
+
+variable "hms_ro_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary readonly metastore."
+  type        = string
+  default     = ""
+}
+
+variable "hms_rw_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary readwrite metastore."
+  type        = string
+  default     = ""
+}
+
+variable "hms_housekeeper_k8s_log4j_properties" {
+  description = "Custom Log4j properties for apiary housekeeper metastore."
+  type        = string
+  default     = ""
 }

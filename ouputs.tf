@@ -24,3 +24,11 @@ output "glue_database_location_uris" {
   ], [aws_glue_catalog_database.apiary_system_glue_database[0].location_uri]))
   depends_on = [aws_s3_bucket.apiary_data_bucket]
 }
+
+output "apiary_data_bucket_arns" {
+  value = [for bucket in aws_s3_bucket.apiary_data_bucket : bucket.arn]
+}
+
+output "apiary_system_bucket_arn" {
+  value = aws_s3_bucket.apiary_system.arn
+}
