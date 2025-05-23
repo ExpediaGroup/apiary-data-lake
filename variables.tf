@@ -615,6 +615,12 @@ variable "lf_catalog_producer_arns" {
   default     = []
 }
 
+variable "lf_catalog_glue_sync_arn" {
+  description = "AWS IAM role ARN for glue sync to update table metadata. If empty, aws_iam_role.apiary_hms_readwrite.arn will be used."
+  type        = string
+  default     = ""
+}
+
 variable "lf_customer_accounts" {
   description = "AWS account IDs granted describe permissions on all glue databases using LakeFormation."
   type        = list(string)
@@ -629,6 +635,12 @@ variable "disable_glue_db_init" {
 
 variable "enable_gluesync" {
   description = "Enable metadata sync from Hive to the Glue catalog."
+  type        = bool
+  default     = false
+}
+
+variable "disable_gluedb_prefix" {
+  description = "(Optional) Disable using instance name as Glue database prefix."
   type        = bool
   default     = false
 }
