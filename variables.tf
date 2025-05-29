@@ -597,6 +597,12 @@ variable "create_lf_resource" {
   default     = false
 }
 
+variable "create_lf_data_access_role" {
+  description = "Create LakeFormation data access role."
+  type        = bool
+  default     = false
+}
+
 variable "lf_hybrid_access_enabled" {
   description = "Enable hybrid access for LakeFormation."
   type        = bool
