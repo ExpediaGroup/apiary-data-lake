@@ -86,6 +86,15 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
       noncurrent_days = tonumber(lookup(each.value, "s3_versioning_expiration_days", var.s3_versioning_expiration_days))
     }
   }
+  # Rule s3 delete marker object expiration
+  rule {
+    id     = "expire-delete-marker"
+    status = lookup(each.value, "s3_versioning_enabled", "") != "" ? "Enabled" : "Disabled"
+
+    expiration {
+      expired_object_delete_marker = "true"
+    }
+  }
   # Rule s3 intelligent tiering transition
   rule {
     id     = "cost_optimization_transition"
