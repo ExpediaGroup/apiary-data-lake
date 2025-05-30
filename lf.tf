@@ -10,12 +10,16 @@ resource "aws_lakeformation_resource" "apiary_data_bucket" {
   } : {}
   arn = aws_s3_bucket.apiary_data_bucket[each.key].arn
 
+  role_arn = var.create_lf_data_access_role ? aws_iam_role.lf_data_access[0].arn : null
+
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
 
 resource "aws_lakeformation_resource" "apiary_system_bucket" {
   count = var.create_lf_resource ? 1 : 0
   arn   = aws_s3_bucket.apiary_system.arn
+
+  role_arn = var.create_lf_data_access_role ? aws_iam_role.lf_data_access[0].arn : null
 
   hybrid_access_enabled = var.lf_hybrid_access_enabled
 }
@@ -265,4 +269,86 @@ resource "aws_lakeformation_permissions" "catalog_producer_system_permissions" {
     database_name = aws_glue_catalog_database.apiary_system_glue_database[0].name
     wildcard      = true
   }
+}
+
+
+resource "aws_iam_role" "lf_data_access" {
+  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name  = "${local.instance_alias}-lf-data-access-role-${var.aws_region}"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lakeformation.amazonaws.com"
+      },
+      "Action": [ "sts:AssumeRole", "sts:SetContext" ]
+    }
+  ]
+}
+EOF
+
+  tags = var.apiary_tags
+}
+
+resource "aws_iam_role_policy" "lf_data_access_s3" {
+  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name  = "s3_access"
+  role  = aws_iam_role.lf_data_access[0].id
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${local.apiary_bucket_prefix}-*/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::${local.apiary_bucket_prefix}-*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "lf_data_access_cloudwatch" {
+  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name  = "cloudwatch_access"
+  role  = aws_iam_role.lf_data_access[0].id
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Sid1",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:CreateLogGroup",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                 "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws-lakeformation-acceleration/*",
+                 "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws-lakeformation-acceleration/*:log-stream:*"
+            ]
+        }
+    ]
+}  
+EOF
 }
