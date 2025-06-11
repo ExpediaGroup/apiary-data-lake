@@ -179,6 +179,19 @@ resource "aws_lakeformation_permissions" "customer_account_system_permissions" {
   }
 }
 
+resource "aws_lakeformation_permissions" "customer_account_default_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? toset(var.lf_customer_accounts) : []
+
+  principal                     = each.key
+  permissions                   = ["DESCRIBE"]
+  permissions_with_grant_option = ["DESCRIBE"]
+
+  table {
+    database_name = "default" # required by most glue clients to browse cross account tables
+    wildcard      = true
+  }
+}
+
 resource "aws_lakeformation_permissions" "all_principals_tbl_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
@@ -295,9 +308,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "lf_data_access_s3" {
-  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
-  name  = "s3_access"
-  role  = aws_iam_role.lf_data_access[0].id
+  count  = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name   = "s3_access"
+  role   = aws_iam_role.lf_data_access[0].id
   policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -328,9 +341,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "lf_data_access_cloudwatch" {
-  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
-  name  = "cloudwatch_access"
-  role  = aws_iam_role.lf_data_access[0].id
+  count  = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name   = "cloudwatch_access"
+  role   = aws_iam_role.lf_data_access[0].id
   policy = <<EOF
 {
     "Version": "2012-10-17",
