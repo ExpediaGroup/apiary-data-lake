@@ -84,16 +84,21 @@
         }
     },
     "dockerLabels": {
-        "com.datadoghq.ad.instances": "[{ \"prometheus_url\": \"http://%%host%%:8080/actuator/prometheus\", \"namespace\": \"${hms_metrics_namespace}\", \"metrics\": [\"${hms_metrics}\"],\"type_overrides\":{\"${hms_metrics_type_overrides}\": \"gauge\"} }]",
+        "com.datadoghq.ad.instances": ${jsonencode([{
+          "prometheus_url":  "http://%%host%%:8080/actuator/prometheus",
+          "namespace":       "${hms_metrics_namespace}",
+          "metrics":         "${hms_metrics}",
+          "type_overrides":  "${hms_metrics_type_overrides}"
+        }])},
         "com.datadoghq.ad.check_names": "[\"prometheus\"]",
         "com.datadoghq.ad.init_configs": "[{}]"
-  },
-    "portMappings": [
-      {
-        "containerPort": 9083,
-        "hostPort": 9083
-      }
-    ],
+   },
+  "portMappings": [
+    {
+      "containerPort": 9083,
+      "hostPort": 9083
+    }
+   ],
 %{ if init_container_enabled }
     "dependsOn": [
       {

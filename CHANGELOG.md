@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.10.19] - 2025-06-16
+### Changed
+- Allow more flexibility when configuring datadog metrics by giving an option to rename and change the type of each metric.
+- Split the single datadog_metrics_hms_readwrite_readonly variable into three separate ones - datadog_metrics_hms_readwrite, datadog_metrics_hms_readonly, datadog_metrics_hms_housekeeper while keeping the default values.
+
 ## [7.10.18] - 2025-06-10
 ### Changed
 - Add Lakeformation customer account default database permissions.
