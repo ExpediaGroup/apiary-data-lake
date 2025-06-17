@@ -67,41 +67,38 @@ locals {
   // datadog metrics readwrite instance
   hms_metrics_readwrite = [
     for m in var.datadog_metrics_hms_readwrite : (
-      m.rename != null ? { m.name,m.rename } : m.name
+      m.rename != null ? { (m.name) = m.rename } : m.name
     )
   ]
 
   hms_metrics_type_overrides_readwrite = {
     for m in var.datadog_metrics_hms_readwrite :
-    (m.rename != null ? m.rename : m.name) => (
-      m.type != null ? m.type : "gauge"
-    )
+    (m.rename != null ? m.rename : m.name) => m.type
+    if m.type != null
   }
 
   // datadog metrics readonly instance
   hms_metrics_readonly = [
     for m in var.datadog_metrics_hms_readonly : (
-      m.rename != null ? { m.name,m.rename } : m.name
+      m.rename != null ? { (m.name) = m.rename } : m.name
     )
   ]
   hms_metrics_type_overrides_readonly = {
     for m in var.datadog_metrics_hms_readonly :
-    (m.rename != null ? m.rename : m.name) => (
-      m.type != null ? m.type : "gauge"
-    )
+    (m.rename != null ? m.rename : m.name) => m.type
+    if m.type != null
   }
 
   // datadog metrics housekeeper instance
   hms_metrics_housekeeper = [
     for m in var.datadog_metrics_hms_housekeeper : (
-      m.rename != null ? { m.name,m.rename } : m.name
+      m.rename != null ? { (m.name) = m.rename } : m.name
     )
   ]
   hms_metrics_type_overrides_housekeeper = {
     for m in var.datadog_metrics_hms_housekeeper :
-    (m.rename != null ? m.rename : m.name) => (
-      m.type != null ? m.type : "gauge"
-    )
+    (m.rename != null ? m.rename : m.name) => m.type
+    if m.type != null
   }
 
   s3_log_buckets = compact(concat(["${local.apiary_s3_logs_bucket}"], var.additional_s3_log_buckets))
