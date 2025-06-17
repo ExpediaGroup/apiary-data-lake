@@ -65,11 +65,10 @@ locals {
   rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
 
   // datadog metrics readwrite instance
-  hms_metrics_readwrite = [
-    for m in var.datadog_metrics_hms_readwrite : (
-      m.rename != null ? { (m.name) = m.rename } : m.name
-    )
-  ]
+  hms_metrics_readwrite = flatten([
+    for m in var.datadog_metrics_hms_readwrite : 
+      m.rename != null ? [{ (m.name) = m.rename }] : [m.name]
+  ])
 
   hms_metrics_type_overrides_readwrite = {
     for m in var.datadog_metrics_hms_readwrite :
@@ -78,11 +77,11 @@ locals {
   }
 
   // datadog metrics readonly instance
-  hms_metrics_readonly = [
-    for m in var.datadog_metrics_hms_readonly : (
-      m.rename != null ? { (m.name) = m.rename } : m.name
-    )
-  ]
+  hms_metrics_readonly = flatten([
+    for m in var.datadog_metrics_hms_readonly : 
+      m.rename != null ? [{ (m.name) = m.rename }] : [m.name]
+  ])
+
   hms_metrics_type_overrides_readonly = {
     for m in var.datadog_metrics_hms_readonly :
     (m.rename != null ? m.rename : m.name) => m.type
@@ -90,11 +89,12 @@ locals {
   }
 
   // datadog metrics housekeeper instance
-  hms_metrics_housekeeper = [
-    for m in var.datadog_metrics_hms_housekeeper : (
-      m.rename != null ? { (m.name) = m.rename } : m.name
-    )
-  ]
+
+  hms_metrics_housekeeper = flatten([
+    for m in var.datadog_metrics_hms_housekeeper : 
+      m.rename != null ? [{ (m.name) = m.rename }] : [m.name]
+  ])
+
   hms_metrics_type_overrides_housekeeper = {
     for m in var.datadog_metrics_hms_housekeeper :
     (m.rename != null ? m.rename : m.name) => m.type
