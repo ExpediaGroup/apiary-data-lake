@@ -695,7 +695,7 @@ variable "s3_inventory_format" {
 
 variable "s3_inventory_optional_fields" {
   description = "Optional fields for S3 inventory results"
-  type        = string
+  type        = list(string)
   default     = ["Size", "LastModifiedDate", "StorageClass", "ETag", "IntelligentTieringAccessTier"]
 }
 
