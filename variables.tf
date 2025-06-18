@@ -693,6 +693,12 @@ variable "s3_inventory_format" {
   default     = "ORC"
 }
 
+variable "s3_inventory_optional_fields" {
+  description = "Optional fields for S3 inventory results"
+  type        = string
+  default     = ["Size", "LastModifiedDate", "StorageClass", "ETag", "IntelligentTieringAccessTier"]
+}
+
 variable "s3_inventory_customer_accounts" {
   description = "AWS account IDs allowed to access s3 inventory database."
   type        = list(string)

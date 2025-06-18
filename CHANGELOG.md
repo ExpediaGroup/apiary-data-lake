@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.10.19] - 2025-06-18
 ### Changed
-- Change s3 inventory optional fields.
+- Added new variable `s3_inventory_optional_fields` to support different optional fields
 
 ## [7.10.18] - 2025-06-10
 ### Changed
