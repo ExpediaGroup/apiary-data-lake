@@ -85,13 +85,13 @@ locals {
 
   // datadog metrics readonly instance
   hms_metrics_readonly_tmp = [
-    for m in var.datadog_metrics_hms_readonly_tmp : {
+    for m in var.datadog_metrics_hms_readonly : {
       (m.name) = m.rename != null ? m.rename : m.name
     }
   ]
   # Flatten into a list where if key == value, we just use key as string, else keep map
   hms_metrics_readonly = [
-    for m in local.hms_metrics_readonly : 
+    for m in local.hms_metrics_readonly_tmp : 
     # Extract the only key and value
     m[0] == values(m)[0] ? keys(m)[0] : m
   ]
