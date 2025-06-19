@@ -65,16 +65,10 @@ locals {
   rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
 
   // datadog metrics readwrite instance
-  hms_metrics_readwrite_tmp = [
+  hms_metrics_readwrite = [
     for m in var.datadog_metrics_hms_readwrite : {
       (m.name) = m.rename != null ? m.rename : m.name
     }
-  ]
-  # Flatten into a list where if key == value, we just use key as string, else keep map
-  hms_metrics_readwrite = [
-    for m in local.hms_metrics_readwrite_tmp : 
-    # Extract the only key and value
-    m[0] == values(m)[0] ? keys(m)[0] : m
   ]
   hms_metrics_type_overrides_readwrite = {
     for m in var.datadog_metrics_hms_readwrite :
@@ -84,17 +78,11 @@ locals {
   // datadog metrics readwrite instance
 
   // datadog metrics readonly instance
-  hms_metrics_readonly_tmp = [
+  hms_metrics_readonly = [
     for m in var.datadog_metrics_hms_readonly : {
       (m.name) = m.rename != null ? m.rename : m.name
     }
-  ]
-  # Flatten into a list where if key == value, we just use key as string, else keep map
-  hms_metrics_readonly = [
-    for m in local.hms_metrics_readonly_tmp : 
-    # Extract the only key and value
-    m[0] == values(m)[0] ? keys(m)[0] : m
-  ]
+  ]  
   hms_metrics_type_overrides_readonly = {
     for m in var.datadog_metrics_hms_readonly :
     (m.rename != null ? m.rename : m.name) => m.type
@@ -103,17 +91,12 @@ locals {
   // datadog metrics readonly instance
 
   // datadog metrics housekeeper instance
-  hms_metrics_housekeeper_tmp = [
+  hms_metrics_housekeeper = [
     for m in var.datadog_metrics_hms_housekeeper : {
       (m.name) = m.rename != null ? m.rename : m.name
     }
   ]
-  # Flatten into a list where if key == value, we just use key as string, else keep map
-  hms_metrics_housekeeper = [
-    for m in local.hms_metrics_housekeeper_tmp : 
-    # Extract the only key and value
-    m[0] == values(m)[0] ? keys(m)[0] : m
-  ]
+
   hms_metrics_type_overrides_housekeeper = {
     for m in var.datadog_metrics_hms_housekeeper :
     (m.rename != null ? m.rename : m.name) => m.type

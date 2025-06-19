@@ -42,7 +42,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
             {
               prometheus_url = "http://%%host%%:8080/actuator/prometheus"
               namespace      = var.hms_k8s_metrics_readwrite_namespace
-              metrics        = local.hms_metrics_readwrite
+              metrics        = [for m in local.hms_metrics_readwrite : (keys(m)[0] == values(m)[0] ? keys(m)[0] : m)]
               type_overrides = local.hms_metrics_type_overrides_readwrite
             }
           ]) : null

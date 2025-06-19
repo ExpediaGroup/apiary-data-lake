@@ -35,7 +35,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_housekeeper" {
             {
               prometheus_url = "http://%%host%%:8080/actuator/prometheus"
               namespace      = var.hms_k8s_metrics_readwrite_namespace
-              metrics        = local.hms_metrics_housekeeper
+              metrics        = [for m in local.hms_metrics_housekeeper : (keys(m)[0] == values(m)[0] ? keys(m)[0] : m)]
               type_overrides = local.hms_metrics_type_overrides_housekeeper
             }
           ]) : null
