@@ -42,7 +42,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readonly" {
             {
               prometheus_url = "http://%%host%%:8080/actuator/prometheus"
               namespace      = var.hms_k8s_metrics_readonly_namespace
-              metrics        = loca.hms_metrics_readonly
+              metrics        = local.hms_metrics_readonly
               type_overrides = local.hms_metrics_type_overrides_readonly
             }
           ]) : null
