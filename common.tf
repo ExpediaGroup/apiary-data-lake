@@ -63,7 +63,7 @@ locals {
 
   ro_ingress_cidr            = var.ingress_cidr
   rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
-c
+
   // datadog metrics readwrite instance
   hms_metrics_readwrite_tmp = [
     for m in var.datadog_metrics_hms_readwrite : {
