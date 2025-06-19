@@ -62,8 +62,8 @@ locals {
   hms_alias = var.instance_name == "" ? "hms" : "hms-${var.instance_name}"
 
   ro_ingress_cidr            = var.ingress_cidr
-  rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_ci
-
+  rw_ingress_cidr            = length(var.rw_ingress_cidr) == 0 ? var.ingress_cidr : var.rw_ingress_cidr
+c
   // datadog metrics readwrite instance
   hms_metrics_readwrite_tmp = [
     for m in var.datadog_metrics_hms_readwrite : {
@@ -85,7 +85,7 @@ locals {
 
   // datadog metrics readonly instance
   hms_metrics_readonly_tmp = [
-    for m in var.datadog_metrics_hms_readonly : {
+    for m in var.datadog_metrics_hms_readonly_tmp : {
       (m.name) = m.rename != null ? m.rename : m.name
     }
   ]
@@ -110,7 +110,7 @@ locals {
   ]
   # Flatten into a list where if key == value, we just use key as string, else keep map
   hms_metrics_housekeeper = [
-    for m in local.hms_metrics_housekeeper : 
+    for m in local.hms_metrics_housekeeper_tmp : 
     # Extract the only key and value
     m[0] == values(m)[0] ? keys(m)[0] : m
   ]
