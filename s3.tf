@@ -140,7 +140,7 @@ resource "aws_s3_bucket_inventory" "apiary_bucket" {
     }
   }
 
-  optional_fields = ["Size", "LastModifiedDate", "StorageClass", "ETag", "IntelligentTieringAccessTier"]
+  optional_fields = var.s3_inventory_optional_fields
 }
 
 resource "aws_s3_bucket_public_access_block" "apiary_bucket" {
