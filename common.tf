@@ -72,7 +72,7 @@ locals {
   ]
   hms_metrics_type_overrides_readwrite = {
     for m in var.datadog_metrics_hms_readwrite :
-    (m.rename != null ? m.rename : m.name) => m.type
+    (m.name) => m.type
     if m.type != null
   }
   // datadog metrics readwrite instance
@@ -85,7 +85,7 @@ locals {
   ]  
   hms_metrics_type_overrides_readonly = {
     for m in var.datadog_metrics_hms_readonly :
-    (m.rename != null ? m.rename : m.name) => m.type
+    (m.name) => m.type
     if m.type != null
   }
   // datadog metrics readonly instance
@@ -99,7 +99,7 @@ locals {
 
   hms_metrics_type_overrides_housekeeper = {
     for m in var.datadog_metrics_hms_housekeeper :
-    (m.rename != null ? m.rename : m.name) => m.type
+    (m.name) => m.type
     if m.type != null
   }
   // datadog metrics housekeeper instance
