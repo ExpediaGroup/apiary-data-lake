@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.10.19] - 2025-06-20
+## [7.10.20] - 2025-06-24
 ### Added
 - Added lifecycle policy to general read-write iamrole permissions for s3 bucket.
+
+## [7.10.19] - 2025-06-18
+### Changed
+- Added new variable `s3_inventory_optional_fields` to support different optional fields
 
 ## [7.10.18] - 2025-06-10
 ### Changed
