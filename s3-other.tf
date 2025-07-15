@@ -319,7 +319,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_access_logs_hive" {
 
 resource "aws_s3_bucket" "apiary_system" {
   bucket = local.apiary_system_bucket
-  tags   = merge(tomap({ "Name" = local.apiary_system_bucket }), var.apiary_tags)
+  tags   = merge(tomap({ "Name" = local.apiary_system_bucket }), var.apiary_tags, var.apiary_extra_tags_s3)
 }
 
 resource "aws_s3_bucket_policy" "apiary_system" {
