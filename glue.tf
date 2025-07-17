@@ -4,6 +4,10 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
+locals {
+  non_kms_glue_db_names = var.disable_glue_db_init ? [for schema in local.schemas_info : "${local.gluedb_prefix}${schema.schema_name}" if schema.encryption == "AES256"] : []
+}
+
 resource "aws_glue_catalog_database" "apiary_glue_database" {
   for_each = var.disable_glue_db_init ? {
     for schema in local.schemas_info : "${schema["schema_name"]}" => schema
