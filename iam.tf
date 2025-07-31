@@ -236,3 +236,47 @@ resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
   role       = aws_iam_role.rds_enhanced_monitoring[count.index].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
+
+resource "aws_iam_role" "glue_service_role" {
+  count = var.disable_glue_db_init ? 1 : 0
+  name  = "GlueStatsServiceRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "glue.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "glue_service_role_policy" {
+  count      = var.disable_glue_db_init ? 1 : 0
+  role       = aws_iam_role.glue_service_role[0].name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
+resource "aws_iam_role_policy" "glue_service_role_lf_policy" {
+  count  = var.disable_glue_db_init ? 1 : 0
+  role   = aws_iam_role.glue_service_role[0].name
+  policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+       {
+            "Sid": "LakeFormationDataAccess",
+            "Effect": "Allow",
+            "Action": "lakeformation:GetDataAccess",
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}                                           
+EOF
+}
