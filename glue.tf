@@ -24,3 +24,14 @@ resource "aws_glue_catalog_database" "apiary_system_glue_database" {
   name         = "${local.gluedb_prefix}${var.system_schema_name}"
   description  = "Managed by Apiary terraform"
 }
+
+resource "null_resource" "automatic_glue_stats_collector_script" {
+  count        = var.enable_gluesync ? 1 : 0
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/enable-glue-stats.sh"
+    environment = {
+      ACCOUNT_ID  = data.aws_caller_identity.current.account_id
+      ROLE_ARN    = aws_iam_role.glue_service_role[0].arn
+    }
+  }
+}
