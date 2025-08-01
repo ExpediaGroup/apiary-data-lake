@@ -26,7 +26,7 @@ resource "aws_glue_catalog_database" "apiary_system_glue_database" {
 }
 
 resource "null_resource" "automatic_glue_stats_collector_script" {
-  count        = var.disable_glue_db_init ? 1 : 0
+  count        = var.enable_gluesync ? 1 : 0
   provisioner "local-exec" {
     command = "${path.module}/scripts/enable-glue-stats.sh"
     environment = {
