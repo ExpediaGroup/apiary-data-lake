@@ -1203,6 +1203,12 @@ variable "enable_splunk_logging" {
   default     = false
 }
 
+variable "enable_glue_stats" {
+  description = "Enable automatic Glue column statistics collection."
+  type        = bool
+  default     = false
+}
+
 variable "splunk_hec_token" {
   description = "The token used for authentication with the Splunk HTTP Event Collector (HEC). This is required for sending logs to Splunk. Compatible with both EC2 and FARGATE ECS task definitions."
   type        = string
