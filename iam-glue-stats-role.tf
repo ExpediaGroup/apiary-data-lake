@@ -2,6 +2,7 @@ resource "aws_iam_role" "glue_stats_service_role" {
   count = var.enable_glue_stats ? 1 : 0
 
   name = "glue-stats-service-role"
+  tags = var.apiary_tags
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
