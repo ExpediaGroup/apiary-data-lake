@@ -213,6 +213,7 @@ EOF
 resource "aws_iam_role" "rds_enhanced_monitoring" {
   count = var.db_enhanced_monitoring_interval > 0 ? 1 : 0
   name  = "${local.instance_alias}-rds-enhanced-monitoring-${var.aws_region}"
+  tags  = var.apiary_tags
 
   assume_role_policy = <<EOF
 {
@@ -240,6 +241,7 @@ resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
 resource "aws_iam_role" "glue_service_role" {
   count = var.enable_gluesync ? 1 : 0
   name  = "GlueStatsServiceRole"
+  tags  = var.apiary_tags
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

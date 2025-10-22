@@ -9,6 +9,7 @@ resource "aws_kms_key" "apiary_kms" {
   lifecycle {
     prevent_destroy = true
   }
+  aws_kms_keytags  = var.apiary_tags
 }
 
 data "template_file" "apiary_kms_key_policy" {

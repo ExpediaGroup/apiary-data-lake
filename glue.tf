@@ -16,6 +16,7 @@ resource "aws_glue_catalog_database" "apiary_glue_database" {
   location_uri = "s3://${aws_s3_bucket.apiary_data_bucket[each.key].id}/"
   name         = "${local.gluedb_prefix}${each.key}"
   description  = "Managed by Apiary terraform"
+  tags         = var.apiary_tags
 }
 
 resource "aws_glue_catalog_database" "apiary_system_glue_database" {
@@ -23,4 +24,5 @@ resource "aws_glue_catalog_database" "apiary_system_glue_database" {
   location_uri = "s3://${aws_s3_bucket.apiary_system.id}/"
   name         = "${local.gluedb_prefix}${var.system_schema_name}"
   description  = "Managed by Apiary terraform"
+  tags         = var.apiary_tags
 }

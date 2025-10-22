@@ -40,6 +40,7 @@ resource "aws_lb_listener" "hms_rw_listener" {
     target_group_arn = aws_lb_target_group.apiary_hms_rw_tg[0].arn
     type             = "forward"
   }
+  tags = var.apiary_tags
 }
 
 resource "aws_lb" "apiary_hms_ro_lb" {
@@ -78,4 +79,5 @@ resource "aws_lb_listener" "hms_ro_listener" {
     target_group_arn = aws_lb_target_group.apiary_hms_ro_tg[0].arn
     type             = "forward"
   }
+  tags = var.apiary_tags
 }

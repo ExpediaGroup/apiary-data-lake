@@ -609,6 +609,12 @@ variable "lf_hybrid_access_enabled" {
   default     = true
 }
 
+variable "lf_readonly_client_arns" {
+  description = "AWS IAM role ARNs granted DESCRIBE,SELECT permissions on all glue databases and tables using LakeFormation."
+  type        = list(string)
+  default     = []
+}
+
 variable "lf_catalog_client_arns" {
   description = "AWS IAM role ARNs granted DESCRIBE permissions on all glue databases and tables using LakeFormation."
   type        = list(string)
