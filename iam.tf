@@ -240,7 +240,7 @@ resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
 
 resource "aws_iam_role" "glue_service_role" {
   count = var.enable_gluesync ? 1 : 0
-  name  = "GlueStatsServiceRole"
+  name  = "${local.instance_alias}-GlueStatsServiceRole"
   tags  = var.apiary_tags
 
   assume_role_policy = jsonencode({
