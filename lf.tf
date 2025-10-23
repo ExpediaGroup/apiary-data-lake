@@ -109,6 +109,12 @@ locals {
       client_arn  = pair[1]
     }
   ]
+  readonly_client_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_readonly_client_arns) : {
+      schema_name = pair[0]
+      client_arn  = pair[1]
+    }
+  ]
   # Read accounts
   customer_account_schemas = [
     for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_customer_accounts) : {
@@ -132,6 +138,20 @@ resource "aws_lakeformation_permissions" "catalog_client_permissions" {
 
   principal   = each.value.client_arn
   permissions = ["DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "readonly_client_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.readonly_client_schemas : "${schema["schema_name"]}-${schema["client_arn"]}" => schema
+  }) : {}
+
+  principal   = each.value.client_arn
+  permissions = ["DESCRIBE","SELECT"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name

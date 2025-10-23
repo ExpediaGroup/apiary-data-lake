@@ -8,11 +8,13 @@ resource "aws_service_discovery_private_dns_namespace" "apiary" {
   count = var.hms_instance_type == "ecs" ? 1 : 0
   name  = "${local.instance_alias}-${var.aws_region}.${var.ecs_domain_extension}"
   vpc   = var.vpc_id
+  tags  = var.apiary_tags
 }
 
 resource "aws_service_discovery_service" "hms_readwrite" {
   count = var.hms_instance_type == "ecs" ? 1 : 0
   name  = "hms-readwrite"
+  tags  = var.apiary_tags
 
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.apiary[0].id
@@ -33,6 +35,7 @@ resource "aws_service_discovery_service" "hms_readwrite" {
 resource "aws_service_discovery_service" "hms_readonly" {
   count = var.hms_instance_type == "ecs" ? 1 : 0
   name  = "hms-readonly"
+  tags  = var.apiary_tags
 
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.apiary[0].id

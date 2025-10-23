@@ -303,6 +303,7 @@ resource "aws_cloudwatch_metric_alarm" "apiary_alert" {
   evaluation_periods  = lookup(local.alerts[count.index], "evaluation_periods", "2")
   statistic           = "Average"
   threshold           = lookup(local.alerts[count.index], "threshold")
+  tags                = var.apiary_tags
 
   #alarm_description         = "This metric monitors apiary ecs ec2 cpu utilization"
   insufficient_data_actions = []
