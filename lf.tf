@@ -171,7 +171,21 @@ resource "aws_lakeformation_permissions" "catalog_client_system_permissions" {
   }
 }
 
-resource "aws_lakeformation_permissions" "customer_account_permissions" {
+resource "aws_lakeformation_permissions" "customer_account_db_permissions" {
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
+    for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
+  }) : {}
+
+  principal                     = each.value.customer_account
+  permissions                   = ["DESCRIBE"]
+  permissions_with_grant_option = ["DESCRIBE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
+  }
+}
+
+resource "aws_lakeformation_permissions" "customer_account_table_permissions" {
   for_each = var.disable_glue_db_init && var.create_lf_resource ? tomap({
     for schema in local.customer_account_schemas : "${schema["schema_name"]}-${schema["customer_account"]}" => schema
   }) : {}
