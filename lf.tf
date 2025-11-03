@@ -103,7 +103,7 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
 
 resource "aws_lakeformation_permissions" "producer_loc_permissions" {
     for_each = var.disable_glue_db_init && var.create_lf_resource ? {
-      for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+      for schema in local.catalog_producer_schemas : "${schema["schema_name"]}" => schema
     } : {}
 
   principal   = each.value.lf_catalog_producer_arns
