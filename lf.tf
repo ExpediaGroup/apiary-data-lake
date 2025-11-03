@@ -102,13 +102,15 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
 }
 
 resource "aws_lakeformation_permissions" "producer_loc_permissions" {
-  count = var.disable_glue_db_init && var.create_lf_resource ? 1 : 0
+    for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+      for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+    } : {}
 
   principal   = each.value.lf_catalog_producer_arns
   permissions = ["DATA_LOCATION_ACCESS"]
 
   data_location {
-    arn = aws_lakeformation_resource.apiary_system_bucket[0].arn
+    arn = aws_lakeformation_resource.apiary_data_bucket[each.key].arn
   }
 }
 
