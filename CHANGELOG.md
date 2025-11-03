@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.5] - 2025-11-03
+### Changed
+- Fixed LakeFormation `DATA_LOCATION_ACCESS` to `lf_catalog_producer_arns`.
+
 ## [7.12.4] - 2025-10-24
 ### Changed
 - Fixed `GlueStatsServiceRole` name to avoid name conflicts when there are multiple apiary instances in same account.
