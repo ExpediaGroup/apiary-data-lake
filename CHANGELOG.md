@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [7.12.5] - 2025-11-04
 ### Added
-- Added var `lf_catalog_data_location_access_producer_arns` that is used to give `DATA_LOCATION_ACCESS` LakeFormation on s3 locations of all databases.
+- Added var `lf_catalog_data_location_access_producer_arns` that is used to give `DATA_LOCATION_ACCESS` permission in LakeFormation on s3 locations of all databases.
 
 ## [7.12.4] - 2025-10-24
 ### Changed
