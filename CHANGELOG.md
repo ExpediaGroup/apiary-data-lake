@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [7.12.5] - 2025-11-04
-### Changed
-- Fixed LakeFormation `DATA_LOCATION_ACCESS` to `lf_catalog_producer_arns`.
+### Added
+- Added var `lf_catalog_data_location_access_producer_arns` that is used to give `DATA_LOCATION_ACCESS` LakeFormation on s3 locations of all databases.
 
 ## [7.12.4] - 2025-10-24
 ### Changed
