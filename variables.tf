@@ -627,6 +627,12 @@ variable "lf_catalog_producer_arns" {
   default     = []
 }
 
+variable lf_catalog_data_location_access_producer_arns {
+  description = "AWS IAM role ARNs granted `DATA_LOCATION_ACCESS` permissions on all database s3 locations using LakeFormation. NOTE this permission is not granted by `lf_catalog_producer_arns`"
+  type        = list(string)
+  default     = []
+}
+
 variable "lf_catalog_glue_sync_arn" {
   description = "AWS IAM role ARN for glue sync to update table metadata. If empty, aws_iam_role.apiary_hms_readwrite.arn will be used."
   type        = string

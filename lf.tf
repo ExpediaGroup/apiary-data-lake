@@ -101,6 +101,19 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
   }
 }
 
+resource "aws_lakeformation_permissions" "data_location_access_permissions" {
+    for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+      for schema in local.catalog_data_location_access_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}"  => schema
+    } : {}
+
+  principal   = each.value.producer_arn
+  permissions = ["DATA_LOCATION_ACCESS"]
+
+  data_location {
+    arn = aws_lakeformation_resource.apiary_data_bucket[each.value.schema_name].arn
+  }
+}
+
 locals {
   # Read clients
   catalog_client_schemas = [
@@ -125,6 +138,12 @@ locals {
   # Write producers
   catalog_producer_schemas = [
     for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_producer_arns) : {
+      schema_name  = pair[0]
+      producer_arn = pair[1]
+    }
+  ]
+  catalog_data_location_access_producer_schemas = [
+    for pair in setproduct(local.schemas_info[*]["schema_name"], var.lf_catalog_data_location_access_producer_arns) : {
       schema_name  = pair[0]
       producer_arn = pair[1]
     }
