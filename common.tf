@@ -41,6 +41,7 @@ locals {
   create_sqs_data_event_queue     = contains([for schema in local.schemas_info : lookup(schema, "enable_data_events_sqs", "0")], "1") ? true : false
   enable_apiary_s3_log_management = var.apiary_log_bucket == "" ? true : false
   enable_apiary_s3_log_hive       = var.apiary_log_bucket == "" && var.enable_apiary_s3_log_hive ? true : false
+  create_sqs_s3_logs_queue        = var.apiary_managed_s3_logs_queue_arn != "" && local.enable_apiary_s3_log_management ? true : false
   apiary_s3_logs_bucket           = local.enable_apiary_s3_log_management ? "${local.apiary_bucket_prefix}-s3-logs" : ""
   apiary_s3_hive_logs_bucket      = local.enable_apiary_s3_log_management ? "${local.apiary_s3_logs_bucket}-hive" : ""
   apiary_system_bucket            = "${local.apiary_bucket_prefix}-${replace(var.system_schema_name, "_", "-")}"
