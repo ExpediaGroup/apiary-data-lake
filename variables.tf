@@ -1274,8 +1274,3 @@ variable "hms_housekeeper_k8s_log4j_properties" {
   type        = string
   default     = ""
 }
-
-variable "enable_s3_access_logging" {
-  type    = bool
-  default = true
-}
