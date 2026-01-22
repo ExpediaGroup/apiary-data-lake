@@ -66,14 +66,8 @@ variable "hive_metastore_port" {
   default     = 9083
 }
 
-variable "apiary_s3_log_bucket" {
-  description = "Bucket for Apiary s3 logs.If this is blank, module will create a bucket."
-  type        = string
-  default     = ""
-}
-
-variable "apiary_s3_log_hive_bucket" {
-  description = "Bucket for Apiary s3 logs hive.If this is blank, module will create a bucket."
+variable "apiary_log_bucket" {
+  description = "Bucket for Apiary logs.If this is blank, module will create a bucket."
   type        = string
   default     = ""
 }

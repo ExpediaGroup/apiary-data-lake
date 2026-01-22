@@ -41,8 +41,7 @@ module "apiary" {
   hms_rw_cpu               = "2048"
   hms_ro_heapsize          = "8192"
   hms_rw_heapsize          = "8192"
-  apiary_s3_log_bucket     = "s3-logs-bucket"
-  apiary_s3_log_hive_bucket= "s3-logs-hive-bucket"
+  apiary_log_bucket        = "s3-logs-bucket"
   db_instance_class        = "db.t2.medium"
   db_backup_retention      = "7"
   apiary_managed_schemas   = [
