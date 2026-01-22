@@ -46,9 +46,12 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
     var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
 
-  logging {
-    target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
-    target_prefix = "${var.apiary_log_prefix}${each.value["data_bucket"]}/"
+  dynamic "logging" {
+    for_each = var.enable_s3_access_logging ? [1] : []
+    content {
+      target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
+      target_prefix = "${var.apiary_log_prefix}${each.value["data_bucket"]}/"
+    }
   }
 }
 
