@@ -45,11 +45,6 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   tags = merge(tomap({"Name"=each.value["data_bucket"]}),
     var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
-
-  logging {
-    target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
-    target_prefix = "${var.apiary_log_prefix}${each.value["data_bucket"]}/"
-  }
 }
 
 resource "aws_s3_bucket_versioning" "apiary_data_bucket_versioning" {
@@ -188,6 +183,14 @@ resource "aws_s3_bucket_notification" "data_queue_events" {
   }
 }
 
+resource "aws_s3_bucket_logging" "apiary_bucket" {
+  for_each = {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  }
+  bucket        = each.value["data_bucket"]
+  target_bucket = local.enable_apiary_s3_log_management ? aws_s3_bucket.apiary_managed_logs_bucket[0].id : var.apiary_log_bucket
+  target_prefix = "${var.apiary_log_prefix}${each.value["data_bucket"]}/"
+}
 
 resource "aws_s3_bucket_metric" "paid_metrics" {
   for_each = var.enable_s3_paid_metrics ? {

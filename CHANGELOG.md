@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.6] - 2026-01-22
+### Added
+- Added var `apiary_managed_s3_logs_queue_arn` to support use existing SQS queue for s3 logs bucket data event.
+
 ## [7.12.5] - 2025-11-12
 ### Added
 - Added var `lf_catalog_data_location_access_producer_arns` that is used to give `DATA_LOCATION_ACCESS` permission in LakeFormation on s3 locations of all databases.

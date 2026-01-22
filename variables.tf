@@ -1251,6 +1251,12 @@ variable "additional_s3_log_buckets" {
   default     = []
 }
 
+variable "apiary_managed_s3_logs_queue_arn" {
+  description = "Apiary Managed Log SQS Queue ARN"
+  type        = string
+  default     = ""
+}
+
 variable "hms_ro_k8s_log4j_properties" {
   description = "Custom Log4j properties for apiary readonly metastore."
   type        = string

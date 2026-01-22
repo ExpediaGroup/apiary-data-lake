@@ -208,7 +208,7 @@ resource "aws_s3_bucket_notification" "apiary_managed_logs_bucket" {
   bucket = aws_s3_bucket.apiary_managed_logs_bucket[0].bucket
 
   queue {
-    queue_arn = aws_sqs_queue.apiary_managed_logs_queue[0].arn
+    queue_arn = local.create_sqs_s3_logs_queue ? aws_sqs_queue.apiary_managed_logs_queue[0].arn : var.apiary_managed_s3_logs_queue_arn
     events    = ["s3:ObjectCreated:*"]
   }
 }

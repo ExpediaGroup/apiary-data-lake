@@ -77,7 +77,7 @@ POLICY
 }
 
 resource "aws_sqs_queue" "apiary_managed_logs_queue" {
-  count = local.enable_apiary_s3_log_management ? 1 : 0
+  count = local.create_sqs_s3_logs_queue ? 1 : 0
   name  = "${local.instance_alias}-s3-logs-queue"
   tags  = var.apiary_tags
 
