@@ -54,7 +54,7 @@ locals{
     docker_auth = "${var.docker_registry_auth_secret_name == "" ? "" : format("\"repositoryCredentials\" :{\n \"credentialsParameter\":\"%s\"\n},", join("", data.aws_secretsmanager_secret.docker_registry.*.arn))}"
 
     s3_enable_inventory = var.s3_enable_inventory ? "1" : ""
-    # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
+    # If user sets "apiary_s3_log_hive_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
     s3_enable_logs = local.enable_apiary_s3_log_hive ? "1" : ""
 
     # Template vars for init container

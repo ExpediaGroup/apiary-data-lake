@@ -262,7 +262,7 @@ resource "kubernetes_deployment_v1" "apiary_hms_readwrite" {
             value = var.s3_enable_inventory ? "1" : ""
           }
           env {
-            # If user sets "apiary_log_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
+            # If user sets "apiary_s3_log_hive_bucket", then they are doing their own access logs mgmt, and not using Apiary's log mgmt.
             name  = "ENABLE_S3_LOGS"
             value = local.enable_apiary_s3_log_hive ? "1" : ""
           }
