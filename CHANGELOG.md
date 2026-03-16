@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.7] - TBD
+### Changed
+- Allow more flexibility when configuring datadog metrics by giving an option to rename and change the type of each metric.
+- Split the single datadog_metrics_hms_readwrite_readonly variable into three separate ones - datadog_metrics_hms_readwrite, datadog_metrics_hms_readonly, datadog_metrics_hms_housekeeper while keeping the default values.
+
 ## [7.12.6] - 2026-01-22
 ### Added
 - Added var `apiary_managed_s3_logs_queue_arn` to support use existing SQS queue for s3 logs bucket data event.
