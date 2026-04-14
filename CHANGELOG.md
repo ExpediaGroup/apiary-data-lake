@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.7] - 2026-04-13
+### Added
+- Added LakeFormation permissions for `glue_stats_service_role` on Glue databases and tables.
+
 ## [7.12.6] - 2026-01-22
 ### Added
 - Added var `apiary_managed_s3_logs_queue_arn` to support use existing SQS queue for s3 logs bucket data event.

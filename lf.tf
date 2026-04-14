@@ -324,6 +324,34 @@ resource "aws_lakeformation_permissions" "catalog_producer_system_permissions" {
 }
 
 
+#glue stats service role permissions
+resource "aws_lakeformation_permissions" "glue_stats_service_role_db_permissions" {
+  for_each = var.enable_glue_stats && var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.glue_stats_service_role[0].arn
+  permissions = ["DESCRIBE"]
+
+  database {
+    name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+  }
+}
+
+resource "aws_lakeformation_permissions" "glue_stats_service_role_tbl_permissions" {
+  for_each = var.enable_glue_stats && var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.schemas_info : "${schema["schema_name"]}" => schema
+  } : {}
+
+  principal   = aws_iam_role.glue_stats_service_role[0].arn
+  permissions = ["ALL", "DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    wildcard      = true
+  }
+}
+
 resource "aws_iam_role" "lf_data_access" {
   count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
   name  = "${local.instance_alias}-lf-data-access-role-${var.aws_region}"
