@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.8] - 2026-04-15
+### Added
+- Added var `create_glue_stats_vendor_role_tbl_permissions` to create LakeFormation table permissions (`DESCRIBE`, `INSERT`, `DELETE`) for the Glue stats service role on all schemas.
+
 ## [7.12.7] - 2026-04-13
 ### Added
 - Added LakeFormation permissions for `glue_stats_service_role` on Glue databases and tables.

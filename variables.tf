@@ -627,7 +627,7 @@ variable "lf_catalog_producer_arns" {
   default     = []
 }
 
-variable lf_catalog_data_location_access_producer_arns {
+variable "lf_catalog_data_location_access_producer_arns" {
   description = "AWS IAM role ARNs granted `DATA_LOCATION_ACCESS` permissions on all database s3 locations using LakeFormation. NOTE this permission is not granted by `lf_catalog_producer_arns`"
   type        = list(string)
   default     = []
@@ -1217,6 +1217,12 @@ variable "enable_splunk_logging" {
 
 variable "enable_glue_stats" {
   description = "Enable automatic Glue column statistics collection."
+  type        = bool
+  default     = false
+}
+
+variable "create_glue_stats_vendor_role_tbl_permissions" {
+  description = "Create LakeFormation table permissions (DESCRIBE, INSERT, DELETE) for the Glue stats service role on all schemas."
   type        = bool
   default     = false
 }
