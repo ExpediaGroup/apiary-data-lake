@@ -102,9 +102,9 @@ resource "aws_lakeformation_permissions" "hms_sys_loc_permissions" {
 }
 
 resource "aws_lakeformation_permissions" "data_location_access_permissions" {
-    for_each = var.disable_glue_db_init && var.create_lf_resource ? {
-      for schema in local.catalog_data_location_access_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}"  => schema
-    } : {}
+  for_each = var.disable_glue_db_init && var.create_lf_resource ? {
+    for schema in local.catalog_data_location_access_producer_schemas : "${schema["schema_name"]}-${schema["producer_arn"]}" => schema
+  } : {}
 
   principal   = each.value.producer_arn
   permissions = ["DATA_LOCATION_ACCESS"]
@@ -170,7 +170,7 @@ resource "aws_lakeformation_permissions" "readonly_client_permissions" {
   }) : {}
 
   principal   = each.value.client_arn
-  permissions = ["DESCRIBE","SELECT"]
+  permissions = ["DESCRIBE", "SELECT"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_glue_database[each.value.schema_name].name
@@ -345,6 +345,18 @@ resource "aws_lakeformation_permissions" "glue_stats_service_role_tbl_permission
 
   principal   = aws_iam_role.glue_stats_service_role[0].arn
   permissions = ["ALL", "DESCRIBE"]
+
+  table {
+    database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
+    wildcard      = true
+  }
+}
+
+resource "aws_lakeformation_permissions" "glue_stats_vendor_role_tbl_permissions" {
+  for_each = var.enable_glue_stats && var.create_lf_resource && var.create_glue_stats_vendor_role_tbl_permissions ? local.schemas_info_map : {}
+
+  principal   = aws_iam_role.lf_data_access[0].arn
+  permissions = ["DESCRIBE", "INSERT", "DELETE"]
 
   table {
     database_name = aws_glue_catalog_database.apiary_glue_database[each.key].name
