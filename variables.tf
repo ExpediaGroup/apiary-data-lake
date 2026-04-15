@@ -600,7 +600,7 @@ variable "create_lf_resource" {
 variable "create_lf_data_access_role" {
   description = "Create LakeFormation data access role."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "lf_hybrid_access_enabled" {
@@ -1218,13 +1218,13 @@ variable "enable_splunk_logging" {
 variable "enable_glue_stats" {
   description = "Enable automatic Glue column statistics collection."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "create_glue_stats_vendor_role_tbl_permissions" {
   description = "Create LakeFormation table permissions (DESCRIBE, INSERT, DELETE) for the Glue stats service role on all schemas."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "splunk_hec_token" {
