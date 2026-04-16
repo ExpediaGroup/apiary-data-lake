@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.12.10] - 2026-04-16
+### Fixed
+- Added `lf_data_access` role ARN to S3 bucket policy `common_producer_iamroles` when `create_lf_data_access_role` is true. LakeFormation vends credentials via this role when Glue stats writes Puffin files, but without it being in the bucket policy the writes were denied with S3 Access Denied.
+
 ## [7.12.9] - 2026-04-16
 ### Fixed
 - Added `lakeformation:GetDataAccess` and `iam:PassRole` (self) inline policy to `lf_data_access` role, required for LakeFormation credential vending when Glue stats writes column statistics back to the catalog.

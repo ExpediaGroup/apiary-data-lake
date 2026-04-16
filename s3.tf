@@ -25,7 +25,7 @@ locals {
       client_roles                  = replace(lookup(schema, "client_roles", ""), ",", "\",\"")
       governance_iamroles           = join("\",\"", var.apiary_governance_iamroles)
       consumer_prefix_roles         = lookup(var.apiary_consumer_prefix_iamroles, schema["schema_name"], {})
-      common_producer_iamroles      = join("\",\"", var.apiary_common_producer_iamroles)
+      common_producer_iamroles      = join("\",\"", compact(concat(var.create_lf_data_access_role ? [aws_iam_role.lf_data_access[0].arn] : [], var.apiary_common_producer_iamroles)))
       deny_exception_iamroles       = lookup(schema, "deny_exception_iamroles", "") == "" ? "" : join("\",\"", compact(concat(split(",", schema["deny_exception_iamroles"]), var.apiary_managed_service_iamroles, var.apiary_governance_iamroles)))
     })
   }
@@ -42,7 +42,7 @@ resource "aws_s3_bucket" "apiary_data_bucket" {
   bucket        = each.value["data_bucket"]
   request_payer = "BucketOwner"
   policy        = local.bucket_policy_map[each.key]
-  tags = merge(tomap({"Name"=each.value["data_bucket"]}),
+  tags = merge(tomap({ "Name" = each.value["data_bucket"] }),
     var.apiary_tags,
   jsondecode(lookup(each.value, "tags", "{}")))
 }
@@ -109,7 +109,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "apiary_data_bucket_versioning_
       days = each.value["s3_object_expiration_days_num"] != "-1" ? each.value["s3_object_expiration_days_num"] : "0"
     }
   }
-} 
+}
 
 resource "aws_s3_bucket_inventory" "apiary_bucket" {
   for_each = var.s3_enable_inventory == true ? {
