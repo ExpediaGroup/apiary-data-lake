@@ -444,3 +444,26 @@ resource "aws_iam_role_policy" "lf_data_access_cloudwatch" {
 }  
 EOF
 }
+
+resource "aws_iam_role_policy" "lf_data_access_pass_role" {
+  count = var.create_lf_resource && var.create_lf_data_access_role ? 1 : 0
+  name  = "pass_role_and_lf_data_access"
+  role  = aws_iam_role.lf_data_access[0].id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid      = "LakeFormationDataAccess"
+        Effect   = "Allow"
+        Action   = "lakeformation:GetDataAccess"
+        Resource = ["*"]
+      },
+      {
+        Sid      = "PassRole"
+        Effect   = "Allow"
+        Action   = "iam:PassRole"
+        Resource = [aws_iam_role.lf_data_access[0].arn]
+      }
+    ]
+  })
+}
